@@ -1,0 +1,1 @@
+start powershell.exe -ExecutionPolicy Unrestricted -File C:\Users\DavidWatson\Documents\Scripts\startup.ps1
