@@ -1,1 +1,3 @@
-start powershell.exe -ExecutionPolicy Unrestricted -File C:\Users\DavidWatson\Documents\Scripts\startup.ps1
+Rem %CD% returns the current directory
+
+start powershell.exe -ExecutionPolicy Unrestricted -File %CD%\startup.ps1
