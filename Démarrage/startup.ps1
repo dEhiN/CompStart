@@ -7,49 +7,46 @@ do {
     $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
 
     if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
+
         # Tell loop to quit
         $LoopTrue = $False
 
-        # Set up standard working tabs: PassPortal; RMM; Net2Phone; Autotask - Schedule; Autotask - Dashboard
-        $DynamixTabs = @(
-            "https://ca-clover.passportalmsp.com/login/PP", #Passportal
-            "https://concord.rmm.datto.com/dashboard", #RMM - new UI
-            "https://net2phone.ca/client-login", #Net2Phone
-            "https://lr.autotask.net/Autotask/Views/DispatcherWorkshop/DispatcherWorkshopContainer.aspx", #Autotask - Schedule
-            "https://lr.autotask.net/Mvc/Framework/Navigation.mvc/Landing" #Autotask - Dashboard
+        # Set up standard working tabs for internal resources: Gmail, GSheet "New Email - ALL OEM", GSheet "BLoc-notes des billets", GSheet "Client Support Processes", GDoc "Les gabarits pour utiliser avec Halo"
+        $DealerFXInternalTabs = @(
+            "https://mail.google.com/mail/u/0/#inbox",
+            "https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/",
+            "https://docs.google.com/spreadsheets/d/1q5NXZtm0Ln94gMi8FapfNvtbviVzrtcnS8IBUiH5Qic/",
+            "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/",
+            "https://docs.google.com/document/d/1vrlXzHkL_SDu3-y2MksTYEL-ZAamWQ8hE-ck7Q3Figs/edit"
         )
-        $DynamixURLs = [string]$DynamixTabs
+        $DealerFXInternalURLs = [string]$DealerFXInternalTabs
 
-        # Set up Dexterra working tabs: Bastion for Jump Box 3; Azure AD; M365 Admin Portal; Dex IT Hub; Dex Laptop List; Microsoft Teams
-        $DexterraTabs = @(
-            "https://portal.azure.com/#@Dexterra.onmicrosoft.com/resource/subscriptions/f05687c4-951f-433e-b3c0-921f4aa1f857/resourceGroups/PRODJUMP/providers/Microsoft.Compute/virtualMachines/AZU-JUMP03/bastionHost", #Azure - Bastion
-            "https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview", #Azure - AAD
-            "https://admin.microsoft.com/#/homepage", #M365 Admin Portal
-            "https://dexterra.sharepoint.com/sites/InformationTechnology/", #Dexterra IT Hub
-            "https://teams.microsoft.com/" #Microsoft Teams
+        # Set up standard working tabs for external resources: Prod1 One Platform, Kibana Prod1, Prod2 One Platform, Kibana Prod2
+        $DealerFXExternalTabs = @(
+            "https://chrysler1.advisordashboard.net/logins/Login.2.aspx",
+            "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))",
+            "https://service.dealer-fx.com/logins/Login.2.aspx",
+            "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())"
         )
-        $DexterraURLS = [string]$DexterraTabs
-
-        # Set up Lindt working tabs
-        $LindtTabs = @(
-            "https://itservicelindt.service-now.com" #Lindt Service-Now
-        )
-        $LindtURLS = [string]$LindtTabs
+        $DealerFXExternalURLs = [string]$DealerFXExternalTabs
         
         # Open all the programs for startup
-        # Outlook
-        Start-Process -FilePath "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
-        # Chrome - Dynamix
-        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DynamixURLs
-        # Chrome - Lindt
-        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList '--profile-directory="Profile 6"',"--new-window",$LindtURLs
-        # Edge - Dexterra
-        Start-Process -FilePath "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList "--profile-directory=Default",$DexterraURLS
+        # Chrome - Dealer-FX standard working tabs for internal resources
+        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXInternalURLs
+        # Chrome - Dealer-FX standard working tabs for external resources
+        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXExternalURLs
+        # Google Chat Chrome app
+        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome_proxy.exe" -ArgumentList "--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"
+        # Halo Chrome app
+        Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome_proxy.exe" -ArgumentList "--profile-directory=Default","--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"
+
     } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
+
         # Tell loop to quit
         $LoopTrue = $False
 
         # Inform user of quitting script
         Write-Host "Quitting script..."
+
     }
 } while ($LoopTrue -eq $True)
