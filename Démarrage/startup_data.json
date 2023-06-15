@@ -1,0 +1,49 @@
+{
+
+    "totalLines": 7,
+    "lineOne": {
+
+        "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "browser": true,
+        "argumentList": [
+            "--profile-directory=Default", "--new-window"
+        ],
+        "tabURLs": ["https://mail.google.com/mail/u/0/#inbox", "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/", "https://docs.google.com/document/d/1vrlXzHkL_SDu3-y2MksTYEL-ZAamWQ8hE-ck7Q3Figs/edit"]
+
+    },
+    "lineTwo": {
+
+        "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "browser": true,
+        "argumentList": [
+            "--profile-directory=Default", "--new-window"
+        ],
+        "tabURLs": [
+            "https://chrysler1.advisordashboard.net/logins/Login.2.aspx",
+            "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))",
+            "https://service.dealer-fx.com/logins/Login.2.aspx",
+            "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())",
+            "https://dfx1.my.connect.aws/real-time-metrics?reportArn=arn:aws:connect:us-east-1:153590104080:instance/2add78db-445c-4fbe-890e-a2cf0595de6e/report/bd7a1764-370f-4ff9-8cef-ee9c74a54be5",
+            "https://master.d3pfi7mlwkgahz.amplifyapp.com/"
+        ]
+
+    },
+    "lineThree": {
+
+        "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "browser": true,
+        "argumentList": [
+            "--profile-directory=Default", "--new-window"
+        ],
+        "tabURLs": ["https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/", "https://docs.google.com/spreadsheets/d/1q5NXZtm0Ln94gMi8FapfNvtbviVzrtcnS8IBUiH5Qic/"]
+
+    },
+    "lineFour": {
+
+        "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
+        "browser": false,
+        "argumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
+
+    }
+
+}
