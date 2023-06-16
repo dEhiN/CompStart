@@ -48,8 +48,6 @@ do {
         Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome_proxy.exe" -ArgumentList "--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"
         # Halo Chrome app
         Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome_proxy.exe" -ArgumentList "--profile-directory=Default","--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"
-        # Zoom
-        Start-Process -FilePath "C:\Program Files\Zoom\bin\Zoom.exe"
         # FortiClient VPN
         Start-Process -FilePath "C:\Program Files\Fortinet\FortiClient\FortiClient.exe"
 
