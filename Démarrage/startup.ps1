@@ -19,13 +19,13 @@ do {
         )
         $DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
 
-        # Set up standard working tabs for external resources: Prod1 One Platform, Kibana Prod1, Prod2 One Platform, Kibana Prod2, AWS Connect - Real Time Agent and Queue stats, AWS Agent App
+        # Set up standard working tabs for external resources: Prod1 One Platform, Kibana Prod1, Prod2 One Platform, Kibana Prod2, AWS Connect - Metrics Report, AWS Agent App
         $DealerFXChromeTwoTabs = @(
             "https://chrysler1.advisordashboard.net/logins/Login.2.aspx",
             "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))",
             "https://service.dealer-fx.com/logins/Login.2.aspx",
             "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())",
-            "https://dfx1.my.connect.aws/real-time-metrics?reportArn=arn:aws:connect:us-east-1:153590104080:instance/2add78db-445c-4fbe-890e-a2cf0595de6e/report/bd7a1764-370f-4ff9-8cef-ee9c74a54be5",
+            "https://dfx1.my.connect.aws/metrics-reports",
             "https://master.d3pfi7mlwkgahz.amplifyapp.com/"
         )
         $DealerFXChromeTwoURLs = [string]$DealerFXChromeTwoTabs
