@@ -1,14 +1,18 @@
 {
 
-    "totalItems": 6,
-    "items": [
+
+
+    "TotalItems": 6,
+    "Items": [
         {
 
-            "itemNumber": 1,
-            "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "browser": true,
-            "argumentCount": 3,
-            "argumentList": [
+
+
+            "ItemNumber": 1,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
@@ -16,14 +20,18 @@
                 ]
             ]
 
+
+
         },
         {
 
-            "itemNumber": 2,
-            "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "browser": true,
-            "argumentCount": 3,
-            "argumentList": [
+
+
+            "ItemNumber": 2,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
@@ -36,14 +44,18 @@
                 ]
             ]
 
+
+
         },
         {
 
-            "itemNumber": 3,
-            "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "browser": true,
-            "argumentCount": 3,
-            "argumentList": [
+
+
+            "ItemNumber": 3,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
@@ -51,33 +63,49 @@
                 ]
             ]
 
-        },
-        {
 
-            "itemNumber": 4,
-            "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "browser": false,
-            "argumentCount": 3,
-            "argumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
 
         },
         {
 
-            "itemNumber": 5,
-            "filePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "browser": false,
-            "argumentCount": 3,
-            "argumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
+
+
+            "ItemNumber": 4,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
+            "Browser": false,
+            "ArgumentCount": 3,
+            "ArgumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
+
+
 
         },
         {
 
-            "itemNumber": 6,
-            "filePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
-            "browser": false,
-            "argumentCount": 0
+
+
+            "ItemNumber": 5,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
+            "Browser": false,
+            "ArgumentCount": 3,
+            "ArgumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
+
+
+
+        },
+        {
+
+
+
+            "ItemNumber": 6,
+            "FilePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
+            "Browser": false,
+            "ArgumentCount": 0
+
+
 
         }
     ]
+
+
 
 }
