@@ -15,7 +15,8 @@ do {
         # Name of JSON file with all startup data
         $DataFileName = "startup_data.json"
         $CurrentLocation = Get-Location
-        $JSONFile = [string]$CurrentLocation + "\data\" + $DataFileName
+        $DataFileLocation = "\démarrage_ordinateur\data\"
+        $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         Write-Host $JSONFile
 
