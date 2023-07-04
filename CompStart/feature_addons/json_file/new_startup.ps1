@@ -14,8 +14,8 @@ do {
 
         # Name of JSON file with all startup data
         $DataFileName = "startup_data.json"
-        $CurrentLocation = Get-Location
-        $DataFileLocation = "\démarrage_ordinateur\data\"
+        $CurrentLocation = $PSScriptRoot
+        $DataFileLocation = "\data\"
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Replace Get-Location with $PSScriptRoot:
@@ -23,11 +23,12 @@ do {
         # Set-Location $currentPath
 
         Write-Host $JSONFile
+        Write-Host $PSScriptRoot
 
         # Load JSON data
-        $StartupData = Get-Content -Path $JSONFile -Raw | ConvertFrom-Json
+        #$StartupData = Get-Content -Path $JSONFile -Raw | ConvertFrom-Json
 
-        Write-Host $StartupData
+        #Write-Host $StartupData
 
 
         #$DealerFXChromeOneTabs = @()
