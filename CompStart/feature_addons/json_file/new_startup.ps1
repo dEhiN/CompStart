@@ -12,19 +12,14 @@ do {
         # Tell loop to quit
         $LoopTrue = $False
 
-        # Name of JSON file with all startup data
-        $DataFileName = "startup_data.json"
+        # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
         $DataFileLocation = "\data\"
+        $DataFileName = "startup_data.json"
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
-        Write-Host $JSONFile
-        Write-Host $PSScriptRoot
-
         # Load JSON data
-        #$StartupData = Get-Content -Path $JSONFile -Raw | ConvertFrom-Json
-
-        #Write-Host $StartupData
+        $StartupData = Get-Content -Path $JSONFile | ConvertFrom-Json
 
 
         #$DealerFXChromeOneTabs = @()
