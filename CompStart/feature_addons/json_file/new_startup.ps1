@@ -18,10 +18,6 @@ do {
         $DataFileLocation = "\data\"
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
-        # Replace Get-Location with $PSScriptRoot:
-        # $currentPath = $PSScriptRoot ? $PSScriptRoot : (Split-Path $pseditor.GetEditorContext().CurrentFile.Path)
-        # Set-Location $currentPath
-
         Write-Host $JSONFile
         Write-Host $PSScriptRoot
 
