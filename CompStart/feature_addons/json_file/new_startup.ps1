@@ -19,7 +19,22 @@ do {
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Load JSON data
-        $StartupData = Get-Content -Path $JSONFile | ConvertFrom-Json
+        $JSONData = Get-Content -Path $JSONFile | ConvertFrom-Json
+        $StartupData = $JSONData.Items
+
+        # Loop through startup data array
+        foreach ($StartupItem in $StartupData) {
+            # Grab each item's properties
+            $Item = [PSCustomObject]@{
+                Number = $StartupItem.ItemNumber
+                Path = $StartupItem.FilePath
+                Browser = $StartupItem.Browser
+                ArgCount = $StartupItem.ArgumentCount
+                ArgList = $StartupItem.ArgumentList
+            }
+        }
+
+        
 
 
         #$DealerFXChromeOneTabs = @()
