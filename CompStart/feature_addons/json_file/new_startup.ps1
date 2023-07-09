@@ -36,7 +36,6 @@ do {
 
         # To-Do: Create function to parse $Item data - https://www.educba.com/powershell-function-parameters/
 
-
         #$DealerFXChromeOneTabs = @()
         #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
         
