@@ -30,11 +30,10 @@ do {
         )
         $DealerFXChromeTwoURLs = [string]$DealerFXChromeTwoTabs
 
-        # Set up working tabs pertaining to tickets: Google Calendar, GSheet "New Email - ALL OEM", GSheet "BLoc-notes des billets", AWS Agent App
+        # Set up working tabs pertaining to tickets: Google Calendar, GSheet "New Email - ALL OEM", AWS Agent App
         $DealerFXChromeThreeTabs = @(
             "https://calendar.google.com/calendar/u/0/r",
             "https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/",
-            "https://docs.google.com/spreadsheets/d/1q5NXZtm0Ln94gMi8FapfNvtbviVzrtcnS8IBUiH5Qic/",
             "https://master.d3pfi7mlwkgahz.amplifyapp.com/"
         )
         $DealerFXChromeThreeURLs = [string]$DealerFXChromeThreeTabs
