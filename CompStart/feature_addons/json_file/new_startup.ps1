@@ -7,7 +7,17 @@ function Submit-StarupItem {
         $StartupItem
     )
 
+    # Grab each item's properties
+    $ItemNumber = $StartupItem.ItemNumber
+    $ItemPath = $StartupItem.FilePath
+    $ItemIsBrowser = $StartupItem.Browser
+    $ItemArgCount = $StartupItem.ArgumentCount
+    $ArgList = $StartupItem.ArgumentList
     
+    #$DealerFXChromeOneTabs = @()
+    #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
+    
+    #Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXChromeOneURLs
 }
 
 # Loop until user answers prompt
@@ -32,27 +42,10 @@ do {
         $JSONData = Get-Content -Path $JSONFile | ConvertFrom-Json
         $StartupData = $JSONData.Items
 
-        # Loop through startup data array
+        # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
-            # Grab each item's properties
-            $Item = [PSCustomObject]@{
-                Number = $StartupItem.ItemNumber
-                Path = $StartupItem.FilePath
-                Browser = $StartupItem.Browser
-                ArgCount = $StartupItem.ArgumentCount
-                ArgList = $StartupItem.ArgumentList
-            }
-
-            Submit-StarupItem $Item
+            Submit-StarupItem $StartupItem
         }
-
-        # To-Do: Create function to parse $Item data - https://www.educba.com/powershell-function-parameters/
-
-        #$DealerFXChromeOneTabs = @()
-        #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
-        
-        #Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXChromeOneURLs
-
     } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
         # Tell loop to quit
