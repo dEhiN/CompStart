@@ -13,6 +13,13 @@ function Submit-StarupItem {
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
+
+    # Process startup arguments
+    if ($ItemArgCount -gt 0) {
+        foreach ($ItemArg in $ItemArgList) {
+            
+        }
+    }
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
