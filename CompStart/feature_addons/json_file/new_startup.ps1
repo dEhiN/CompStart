@@ -15,15 +15,30 @@ function Submit-StarupItem {
     $ItemArgList = $StartupItem.ArgumentList
 
     # Process startup arguments
+    $LoopCounter = 0
+    $AllArgs = ""
+
     if ($ItemArgCount -gt 0) {
         foreach ($ItemArg in $ItemArgList) {
-            
+            $LoopCounter += 1
+    
+            if($ItemIsBrowser -and ($LoopCounter -eq $ItemArgCount)) {
+                $AllArgs += $ItemArg
+            } else {
+                $AllArgs += [string]$ItemArg
+            }
+
+            $AllArgs += " "
         }
     }
+
+    Write-Host $AllArgs
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
     
+    #Start-Process -FilePath $ItemPath -ArgumentList
+
     #Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXChromeOneURLs
 }
 
