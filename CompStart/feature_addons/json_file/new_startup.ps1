@@ -1,6 +1,6 @@
 # Script to automatically open the apps I want when the computer starts
 
-function Submit-StarupItem {
+function Get-StarupItem {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -66,7 +66,7 @@ do {
 
         # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
-            Submit-StarupItem $StartupItem
+            Get-StarupItem $StartupItem
         }
     } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
