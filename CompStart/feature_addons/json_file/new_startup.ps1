@@ -12,7 +12,7 @@ function Submit-StarupItem {
     $ItemPath = $StartupItem.FilePath
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
-    $ArgList = $StartupItem.ArgumentList
+    $ItemArgList = $StartupItem.ArgumentList
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
