@@ -1,5 +1,26 @@
 # Script to automatically open the apps I want when the computer starts
 
+# Function to run a specific startup item
+# Input: 1. A String representing the full file path + program name with
+#        extension of the startup item
+#        2. A String representing the full arguments list to pass to
+#        this startup item when calling it
+#        3. A Int32 representing which startup item number this item is
+function Start-StartupItem {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        $ProgramPath,
+        [Parameter(Mandatory)]
+        $ArgumentsList,
+        $StartItemNumber
+    )
+}
+
+
+# Function to process all the data for a specific startup item
+# Input: 1. A PSCustomObject containing all the JSON data for a single
+#        startup item
 function Get-StarupItem {
     [CmdletBinding()]
     param (
@@ -32,7 +53,8 @@ function Get-StarupItem {
         }
     }
 
-    Write-Host $AllArgs
+    Start-StartupItem $ItemPath $AllArgs $ItemNumber
+    #Write-Host $AllArgs
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
@@ -66,6 +88,7 @@ do {
 
         # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
+            Write-Host $StartupItem.GetType()
             Get-StarupItem $StartupItem
         }
     } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
