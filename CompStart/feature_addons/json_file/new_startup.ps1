@@ -1,5 +1,15 @@
 # Script to automatically open the apps I want when the computer starts
 
+function Submit-StarupItem {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        $StartupItem
+    )
+
+    
+}
+
 # Loop until user answers prompt
 $LoopTrue = $True
 do {
@@ -32,6 +42,8 @@ do {
                 ArgCount = $StartupItem.ArgumentCount
                 ArgList = $StartupItem.ArgumentList
             }
+
+            Submit-StarupItem $Item
         }
 
         # To-Do: Create function to parse $Item data - https://www.educba.com/powershell-function-parameters/
