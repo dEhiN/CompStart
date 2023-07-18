@@ -20,8 +20,8 @@ do {
         # GDoc "Les gabarits pour utiliser avec Halo"
         $DealerFXChromeOneTabs = @(
             "https://mail.google.com/mail/u/0/#inbox",                                                  
-            "https://calendar.google.com/calendar/u/0/r"                                                
-            "https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/"      
+            "https://calendar.google.com/calendar/u/0/r",                                                
+            "https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/",      
             "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/", 
             "https://docs.google.com/document/d/10REZClR3-_MqQVhNx0cgzF7h70mZdkvCEc4F_KutcRk/edit", 
             "https://docs.google.com/document/d/1vrlXzHkL_SDu3-y2MksTYEL-ZAamWQ8hE-ck7Q3Figs/edit"      
