@@ -4,6 +4,7 @@
         {
             "ItemNumber": 1,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Comments": "",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
@@ -22,6 +23,7 @@
         {
             "ItemNumber": 2,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Comments": "",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
@@ -39,7 +41,7 @@
         {
             "ItemNumber": 3,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Browser": true,
+            "Comments": "",
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
@@ -52,6 +54,7 @@
         {
             "ItemNumber": 4,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
+            "Comments": "",
             "Browser": false,
             "ArgumentCount": 3,
             "ArgumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
@@ -59,6 +62,7 @@
         {
             "ItemNumber": 5,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
+            "Comments": "",
             "Browser": false,
             "ArgumentCount": 3,
             "ArgumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
@@ -66,6 +70,7 @@
         {
             "ItemNumber": 6,
             "FilePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
+            "Comments": "",
             "Browser": false,
             "ArgumentCount": 0
         }
