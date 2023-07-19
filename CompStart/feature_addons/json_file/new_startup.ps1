@@ -46,7 +46,7 @@ function Get-StarupItem {
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
-    $ItemComments = $StartupItem.Comments
+    #$ItemComments = $StartupItem.Comments
 
     # Process startup arguments
     $LoopCounter = 0
