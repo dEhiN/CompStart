@@ -92,7 +92,8 @@ do {
         # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
         $DataFileLocation = "\data\"
-        $DataFileName = "startup_data.json"
+        #$DataFileName = "startup_data.json"
+        $DataFileName = "test_data.json"
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Load JSON data
