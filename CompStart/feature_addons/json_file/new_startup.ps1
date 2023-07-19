@@ -19,11 +19,13 @@ function Start-StartupItem {
     
     if ($ArgumentsList) {
         # TODO
-        Write-Host $ArgumentsList
+        #Write-Host $ArgumentsList
+        Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList
     }
     else {
         # TODO
-        Write-Host $ArgumentsList
+        #Write-Host $ArgumentsList
+        Start-Process -FilePath $ProgramPath
     }
 }
 
