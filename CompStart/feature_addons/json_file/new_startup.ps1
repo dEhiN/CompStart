@@ -25,7 +25,7 @@ function Get-StarupItem {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        $StartupItem
+        [PSCustomObject]$StartupItem
     )
 
     # Grab each item's properties
@@ -34,6 +34,7 @@ function Get-StarupItem {
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
+    $ItemComments = $StartupItem.Comments
 
     # Process startup arguments
     $LoopCounter = 0
@@ -43,9 +44,10 @@ function Get-StarupItem {
         foreach ($ItemArg in $ItemArgList) {
             $LoopCounter += 1
     
-            if($ItemIsBrowser -and ($LoopCounter -eq $ItemArgCount)) {
+            if ($ItemIsBrowser -and ($LoopCounter -eq $ItemArgCount)) {
                 $AllArgs += $ItemArg
-            } else {
+            }
+            else {
                 $AllArgs += [string]$ItemArg
             }
 
@@ -53,8 +55,10 @@ function Get-StarupItem {
         }
     }
 
-    Start-StartupItem $ItemPath $AllArgs $ItemNumber
-    #Write-Host $AllArgs
+    #Start-StartupItem $ItemPath $AllArgs $ItemNumber
+    #Write-Host $AllArgs.GetType()
+    #Write-Host $ItemNumber.GetType()
+    #Write-Host $ItemPath.GetType()
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
@@ -88,10 +92,10 @@ do {
 
         # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
-            Write-Host $StartupItem.GetType()
             Get-StarupItem $StartupItem
         }
-    } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
+    }
+    elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
         # Tell loop to quit
         $LoopTrue = $False
