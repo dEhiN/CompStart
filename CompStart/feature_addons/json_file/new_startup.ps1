@@ -7,14 +7,24 @@
 #        this startup item when calling it
 #        3. A Int32 representing which startup item number this item is
 function Start-StartupItem {
-    [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        $ProgramPath,
+        [int32]$StartItemNumber,
+        
         [Parameter(Mandatory)]
-        $ArgumentsList,
-        $StartItemNumber
+        [string]$ProgramPath,
+
+        [string]$ArgumentsList = $null
     )
+    
+    if ($ArgumentsList) {
+        # TODO
+        Write-Host $ArgumentsList
+    }
+    else {
+        # TODO
+        Write-Host $ArgumentsList
+    }
 }
 
 
@@ -55,10 +65,7 @@ function Get-StarupItem {
         }
     }
 
-    #Start-StartupItem $ItemPath $AllArgs $ItemNumber
-    #Write-Host $AllArgs.GetType()
-    #Write-Host $ItemNumber.GetType()
-    #Write-Host $ItemPath.GetType()
+    Start-StartupItem -StartItemNumber $ItemNumber -ProgramPath $ItemPath -ArgumentsList $AllArgs
     
     #$DealerFXChromeOneTabs = @()
     #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
