@@ -18,13 +18,9 @@ function Start-StartupItem {
     )
     
     if ($ArgumentsList) {
-        # TODO
-        #Write-Host $ArgumentsList
         Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList
     }
     else {
-        # TODO
-        #Write-Host $ArgumentsList
         Start-Process -FilePath $ProgramPath
     }
 }
@@ -46,7 +42,8 @@ function Get-StarupItem {
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
-    #$ItemComments = $StartupItem.Comments
+    #   **Uncomment this when ready to use item comments**
+    #   $ItemComments = $StartupItem.Comments
 
     # Process startup arguments
     $LoopCounter = 0
@@ -68,21 +65,16 @@ function Get-StarupItem {
     }
 
     Start-StartupItem -StartItemNumber $ItemNumber -ProgramPath $ItemPath -ArgumentsList $AllArgs
-    
-    #$DealerFXChromeOneTabs = @()
-    #$DealerFXChromeOneURLs = [string]$DealerFXChromeOneTabs
-    
-    #Start-Process -FilePath $ItemPath -ArgumentList
-
-    #Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--profile-directory=Default","--new-window",$DealerFXChromeOneURLs
 }
 
 # Loop until user answers prompt
 $LoopTrue = $True
 do {
     # Confirm if user wants to run script
-    #$UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
     $UserPrompt = "Y"
+    #   **Uncomment this when ready to put into production**
+    #   $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
+    
 
     if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
 
@@ -92,8 +84,9 @@ do {
         # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
         $DataFileLocation = "\data\"
-        #$DataFileName = "startup_data.json"
         $DataFileName = "test_data.json"
+        #       **Uncomment this when ready to put into production**
+        #       $DataFileName = "startup_data.json"
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Load JSON data
