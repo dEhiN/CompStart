@@ -1,4 +1,39 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema"
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
 
+    "type": "object",
+    "properties": {
+        "TotalItems": {
+            "type": "integer"
+        },
+        "Items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "ItemNumber": {
+                        "type": "integer"
+                    },
+                    "FilePath": {
+                        "type": "string"
+                    },
+                    "Comments": {
+                        "type": "string"
+                    },
+                    "Browser": {
+                        "type": "boolean"
+                    },
+                    "ArgumentCount": {
+                        "type": "integer"
+                    },
+                    "ArgumentList": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,0 +1,3 @@
+Two validation attempts:
+https://www.jsonschemavalidator.net/s/H4bkwF3O
+https://www.jsonschemavalidator.net/s/IH7trJpk
