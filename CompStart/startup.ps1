@@ -67,14 +67,20 @@ function Get-StarupItem {
     Start-StartupItem -StartItemNumber $ItemNumber -ProgramPath $ItemPath -ArgumentsList $AllArgs
 }
 
+# Setting to switch between testing and production - affects 2 spots in the do loop
+$IsProdEnv = $True
+
 # Loop until user answers prompt
 $LoopTrue = $True
 do {
     # Confirm if user wants to run script
-    $UserPrompt = "Y"
-    #   **Uncomment this when ready to put into production**
-    #   $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
-    
+    $UserPrompt = ""
+    if ($IsProdEnv) {
+        $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
+    }
+    else {
+        $UserPrompt = "Y"
+    }
 
     if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
 
@@ -84,9 +90,13 @@ do {
         # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
         $DataFileLocation = "\data\"
-        $DataFileName = "test_data.json"
-        #       **Uncomment this when ready to put into production**
-        #       $DataFileName = "startup_data.json"
+        $DataFileName = ""
+        if ($IsProdEnv) {
+            $DataFileName = "startup_data.json"
+        }
+        else {
+            $DataFileName = "test_data.json"
+        }
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Load JSON data
