@@ -1,3 +1,1 @@
-Rem %CD% returns the current directory
-
-start powershell.exe -ExecutionPolicy Unrestricted -File %CD%\CompStart\startup.ps1
+start powershell.exe -ExecutionPolicy Unrestricted -File c:\Users\david.watson\Documents\Scripts\Dealer-FX\CompStart\startup.ps1 
