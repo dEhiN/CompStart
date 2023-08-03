@@ -2,7 +2,9 @@ Questions to Stack Overflow:
 1. https://stackoverflow.com/questions/76807544/how-can-i-allow-multiple-optional-and-unnamed-values-in-an-array-in-json-schem
 2. https://stackoverflow.com/questions/76823681/git-log-cleanup-after-reverting-main-to-feature-branch-that-was-pushed
 
-Validation attempts:
+JSON Schema validation attempts:
 1. https://www.jsonschemavalidator.net/s/H4bkwF3O Failed
 2. https://www.jsonschemavalidator.net/s/IH7trJpk Failed
 3. https://www.jsonschemavalidator.net/s/nU4d5fj4 Passed
+
+PyInstaller article: https://datatofish.com/executable-pyinstaller/
