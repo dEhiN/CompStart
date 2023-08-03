@@ -89,7 +89,7 @@ do {
 
         # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
-        $DataFileLocation = "\data\"
+        $DataFileLocation = "\data\json_data\"
         $DataFileName = ""
         if ($IsProdEnv) {
             $DataFileName = "startup_data.json"
