@@ -1,9 +1,5 @@
 echo OFF
 
-:: Store path to user startup folder
-:: set STARTFOLDER_RELPATH=\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-:: set STARTFOLDER_FULLPATH="%HOMEDRIVE%%HOMEPATH%%STARTFOLDER_RELPATH%"
-
 :: Toggle between test and prod environments
 set "PROD_ENV=false"
 :: Relative path of install files folder
@@ -16,14 +12,17 @@ set "POWERSHELLSCRIPT_FILENAME=startup.ps1"
 :: Root folder to start work from
 :: Filename for startup batch script
 :: Filename for startup JSON data file
+:: Path to user startup folder
 if %PROD_ENV% == true (
     set "SCRIPT_ROOT=%CD%\CompStart\"
     set "BATCHSCRIPT_FILENAME=startup.bat"
     set "STARTJSON_FILENAME=startup_data.json"
+    set "STARTFOLDER_FULLPATH=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
 ) else (
     set "SCRIPT_ROOT=%CD%\CompStart\feature_addons\bat_installer\"
     set "BATCHSCRIPT_FILENAME=test.bat"
     set "STARTJSON_FILENAME=test_data.json"
+    set "STARTFOLDER_FULLPATH=%CD%\CompStart\feature_addons\bat_installer\startup_folder_test\"
 )
 
 :: Full path and name for startup batch script
