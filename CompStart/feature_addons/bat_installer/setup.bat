@@ -1,37 +1,39 @@
 echo OFF
 
-:: Grab root path of script working directory
-set SCRIPT_ROOT=%CD%
-
 :: Store path to user startup folder
-set STARTFOLDER_RELPATH=\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-set STARTFOLDER_FULLPATH="%HOMEDRIVE%%HOMEPATH%%STARTFOLDER_RELPATH%"
+:: set STARTFOLDER_RELPATH=\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+:: set STARTFOLDER_FULLPATH="%HOMEDRIVE%%HOMEPATH%%STARTFOLDER_RELPATH%"
 
-:: Store path and filename for startup.bat
-set BATCHSCRIPT_RELPATH=\CompStart\data\test_data\
-set BATCHSCRIPT_FILENAME=test.bat
-set BATCHSCRIPT_FULLPATH=%SCRIPT_ROOT%%BATCHSCRIPT_RELPATH%%BATCHSCRIPT_FILENAME%
-:: NEED TO CHANGE BATCHSCRIPT_FILENAME FROM test.bat TO startup.bat FOR PRODUCTION
+:: Toggle between test and prod environments
+set "PROD_ENV=false"
+:: Relative path of install files folder
+set "SCRIPT_RELPATH=install_files\"
+:: Relative path of data folder
+set "DATA_RELPATH=install_files\data\"
+:: Name of startup PowerShell script
+set "POWERSHELLSCRIPT_FILENAME=startup.ps1"
 
-:: Store path and filename for startup.ps1
-set POWERSHELLSCRIPT_RELPATH=\CompStart\
-set POWERSHELLSCRIPT_FILENAME=startup.ps1
-set POWERSHELLSCRIPT_FULLPATH=%SCRIPT_ROOT%%POWERSHELLSCRIPT_RELPATH%%POWERSHELLSCRIPT_FILENAME%
+:: Root folder to start work from
+:: Filename for startup batch script
+:: Filename for startup JSON data file
+if %PROD_ENV% == true (
+    set "SCRIPT_ROOT=%CD%\CompStart\"
+    set "BATCHSCRIPT_FILENAME=startup.bat"
+    set "STARTJSON_FILENAME=startup_data.json"
+) else (
+    set "SCRIPT_ROOT=%CD%\CompStart\feature_addons\bat_installer\"
+    set "BATCHSCRIPT_FILENAME=test.bat"
+    set "STARTJSON_FILENAME=test_data.json"
+)
 
-:: Store startup command to use when creating startup.bat
+:: Full path and name for startup batch script
+set "BATCHSCRIPT_FULLPATH=%SCRIPT_ROOT%%SCRIPT_RELPATH%%BATCHSCRIPT_FILENAME%"
+:: Full path and name for startup PowerShell script
+set "POWERSHELLSCRIPT_FULLPATH=%SCRIPT_ROOT%%SCRIPT_RELPATH%%POWERSHELLSCRIPT_FILENAME%"
+:: Full path and name for startup JSON data file
+set "STARTJSON_FULLPATH=%SCRIPT_ROOT%%DATA_RELPATH%%STARTJSON_FILENAME%"
+:: Startup command to use when creating startup batch script
 set BATCHSCRIPT_CMD=start powershell.exe -ExecutionPolicy Unrestricted -File %POWERSHELLSCRIPT_FULLPATH%
 
-:: Testing to confirm variables are correct
-echo SCRIPT_ROOT: %SCRIPT_ROOT%
-echo STARTFOLDER_RELPATH: %STARTFOLDER_RELPATH%
-echo STARTFOLDER_FULLPATH: %STARTFOLDER_FULLPATH%
-echo BATCHSCRIPT_RELPATH: %BATCHSCRIPT_RELPATH%
-echo BATCHSCRIPT_FILENAME: %BATCHSCRIPT_FILENAME%
-echo BATCHSCRIPT_FULLPATH: %BATCHSCRIPT_FULLPATH%
-echo POWERSHELLSCRIPT_RELPATH: %POWERSHELLSCRIPT_RELPATH%
-echo POWERSHELLSCRIPT_FILENAME: %POWERSHELLSCRIPT_FILENAME%
-echo POWERSHELLSCRIPT_FULLPATH: %POWERSHELLSCRIPT_FULLPATH%
-echo BATCHSCRIPT_CMD: %BATCHSCRIPT_CMD%
-
-:: Create startup.bat which will be used to called the startup.ps1 PowerShell script
+:: Create startup batch script which will be used to called the startup PowerShell script
 echo %BATCHSCRIPT_CMD% > %BATCHSCRIPT_FULLPATH%
