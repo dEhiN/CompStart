@@ -20,7 +20,7 @@ if %PROD_ENV% == true (
     set "STARTFOLDER_FULLPATH=%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
 ) else (
     set "SCRIPT_ROOT=%CD%\CompStart\feature_addons\bat_installer\"
-    set "BATCHSCRIPT_FILENAME=test.bat"
+    set "BATCHSCRIPT_FILENAME=CompStart.bat"
     set "STARTJSON_FILENAME=test_data.json"
     set "STARTFOLDER_FULLPATH=%CD%\CompStart\feature_addons\bat_installer\startup_folder_test\"
 )
@@ -32,7 +32,9 @@ set "POWERSHELLSCRIPT_FULLPATH=%SCRIPT_ROOT%%SCRIPT_RELPATH%%POWERSHELLSCRIPT_FI
 :: Full path and name for startup JSON data file
 set "STARTJSON_FULLPATH=%SCRIPT_ROOT%%DATA_RELPATH%%STARTJSON_FILENAME%"
 :: Startup command to use when creating startup batch script
-set BATCHSCRIPT_CMD=start powershell.exe -ExecutionPolicy Unrestricted -File %POWERSHELLSCRIPT_FULLPATH%
+set "BATCHSCRIPT_CMD=start powershell.exe -ExecutionPolicy Unrestricted -File %POWERSHELLSCRIPT_FULLPATH%"
 
 :: Create startup batch script which will be used to called the startup PowerShell script
 echo %BATCHSCRIPT_CMD% > %BATCHSCRIPT_FULLPATH%
+
+cd %SCRIPT_ROOT%%SCRIPT_RELPATH%
