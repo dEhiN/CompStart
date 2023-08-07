@@ -8,6 +8,6 @@ Branch to work on the batch installer *setup.bat*. This file is currently the ma
 
 As of 2023-08-03, the only production environment is my work laptop. As a result, the *startup.bat* file found in the project root folder points to the full path of *startup.ps1* as found on my work laptop. However, because *setup.bat* programmatically gets the current script (or working) directory and uses that as the root for all relative paths, *setup.bat* is considered to be in testing and creates a file called *test.bat* instead. This file is stored in the data/test_data folder.
 
-## Status as of 2023-08-06
+### Status as of 2023-08-06
 
 I've decided to abandon using a batch file as an installer. I'm going to switch to using a PowerShell script since that will give me a lot more flexibility.
