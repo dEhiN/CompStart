@@ -2,9 +2,12 @@
 
 Parent folder to store all feature branches while being worked on. Each feature branch will have its own child folder. The folder itself is called *feature_addons*.
 
+
 ## Current Branches
 
 ### features/json_schema_update
+
+Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*.
 
 
 ## Past Branches (oldest > newest)
