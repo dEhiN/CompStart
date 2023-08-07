@@ -30,3 +30,7 @@ Created JSON Schema file *startup_data.schema.json* to describe the data structu
 ### 5. features/bat_installer
 
 Continued working on the batch installer *setup.bat*. Refactored the code to set up the various file names and relative and absolute paths necessary to create *startup.bat* and copy all the program files to a folder in the user's local app data folder. Created logic to change the locations of everything and to use the name *test.bat* while in the testing environment. Realized that using batch or CMD commands to accomplish the task of installing **CompStart** will be extremely difficult and is probably unnecessary. Decided to utilize a PowerShell script for greater flexibility.
+
+### 6. features/revert-commit_d2514b3dedfcda44c7a259377a0087d25696a8f21
+
+Tried to amend some commit messages but wasn't able to, so decided to detach HEAD at a previous commit. Commit d2514b3 is the commit just before branch **features/bat_installer** is merged into **main**. The commit log and reflog of main will look really crazy, particularly the reflog as attempted multiple times to rebase, but every time there were issues. Created this branch to push through the commit messages that show when **features/bat_installer** is merged into **main**.
