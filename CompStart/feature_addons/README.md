@@ -7,7 +7,9 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 ### features/json_schema_update
 
-Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*.
+Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*. From a previous feature branch, the basics of the schema has been created, enough that when using an online JSON schema validator, everything validates without any errors.
+
+However, I would like to flesh out more of the schema using more advanced JSON Schema specs. I want to add constraints on what keys are required, any default values, etc.
 
 
 ## Past Branches (oldest > newest)
