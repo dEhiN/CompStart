@@ -6,7 +6,6 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 ### features/json_schema_update
 
-Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*.
 
 ## Past Branches (oldest > newest)
 ### 1. update/add_json_file
