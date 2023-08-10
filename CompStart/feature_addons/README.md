@@ -13,6 +13,9 @@ Branch created to continue creating the *startup_data.json* schema file, *startu
 
 Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
 
+### 3. features/python_tkinter_test
+
+Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of *startup_data.json*.
 
 ## Past Branches (oldest > newest)
 ### 1. update/add_json_file
