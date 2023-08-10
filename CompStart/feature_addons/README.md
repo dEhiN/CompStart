@@ -5,9 +5,13 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 ## Current Branches
 
-### features/json_schema_update
+### 1. features/json_schema_update
 
 Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*.
+
+### 2. features/powershell_installer
+
+Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
 
 
 ## Past Branches (oldest > newest)
