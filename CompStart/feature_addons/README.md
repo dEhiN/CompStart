@@ -5,12 +5,19 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 ## Current Branches
 
-### features/json_schema_update
+### 1. features/json_schema_update
 
 Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*. From a previous feature branch, the basics of the schema has been created, enough that when using an online JSON schema validator, everything validates without any errors.
 
 However, I would like to flesh out more of the schema using more advanced JSON Schema specs. I want to add constraints on what keys are required, any default values, etc.
 
+### 2. features/powershell_installer
+
+Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
+
+### 3. features/python_tkinter_test
+
+Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of *startup_data.json*.
 
 ## Past Branches (oldest > newest)
 ### 1. update/add_json_file
