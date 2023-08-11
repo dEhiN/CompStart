@@ -1,0 +1,1 @@
+# This will be the installation script used for CompStart
