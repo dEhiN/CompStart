@@ -54,7 +54,7 @@ def program_two():
     button = tkinter.Button(
         frame,
         text="Exit",
-        command=tk.destroy
+        command=tk.quit
     )
     button.pack(side=BOTTOM)
 
