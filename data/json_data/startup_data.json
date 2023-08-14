@@ -4,63 +4,53 @@
         {
             "ItemNumber": 1,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Comments": "Set up standard working tabs for internal resources:\n# Gmail\n# Google Calendar\n# GSheet New Email - ALL OEM\n# GSheet Client Support Processes\n# GDoc Escalation Email Templates\n# GDoc Les gabarits pour utiliser avec Halo",
+            "Comments": "Set up standard working tabs for internal resources:\n# Gmail\n# Google Calendar\n# GSheet Client Support Processes\n# AWS Connect",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
-                    "https://mail.google.com/mail/u/0/#inbox",
-                    "https://calendar.google.com/calendar/u/0/r",
-                    "https://docs.google.com/spreadsheets/d/1165JnOAgr0JkNRu7lIWUD_OmbwsSLWfDvx3Ha8JvSKk/",
-                    "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/",
-                    "https://docs.google.com/document/d/10REZClR3-_MqQVhNx0cgzF7h70mZdkvCEc4F_KutcRk/edit",
-                    "https://docs.google.com/document/d/1vrlXzHkL_SDu3-y2MksTYEL-ZAamWQ8hE-ck7Q3Figs/edit"
+                    "https://mail.google.com/mail/u/0/#inbox", "https://calendar.google.com/calendar/u/0/r", "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/", "https://dfx1.my.connect.aws/home"
                 ]
             ]
         },
         {
             "ItemNumber": 2,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Comments": "Set up standard working tabs for external resources:\n# Prod1 One Platform\n# Kibana Prod1\n# Prod2 One Platform\n# Kibana Prod2\n# AWS Connect\n# AWS Agent App",
+            "Comments": "Set up standard working tabs for external resources:\n# Prod1 One Platform\n# Kibana Prod1\n# Prod2 One Platform\n# Kibana Prod2\n# AWS Agent App",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
-                    "https://chrysler1.advisordashboard.net/logins/Login.2.aspx",
-                    "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))",
-                    "https://service.dealer-fx.com/logins/Login.2.aspx",
-                    "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())",
-                    "https://dfx1.my.connect.aws/real-time-metrics?reportArn=arn:aws:connect:us-east-1:153590104080:instance/2add78db-445c-4fbe-890e-a2cf0595de6e/report/bd7a1764-370f-4ff9-8cef-ee9c74a54be5",
-                    "https://master.d3pfi7mlwkgahz.amplifyapp.com/"
+                    "https://chrysler1.advisordashboard.net/logins/Login.2.aspx", "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))", "https://service.dealer-fx.com/logins/Login.2.aspx", "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())"
                 ]
             ]
         },
         {
             "ItemNumber": 3,
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Comments": "Log into AWS Agent App",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": ["--profile-directory=Default", "--new-window", ["https://master.d3pfi7mlwkgahz.amplifyapp.com/"]]
+        },
+        {
+            "ItemNumber": 4,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
             "Comments": "Google Chat Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
             "ArgumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
-        },
-        {
-            "ItemNumber": 4,
+        }, {
+            "ItemNumber": 5,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
             "Comments": "Halo Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
             "ArgumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
-        }, {
-            "ItemNumber": 5,
-            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "Comments": "Drive Chrome app",
-            "Browser": false,
-            "ArgumentCount": 2,
-            "ArgumentList": ["--profile-directory=Default", "--app-id=aghbiahbpaijignceidepookljebhfak"]
         }, {
             "ItemNumber": 6,
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
