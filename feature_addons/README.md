@@ -17,6 +17,10 @@ Branch created for the PowerShell installer. As written in **features/bat_instal
 
 Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of *startup_data.json*.
 
+### 4. features/startupdata_modifier_tool
+
+Branch created to work on a user tool to create and modify the *startup_data.json*. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.
+
 ## Past Branches (oldest > newest)
 ### 1. update/add_json_file
 
