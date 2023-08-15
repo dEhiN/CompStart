@@ -1,35 +1,36 @@
 # This will be a command line tool to create and edit the startup_data.json
 # file.
 
-"""
-Function to read in JSON data from a file
-
-@input: path - string containing a relative or absolute path to the folder with
-               JSON file
-        file - string containing the filename of the JSON file
-@output: currently nothing, but will be some data structure holding JSON data
-"""
+import json
 
 
 def json_reader(path: str, file: str):
-    # Split the file using "." to validate if file is of type JSON
-    print(file.split("."))
-    split_file = file.split(".")
-    print(len(split_file) - 1)
+    """Function to read in JSON data from a file
 
-    # TODO: Refactor following if-block to make it more concise
+    Currently the function only validates if file:str in a valid JSON
+    file by checking the extension. The full functionality will be to read in
+    the JSON data from file:str, assuming it's a valid JSON file, and return
+    that so we work with the JSON data in memory.
+
+    Args:
+        path (str): A relative or absolute path to the folder with JSON file
+        file (str): The filename of the JSON file
+    Returns:
+        string: Currently a message indicating the validity of file
+    """
+
+    # Validate if correct JSON file
+    split_file = file.split(".")
     if len(split_file) == 1:
-        return "Please specify a valid JSON file name"
-    elif len(split_file) == 2:
-        if split_file[1] == "json":
-            return "Valid JSON file name"
-        else:
-            return f"Invalid JSON file name.\nExpected extension of: json\nReceived extension of: {split_file[1]}"
+        return_message = "Please specify a valid JSON file name"
     else:
-        if split_file[len(split_file) - 1] == "json":
-            return "Valid JSON file name"
+        last_item = split_file[len(split_file) - 1]
+        if last_item == "json":
+            return_message = "Valid JSON file name"
         else:
-            return f"Invalid JSON file name.\nExpected extension of: json\nReceived extension of: {split_file[len(split_file) - 1]}"
+            return_message = f"Invalid JSON file name.\nExpected extension of: json\nReceived extension of: {last_item}"
+
+    return return_message
 
 
 if __name__ == "__main__":
@@ -46,6 +47,6 @@ if __name__ == "__main__":
         json_path = "./"
         json_filename = "test_data.json"
 
-    # Read JSON data from file
-    # json_reader(json_path, json_filename)
-    json_reader(json_path, "testjson")
+    # Read JSON data from file and print whether file is valid JSON file
+    status_message = json_reader(json_path, json_filename)
+    print(status_message)
