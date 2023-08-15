@@ -16,6 +16,8 @@ def json_reader(path: str, file: str):
     print(file.split("."))
     split_file = file.split(".")
     print(len(split_file) - 1)
+
+    # TODO: Refactor following if-block to make it more concise
     if len(split_file) == 1:
         return "Please specify a valid JSON file name"
     elif len(split_file) == 2:
