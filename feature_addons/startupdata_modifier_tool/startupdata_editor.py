@@ -38,7 +38,11 @@ def json_reader(json_path: list, json_filename: str):
     else:
         last_item = split_filename[len(split_filename) - 1]
         if last_item != "json":
-            return_message = f"Invalid JSON file name.\nReceived extension of: {last_item}\nExpected extension of: json"
+            return_message = (
+                "Invalid JSON file name.\n"
+                f"Received extension of: {last_item}\n"
+                "Expected extension of: json"
+            )
         else:
             is_json_file = True
 
@@ -72,10 +76,42 @@ if __name__ == "__main__":
     else:
         json_filename = "test_data.json"
 
-    # Check if given filename is a valid JSON file and if it is, return the
-    # JSON data, and if it's not, print an error message and exit with status
-    # of 1
-    is_json_file, status_message, json_data = json_reader(json_path, json_filename)
-    if not is_json_file:
-        print(status_message)
-        exit(1)
+    # Main loop to allow user to navigate their program options
+    quit_loop = False
+    user_choices = (
+        "Choose one of the following:\n"
+        "[1] Create a new startup JSON file\n"
+        "[2] Edit an existing startup JSON file\n"
+        "[3] Quit the program\n"
+    )
+    while not quit_loop:
+        print(user_choices)
+        user_choice = input("What would you like to do? ")
+
+        # Validate input
+        if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
+            print("\nPlease enter a valid choice\n")
+
+        # Currently, only choice #2 does anything and both 1 and 3 quit
+        user_choice = int(user_choice)
+        if user_choice == 1:
+            quit_loop = True
+        elif user_choice == 2:
+            quit_loop = True
+
+            # Read in existing JSON file and store the return results of the
+            # json_read function
+            is_json_file, status_message, json_data = json_reader(
+                json_path, json_filename
+            )
+
+            # Check if given filename is a valid JSON file and if it is, for
+            # now, print that the JSON file is valid and if it's not, print an
+            # error message and exit with status of 1
+            if not is_json_file:
+                print(status_message)
+                exit(1)
+            else:
+                print("Valid JSON file!")
+        else:
+            quit_loop = True
