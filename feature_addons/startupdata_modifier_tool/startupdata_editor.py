@@ -29,6 +29,22 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
+def json_creator(json_path: list, json_filename: str):
+    """Function to create new JSON file with default startup data
+
+    Args:
+        json_path (list): A list containing the relative or absolute path to
+            the JSON file with each list item representing one subfolder from
+            Current Working Directory (CWD)
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+
+    """
+    json_file = parse_full_path(json_path, json_filename)
+    pass
+
+
 def json_reader(json_path: list, json_filename: str):
     """Function to read in JSON data from a file
 
@@ -84,21 +100,6 @@ def json_reader(json_path: list, json_filename: str):
                 return_message = "Unable to read JSON data"
 
     return read_json_success, return_message, json_data
-
-
-def json_creator(json_path: list, json_filename: str):
-    """Function to create new JSON file with default startup data
-
-    Args:
-        json_path (list): A list containing the relative or absolute path to
-            the JSON file with each list item representing one subfolder from
-            Current Working Directory (CWD)
-        json_filename (str): The filename of the JSON file
-
-    Returns:
-
-    """
-    pass
 
 
 if __name__ == "__main__":
