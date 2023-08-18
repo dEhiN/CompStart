@@ -6,20 +6,18 @@ import os
 from enum import Enum
 
 # An example of valid startup_data.json data to use while coding
-EXAMPLE_JSON = """
-{
+EXAMPLE_JSON = {
     "TotalItems": 1,
     "Items": [
         {
             "ItemNumber": 1,
             "FilePath": "notepad",
             "Comments": "",
-            "Browser": false,
-            "ArgumentCount": 0
+            "Browser": False,
+            "ArgumentCount": 0,
         }
-    ]
+    ],
 }
-"""
 
 
 class JsonSchema(Enum):
