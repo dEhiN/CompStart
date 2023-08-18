@@ -3,6 +3,43 @@
 
 import json
 import os
+from enum import Enum
+
+# An example of valid startup_data.json data to use while coding
+EXAMPLE_JSON = """
+{
+    "TotalItems": 1,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "FilePath": "notepad",
+            "Comments": "",
+            "Browser": false,
+            "ArgumentCount": 0
+        }
+    ]
+}
+"""
+
+
+class JsonSchema(Enum):
+    """Enum class based on startup_data.schema.json
+
+    This class will be used to create valid JSON data to use for the
+    startup_data.json file.
+
+    Args:
+        Enum: This class extends the Enum class from the enum module
+    """
+
+    TOTALITEMS = "TotalItems"
+    ITEMS = "Items"
+    ITEMNUMBER = "ItemNumber"
+    FILEPATH = "FilePath"
+    COMMENTS = "Comments"
+    BROWSER = "Browser"
+    ARGUMENTCOUNT = "ArgumentCount"
+    ARGUMENTLIST = "ArgumentList"
 
 
 def parse_full_path(json_path: list, json_filename: str):
