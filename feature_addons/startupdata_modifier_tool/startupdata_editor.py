@@ -3,7 +3,8 @@
 
 import json
 import os
-import enum_classes
+from enum_classes import JsonSchemaKeys as ec_jsk
+from enum_classes import JsonSchemaStructure as ec_jss
 
 # An example of valid startup_data.json data to use while coding
 EXAMPLE_JSON = {
@@ -57,6 +58,7 @@ def json_creator(json_path: list, json_filename: str):
 
     """
     json_file = parse_full_path(json_path, json_filename)
+    # json_data =
     pass
 
 
