@@ -45,6 +45,18 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
+def create_json_data(default: bool, **kwargs):
+    """_summary_
+
+    _extended_summary_
+
+    Args:
+        default (bool): _description_
+    """
+
+    pass
+
+
 def json_creator(json_path: list, json_filename: str):
     """Function to create new JSON file with default startup data
 
