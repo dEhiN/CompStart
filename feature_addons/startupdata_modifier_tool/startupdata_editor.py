@@ -28,6 +28,9 @@ class JsonSchema(Enum):
 
     Args:
         Enum: This class extends the Enum class from the enum module
+
+    Members:
+        The legally valid keys based on startup_data.schema.json
     """
 
     TOTALITEMS = "TotalItems"
