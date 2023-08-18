@@ -45,16 +45,61 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
-def create_json_data(default: bool, **kwargs):
-    """_summary_
-
-    _extended_summary_
+def generate_json(json_data: dict, **kwargs):
+    """Function to create JSON data from **kwargs parameter
 
     Args:
-        default (bool): _description_
+        json_data (dict): An empty dictionary to represent the top level JSON
+        object
+
+        **kwargs: Optional parameters that contain new JSON data
+
+    Returns:
+        dict: The same dictionary passed in but now filled with JSON data
     """
 
     pass
+
+
+def generate_default(json_data: dict):
+    """Function to create default startup data
+
+    Args:
+        json_data (dict): An empty dictionary to represent the top level JSON
+        object
+
+    Returns:
+        dict: The same dictionary passed in but now filled with JSON data
+    """
+
+    json_data[ec_jsk.TOTALITEMS.value] = 1
+    pass
+
+
+def create_json_data(default: bool, **kwargs):
+    """Function to create JSON data
+
+    Depending on the parameters passed in, the function will either create
+    default startup data and create a new startup_data.json file with the
+    default data, or will update an existing startup_data.json file with
+    JSON data that's passed in.
+
+    Args:
+        default (bool): Tells this function whether to generate default startup
+        data for a new startup_data.json file or not; is mandatory
+
+        **kwargs: Optional parameters that can contain JSON data to update an
+        existing startup_data.json file; can be in any format
+    """
+
+    # Create empty JSON object / Python dictionary
+    json_data = ec_jss.OBJECT.value
+
+    # If need to create default JSON data
+    if default:
+        json_data = generate_default(json_data)
+    else:
+        json_data = generate_json(json_data, **kwargs)
 
 
 def json_creator(json_path: list, json_filename: str):
