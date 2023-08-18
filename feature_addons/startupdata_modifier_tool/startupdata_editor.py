@@ -57,8 +57,13 @@ def json_creator(json_path: list, json_filename: str):
     Returns:
 
     """
+
+    # Get the full path to the file in string format
     json_file = parse_full_path(json_path, json_filename)
-    # json_data =
+
+    # Create default JSON data to add to the startup_data.json file
+    json_data = create_json_data(default=True)
+
     pass
 
 
