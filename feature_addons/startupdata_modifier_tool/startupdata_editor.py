@@ -206,7 +206,11 @@ if __name__ == "__main__":
 
     while not quit_loop:
         print(user_choices)
-        user_choice = input("What would you like to do? ")
+
+        if is_prod:
+            user_choice = input("What would you like to do? ")
+        else:
+            user_choice = "1"
 
         # Validate input
         if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
