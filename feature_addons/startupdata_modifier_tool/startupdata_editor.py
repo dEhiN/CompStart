@@ -69,7 +69,19 @@ def generate_default():
     json_data = ec_jss.OBJECT.value.copy()
 
     json_data[ec_jsk.TOTALITEMS.value] = 1
-    pass
+    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
+    json_arr = json_data[ec_jsk.ITEMS.value]
+    json_arr.append(ec_jss.OBJECT.value.copy())
+    json_items = json_arr[0]
+    json_items[ec_jsk.ITEMNUMBER.value] = 1
+    json_items[ec_jsk.FILEPATH.value] = "notepad"
+    json_items[ec_jsk.COMMENTS.value] = ""
+    json_items[ec_jsk.BROWSER.value] = False
+    json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
+    json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()
+    print(json_data)
+    print(EXAMPLE_JSON)
+    print(json_data == EXAMPLE_JSON)
 
 
 def create_json_data(default: bool, **kwargs):
