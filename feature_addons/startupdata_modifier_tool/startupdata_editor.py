@@ -140,6 +140,76 @@ def create_json_data(default: bool, **kwargs):
     return json_data
 
 
+def json_writer(json_file: str, file_state: int, json_data: dict):
+    """Write the actual JSON data to file
+
+    Based on the value of the file_state variable, the file to be written is
+    handled differently:
+
+    0 - The file doesn't exist and mode "w" is to be used
+    1 - The file exists but mode "w" is to be used so first need to confirm is
+        user is alright with overwriting existing file
+    2 - The file exists but mode "a" is to be used to append data
+
+    Args:
+        json_file (str): The full absolute path of the JSON file including
+            filename and extension
+        file_state (int): An indicator of how the file to be written should be
+            handled. See extended summary above.
+        json_data (dict): The JSON data to write to file
+
+    Returns:
+        bool: True if write was successful, false is not
+        string: An error message to display if there's an issue or blank
+            otherwise
+    """
+
+    # Initialize return variables
+    write_json_success = False
+    return_message = ""
+
+    # Check for valid file_state value
+    match file_state:
+        case 0:
+            # Write JSON data to file
+            try:
+                with open(json_file, "w") as json_file:
+                    json.dump(json_data, json_file)
+                
+                # Created file successfully
+                write_json_success = True
+            except Exception as error:
+                return_message = (
+                    "Unable to write JSON data. Error information is below:\n"
+                    type(error).__name__
+                    " - "
+                    error
+                )
+        case 1:
+            pass
+        case 2:
+            # Append JSON data to file
+            try:
+                with open(json_file, "a") as json_file:
+                    json.dump(json_data, json_file)
+                
+                # Created file successfully
+                write_json_success = True
+            except Exception as error:
+                return_message = (
+                    "Unable to write JSON data. Error information is below:\n"
+                    type(error).__name__
+                    " - "
+                    error
+                )
+        case _:
+            return_message = (
+                "Invalid file state! Could not write JSON data. Please try again."
+            )
+
+    return write_json_success, return_message
+
+
 def json_creator(json_path: list, json_filename: str):
     """Function to create new JSON file with default startup data
 
