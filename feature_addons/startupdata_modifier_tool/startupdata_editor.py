@@ -45,13 +45,10 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
-def generate_json(json_data: dict, **kwargs):
+def generate_json(**kwargs):
     """Function to create JSON data from **kwargs parameter
 
     Args:
-        json_data (dict): An empty dictionary to represent the top level JSON
-        object
-
         **kwargs: Optional parameters that contain new JSON data
 
     Returns:
@@ -61,16 +58,15 @@ def generate_json(json_data: dict, **kwargs):
     pass
 
 
-def generate_default(json_data: dict):
+def generate_default():
     """Function to create default startup data
-
-    Args:
-        json_data (dict): An empty dictionary to represent the top level JSON
-        object
 
     Returns:
         dict: The same dictionary passed in but now filled with JSON data
     """
+
+    # Create empty JSON object / Python dictionary
+    json_data = ec_jss.OBJECT.value.copy()
 
     json_data[ec_jsk.TOTALITEMS.value] = 1
     pass
@@ -96,14 +92,11 @@ def create_json_data(default: bool, **kwargs):
             dictionary if not
     """
 
-    # Create empty JSON object / Python dictionary
-    json_data = ec_jss.OBJECT.value
-
     # If need to create default JSON data
     if default:
-        json_data = generate_default(json_data)
+        json_data = generate_default()
     else:
-        json_data = generate_json(json_data, **kwargs)
+        json_data = generate_json(**kwargs)
 
     return json_data
 
