@@ -6,7 +6,8 @@
             "FilePath": "notepad",
             "Comments": "",
             "Browser": false,
-            "ArgumentCount": 0
+            "ArgumentCount": 0,
+            "ArgumentList": []
         }
     ]
 }
