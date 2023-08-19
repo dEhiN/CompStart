@@ -16,6 +16,7 @@ EXAMPLE_JSON = {
             "Comments": "",
             "Browser": False,
             "ArgumentCount": 0,
+            "ArgumentList": [],
         }
     ],
 }
