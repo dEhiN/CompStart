@@ -227,12 +227,14 @@ if __name__ == "__main__":
     is_prod = False
 
     # Variables for location and name of JSON file with startup data
-    json_path = ["data", "json_data"]
+    json_path = []
     json_filename = ""
 
     if is_prod:
+        json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
+        json_path.extend(["feature_addons", "startupdata_modifier_tool"])
         json_filename = "test_data.json"
 
     # Main loop to allow user to navigate program options
