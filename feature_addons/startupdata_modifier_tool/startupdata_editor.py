@@ -62,13 +62,40 @@ def generate_json(**kwargs):
 def generate_default():
     """Function to create default startup data
 
+    The default startup data opens notepad and has the following JSON:
+
+    {
+        "TotalItems": 1,
+        "Items": [
+            {
+                "ItemNumber": 1,
+                "FilePath": "notepad",
+                "Comments": "",
+                "Browser": False,
+                "ArgumentCount": 0,
+                "ArgumentList": [],
+            }
+        ],
+    }
+
     Returns:
-        dict: The same dictionary passed in but now filled with JSON data
+        dict: A dictionary of JSON startup data
     """
 
     # Create empty JSON object / Python dictionary
     json_data = ec_jss.OBJECT.value.copy()
 
+    """
+    Populate the dictionary with the keys and values specified in the 
+    docstring. Use the Enum class JsonSchemaKey through the variable ec_jsk to 
+    populate the keys. Use the Enum class JsonSchemaStructure through the 
+    variable ec_jss to create a Python dictionary for a JSON object and a 
+    Python list for a JSON array when called for. Because of how Python passes 
+    mutable data types, when using the ec_jss members, a copy has to be made of
+    the member value. Additionally, in order to make the code easier to read 
+    and follow, the variables json_arr and json_items are used as reference 
+    aliases.
+    """
     json_data[ec_jsk.TOTALITEMS.value] = 1
     json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
     json_arr = json_data[ec_jsk.ITEMS.value]
@@ -80,9 +107,8 @@ def generate_default():
     json_items[ec_jsk.BROWSER.value] = False
     json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
     json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()
-    print(json_data)
-    print(EXAMPLE_JSON)
-    print(json_data == EXAMPLE_JSON)
+
+    return json_data
 
 
 def create_json_data(default: bool, **kwargs):
@@ -132,6 +158,9 @@ def json_creator(json_path: list, json_filename: str):
 
     # Create default JSON data to add to the startup_data.json file
     json_data = create_json_data(default=True)
+
+    print(json_data)
+    print(json_file)
 
     pass
 
