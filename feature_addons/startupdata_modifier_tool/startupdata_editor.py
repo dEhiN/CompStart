@@ -90,6 +90,10 @@ def create_json_data(default: bool, **kwargs):
 
         **kwargs: Optional parameters that can contain JSON data to update an
         existing startup_data.json file; can be in any format
+
+    Returns:
+        dict: The actual JSON data if there is any to return or an empty
+            dictionary if not
     """
 
     # Create empty JSON object / Python dictionary
@@ -100,6 +104,8 @@ def create_json_data(default: bool, **kwargs):
         json_data = generate_default(json_data)
     else:
         json_data = generate_json(json_data, **kwargs)
+
+    return json_data
 
 
 def json_creator(json_path: list, json_filename: str):
