@@ -46,6 +46,38 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
+def check_overwrite(json_file: str):
+    """Check to see if user is ok to overwrite existing file
+
+    Args:
+        json_file (str): The file that will be overwritten
+
+    Returns:
+        bool: True if user would like to overwrite the existing file, False
+            otherwise
+    """
+
+    # Loop until user gives a valid response
+    quit_loop = False
+    overwrite_file = False
+
+    input_message = (
+        f"{json_file} already exists!",
+        "Would you like to completely overwrite this file [Y/N]? ",
+    )
+    while not quit_loop:
+        # Get user input and validate it
+        user_choice = input(input_message)
+
+        if user_choice.upper() == "Y" or user_choice.upper() == "N":
+            if user_choice.upper() == "Y":
+                overwrite_file = True
+
+            quit_loop = True
+
+    return overwrite_file
+
+
 def generate_json(**kwargs):
     """Function to create JSON data from **kwargs parameter
 
@@ -186,7 +218,24 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     error,
                 )
         case 1:
-            pass
+            if check_overwrite(json_file):
+                # Write JSON data to file
+                try:
+                    with open(json_file, "w") as json_file:
+                        json.dump(json_data, json_file)
+
+                    # Created file successfully
+                    write_json_success = True
+                except Exception as error:
+                    return_message = (
+                        "Unable to write JSON data.",
+                        "Error information is below:\n",
+                        type(error).__name__,
+                        " - ",
+                        error,
+                    )
+            else:
+                return_message = "File already exists. Will not overwrite file."
         case 2:
             # Append JSON data to file
             try:
