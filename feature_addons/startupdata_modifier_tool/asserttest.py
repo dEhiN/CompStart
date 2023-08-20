@@ -35,12 +35,18 @@ def test_create_json_data_true():
 
 def test_json_writer_case_zero():
     expected_message = (True, "")
-    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON), expected_message
+    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON) == (
+        True,
+        "",
+    ), expected_message
 
 
 def test_json_writer_case_two():
     expected_message = (True, "")
-    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON), expected_message
+    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON) == (
+        True,
+        "",
+    ), expected_message
 
 
 # Run each test one by one
