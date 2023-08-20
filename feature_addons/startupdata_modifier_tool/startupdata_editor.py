@@ -175,15 +175,15 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             try:
                 with open(json_file, "w") as json_file:
                     json.dump(json_data, json_file)
-                
+
                 # Created file successfully
                 write_json_success = True
             except Exception as error:
                 return_message = (
-                    "Unable to write JSON data. Error information is below:\n"
-                    type(error).__name__
-                    " - "
-                    error
+                    "Unable to write JSON data. Error information is below:\n",
+                    type(error).__name__,
+                    " - ",
+                    error,
                 )
         case 1:
             pass
@@ -192,15 +192,15 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             try:
                 with open(json_file, "a") as json_file:
                     json.dump(json_data, json_file)
-                
+
                 # Created file successfully
                 write_json_success = True
             except Exception as error:
                 return_message = (
-                    "Unable to write JSON data. Error information is below:\n"
-                    type(error).__name__
-                    " - "
-                    error
+                    "Unable to write JSON data. Error information is below:\n",
+                    type(error).__name__,
+                    " - ",
+                    error,
                 )
         case _:
             return_message = (
@@ -288,10 +288,10 @@ def json_reader(json_path: list, json_filename: str):
                 read_json_success = True
             except Exception as error:
                 return_message = (
-                    "Unable to read JSON data. Error information is below:\n"
-                    type(error).__name__
-                    " - "
-                    error
+                    "Unable to read JSON data. Error information is below:\n",
+                    type(error).__name__,
+                    " - ",
+                    error,
                 )
 
     return read_json_success, return_message, json_data
