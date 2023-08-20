@@ -1,6 +1,9 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
 
+    "title": "Startup data for CompStart",
+    "description": "This is a schema for the startup_data.json file used by the program CompStart to specify startup data.",
+
     "type": "object",
     "properties": {
         "TotalItems": {
@@ -39,10 +42,40 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "default": []
                     }
-                }
-            }
+                },
+                "required": [
+                    "ItemNumber",
+                    "FilePath",
+                    "Comments",
+                    "Browser",
+                    "ArgumentCount",
+                    "ArgumentList"
+                ]
+            },
+            "uniqueItems": true
         }
-    }
+    },
+    "required": [
+        "TotalItems", "Items"
+    ],
+    "additionalProperties": false,
+
+    "examples": [
+        {
+            "TotalItems": 1,
+            "Items": [
+                {
+                    "ItemNumber": 1,
+                    "FilePath": "notepad",
+                    "Comments": "",
+                    "Browser": false,
+                    "ArgumentCount": 0,
+                    "ArgumentList": []
+                }
+            ]
+        }
+    ]
 }
