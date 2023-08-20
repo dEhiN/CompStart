@@ -63,7 +63,8 @@
             "FilePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
             "Comments": "FortiClient VPN",
             "Browser": false,
-            "ArgumentCount": 0
+            "ArgumentCount": 0,
+            "ArgumentList": []
         }
     ]
 }
