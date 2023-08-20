@@ -23,7 +23,41 @@ def test_parse_full_path():
     ), expected_message
 
 
+def test_generate_default():
+    expected_mesasge = "Expected:\n" + str(my_app.EXAMPLE_JSON)
+    assert my_app.generate_default() == my_app.EXAMPLE_JSON, expected_mesasge
+
+
+def test_create_json_data_true():
+    expected_message = "Expected:\n" + str(my_app.EXAMPLE_JSON)
+    assert my_app.create_json_data(True) == my_app.EXAMPLE_JSON, expected_message
+
+
+def test_json_writer_case_zero():
+    expected_message = (True, "")
+    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON), expected_message
+
+
+def test_json_writer_case_two():
+    expected_message = (True, "")
+    assert my_app.json_writer(JSON_FILE, 0, my_app.EXAMPLE_JSON), expected_message
+
+
 # Run each test one by one
 if __name__ == "__main__":
     test_parse_full_path()
     print("Test of function 'parse_full_path': Passed!")
+    test_generate_default()
+    print("Test of function 'generate_default': Passed!")
+    test_create_json_data_true()
+    print(
+        "Test of function 'create_json_data' passing in parameter 'default' as True: Passed!"
+    )
+    test_json_writer_case_zero()
+    print(
+        "Test of function 'json_writer' passing in parameter 'file_state' as 0: Passed!"
+    )
+    test_json_writer_case_two()
+    print(
+        "Test of function 'json_writer' passing in parameter 'file_state' as 2: Passed!"
+    )
