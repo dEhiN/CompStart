@@ -88,7 +88,8 @@ def generate_json(**kwargs):
         dict: The same dictionary passed in but now filled with JSON data
     """
 
-    pass
+    # For now return a blank dictionary
+    return []
 
 
 def generate_default():

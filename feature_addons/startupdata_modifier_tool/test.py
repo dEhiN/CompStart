@@ -46,6 +46,12 @@ class TestStartupDataEditor(unittest.TestCase):
         )
         print("Passed!")
 
+    def test_create_json_data_false(self):
+        print("Testing create_json_data with parameter 'default' as False...")
+        expected_message = "Expected:\n []"
+        self.assertEqual(self.COMP_START.create_json_data(False), [], expected_message)
+        print("Passed!")
+
     def test_json_writer_case_zero(self):
         print("Testing json_writer with parameter 'file_state' as 0...")
         expected_message = (True, "")
