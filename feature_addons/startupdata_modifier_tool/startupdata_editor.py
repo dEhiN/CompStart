@@ -12,6 +12,7 @@ EXAMPLE_JSON = {
     "Items": [
         {
             "ItemNumber": 1,
+            "Name": "Notepad",
             "FilePath": "notepad",
             "Comments": "",
             "Browser": False,
@@ -93,21 +94,7 @@ def generate_json(**kwargs):
 def generate_default():
     """Function to create default startup data
 
-    The default startup data opens notepad and has the following JSON:
-
-    {
-        "TotalItems": 1,
-        "Items": [
-            {
-                "ItemNumber": 1,
-                "FilePath": "notepad",
-                "Comments": "",
-                "Browser": False,
-                "ArgumentCount": 0,
-                "ArgumentList": [],
-            }
-        ],
-    }
+    The default startup data opens notepad and contains what's in EXAMPLE_JSON.
 
     Returns:
         dict: A dictionary of JSON startup data
@@ -133,6 +120,7 @@ def generate_default():
     json_arr.append(ec_jss.OBJECT.value.copy())
     json_items = json_arr[0]
     json_items[ec_jsk.ITEMNUMBER.value] = 1
+    json_items[ec_jsk.NAME.value] = "Notepad"
     json_items[ec_jsk.FILEPATH.value] = "notepad"
     json_items[ec_jsk.COMMENTS.value] = ""
     json_items[ec_jsk.BROWSER.value] = False
@@ -276,11 +264,6 @@ def json_creator(json_path: list, json_filename: str):
 
     # Create default JSON data to add to the startup_data.json file
     json_data = create_json_data(default=True)
-
-    print(json_data)
-    print(json_file)
-
-    pass
 
 
 def json_reader(json_path: list, json_filename: str):
