@@ -70,6 +70,45 @@ class TestStartupDataEditor(unittest.TestCase):
         )
         print("Passed!")
 
+    def test_json_reader_no_file_extension(self):
+        print(
+            "Testing json_reader with parameter 'json_filename' as a file with no extension..."
+        )
+        expected_message = (False, "Please specify a valid JSON file name", {})
+        self.assertEqual(
+            self.COMP_START.json_reader(self.JSON_PATH, "test"),
+            expected_message,
+        )
+        print("Passed!")
+
+    def test_json_reader_wrong_file_extension(self):
+        print(
+            "Testing json_reader with parameter 'json_filename' as a file with an incorrect extension..."
+        )
+        expected_message = (
+            False,
+            "Invalid JSON file name.\n"
+            "Received extension of: test\n"
+            "Expected extension of: json",
+            {},
+        )
+        self.assertEqual(
+            self.COMP_START.json_reader(self.JSON_PATH, "data.test"),
+            expected_message,
+        )
+        print("Passed!")
+
+    def test_json_reader_valid_file(self):
+        print(
+            "Testing json_reader with parameter 'json_filename' as a valid JSON file..."
+        )
+        expected_message = (True, "", self.EXAMPLE_JSON)
+        self.assertEqual(
+            self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME),
+            expected_message,
+        )
+        print("Passed!")
+
 
 if __name__ == "__main__":
     unittest.main()
