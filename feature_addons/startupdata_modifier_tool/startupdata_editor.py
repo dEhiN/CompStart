@@ -262,8 +262,20 @@ def json_creator(json_path: list, json_filename: str):
     # Get the full path to the file in string format
     json_file = parse_full_path(json_path, json_filename)
 
-    # Create default JSON data to add to the startup_data.json file
-    json_data = create_json_data(default=True)
+    # If the file doesn't exist or it exists and the user wants to overwrite it
+    # create the new file
+    if (not json_file) or (json_file and check_overwrite(json_file)):
+        # Create default JSON data to add to the startup_data.json file
+        json_data = create_json_data(default=True)
+
+        # Write the file to disk and get the return values
+        write_json_success, status_message = json_writer(json_file, 0, json_data)
+
+        # Let the user know the status of the write
+        if not write_json_success:
+            print(status_message)
+        else:
+            print(f"The file {json_filename} was created successfully!")
 
 
 def json_reader(json_path: list, json_filename: str):
