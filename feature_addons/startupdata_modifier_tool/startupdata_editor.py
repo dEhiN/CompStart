@@ -257,8 +257,14 @@ def json_creator(json_path: list, json_filename: str):
         json_filename (str): The filename of the JSON file
 
     Returns:
-
+        bool: True if the JSON data was written successfully, False if not
+        string: An error message to display if the JSON data couldn't be
+            written to disk or blank otherwise
     """
+
+    # Initialize variables
+    write_json_success = False
+    status_message = ""
 
     # Get the full path to the file in string format
     json_file = parse_full_path(json_path, json_filename)
@@ -267,16 +273,12 @@ def json_creator(json_path: list, json_filename: str):
     # create the new file
     if (not json_file) or (json_file and check_overwrite(json_file)):
         # Create default JSON data to add to the startup_data.json file
-        json_data = create_json_data(default=True)
+        json_data = dict(create_json_data(default=True))
 
         # Write the file to disk and get the return values
-        write_json_success, status_message = json_writer(json_file, 0, json_data)  # type: ignore
+        write_json_success, status_message = json_writer(json_file, 0, json_data)
 
-        # Let the user know the status of the write
-        if not write_json_success:
-            print(status_message)
-        else:
-            print(f"The file {json_filename} was created successfully!")
+    return write_json_success, status_message
 
 
 def json_reader(json_path: list, json_filename: str):
@@ -289,7 +291,7 @@ def json_reader(json_path: list, json_filename: str):
         json_filename (str): The filename of the JSON file
 
     Returns:
-        bool: True if there is JSON data to return, false if not
+        bool: True if there is JSON data to return, False if not
         string: An error message to display if there's no JSON data to return
             or blank otherwise
         dict: The actual JSON data if there is any to return or an empty
