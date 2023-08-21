@@ -161,7 +161,7 @@ def create_json_data(default: bool, **kwargs):
 
 
 def json_writer(json_file: str, file_state: int, json_data: dict):
-    """Write the actual JSON data to file
+    """Function to write the actual JSON data to file
 
     Based on the value of the file_state variable, the file to be written is
     handled differently:
@@ -179,9 +179,9 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         json_data (dict): The JSON data to write to file
 
     Returns:
-        bool: True if write was successful, false is not
-        string: An error message to display if there's an issue or blank
-            otherwise
+        bool: True if the JSON data was written successfully, False if not
+        string: An error message to display if the JSON data couldn't be
+            written to disk or blank otherwise
     """
 
     # Initialize return variables
