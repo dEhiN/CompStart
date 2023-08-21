@@ -84,7 +84,7 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def test_json_creator(self):
         # Need to fill this in
-        print("Skipping test for check_overwrite...")
+        print("Skipping test for json_creator...")
 
     def test_json_reader_no_file_extension(self):
         print(
