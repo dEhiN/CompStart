@@ -1,14 +1,1 @@
-{
-    "TotalItems": 1,
-    "Items": [
-        {
-            "ItemNumber": 1,
-            "Name": "Notepad",
-            "FilePath": "notepad",
-            "Comments": "",
-            "Browser": false,
-            "ArgumentCount": 0,
-            "ArgumentList": []
-        }
-    ]
-}
+{"TotalItems": 1, "Items": [{"ItemNumber": 1, "Name": "Notepad", "FilePath": "notepad", "Comments": "", "Browser": false, "ArgumentCount": 0, "ArgumentList": []}]}

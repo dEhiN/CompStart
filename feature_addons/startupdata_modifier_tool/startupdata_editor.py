@@ -193,8 +193,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         case 0:
             # Write JSON data to file
             try:
-                with open(json_file, "w") as json_file:  # type: ignore
-                    json.dump(json_data, json_file)  # type: ignore
+                with open(json_file, "w") as file:
+                    json.dump(json_data, file)
 
                 # Created file successfully
                 write_json_success = True
@@ -209,8 +209,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             if check_overwrite(json_file):
                 # Write JSON data to file
                 try:
-                    with open(json_file, "w") as json_file:  # type: ignore
-                        json.dump(json_data, json_file)  # type: ignore
+                    with open(json_file, "w") as file:
+                        json.dump(json_data, file)
 
                     # Created file successfully
                     write_json_success = True
@@ -227,8 +227,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         case 2:
             # Append JSON data to file
             try:
-                with open(json_file, "a") as json_file:  # type: ignore
-                    json.dump(json_data, json_file)  # type: ignore
+                with open(json_file, "a") as file:
+                    json.dump(json_data, file)
 
                 # Created file successfully
                 write_json_success = True
