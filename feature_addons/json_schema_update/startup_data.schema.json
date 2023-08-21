@@ -17,6 +17,9 @@
                     "ItemNumber": {
                         "type": "integer"
                     },
+                    "Name": {
+                        "type": "string"
+                    },
                     "FilePath": {
                         "type": "string"
                     },
@@ -48,6 +51,7 @@
                 },
                 "required": [
                     "ItemNumber",
+                    "Name",
                     "FilePath",
                     "Comments",
                     "Browser",
