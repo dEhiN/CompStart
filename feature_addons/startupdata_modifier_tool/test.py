@@ -5,11 +5,11 @@ import startupdata_editor
 
 class TestStartupDataEditor(unittest.TestCase):
     @classmethod
-    def setUpClass(self):
-        self.COMP_START = startupdata_editor
-        self.JSON_FILENAME = "test_data.json"
-        self.JSON_PATH = ["feature_addons", "startupdata_modifier_tool"]
-        self.JSON_FILE = (
+    def setUpClass(cls):
+        cls.COMP_START = startupdata_editor
+        cls.JSON_FILENAME = "test_data.json"
+        cls.JSON_PATH = ["feature_addons", "startupdata_modifier_tool"]
+        cls.JSON_FILE = (
             os.getcwd()
             + os.sep
             + "feature_addons"
@@ -18,7 +18,7 @@ class TestStartupDataEditor(unittest.TestCase):
             + os.sep
             + "test_data.json"
         )
-        self.EXAMPLE_JSON = self.COMP_START.EXAMPLE_JSON
+        cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
 
     def test_parse_full_path(self):
         print("Testing parse_full_path...")
