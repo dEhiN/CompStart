@@ -28,7 +28,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.JSON_FILE,
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_check_overwrite(self):
         # Need to fill this in
@@ -44,7 +44,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.assertEqual(
             self.COMP_START.generate_default(), self.EXAMPLE_JSON, expected_message
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_create_json_data_true(self):
         print("Testing create_json_data with parameter 'default' as True...")
@@ -52,13 +52,13 @@ class TestStartupDataEditor(unittest.TestCase):
         self.assertEqual(
             self.COMP_START.create_json_data(True), self.EXAMPLE_JSON, expected_message
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_create_json_data_false(self):
         print("Testing create_json_data with parameter 'default' as False...")
         expected_message = "Expected:\n []"
         self.assertEqual(self.COMP_START.create_json_data(False), [], expected_message)
-        # print("Passed!")
+        print("Passed!")
 
     def test_json_writer_case_zero(self):
         print("Testing json_writer with parameter 'file_state' as 0...")
@@ -67,7 +67,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.COMP_START.json_writer(self.JSON_FILE, 0, self.EXAMPLE_JSON),
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_json_writer_case_one(self):
         # Need to fill this in
@@ -80,7 +80,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.COMP_START.json_writer(self.JSON_FILE, 0, self.EXAMPLE_JSON),
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_json_creator(self):
         # Need to fill this in
