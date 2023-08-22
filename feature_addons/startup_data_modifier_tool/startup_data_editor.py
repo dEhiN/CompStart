@@ -195,6 +195,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             # Write JSON data to file
             file_mode = "w"
         case 1:
+            # Check if user wants to overwrite the existing file
             if check_overwrite(json_file):
                 # Write JSON data to file
                 file_mode = "w"
@@ -214,18 +215,14 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             with open(json_file, file_mode) as file:
                 json.dump(json_data, file)
 
-                # Created file successfully
-                write_json_success = True
-            except Exception as error:
-                return_message = (
-                    "Unable to write JSON data. Error information is below:\n",
-                    type(error).__name__,
-                    " - ",
-                    error,
-                )
-        case _:
+            # Created file successfully
+            write_json_success = True
+        except Exception as error:
             return_message = (
-                "Invalid file state! Could not write JSON data. Please try again."
+                "Unable to write JSON data. Error information is below:\n"
+                + str(type(error).__name__)
+                + " - "
+                + str(error)
             )
 
     return write_json_success, return_message
