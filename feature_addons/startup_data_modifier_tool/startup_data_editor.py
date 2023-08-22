@@ -336,10 +336,10 @@ def json_reader(json_path: list, json_filename: str):
                 read_json_success = True
             except Exception as error:
                 return_message = (
-                    "Unable to read JSON data. Error information is below:\n",
-                    type(error).__name__,
-                    " - ",
-                    error,
+                    "Unable to read JSON data. Error information is below:\n"
+                    + str(type(error).__name__)
+                    + " - "
+                    + str(error)
                 )
 
     return read_json_success, return_message, json_data
