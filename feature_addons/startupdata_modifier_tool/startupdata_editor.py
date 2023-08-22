@@ -186,7 +186,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
     # Initialize return variables
     write_json_success = False
-    return_message = ""
+    return_message = "JSON file written successfully!"
 
     # Check for valid file_state value
     match file_state:
@@ -223,7 +223,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                         error,
                     )
             else:
-                return_message = "File already exists. Will not overwrite file."
+                return_message = "Skipped writing JSON file!"
         case 2:
             # Append JSON data to file
             try:
@@ -264,21 +264,23 @@ def json_creator(json_path: list, json_filename: str):
 
     # Initialize variables
     write_json_success = False
-    status_message = ""
+    return_message = ""
+    file_state = 0
 
     # Get the full path to the file in string format
     json_file = parse_full_path(json_path, json_filename)
 
-    # If the file doesn't exist or it exists and the user wants to overwrite it
-    # create the new file
-    if (not json_file) or (json_file and check_overwrite(json_file)):
-        # Create default JSON data to add to the startup_data.json file
-        json_data = dict(create_json_data(default=True))
+    # Create default JSON data to add to the startup_data.json file
+    json_data = dict(create_json_data(default=True))
 
-        # Write the file to disk and get the return values
-        write_json_success, status_message = json_writer(json_file, 0, json_data)
+    # If the file doesn't exist, create the new file
+    if json_file:
+        file_state = 1
 
-    return write_json_success, status_message
+    # Write the file to disk and get the return values
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+
+    return write_json_success, return_message
 
 
 def json_reader(json_path: list, json_filename: str):
@@ -300,7 +302,7 @@ def json_reader(json_path: list, json_filename: str):
 
     # Create return values
     read_json_success = False
-    return_message = ""
+    return_message = "JSON data read in successfully!"
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -369,12 +371,9 @@ if __name__ == "__main__":
     )
 
     while not quit_loop:
+        print("")  # Add a blank line before showing user choices
         print(user_choices)
-
-        if is_prod:
-            user_choice = input("What would you like to do? ")
-        else:
-            user_choice = "1"
+        user_choice = input("What would you like to do? ")
 
         # Validate input
         if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
@@ -384,25 +383,25 @@ if __name__ == "__main__":
         user_choice = int(user_choice)
 
         if user_choice == 1:
-            quit_loop = True
-
             # Create a new JSON file
-            json_creator(json_path, json_filename)
-        elif user_choice == 2:
-            quit_loop = True
+            write_json_success, status_message = json_creator(json_path, json_filename)
 
+            # Print the status_message
+            print(status_message)
+        elif user_choice == 2:
             # Read in existing JSON file and store the return results of the
             # json_read function
             read_json_success, status_message, json_data = json_reader(
                 json_path, json_filename
             )
 
-            # Check if reading the JSON data was successful and if not, print
-            # the message and exit with a status of 1
+            # Print the status message
+            print(status_message)
+
+            # Check if reading the JSON data was successful
             if not read_json_success:
-                print(status_message)
                 exit(1)
             else:
-                print("Valid JSON file!")
+                print(json_data)
         else:
             quit_loop = True
