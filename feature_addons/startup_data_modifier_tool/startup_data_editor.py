@@ -187,48 +187,32 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
     # Initialize return variables
     write_json_success = False
     return_message = "JSON file written successfully!"
+    file_mode = ""
 
     # Check for valid file_state value
     match file_state:
         case 0:
             # Write JSON data to file
-            try:
-                with open(json_file, "w") as file:
-                    json.dump(json_data, file)
-
-                # Created file successfully
-                write_json_success = True
-            except Exception as error:
-                return_message = (
-                    "Unable to write JSON data. Error information is below:\n",
-                    type(error).__name__,
-                    " - ",
-                    error,
-                )
+            file_mode = "w"
         case 1:
             if check_overwrite(json_file):
                 # Write JSON data to file
-                try:
-                    with open(json_file, "w") as file:
-                        json.dump(json_data, file)
-
-                    # Created file successfully
-                    write_json_success = True
-                except Exception as error:
-                    return_message = (
-                        "Unable to write JSON data.",
-                        "Error information is below:\n",
-                        type(error).__name__,
-                        " - ",
-                        error,
-                    )
+                file_mode = "w"
             else:
                 return_message = "Skipped writing JSON file!"
         case 2:
             # Append JSON data to file
-            try:
-                with open(json_file, "a") as file:
-                    json.dump(json_data, file)
+            file_mode = "a"
+        case _:
+            return_message = (
+                "Invalid file state! Could not write JSON data. Please try again."
+            )
+
+    # Write to file if needed
+    if not file_mode == "":
+        try:
+            with open(json_file, file_mode) as file:
+                json.dump(json_data, file)
 
                 # Created file successfully
                 write_json_success = True
