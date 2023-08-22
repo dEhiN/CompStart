@@ -273,7 +273,8 @@ def json_creator(json_path: list, json_filename: str):
     # Create default JSON data to add to the startup_data.json file
     json_data = dict(create_json_data(default=True))
 
-    # If the file doesn't exist, create the new file
+    # If the file exists, make sure we confirm from the user before overwriting
+    # the file
     if json_file:
         file_state = 1
 
