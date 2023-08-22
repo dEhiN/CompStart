@@ -370,10 +370,15 @@ if __name__ == "__main__":
         "[3] Quit the program\n"
     )
 
+    # Initialize status variables
+    status_state = False
+    status_message = "No action taken..."
+
     while not quit_loop:
         print("")  # Add a blank line before showing user choices
         print(user_choices)
         user_choice = input("What would you like to do? ")
+        print()
 
         # Validate input
         if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
@@ -384,24 +389,16 @@ if __name__ == "__main__":
 
         if user_choice == 1:
             # Create a new JSON file
-            write_json_success, status_message = json_creator(json_path, json_filename)
-
-            # Print the status_message
-            print(status_message)
+            status_state, status_message = json_creator(json_path, json_filename)
         elif user_choice == 2:
             # Read in existing JSON file and store the return results of the
             # json_read function
-            read_json_success, status_message, json_data = json_reader(
+            status_state, status_message, json_data = json_reader(
                 json_path, json_filename
             )
-
-            # Print the status message
-            print(status_message)
-
-            # Check if reading the JSON data was successful
-            if not read_json_success:
-                exit(1)
-            else:
-                print(json_data)
         else:
             quit_loop = True
+
+        # Print the status message if user isn't exiting the program
+        if not quit_loop:
+            print(f"\n{status_message}")
