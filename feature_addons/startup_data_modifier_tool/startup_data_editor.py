@@ -62,7 +62,7 @@ def check_overwrite(json_file: str):
     quit_loop = False
     overwrite_file = False
 
-    exists_message = f"{json_file} already exists!"
+    exists_message = f"\n{json_file} already exists!"
     input_message = "Would you like to completely overwrite this file [Y/N]? "
     while not quit_loop:
         # Get user input and validate it
@@ -360,7 +360,6 @@ if __name__ == "__main__":
         print("")  # Add a blank line before showing user choices
         print(user_choices)
         user_choice = input("What would you like to do? ")
-        print()
 
         # Validate input
         if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
