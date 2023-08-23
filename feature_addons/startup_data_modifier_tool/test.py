@@ -1,20 +1,20 @@
 import os
 import unittest
-import startupdata_editor
+import startup_data_editor
 
 
 class TestStartupDataEditor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.COMP_START = startupdata_editor
+        cls.COMP_START = startup_data_editor
         cls.JSON_FILENAME = "test_data.json"
-        cls.JSON_PATH = ["feature_addons", "startupdata_modifier_tool"]
+        cls.JSON_PATH = ["feature_addons", "startup_data_modifier_tool"]
         cls.JSON_FILE = (
             os.getcwd()
             + os.sep
             + "feature_addons"
             + os.sep
-            + "startupdata_modifier_tool"
+            + "startup_data_modifier_tool"
             + os.sep
             + "test_data.json"
         )
@@ -95,7 +95,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.COMP_START.json_reader(self.JSON_PATH, "test"),
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_json_reader_wrong_file_extension(self):
         print(
@@ -112,7 +112,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.COMP_START.json_reader(self.JSON_PATH, "data.test"),
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
     def test_json_reader_valid_file(self):
         print(
@@ -123,7 +123,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME),
             expected_message,
         )
-        # print("Passed!")
+        print("Passed!")
 
 
 if __name__ == "__main__":
