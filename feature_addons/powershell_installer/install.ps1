@@ -63,5 +63,5 @@ set "DATA_RELPATH=install_files\data\"
 set "POWERSHELLSCRIPT_FILENAME=startup.ps1"
 #>
 $ProdEnv = $false
-$ScriptRelPath = "install_files\"
-$DataRelPath = "install_files\data"
+$ScriptRelPath = "installer_files\"
+$DataRelPath = "installer_files\data"
