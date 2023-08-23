@@ -256,7 +256,7 @@ def json_creator(json_path: list, json_filename: str):
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
-    if json_file:
+    if os.path.isfile(json_file):
         file_state = 1
 
     # Write the file to disk and get the return values
