@@ -1,10 +1,10 @@
-To Do: {
+Done: [
 you
 For next steps, I'm thinking to add a description to each property - the two at the root level, and the 6 in the "Items" array.
 
 ddb
 quack quack quack
-}
+] Note: Could only add one "description" key to the schema so expanded the main one to describe the whole schema and all the keys
 
 Done: [
 you
