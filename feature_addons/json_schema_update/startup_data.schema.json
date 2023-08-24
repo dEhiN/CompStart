@@ -24,13 +24,16 @@
                         "type": "string"
                     },
                     "Description": {
-                        "type": "string"
+                        "type": "string",
+                        "default": ""
                     },
                     "Browser": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "default": false
                     },
                     "ArgumentCount": {
-                        "type": "integer"
+                        "type": "integer",
+                        "default": 0
                     },
                     "ArgumentList": {
                         "type": "array",
@@ -53,7 +56,7 @@
                     "ItemNumber",
                     "Name",
                     "FilePath",
-                    "Comments",
+                    "Description",
                     "Browser",
                     "ArgumentCount",
                     "ArgumentList"
@@ -73,8 +76,9 @@
             "Items": [
                 {
                     "ItemNumber": 1,
+                    "Name": "Notepad",
                     "FilePath": "notepad",
-                    "Comments": "",
+                    "Description": "A text editor",
                     "Browser": false,
                     "ArgumentCount": 0,
                     "ArgumentList": []
