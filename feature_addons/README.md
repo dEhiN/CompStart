@@ -5,13 +5,7 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 ## Current Branches
 
-### 1. features/json_schema_update
-
-Branch created to continue creating the *startup_data.json* schema file, *startup_data.schema.json*. From a previous feature branch, the basics of the schema has been created, enough that when using an online JSON schema validator, everything validates without any errors.
-
-However, I would like to flesh out more of the schema using more advanced JSON Schema specs. I want to add constraints on what keys are required, any default values, etc.
-
-### 2. features/powershell_installer
+### 1. features/powershell_installer
 
 Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
 
@@ -19,7 +13,7 @@ Branch created for the PowerShell installer. As written in **features/bat_instal
 
 Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of *startup_data.json*.
 
-### 4. features/startupdata_modifier_tool
+### 4. features/startup_data_modifier_tool
 
 Branch created to work on a user tool to create and modify the *startup_data.json*. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.
 
@@ -47,3 +41,7 @@ Continued working on the batch installer *setup.bat*. Refactored the code to set
 ### 6. features/revert-commit_d2514b3dedfcda44c7a259377a0087d25696a8f21
 
 Tried to amend some commit messages but wasn't able to, so decided to detach HEAD at a previous commit. Commit d2514b3 is the commit just before branch **features/bat_installer** is merged into **main**. The commit log and reflog of main will look really crazy, particularly the reflog as attempted multiple times to rebase, but every time there were issues. Created this branch to push through the commit messages that show when **features/bat_installer** is merged into **main**.
+
+### 7. features/json_schema_update
+
+Continued working on the *startup_data.json* schema file, *startup_data.schema.json*. From a previous feature branch, the basics of the schema has been created, enough that when using an online JSON schema validator, everything validates without any errors. This time, the schema was out more using advanced JSON Schema specs, such as constraints on what keys are required, default values, an example, a title to the schema and a detailed description of the schema and all its keys.
