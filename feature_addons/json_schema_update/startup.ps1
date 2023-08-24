@@ -40,7 +40,7 @@ function Get-StarupItem {
     $ItemNumber = $StartupItem.ItemNumber
     $ItemName = $StartupItem.Name
     $ItemPath = $StartupItem.FilePath
-    $ItemComments = $StartupItem.Comments
+    $ItemDescription = $StartupItem.Description
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList

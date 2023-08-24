@@ -23,7 +23,7 @@
                     "FilePath": {
                         "type": "string"
                     },
-                    "Comments": {
+                    "Description": {
                         "type": "string"
                     },
                     "Browser": {
