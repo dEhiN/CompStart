@@ -9,11 +9,11 @@ Parent folder to store all feature branches while being worked on. Each feature 
 
 Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
 
-### 3. features/python_tkinter_test
+### 2. features/python_tkinter_test
 
 Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of *startup_data.json*.
 
-### 4. features/startup_data_modifier_tool
+### 3. features/startup_data_modifier_tool
 
 Branch created to work on a user tool to create and modify the *startup_data.json*. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.
 
