@@ -3,8 +3,9 @@
     "Items": [
         {
             "ItemNumber": 1,
+            "Name": "notepad",
             "FilePath": "notepad",
-            "Comments": "",
+            "Description": "",
             "Browser": false,
             "ArgumentCount": 0,
             "ArgumentList": []

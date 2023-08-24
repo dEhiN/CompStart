@@ -3,8 +3,9 @@
     "Items": [
         {
             "ItemNumber": 1,
+            "Name": "Internal Browser Tabs",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Comments": "Set up standard working tabs for internal resources:\n# Gmail\n# Google Calendar\n# GSheet Client Support Processes\n# AWS Connect",
+            "Description": "Set up standard working tabs for internal resources:\n# Gmail\n# Google Calendar\n# GSheet Client Support Processes\n# AWS Connect",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
@@ -17,8 +18,9 @@
         },
         {
             "ItemNumber": 2,
+            "Name": "External Browser Tabs",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Comments": "Set up standard working tabs for external resources:\n# Prod1 One Platform\n# Kibana Prod1\n# Prod2 One Platform\n# Kibana Prod2\n# AWS Agent App",
+            "Description": "Set up standard working tabs for external resources:\n# Prod1 One Platform\n# Kibana Prod1\n# Prod2 One Platform\n# Kibana Prod2\n# AWS Agent App",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
@@ -31,37 +33,42 @@
         },
         {
             "ItemNumber": 3,
+            "Name": "AWS Agent",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Comments": "Log into AWS Agent App",
+            "Description": "Log into AWS Agent App",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": ["--profile-directory=Default", "--new-window", ["https://master.d3pfi7mlwkgahz.amplifyapp.com/"]]
         },
         {
             "ItemNumber": 4,
+            "Name": "Chrome - Google Chat",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "Comments": "Google Chat Chrome app",
+            "Description": "Google Chat Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
             "ArgumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
         }, {
             "ItemNumber": 5,
+            "Name": "Chrome - Halo",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "Comments": "Halo Chrome app",
+            "Description": "Halo Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
             "ArgumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
         }, {
             "ItemNumber": 6,
+            "Name": "Chrome - Taskboard",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
-            "Comments": "TasksBoard Chrome app",
+            "Description": "TasksBoard Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
             "ArgumentList": ["--profile-directory=Default", "--app-id=ffpdhnednbmelagcknnegjemgooenfml"]
         }, {
             "ItemNumber": 7,
+            "Name": "FortiClient",
             "FilePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
-            "Comments": "FortiClient VPN",
+            "Description": "FortiClient VPN",
             "Browser": false,
             "ArgumentCount": 0,
             "ArgumentList": []
