@@ -1,0 +1,48 @@
+Done: [
+you
+For next steps, I'm thinking to add a description to each property - the two at the root level, and the 6 in the "Items" array.
+
+ddb
+quack quack quack
+] Note: Could only add one "description" key to the schema so expanded the main one to describe the whole schema and all the keys
+
+Done: [
+you
+I'm also thinking to maybe add a new property to the objects within the "Items" array called "Name" which will be of type string.
+
+ddb
+quack quack
+]
+
+Done: [
+you
+The only issue is I need to figure out how, if I add that property, "Name" and "Comments" will be different. And also where would I use "Name".
+
+ddb
+quack quack quack
+]
+
+To Do: {
+you
+One possibility would be for within the Python program found in the features/startupdata_modifier_tool branch. In this case, the "Name" could be used to list existing "Items" objects and make it easier for the user to specify which one they want to edit, if they are editing an existing entry.
+
+ddb
+quack quack quack
+}
+
+Done: [
+you
+I guess from that point of view, "Name" and "Comments" could be anything the user wants.
+
+ddb
+quack quack quack
+]
+
+Done: [
+you
+I might also change the property "Comments" to "Description" though I'll have to be careful not to confuse it with the JSON Schema property "description".
+
+ddb
+quack quack quack
+
+]
