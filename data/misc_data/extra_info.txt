@@ -8,6 +8,8 @@ JSON Schema validation attempts
 1. https://www.jsonschemavalidator.net/s/H4bkwF3O Failed
 2. https://www.jsonschemavalidator.net/s/IH7trJpk Failed
 3. https://www.jsonschemavalidator.net/s/nU4d5fj4 Passed
+4. https://www.jsonschemavalidator.net/s/7Uq6Sywc Passed 2023-08-20 12:16
+5. https://www.jsonschemavalidator.net/s/MuQGFuSp Failed 2023-08-20 12:35
 
 Python Stuff:
 
