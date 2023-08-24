@@ -38,12 +38,12 @@ function Get-StarupItem {
 
     # Grab each item's properties
     $ItemNumber = $StartupItem.ItemNumber
+    $ItemName = $StartupItem.Name
     $ItemPath = $StartupItem.FilePath
+    $ItemComments = $StartupItem.Comments
     $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
-    #   **Uncomment this when ready to use item comments**
-    #   $ItemComments = $StartupItem.Comments
 
     # Process startup arguments
     $LoopCounter = 0
