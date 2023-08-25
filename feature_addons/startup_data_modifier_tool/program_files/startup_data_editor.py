@@ -402,4 +402,4 @@ if __name__ == "__main__":
         if not quit_loop:
             print(f"\n{status_message}")
         else:
-            print("Thank you for using CompStart. Have a wonderful day.")
+            print("\nThank you for using CompStart. Have a wonderful day.")
