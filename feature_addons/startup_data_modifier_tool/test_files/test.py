@@ -1,6 +1,6 @@
 import os
 import unittest
-import startup_data_editor
+from startup_data_modifier_tool.program_files import startup_data_editor
 
 
 class TestStartupDataEditor(unittest.TestCase):
@@ -8,13 +8,16 @@ class TestStartupDataEditor(unittest.TestCase):
     def setUpClass(cls):
         cls.COMP_START = startup_data_editor
         cls.JSON_FILENAME = "test_data.json"
-        cls.JSON_PATH = ["feature_addons", "startup_data_modifier_tool"]
+        cls.JSON_PATH = [
+            "startup_data_modifier_tool",
+            "program_files",
+        ]
         cls.JSON_FILE = (
             os.getcwd()
             + os.sep
-            + "feature_addons"
-            + os.sep
             + "startup_data_modifier_tool"
+            + os.sep
+            + "program_files"
             + os.sep
             + "test_data.json"
         )
