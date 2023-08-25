@@ -14,7 +14,7 @@ EXAMPLE_JSON = {
             "ItemNumber": 1,
             "Name": "Notepad",
             "FilePath": "notepad",
-            "Comments": "",
+            "Description": "A text editor",
             "Browser": False,
             "ArgumentCount": 0,
             "ArgumentList": [],
@@ -123,7 +123,7 @@ def generate_default():
     json_items[ec_jsk.ITEMNUMBER.value] = 1
     json_items[ec_jsk.NAME.value] = "Notepad"
     json_items[ec_jsk.FILEPATH.value] = "notepad"
-    json_items[ec_jsk.COMMENTS.value] = ""
+    json_items[ec_jsk.DESCRIPTION.value] = "A text editor"
     json_items[ec_jsk.BROWSER.value] = False
     json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
     json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()

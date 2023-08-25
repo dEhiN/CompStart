@@ -37,7 +37,7 @@ class JsonSchemaKeys(Enum):
     ITEMNUMBER = "ItemNumber"
     NAME = "Name"
     FILEPATH = "FilePath"
-    COMMENTS = "Comments"
+    DESCRIPTION = "Description"
     BROWSER = "Browser"
     ARGUMENTCOUNT = "ArgumentCount"
     ARGUMENTLIST = "ArgumentList"
