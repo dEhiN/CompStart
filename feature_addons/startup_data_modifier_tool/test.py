@@ -27,6 +27,8 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_parse_full_path(self):
         print("Testing parse_full_path...")
         expected_message = "Expected: " + self.JSON_FILE
+        print(self.COMP_START.parse_full_path(self.JSON_PATH, self.JSON_FILENAME))
+        print(self.JSON_FILE)
         self.assertEqual(
             self.COMP_START.parse_full_path(self.JSON_PATH, self.JSON_FILENAME),
             self.JSON_FILE,
