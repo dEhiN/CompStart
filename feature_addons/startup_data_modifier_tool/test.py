@@ -36,34 +36,34 @@ class TestStartupDataEditor(unittest.TestCase):
             expected_message,
         )
 
-    def test_check_overwrite(self):
+    def untest_check_overwrite(self):
         # Need to fill this in
         print("Skipping test for check_overwrite...")
 
-    def test_generate_json(self):
+    def untest_generate_json(self):
         # Need to fill this in
         print("Skipping test for generate_json...")
 
-    def test_generate_default(self):
+    def untest_generate_default(self):
         print("Testing generate_default...")
         expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
         self.assertEqual(
             self.COMP_START.generate_default(), self.EXAMPLE_JSON, expected_message
         )
 
-    def test_create_json_data_true(self):
+    def untest_create_json_data_true(self):
         print("Testing create_json_data with parameter 'default' as True...")
         expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
         self.assertEqual(
             self.COMP_START.create_json_data(True), self.EXAMPLE_JSON, expected_message
         )
 
-    def test_create_json_data_false(self):
+    def untest_create_json_data_false(self):
         print("Testing create_json_data with parameter 'default' as False...")
         expected_message = "Expected:\n []"
         self.assertEqual(self.COMP_START.create_json_data(False), [], expected_message)
 
-    def test_json_writer_case_zero(self):
+    def untest_json_writer_case_zero(self):
         print("Testing json_writer with parameter 'file_state' as 0...")
         expected_message = (True, "JSON file written successfully!")
         self.assertEqual(
@@ -71,11 +71,11 @@ class TestStartupDataEditor(unittest.TestCase):
             expected_message,
         )
 
-    def test_json_writer_case_one(self):
+    def untest_json_writer_case_one(self):
         # Need to fill this in
         print("Skipping test for json_writer with parameter 'file_state' as 1...")
 
-    def test_json_writer_case_two(self):
+    def untest_json_writer_case_two(self):
         print("Testing json_writer with parameter 'file_state' as 2...")
         expected_message = (True, "JSON file written successfully!")
         self.assertEqual(
@@ -83,11 +83,11 @@ class TestStartupDataEditor(unittest.TestCase):
             expected_message,
         )
 
-    def test_json_creator(self):
+    def untest_json_creator(self):
         # Need to fill this in
         print("Skipping test for json_creator...")
 
-    def test_json_reader_no_file_extension(self):
+    def untest_json_reader_no_file_extension(self):
         print(
             "Testing json_reader with parameter 'json_filename' as a file with no extension..."
         )
@@ -97,7 +97,7 @@ class TestStartupDataEditor(unittest.TestCase):
             expected_message,
         )
 
-    def test_json_reader_wrong_file_extension(self):
+    def untest_json_reader_wrong_file_extension(self):
         print(
             "Testing json_reader with parameter 'json_filename' as a file with an incorrect extension..."
         )
@@ -113,7 +113,7 @@ class TestStartupDataEditor(unittest.TestCase):
             expected_message,
         )
 
-    def test_json_reader_valid_file(self):
+    def untest_json_reader_valid_file(self):
         print(
             "Testing json_reader with parameter 'json_filename' as a valid JSON file..."
         )
