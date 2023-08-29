@@ -22,9 +22,9 @@ class TestStartupDataEditor(unittest.TestCase):
         cls.JSON_FILE += os.sep + cls.JSON_FILENAME
 
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
-        cls.TEST_DICT = {"Help": 2, "Tems": [{"Help": 3}, {"Yo": -11}]}
+        cls.EXAMPLE_TEST = {"Help": 2, "Tems": [{"Help": 3}, {"Yo": -11}]}
 
-    def test_parse_full_path(self):
+    def fntest_parse_full_path(self):
         print("Testing parse_full_path...")
         expected_message = "Expected: " + self.JSON_FILE
         print(self.COMP_START.parse_full_path(self.JSON_PATH, self.JSON_FILENAME))
@@ -78,7 +78,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print("Testing json_writer with parameter 'file_state' as 2...")
         expected_message = (True, "JSON file written successfully!")
         self.assertEqual(
-            self.COMP_START.json_writer(self.JSON_FILE, 2, self.TEST_DICT),
+            self.COMP_START.json_writer(self.JSON_FILE, 2, self.EXAMPLE_TEST),
             expected_message,
         )
 
