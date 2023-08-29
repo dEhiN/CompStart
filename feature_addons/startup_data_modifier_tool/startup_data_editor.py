@@ -340,7 +340,9 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(["startup_data_modifier_tool", "program_files"])
+        json_path.extend(
+            ["feature_addons", "startup_data_modifier_tool", "program_files"]
+        )
         json_filename = "test_data.json"
 
     # Main loop to allow user to navigate program options
