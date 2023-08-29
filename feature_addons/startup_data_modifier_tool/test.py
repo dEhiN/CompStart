@@ -7,23 +7,20 @@ class TestStartupDataEditor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.COMP_START = startup_data_editor
+
         cls.JSON_FILENAME = "test_data.json"
         cls.JSON_PATH = [
             "feature_addons",
             "startup_data_modifier_tool",
             "program_files",
         ]
-        cls.JSON_FILE = (
-            os.getcwd()
-            + os.sep
-            + "feature_addons"
-            + os.sep
-            + "startup_data_modifier_tool"
-            + os.sep
-            + "program_files"
-            + os.sep
-            + "test_data.json"
-        )
+
+        # Copying code to generate JSON_FILE from startup_data_editor.py
+        cls.JSON_FILE = os.getcwd()
+        for item in cls.JSON_PATH:
+            cls.JSON_FILE += os.sep + os.path.join(item)
+        cls.JSON_FILE += os.sep + cls.JSON_FILENAME
+
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
         cls.TEST_DICT = {"Help": 2, "Tems": [{"Help": 3}, {"Yo": -11}]}
 
