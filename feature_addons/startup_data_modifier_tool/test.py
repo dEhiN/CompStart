@@ -1,6 +1,6 @@
 import os
 import unittest
-from startup_data_modifier_tool.program_files import startup_data_editor
+import startup_data_editor
 
 
 class TestStartupDataEditor(unittest.TestCase):

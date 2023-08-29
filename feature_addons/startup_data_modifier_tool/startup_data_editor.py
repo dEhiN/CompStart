@@ -4,25 +4,8 @@
 import json
 import os
 
-# When running this Python file directly, comment out the lines that use the
-# full "from package.module.submodule ..." phrasing and uncomment the lines
-# that use the simpler "from submodule ..." phrasing. Conversely, when running
-# the command "python -m unittest" to test this Python file, comment out the
-# simper lines and uncomment the full lines. This is necessary because test.py
-# is located in a different folder/module so when running the test, the full
-# package.module phrasing needs to be used. When running this Python file
-# directly, that's not necessary.
-
-from enum_classes import JsonSchemaKeys as ec_jsk
-from enum_classes import JsonSchemaStructure as ec_jss
-
-# from startup_data_modifier_tool.program_files.enum_classes import (
-#     JsonSchemaKeys as ec_jsk,
-# )
-# from startup_data_modifier_tool.program_files.enum_classes import (
-#     JsonSchemaStructure as ec_jss,
-# )
-
+from program_files.enum_classes import JsonSchemaKeys as ec_jsk
+from program_files.enum_classes import JsonSchemaStructure as ec_jss
 
 # An example of valid startup_data.json data to use while coding
 EXAMPLE_JSON = {
