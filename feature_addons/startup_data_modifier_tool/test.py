@@ -65,15 +65,18 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def fntest_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
+
         self.expected_message = "Expected: " + self.JSON_FILE
         self.sde_func_str_return = self.COMP_START.parse_full_path(
             self.JSON_PATH, self.JSON_FILENAME
         )
-        print(self.sde_func_str_return)
-        print(self.JSON_FILE)
+
         self.assertEqual(
             self.sde_func_str_return, self.JSON_FILE, self.expected_message
         )
+
+        print(self.sde_func_str_return)
+        print(self.JSON_FILE)
 
     def notest_check_overwrite(self):
         # Need to fill this in
@@ -85,25 +88,31 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def fntest_generate_default(self):
         print("\n\nTesting generate_default...")
+
         self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.generate_default()
-        print(self.sde_func_dict_return)
-        print(self.EXAMPLE_JSON)
+
         self.assertEqual(
             self.sde_func_dict_return, self.EXAMPLE_JSON, self.expected_message
         )
 
-    def fntest_create_json_data_true(self):
-        print("\n\nTesting create_json_data with parameter 'default' as True...")
-        self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
-        self.sde_func_dict_return = self.COMP_START.create_json_data(True)
         print(self.sde_func_dict_return)
         print(self.EXAMPLE_JSON)
+
+    def fntest_create_json_data_true(self):
+        print("\n\nTesting create_json_data with parameter 'default' as True...")
+
+        self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
+        self.sde_func_dict_return = self.COMP_START.create_json_data(True)
+
         self.assertEqual(
             self.sde_func_dict_return,
             self.EXAMPLE_JSON,
             self.expected_message,
         )
+
+        print(self.sde_func_dict_return)
+        print(self.EXAMPLE_JSON)
 
     def notest_create_json_data_false(self):
         # Need to fill this in
