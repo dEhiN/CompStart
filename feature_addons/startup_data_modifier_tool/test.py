@@ -63,15 +63,16 @@ class TestStartupDataEditor(unittest.TestCase):
             cls.TEST_FILE += os.sep + os.path.join(item)
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
-    def fntest_parse_full_path(self):
-        print("Testing parse_full_path...")
-        expected_message = "Expected: " + self.JSON_FILE
-        print(self.COMP_START.parse_full_path(self.JSON_PATH, self.JSON_FILENAME))
+    def test_parse_full_path(self):
+        print("\n\nTesting parse_full_path...")
+        self.expected_message = "Expected: " + self.JSON_FILE
+        self.sde_func_str_return = self.COMP_START.parse_full_path(
+            self.JSON_PATH, self.JSON_FILENAME
+        )
+        print(self.sde_func_str_return)
         print(self.JSON_FILE)
         self.assertEqual(
-            self.COMP_START.parse_full_path(self.JSON_PATH, self.JSON_FILENAME),
-            self.JSON_FILE,
-            expected_message,
+            self.sde_func_str_return, self.JSON_FILE, self.expected_message
         )
 
     def untest_check_overwrite(self):
