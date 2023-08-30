@@ -8,21 +8,56 @@ class TestStartupDataEditor(unittest.TestCase):
     def setUpClass(cls):
         cls.COMP_START = startup_data_editor
 
+        # Creating all JSON variables as constants to use in testing
+        cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
         cls.JSON_FILENAME = "test_data.json"
         cls.JSON_PATH = [
             "feature_addons",
             "startup_data_modifier_tool",
             "program_files",
         ]
-
         # Copying code to generate JSON_FILE from startup_data_editor.py
         cls.JSON_FILE = os.getcwd()
         for item in cls.JSON_PATH:
             cls.JSON_FILE += os.sep + os.path.join(item)
         cls.JSON_FILE += os.sep + cls.JSON_FILENAME
 
-        cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
-        cls.EXAMPLE_TEST = {"Help": 2, "Tems": [{"Help": 3}, {"Yo": -11}]}
+        # Creating all TEST variables as constants to use in testing
+        # These will be a second set of variables to test against
+        cls.EXAMPLE_TEST = {
+            "TotalItems": 2,
+            "Items": [
+                {
+                    "ItemNumber": 1,
+                    "Name": "Calculator",
+                    "FilePath": "calc",
+                    "Description": "A simple calculator",
+                    "Browser": False,
+                    "ArgumentCount": 0,
+                    "ArgumentList": [],
+                },
+                {
+                    "ItemNumber": 2,
+                    "Name": "Dealer-FX Homepage",
+                    "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                    "Description": "The DFX homepage",
+                    "Browser": True,
+                    "ArgumentCount": 3,
+                    "ArgumentList": [
+                        "--profile-directory=Default",
+                        "--new-window",
+                        "https://www.dealer-fx.com/",
+                    ],
+                },
+            ],
+        }
+        cls.TEST_FILENAME = "unittest_data.json"
+        cls.TEST_PATH = ["feature_addons", "startup_data_modifier_tool"]
+        # Copying code to generate TEST_FILE from startup_data_editor.py
+        cls.TEST_FILE = os.getcwd()
+        for item in cls.TEST_PATH:
+            cls.TEST_FILE += os.sep + os.path.join(item)
+        cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
     def fntest_parse_full_path(self):
         print("Testing parse_full_path...")
