@@ -118,13 +118,45 @@ class TestStartupDataEditor(unittest.TestCase):
         # Need to fill this in
         print("Skipping test for create_json_data with parameter 'default' as False...")
 
-    def untest_json_writer_case_zero(self):
-        print("Testing json_writer with parameter 'file_state' as 0...")
-        self.expected_message = (True, "JSON file written successfully!")
+    def test_json_writer_case_zero(self):
+        print("\n\nTesting json_writer with parameter 'file_state' as 0...")
+
+        if os.path.isfile(self.TEST_FILE):
+            os.remove(self.TEST_FILE)
+
+        self.expected_message = "Expected: \(True, 'JSON file written successfully!')"
+        self.sde_func_tpl_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 0, self.EXAMPLE_TEST
+        )
+        return_value = (True, "JSON file written successfully!")
+        temp_data = []
+
         self.assertEqual(
-            self.COMP_START.json_writer(self.JSON_FILE, 0, self.EXAMPLE_JSON),
+            self.sde_func_tpl_return,
+            return_value,
             self.expected_message,
         )
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
+
+        print("\n...Now checking to see if the data was written properly...")
+
+        if os.path.isfile(self.TEST_FILE):
+            try:
+                with open(self.TEST_FILE, "r") as file:
+                    temp_data = json.load(file)
+            except Exception:
+                print(Exception)
+
+            if temp_data == self.EXAMPLE_TEST:
+                print("...The data was written properly as expected!")
+            else:
+                print(
+                    "...Uh oh, something went wrong! The data wasn't what was expected!"
+                )
+        else:
+            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     def untest_json_writer_case_one(self):
         # Need to fill this in
