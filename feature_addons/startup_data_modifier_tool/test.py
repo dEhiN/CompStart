@@ -7,6 +7,10 @@ class TestStartupDataEditor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.COMP_START = startup_data_editor
+        cls.expected_message = ""
+        cls.sde_func_str_return = ""
+        cls.sde_func_tpl_return = ()
+        cls.sde_func_dict_return = {}
 
         # Creating all JSON variables as constants to use in testing
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
