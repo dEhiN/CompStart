@@ -93,11 +93,16 @@ class TestStartupDataEditor(unittest.TestCase):
             self.sde_func_dict_return, self.EXAMPLE_JSON, self.expected_message
         )
 
-    def untest_create_json_data_true(self):
-        print("Testing create_json_data with parameter 'default' as True...")
-        expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
+    def test_create_json_data_true(self):
+        print("\n\nTesting create_json_data with parameter 'default' as True...")
+        self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
+        self.sde_func_dict_return = self.COMP_START.create_json_data(True)
+        print(self.sde_func_dict_return)
+        print(self.EXAMPLE_JSON)
         self.assertEqual(
-            self.COMP_START.create_json_data(True), self.EXAMPLE_JSON, expected_message
+            self.sde_func_dict_return,
+            self.EXAMPLE_JSON,
+            self.expected_message,
         )
 
     def untest_create_json_data_false(self):
