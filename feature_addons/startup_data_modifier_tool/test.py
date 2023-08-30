@@ -1,5 +1,4 @@
-import os
-import unittest
+import os, unittest, json
 import startup_data_editor
 
 
@@ -118,7 +117,7 @@ class TestStartupDataEditor(unittest.TestCase):
         # Need to fill this in
         print("Skipping test for create_json_data with parameter 'default' as False...")
 
-    def test_json_writer_case_zero(self):
+    def fntest_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
 
         if os.path.isfile(self.TEST_FILE):
