@@ -107,15 +107,17 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def untest_create_json_data_false(self):
         print("Testing create_json_data with parameter 'default' as False...")
-        expected_message = "Expected:\n []"
-        self.assertEqual(self.COMP_START.create_json_data(False), [], expected_message)
+        self.expected_message = "Expected:\n []"
+        self.assertEqual(
+            self.COMP_START.create_json_data(False), [], self.expected_message
+        )
 
     def untest_json_writer_case_zero(self):
         print("Testing json_writer with parameter 'file_state' as 0...")
-        expected_message = (True, "JSON file written successfully!")
+        self.expected_message = (True, "JSON file written successfully!")
         self.assertEqual(
             self.COMP_START.json_writer(self.JSON_FILE, 0, self.EXAMPLE_JSON),
-            expected_message,
+            self.expected_message,
         )
 
     def untest_json_writer_case_one(self):
@@ -124,10 +126,10 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def untest_json_writer_case_two(self):
         print("Testing json_writer with parameter 'file_state' as 2...")
-        expected_message = (True, "JSON file written successfully!")
+        self.expected_message = (True, "JSON file written successfully!")
         self.assertEqual(
             self.COMP_START.json_writer(self.JSON_FILE, 2, self.EXAMPLE_TEST),
-            expected_message,
+            self.expected_message,
         )
 
     def untest_json_creator(self):
@@ -138,17 +140,17 @@ class TestStartupDataEditor(unittest.TestCase):
         print(
             "Testing json_reader with parameter 'json_filename' as a file with no extension..."
         )
-        expected_message = (False, "Please specify a valid JSON file name", {})
+        self.expected_message = (False, "Please specify a valid JSON file name", {})
         self.assertEqual(
             self.COMP_START.json_reader(self.JSON_PATH, "test"),
-            expected_message,
+            self.expected_message,
         )
 
     def untest_json_reader_wrong_file_extension(self):
         print(
             "Testing json_reader with parameter 'json_filename' as a file with an incorrect extension..."
         )
-        expected_message = (
+        self.expected_message = (
             False,
             "Invalid JSON file name.\n"
             "Received extension of: test\n"
@@ -157,17 +159,21 @@ class TestStartupDataEditor(unittest.TestCase):
         )
         self.assertEqual(
             self.COMP_START.json_reader(self.JSON_PATH, "data.test"),
-            expected_message,
+            self.expected_message,
         )
 
     def untest_json_reader_valid_file(self):
         print(
             "Testing json_reader with parameter 'json_filename' as a valid JSON file..."
         )
-        expected_message = (True, "JSON data read in successfully!", self.EXAMPLE_JSON)
+        self.expected_message = (
+            True,
+            "JSON data read in successfully!",
+            self.EXAMPLE_JSON,
+        )
         self.assertEqual(
             self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME),
-            expected_message,
+            self.expected_message,
         )
 
 
