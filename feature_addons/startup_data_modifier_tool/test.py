@@ -145,6 +145,26 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
+    def fntest_json_reader_no_file_extension(self):
+        print(
+            "\n\nTesting json_reader with parameter 'json_filename' as a file",
+            "with no extension...",
+        )
+
+        test_filename = "unittest"
+        self.expected_message = (
+            "Expected:\n(False, 'Please specify a valid JSON file name', {})"
+        )
+        self.sde_func_tpl_return = self.COMP_START.json_reader(
+            self.TEST_PATH, test_filename
+        )
+        return_value = (False, "Please specify a valid JSON file name", {})
+
+        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
+
     def notest_check_overwrite(self):
         # Need to fill this in
         print("Skipping test for check_overwrite...")
