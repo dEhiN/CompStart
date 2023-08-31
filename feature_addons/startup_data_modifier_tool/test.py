@@ -111,7 +111,7 @@ class TestStartupDataEditor(unittest.TestCase):
         if os.path.isfile(self.TEST_FILE):
             os.remove(self.TEST_FILE)
 
-        self.expected_message = "Expected: \(True, 'JSON file written successfully!')"
+        self.expected_message = "Expected: (True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 0, self.EXAMPLE_TEST
         )
