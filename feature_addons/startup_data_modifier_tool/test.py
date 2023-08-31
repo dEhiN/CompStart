@@ -77,14 +77,6 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_str_return)
         print(self.JSON_FILE)
 
-    def notest_check_overwrite(self):
-        # Need to fill this in
-        print("Skipping test for check_overwrite...")
-
-    def notest_generate_json(self):
-        # Need to fill this in
-        print("Skipping test for generate_json...")
-
     def fntest_generate_default(self):
         print("\n\nTesting generate_default...")
 
@@ -112,10 +104,6 @@ class TestStartupDataEditor(unittest.TestCase):
 
         print(self.sde_func_dict_return)
         print(self.EXAMPLE_JSON)
-
-    def notest_create_json_data_false(self):
-        # Need to fill this in
-        print("Skipping test for create_json_data with parameter 'default' as False...")
 
     def fntest_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
@@ -157,7 +145,19 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
-    def untest_json_writer_case_one(self):
+    def notest_check_overwrite(self):
+        # Need to fill this in
+        print("Skipping test for check_overwrite...")
+
+    def notest_generate_json(self):
+        # Need to fill this in
+        print("Skipping test for generate_json...")
+
+    def notest_create_json_data_false(self):
+        # Need to fill this in
+        print("Skipping test for create_json_data with parameter 'default' as False...")
+
+    def notest_json_writer_case_one(self):
         # Need to fill this in
         print("Skipping test for json_writer with parameter 'file_state' as 1...")
 
