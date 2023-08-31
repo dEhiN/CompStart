@@ -65,7 +65,7 @@ class TestStartupDataEditor(unittest.TestCase):
     def fntest_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
 
-        self.expected_message = "Expected: " + self.JSON_FILE
+        self.expected_message = "Expected:\n" + self.JSON_FILE
         self.sde_func_str_return = self.COMP_START.parse_full_path(
             self.JSON_PATH, self.JSON_FILENAME
         )
@@ -111,7 +111,7 @@ class TestStartupDataEditor(unittest.TestCase):
         if os.path.isfile(self.TEST_FILE):
             os.remove(self.TEST_FILE)
 
-        self.expected_message = "Expected: (True, 'JSON file written successfully!')"
+        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 0, self.EXAMPLE_TEST
         )
