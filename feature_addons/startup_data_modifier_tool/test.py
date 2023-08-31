@@ -189,31 +189,33 @@ class TestStartupDataEditor(unittest.TestCase):
         # Need to fill this in
         print("Skipping test for json_creator...")
 
-    def untest_json_reader_no_file_extension(self):
+    def fntest_json_reader_wrong_file_extension(self):
         print(
-            "Testing json_reader with parameter 'json_filename' as a file with no extension..."
-        )
-        self.expected_message = (False, "Please specify a valid JSON file name", {})
-        self.assertEqual(
-            self.COMP_START.json_reader(self.JSON_PATH, "test"),
-            self.expected_message,
+            "\n\nTesting json_reader with parameter 'json_filename' as a file",
+            "with an incorrect extension...",
         )
 
-    def untest_json_reader_wrong_file_extension(self):
-        print(
-            "Testing json_reader with parameter 'json_filename' as a file with an incorrect extension..."
-        )
+        test_filename = "unittest.test"
         self.expected_message = (
+            "Expected:\n(False, 'Invalid JSON file name."
+            + "\\nReceived extension of: test\\nExpected extension of: json',"
+            + "{})"
+        )
+        self.sde_func_tpl_return = self.COMP_START.json_reader(
+            self.TEST_PATH, test_filename
+        )
+        return_value = (
             False,
             "Invalid JSON file name.\n"
             "Received extension of: test\n"
             "Expected extension of: json",
             {},
         )
-        self.assertEqual(
-            self.COMP_START.json_reader(self.JSON_PATH, "data.test"),
-            self.expected_message,
-        )
+
+        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
 
     def untest_json_reader_valid_file(self):
         print(
