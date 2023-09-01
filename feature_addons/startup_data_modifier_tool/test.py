@@ -165,30 +165,6 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_tpl_return)
         print(return_value)
 
-    def notest_check_overwrite(self):
-        # Need to fill this in
-        print("Skipping test for check_overwrite...")
-
-    def notest_generate_json(self):
-        # Need to fill this in
-        print("Skipping test for generate_json...")
-
-    def notest_create_json_data_false(self):
-        # Need to fill this in
-        print("Skipping test for create_json_data with parameter 'default' as False...")
-
-    def notest_json_writer_case_one(self):
-        # Need to fill this in
-        print("Skipping test for json_writer with parameter 'file_state' as 1...")
-
-    def notest_json_writer_case_two(self):
-        # Need to fill this in
-        print("Skipping test json_writer with parameter 'file_state' as 2...")
-
-    def notest_json_creator(self):
-        # Need to fill this in
-        print("Skipping test for json_creator...")
-
     def fntest_json_reader_wrong_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter 'json_filename' as a file",
@@ -216,6 +192,30 @@ class TestStartupDataEditor(unittest.TestCase):
 
         print(self.sde_func_tpl_return)
         print(return_value)
+
+    def notest_check_overwrite(self):
+        # Need to fill this in
+        print("Skipping test for check_overwrite...")
+
+    def notest_generate_json(self):
+        # Need to fill this in
+        print("Skipping test for generate_json...")
+
+    def notest_create_json_data_false(self):
+        # Need to fill this in
+        print("Skipping test for create_json_data with parameter 'default' as False...")
+
+    def notest_json_writer_case_one(self):
+        # Need to fill this in
+        print("Skipping test for json_writer with parameter 'file_state' as 1...")
+
+    def notest_json_writer_case_two(self):
+        # Need to fill this in
+        print("Skipping test json_writer with parameter 'file_state' as 2...")
+
+    def notest_json_creator(self):
+        # Need to fill this in
+        print("Skipping test for json_creator...")
 
     def untest_json_reader_valid_file(self):
         print(
