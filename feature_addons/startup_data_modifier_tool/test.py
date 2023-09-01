@@ -104,6 +104,22 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_dict_return)
         print(return_value)
 
+    def fntest_create_json_data_false(self):
+        print("\n\nTesting create_json_data with parameter 'default' as False...")
+
+        self.expected_message = "Expected:\n []"
+        self.sde_func_dict_return = self.COMP_START.create_json_data(False)
+        return_value = self.COMP_START.generate_json()
+
+        self.assertEqual(
+            self.sde_func_dict_return,
+            return_value,
+            self.expected_message,
+        )
+
+        print(self.sde_func_dict_return)
+        print(return_value)
+
     def fntest_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
 
@@ -261,10 +277,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def notest_generate_json(self):
         # Need to fill this in
         print("Skipping test for generate_json...")
-
-    def notest_create_json_data_false(self):
-        # Need to fill this in
-        print("Skipping test for create_json_data with parameter 'default' as False...")
 
     def notest_json_writer_case_one(self):
         # Need to fill this in
