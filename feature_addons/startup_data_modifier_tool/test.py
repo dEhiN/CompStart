@@ -145,6 +145,42 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
+    def fntest_json_creator(self):
+        print("\n\nTesting json_creator...")
+
+        if os.path.isfile(self.TEST_FILE):
+            os.remove(self.TEST_FILE)
+
+        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
+        self.sde_func_tpl_return = self.COMP_START.json_creator(
+            self.TEST_PATH, self.TEST_FILENAME
+        )
+        return_value = (True, "JSON file written successfully!")
+        temp_data = []
+
+        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
+
+        print("\n...Now checking to see if the data was written properly...")
+
+        if os.path.isfile(self.JSON_FILE):
+            try:
+                with open(self.JSON_FILE, "r") as file:
+                    temp_data = json.load(file)
+            except Exception:
+                print(Exception)
+
+            if temp_data == self.EXAMPLE_JSON:
+                print("...The data was written properly as expected!")
+            else:
+                print(
+                    "...Uh oh, something went wrong! The data wasn't what was expected!"
+                )
+        else:
+            print("...Uh oh, something went wrong! Cannot find " + self.JSON_FILE)
+
     def fntest_json_reader_no_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter 'json_filename' as a file",
@@ -238,10 +274,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def notest_json_writer_case_two(self):
         # Need to fill this in
         print("Skipping test json_writer with parameter 'file_state' as 2...")
-
-    def notest_json_creator(self):
-        # Need to fill this in
-        print("Skipping test for json_creator...")
 
 
 if __name__ == "__main__":
