@@ -164,9 +164,9 @@ class TestStartupDataEditor(unittest.TestCase):
 
         print("\n...Now checking to see if the data was written properly...")
 
-        if os.path.isfile(self.JSON_FILE):
+        if os.path.isfile(self.TEST_FILE):
             try:
-                with open(self.JSON_FILE, "r") as file:
+                with open(self.TEST_FILE, "r") as file:
                     temp_data = json.load(file)
             except Exception:
                 print(Exception)
