@@ -193,6 +193,32 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_tpl_return)
         print(return_value)
 
+    def fntest_json_reader_valid_file(self):
+        print(
+            "\n\nTesting json_reader with parameter 'json_filename' as a",
+            "valid JSON file...",
+        )
+
+        test_filename = "unittest_data.json"
+        self.expected_message = (
+            "Expected:\n(True, 'JSON data read in successfully"
+            + json.dumps(self.EXAMPLE_TEST)
+            + ")"
+        )
+        self.sde_func_tpl_return = self.COMP_START.json_reader(
+            self.TEST_PATH, test_filename
+        )
+        return_value = (
+            True,
+            "JSON data read in successfully!",
+            self.EXAMPLE_TEST,
+        )
+
+        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
+
     def notest_check_overwrite(self):
         # Need to fill this in
         print("Skipping test for check_overwrite...")
@@ -216,20 +242,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def notest_json_creator(self):
         # Need to fill this in
         print("Skipping test for json_creator...")
-
-    def untest_json_reader_valid_file(self):
-        print(
-            "Testing json_reader with parameter 'json_filename' as a valid JSON file..."
-        )
-        self.expected_message = (
-            True,
-            "JSON data read in successfully!",
-            self.EXAMPLE_JSON,
-        )
-        self.assertEqual(
-            self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME),
-            self.expected_message,
-        )
 
 
 if __name__ == "__main__":
