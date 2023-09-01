@@ -65,45 +65,44 @@ class TestStartupDataEditor(unittest.TestCase):
     def fntest_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
 
-        self.expected_message = "Expected:\n" + self.JSON_FILE
+        self.expected_message = "Expected:\n" + self.TEST_FILE
         self.sde_func_str_return = self.COMP_START.parse_full_path(
-            self.JSON_PATH, self.JSON_FILENAME
+            self.TEST_PATH, self.TEST_FILENAME
         )
+        return_value = self.TEST_FILE
 
-        self.assertEqual(
-            self.sde_func_str_return, self.JSON_FILE, self.expected_message
-        )
+        self.assertEqual(self.sde_func_str_return, return_value, self.expected_message)
 
         print(self.sde_func_str_return)
-        print(self.JSON_FILE)
+        print(return_value)
 
     def fntest_generate_default(self):
         print("\n\nTesting generate_default...")
 
         self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.generate_default()
+        return_value = self.EXAMPLE_JSON
 
-        self.assertEqual(
-            self.sde_func_dict_return, self.EXAMPLE_JSON, self.expected_message
-        )
+        self.assertEqual(self.sde_func_dict_return, return_value, self.expected_message)
 
         print(self.sde_func_dict_return)
-        print(self.EXAMPLE_JSON)
+        print(return_value)
 
     def fntest_create_json_data_true(self):
         print("\n\nTesting create_json_data with parameter 'default' as True...")
 
-        self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
+        self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.create_json_data(True)
+        return_value = self.EXAMPLE_JSON
 
         self.assertEqual(
             self.sde_func_dict_return,
-            self.EXAMPLE_JSON,
+            return_value,
             self.expected_message,
         )
 
         print(self.sde_func_dict_return)
-        print(self.EXAMPLE_JSON)
+        print(return_value)
 
     def fntest_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
