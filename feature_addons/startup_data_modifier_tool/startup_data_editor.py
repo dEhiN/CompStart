@@ -182,7 +182,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
     Returns:
         bool: True if the JSON data was written successfully, False if not
         string: An error message to display if the JSON data couldn't be
-            written to disk or blank otherwise
+            written to disk or a message that it was written successfully
     """
 
     # Initialize return variables
@@ -241,7 +241,7 @@ def json_creator(json_path: list, json_filename: str):
     Returns:
         bool: True if the JSON data was written successfully, False if not
         string: An error message to display if the JSON data couldn't be
-            written to disk or blank otherwise
+            written to disk or a message that it was written successfully
     """
 
     # Initialize variables
