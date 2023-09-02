@@ -79,9 +79,9 @@ class TestStartupDataEditor(unittest.TestCase):
     def fntest_generate_default(self):
         print("\n\nTesting generate_default...")
 
-        self.expected_message = "Expected:\n" + str(self.EXAMPLE_JSON)
+        self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.generate_default()
-        return_value = self.EXAMPLE_JSON
+        return_value = self.EXAMPLE_JSON.copy()
 
         self.assertEqual(self.sde_func_dict_return, return_value, self.expected_message)
 
@@ -89,11 +89,11 @@ class TestStartupDataEditor(unittest.TestCase):
         print(return_value)
 
     def fntest_create_json_data_true(self):
-        print("\n\nTesting create_json_data with parameter 'default' as True...")
+        print("\n\nTesting create_json_data with parameter 'new_file' as True...")
 
         self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.create_json_data(True)
-        return_value = self.EXAMPLE_JSON
+        return_value = self.EXAMPLE_JSON.copy()
 
         self.assertEqual(
             self.sde_func_dict_return,
@@ -105,7 +105,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(return_value)
 
     def fntest_create_json_data_false(self):
-        print("\n\nTesting create_json_data with parameter 'default' as False...")
+        print("\n\nTesting create_json_data with parameter 'new_file' as False...")
 
         self.expected_message = "Expected:\n []"
         self.sde_func_dict_return = self.COMP_START.create_json_data(False)
@@ -194,7 +194,7 @@ class TestStartupDataEditor(unittest.TestCase):
                     "...Uh oh, something went wrong! The data wasn't what was expected!"
                 )
         else:
-            print("...Uh oh, something went wrong! Cannot find " + self.JSON_FILE)
+            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     def fntest_json_reader_no_file_extension(self):
         print(
