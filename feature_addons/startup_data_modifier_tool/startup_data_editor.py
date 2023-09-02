@@ -141,7 +141,7 @@ def create_json_data(default: bool, **kwargs):
     JSON data that's passed in.
 
     Args:
-        new_file (bool): Tells this function whether to generate default startup
+        default (bool): Tells this function whether to generate default startup
         data for a new startup_data.json file or not; is mandatory
 
         **kwargs: Optional parameters that can contain JSON data to update an
@@ -153,7 +153,7 @@ def create_json_data(default: bool, **kwargs):
     """
 
     # If need to create default JSON data
-    if new_file:
+    if default:
         json_data = generate_default()
     else:
         json_data = generate_json(**kwargs)
@@ -284,7 +284,7 @@ def json_creator(json_path: list, json_filename: str):
     json_file = parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = dict(create_json_data(new_file=True))
+    json_data = dict(create_json_data(default=True))
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
