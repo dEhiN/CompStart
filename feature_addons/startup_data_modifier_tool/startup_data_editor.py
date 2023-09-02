@@ -170,14 +170,25 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
     0 - The file doesn't exist and mode "w" is to be used
     1 - The file exists but mode "w" is to be used so first need to confirm is
         user is alright with overwriting existing file
-    2 - The file exists but mode "a" is to be used to append data
+    2 - The file exists but the JSON data needs to be updated; see note below
+
+    Note: Initially, the plan was to open the file in "append" mode when
+    'file_state' is 2, but this doesn't work. Due to how the 'json.dump'
+    function writes JSON data, it's not possible to just append newer JSON
+    data to an existing file. As a result, existing startup JSON data will
+    need to be read in, any modifications made - such as adding new startup
+    data or editing existing startup data, and then written back to the file
+    by overwriting what exists. However, this function will not be responsible
+    for modifying any JSON data. This function will assume that 'json_data'
+    contains the correct startup JSON data and if a 'file_state' of 2 is passed
+    in, this function will overwrite the existing file data.
 
     Args:
         json_file (str): The full absolute path of the JSON file including
             filename and extension
         file_state (int): An indicator of how the file to be written should be
             handled. See extended summary above.
-        json_data (dict): The JSON data to write to file
+        json_data (dict): The JSON data to write to file. See note above.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
@@ -203,8 +214,27 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             else:
                 return_message = "Skipped writing JSON file!"
         case 2:
-            # Append JSON data to file
-            file_mode = "a"
+            # Check to see if the current JSON data in the file is different
+            # from json_data
+            try:
+                with open(json_file, "r") as file:
+                    existing_data = json.load(file)
+            except Exception as error:
+                return_message = (
+                    "Unable to open existing JSON file! Error information is"
+                    + "below:\n"
+                    + str(type(error).__name__)
+                    + " - "
+                    + str(error)
+                )
+
+            if not json_data == existing_data:
+                file_mode = "w"
+            else:
+                return_message = (
+                    "Existing JSON data and new JSON data are the same. Not",
+                    "updating {json_file} because there is no point.",
+                )
         case _:
             return_message = (
                 "Invalid file state! Could not write JSON data. Please try again."
