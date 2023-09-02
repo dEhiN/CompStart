@@ -220,6 +220,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 with open(json_file, "r") as file:
                     existing_data = json.load(file)
             except Exception as error:
+                existing_data = json_data
                 return_message = (
                     "Unable to open existing JSON file! Error information is"
                     + "below:\n"
