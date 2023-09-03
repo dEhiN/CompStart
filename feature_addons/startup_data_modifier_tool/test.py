@@ -98,7 +98,7 @@ class TestStartupDataEditor(unittest.TestCase):
             cls.TEST_FILE += os.sep + os.path.join(item)
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
-    def fntest_parse_full_path(self):
+    def test_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
 
         self.expected_message = "Expected:\n" + self.TEST_FILE
@@ -112,7 +112,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_str_return)
         print(return_value)
 
-    def fntest_generate_default(self):
+    def test_generate_default(self):
         print("\n\nTesting generate_default...")
 
         self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
@@ -124,7 +124,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_dict_return)
         print(return_value)
 
-    def fntest_create_json_data_true(self):
+    def test_create_json_data_true(self):
         print("\n\nTesting create_json_data with parameter 'new_file' as True...")
 
         self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
@@ -140,7 +140,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_dict_return)
         print(return_value)
 
-    def fntest_create_json_data_false(self):
+    def test_create_json_data_false(self):
         print("\n\nTesting create_json_data with parameter 'new_file' as False...")
 
         self.expected_message = "Expected:\n []"
@@ -156,7 +156,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_dict_return)
         print(return_value)
 
-    def fntest_json_writer_case_zero(self):
+    def test_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
 
         if os.path.isfile(self.TEST_FILE):
@@ -196,7 +196,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
-    def notest_json_writer_case_two(self):
+    def untest_json_writer_case_two(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 2...")
 
         if os.path.isfile(self.TEST_FILE):
@@ -248,7 +248,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
-    def fntest_json_creator(self):
+    def test_json_creator(self):
         print("\n\nTesting json_creator...")
 
         if os.path.isfile(self.TEST_FILE):
@@ -284,7 +284,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
-    def fntest_json_reader_no_file_extension(self):
+    def test_json_reader_no_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter 'json_filename' as a file",
             "with no extension...",
@@ -304,7 +304,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_tpl_return)
         print(return_value)
 
-    def fntest_json_reader_wrong_file_extension(self):
+    def test_json_reader_wrong_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter 'json_filename' as a file",
             "with an incorrect extension...",
@@ -332,25 +332,24 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_tpl_return)
         print(return_value)
 
-    def fntest_json_reader_valid_file(self):
+    def test_json_reader_valid_file(self):
         print(
             "\n\nTesting json_reader with parameter 'json_filename' as a",
             "valid JSON file...",
         )
 
-        test_filename = "unittest_data.json"
         self.expected_message = (
-            "Expected:\n(True, 'JSON data read in successfully"
-            + json.dumps(self.EXAMPLE_TEST)
+            "Expected:\n(True, 'JSON data read in successfully', "
+            + json.dumps(self.EXAMPLE_JSON)
             + ")"
         )
         self.sde_func_tpl_return = self.COMP_START.json_reader(
-            self.TEST_PATH, test_filename
+            self.JSON_PATH, self.JSON_FILENAME
         )
         return_value = (
             True,
             "JSON data read in successfully!",
-            self.EXAMPLE_TEST.copy(),
+            self.EXAMPLE_JSON.copy(),
         )
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
