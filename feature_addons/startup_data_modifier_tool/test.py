@@ -1,4 +1,5 @@
 import os, unittest, json
+from unittest.mock import patch
 import startup_data_editor
 
 
@@ -10,6 +11,7 @@ class TestStartupDataEditor(unittest.TestCase):
         cls.sde_func_str_return = ""
         cls.sde_func_tpl_return = ()
         cls.sde_func_dict_return = {}
+        cls.sde_func_bool_return = False
 
         # Creating all JSON variables as constants to use in testing
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
@@ -369,13 +371,31 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.sde_func_tpl_return)
         print(return_value)
 
-    def notest_check_overwrite(self):
-        # Need to fill this in
-        print("Skipping test for check_overwrite...")
+    @patch("builtins.input", lambda _: "Y")
+    def test_check_overwrite_yes(self):
+        print("\n\nTesting check_overwrite mocking input as 'Y'...")
 
-    def notest_generate_json(self):
-        # Need to fill this in
-        print("Skipping test for generate_json...")
+        self.expected_message = "True"
+        self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
+        return_value = True
+
+        self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
+
+        print(self.sde_func_bool_return)
+        print(return_value)
+
+    @patch("builtins.input", lambda _: "N")
+    def test_generate_json(self):
+        print("\n\nTesting check_overwrite mocking input as 'N'...")
+
+        self.expected_message = "False"
+        self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
+        return_value = False
+
+        self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
+
+        print(self.sde_func_bool_return)
+        print(return_value)
 
     def notest_json_writer_case_one(self):
         # Need to fill this in
