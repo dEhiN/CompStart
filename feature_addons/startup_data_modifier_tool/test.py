@@ -54,6 +54,42 @@ class TestStartupDataEditor(unittest.TestCase):
                 },
             ],
         }
+        cls.APPEND_EXAMPLE_TEST = {
+            "TotalItems": 3,
+            "Items": [
+                {
+                    "ItemNumber": 1,
+                    "Name": "Calculator",
+                    "FilePath": "calc",
+                    "Description": "A simple calculator",
+                    "Browser": False,
+                    "ArgumentCount": 0,
+                    "ArgumentList": [],
+                },
+                {
+                    "ItemNumber": 2,
+                    "Name": "Dealer-FX Homepage",
+                    "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                    "Description": "The DFX homepage",
+                    "Browser": True,
+                    "ArgumentCount": 3,
+                    "ArgumentList": [
+                        "--profile-directory=Default",
+                        "--new-window",
+                        "https://www.dealer-fx.com/",
+                    ],
+                },
+                {
+                    "ItemNumber": 3,
+                    "Name": "Notepad",
+                    "FilePath": "notepad",
+                    "Description": "A text editor",
+                    "Browser": False,
+                    "ArgumentCount": 0,
+                    "ArgumentList": [],
+                },
+            ],
+        }
         cls.TEST_FILENAME = "unittest_data.json"
         cls.TEST_PATH = ["feature_addons", "startup_data_modifier_tool"]
         # Copying code to generate TEST_FILE from startup_data_editor.py
@@ -152,6 +188,58 @@ class TestStartupDataEditor(unittest.TestCase):
                 print(Exception)
 
             if temp_data == self.EXAMPLE_TEST:
+                print("...The data was written properly as expected!")
+            else:
+                print(
+                    "...Uh oh, something went wrong! The data wasn't what was expected!"
+                )
+        else:
+            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
+
+    def notest_json_writer_case_two(self):
+        print("\n\nTesting json_writer with parameter 'file_state' as 2...")
+
+        if os.path.isfile(self.TEST_FILE):
+            os.remove(self.TEST_FILE)
+
+        try:
+            with open(self.TEST_FILE, "w") as file:
+                json.dump(self.EXAMPLE_TEST, file)
+        except Exception as e:
+            print(
+                "...Uh oh, something went wrong! Cannot find or create "
+                + self.TEST_FILE
+            )
+            return
+
+        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
+        self.sde_func_tpl_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
+        )
+        return_value = (True, "JSON file written successfully!")
+        temp_data = []
+
+        self.assertEqual(
+            self.sde_func_tpl_return,
+            return_value,
+            self.expected_message,
+        )
+
+        print(self.sde_func_tpl_return)
+        print(return_value)
+
+        print("\n...Now checking to see if the data was written properly...")
+
+        if os.path.isfile(self.TEST_FILE):
+            try:
+                with open(self.TEST_FILE, "r") as file:
+                    temp_data = json.load(file)
+            except Exception:
+                print(Exception)
+
+            if temp_data == self.APPEND_EXAMPLE_TEST:
+                print("...The data was written properly as expected!")
+            elif temp_data == self.EXAMPLE_TEST:
                 print("...The data was written properly as expected!")
             else:
                 print(
@@ -262,7 +350,7 @@ class TestStartupDataEditor(unittest.TestCase):
         return_value = (
             True,
             "JSON data read in successfully!",
-            self.EXAMPLE_TEST,
+            self.EXAMPLE_TEST.copy(),
         )
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
@@ -281,10 +369,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def notest_json_writer_case_one(self):
         # Need to fill this in
         print("Skipping test for json_writer with parameter 'file_state' as 1...")
-
-    def notest_json_writer_case_two(self):
-        # Need to fill this in
-        print("Skipping test json_writer with parameter 'file_state' as 2...")
 
 
 if __name__ == "__main__":
