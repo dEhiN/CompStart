@@ -272,8 +272,15 @@ class TestStartupDataEditor(unittest.TestCase):
             try:
                 with open(self.TEST_FILE, "r") as file:
                     temp_data = json.load(file)
-            except Exception:
-                print(Exception)
+            except Exception as error:
+                return_message = (
+                    "Unable to read JSON data. Error information is below:\n"
+                    + str(type(error).__name__)
+                    + " - "
+                    + str(error)
+                )
+
+                print(return_message)
 
             if temp_data == self.EXAMPLE_JSON:
                 print("...The data was written properly as expected!")
