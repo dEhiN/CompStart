@@ -196,7 +196,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
-    def untest_json_writer_case_two(self):
+    def test_json_writer_case_two(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 2...")
 
         if os.path.isfile(self.TEST_FILE):
@@ -206,11 +206,11 @@ class TestStartupDataEditor(unittest.TestCase):
             with open(self.TEST_FILE, "w") as file:
                 json.dump(self.EXAMPLE_TEST, file)
         except Exception as e:
-            print(
+            err_msg = (
                 "...Uh oh, something went wrong! Cannot find or create "
                 + self.TEST_FILE
             )
-            return
+            raise self.failureException(err_msg)
 
         self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_writer(
@@ -234,12 +234,17 @@ class TestStartupDataEditor(unittest.TestCase):
             try:
                 with open(self.TEST_FILE, "r") as file:
                     temp_data = json.load(file)
-            except Exception:
-                print(Exception)
+            except Exception as error:
+                return_message = (
+                    "Unable to read JSON data. Error information is below:\n"
+                    + str(type(error).__name__)
+                    + " - "
+                    + str(error)
+                )
+
+                print(return_message)
 
             if temp_data == self.APPEND_EXAMPLE_TEST:
-                print("...The data was written properly as expected!")
-            elif temp_data == self.EXAMPLE_TEST:
                 print("...The data was written properly as expected!")
             else:
                 print(
