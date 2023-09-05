@@ -385,7 +385,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(return_value)
 
     @patch("builtins.input", lambda _: "N")
-    def test_generate_json(self):
+    def test_check_overwrite_no(self):
         print("\n\nTesting check_overwrite mocking input as 'N'...")
 
         self.expected_message = "False"
@@ -396,6 +396,10 @@ class TestStartupDataEditor(unittest.TestCase):
 
         print(self.sde_func_bool_return)
         print(return_value)
+
+    def test_generate_json(self):
+        # Need to fill this in
+        print("Skipping test for generate_json...")
 
     def notest_json_writer_case_one(self):
         # Need to fill this in
