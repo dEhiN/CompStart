@@ -407,5 +407,25 @@ class TestStartupDataEditor(unittest.TestCase):
         print("Skipping test for json_writer with parameter 'file_state' as 1...")
 
 
+def set_startdir():
+    dirs_list = os.getcwd().split(os.sep)
+    len_dirs_list = len(dirs_list) - 1
+    start_dir = "CompStart"
+
+    if start_dir in dirs_list:
+        idx_start_dir = dirs_list.index(start_dir)
+
+        if len_dirs_list == idx_start_dir:
+            return
+        else:
+            num_dirs_diff = len_dirs_list - idx_start_dir
+            while num_dirs_diff > 0:
+                os.chdir("..")
+                num_dirs_diff -= 1
+
+
 if __name__ == "__main__":
+    # Make sure we start in the correct directory
+    set_startdir()
+
     unittest.main()
