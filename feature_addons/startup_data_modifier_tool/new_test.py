@@ -104,7 +104,7 @@ class TestStartupDataEditor(unittest.TestCase):
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
     def confirm_written_data(self, check_dict: dict):
-        print("...Now checking to see if the data was written properly...")
+        print("...Now checking to see if the data was written properly", end="")
         temp_data = []
 
         if os.path.isfile(self.TEST_FILE):
@@ -122,7 +122,7 @@ class TestStartupDataEditor(unittest.TestCase):
                 print(return_message)
 
             if temp_data == check_dict:
-                print("...The data was written properly as expected!")
+                print("...The data was written as expected!")
             else:
                 print(
                     "...Uh oh, something went wrong! The data wasn't what was expected!"
@@ -132,7 +132,7 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def print_results(self, results):
         print(self.expected_message)
-        print("Actual: " + str(results))
+        print("Returned: " + str(results))
 
     def generate_test_message(self, func_name: str, msg_addons=""):
         if msg_addons == "":
@@ -240,9 +240,12 @@ class TestStartupDataEditor(unittest.TestCase):
         self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
 
     # Skip
-    def test_009_json_writer_case_one(self):
+    @patch("builtins.input", lambda _: "Y")
+    def test_009_json_writer_case_one_yes(self):
         # Need to fill this in
-        print("\n\nSkipping test for json_writer with parameter 'file_state' as 1...")
+        self.generate_test_message("json_writer", "parameter 'file_state' as 1")
+        print("...Code not found, skipping test", end="")
+        print("...Tell the programmer to fix this!")
 
     # Tuple
     def test_010_json_writer_case_two(self):
