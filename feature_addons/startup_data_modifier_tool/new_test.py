@@ -112,7 +112,7 @@ class TestStartupDataEditor(unittest.TestCase):
         )
         return_value = self.TEST_FILE
 
-        self.assertEqual(self.sde_func_str_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_str_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + self.sde_func_str_return)
@@ -124,7 +124,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.sde_func_dict_return = self.COMP_START.generate_default()
         return_value = self.EXAMPLE_JSON.copy()
 
-        self.assertEqual(self.sde_func_dict_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_dict_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
@@ -271,7 +271,7 @@ class TestStartupDataEditor(unittest.TestCase):
         return_value = (True, "JSON file written successfully!")
         temp_data = []
 
-        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_tpl_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
@@ -314,7 +314,7 @@ class TestStartupDataEditor(unittest.TestCase):
         )
         return_value = (False, "Please specify a valid JSON file name", {})
 
-        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_tpl_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
@@ -342,7 +342,7 @@ class TestStartupDataEditor(unittest.TestCase):
             {},
         )
 
-        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_tpl_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
@@ -367,7 +367,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.EXAMPLE_JSON.copy(),
         )
 
-        self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_tpl_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
@@ -380,7 +380,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = True
 
-        self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_bool_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_bool_return))
@@ -393,7 +393,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = False
 
-        self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
+        self.assertEqual(self.sde_func_bool_return, return_value)
 
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_bool_return))
