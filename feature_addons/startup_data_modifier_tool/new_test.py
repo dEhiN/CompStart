@@ -103,6 +103,7 @@ class TestStartupDataEditor(unittest.TestCase):
             cls.TEST_FILE += os.sep + os.path.join(item)
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
+    # String
     def test_001_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
 
@@ -117,6 +118,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + self.sde_func_str_return)
 
+    # Boolean
     @patch("builtins.input", lambda _: "Y")
     def test_002_check_overwrite_yes(self):
         print("\n\nTesting check_overwrite mocking" " input as 'Y'...")
@@ -130,6 +132,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_bool_return))
 
+    # Boolean
     @patch("builtins.input", lambda _: "N")
     def test_003_check_overwrite_no(self):
         print("\n\nTesting check_overwrite mocking" " input as 'N'...")
@@ -143,6 +146,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_bool_return))
 
+    # Dictionary
     def test_004_generate_json(self):
         # Need to fill this in
         print("\n\nTesting generate_json...")
@@ -156,6 +160,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
 
+    # Dictionary
     def test_005_generate_default(self):
         print("\n\nTesting generate_default...")
 
@@ -168,6 +173,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
 
+    # Dictionary
     def test_006_create_json_data_true(self):
         print("\n\nTesting create_json_data with" " parameter 'new_file' as True...")
 
@@ -180,6 +186,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
 
+    # Dictionary
     def test_007_create_json_data_false(self):
         print("\n\nTesting create_json_data with parameter 'new_file' as False...")
 
@@ -192,6 +199,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
 
+    # Tuple
     def test_008_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
 
@@ -228,10 +236,12 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
+    # Skip
     def test_009_json_writer_case_one(self):
         # Need to fill this in
         print("\n\nSkipping test for json_writer with parameter 'file_state' as 1...")
 
+    # Tuple
     def test_010_json_writer_case_two(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 2...")
 
@@ -285,6 +295,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
+    # Tuple
     def test_011_json_creator(self):
         print("\n\nTesting json_creator...")
 
@@ -328,6 +339,7 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
+    # Tuple
     def test_012_json_reader_no_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter"
@@ -346,6 +358,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
 
+    # Tuple
     def test_013_json_reader_wrong_file_extension(self):
         print(
             "\n\nTesting json_reader with parameter"
@@ -370,6 +383,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
 
+    # Tuple
     def test_014_json_reader_valid_file(self):
         print(
             "\n\nTesting json_reader with parameter"
