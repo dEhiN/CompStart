@@ -101,9 +101,9 @@ class TestStartupDataEditor(unittest.TestCase):
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
     def test_parse_full_path(self):
-        print("\n\nTesting parse_full_path...")
+        print("\n\n1) Testing parse_full_path...")
 
-        self.expected_message = "Expected:\n" + self.TEST_FILE
+        self.expected_message = "Expected: " + self.TEST_FILE
         self.sde_func_str_return = self.COMP_START.parse_full_path(
             self.TEST_PATH, self.TEST_FILENAME
         )
@@ -111,25 +111,25 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.assertEqual(self.sde_func_str_return, return_value, self.expected_message)
 
-        print(self.sde_func_str_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + self.sde_func_str_return)
 
     def test_generate_default(self):
-        print("\n\nTesting generate_default...")
+        print("\n\n2) Testing generate_default...")
 
-        self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
+        self.expected_message = "Expected: " + json.dumps(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.generate_default()
         return_value = self.EXAMPLE_JSON.copy()
 
         self.assertEqual(self.sde_func_dict_return, return_value, self.expected_message)
 
-        print(self.sde_func_dict_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_dict_return))
 
     def test_create_json_data_true(self):
-        print("\n\nTesting create_json_data with parameter 'new_file' as True...")
+        print("\n\n3) Testing create_json_data with parameter 'new_file' as True...")
 
-        self.expected_message = "Expected:\n" + json.dumps(self.EXAMPLE_JSON)
+        self.expected_message = "Expected: " + json.dumps(self.EXAMPLE_JSON)
         self.sde_func_dict_return = self.COMP_START.create_json_data(True)
         return_value = self.EXAMPLE_JSON.copy()
 
@@ -139,13 +139,13 @@ class TestStartupDataEditor(unittest.TestCase):
             self.expected_message,
         )
 
-        print(self.sde_func_dict_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_dict_return))
 
     def test_create_json_data_false(self):
-        print("\n\nTesting create_json_data with parameter 'new_file' as False...")
+        print("\n\n4) Testing create_json_data with parameter 'new_file' as False...")
 
-        self.expected_message = "Expected:\n []"
+        self.expected_message = "Expected: []"
         self.sde_func_dict_return = self.COMP_START.create_json_data(False)
         return_value = self.COMP_START.generate_json()
 
@@ -155,16 +155,16 @@ class TestStartupDataEditor(unittest.TestCase):
             self.expected_message,
         )
 
-        print(self.sde_func_dict_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_dict_return))
 
     def test_json_writer_case_zero(self):
-        print("\n\nTesting json_writer with parameter 'file_state' as 0...")
+        print("\n\n5) Testing json_writer with parameter 'file_state' as 0...")
 
         if os.path.isfile(self.TEST_FILE):
             os.remove(self.TEST_FILE)
 
-        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
+        self.expected_message = "Expected: (True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 0, self.EXAMPLE_TEST
         )
@@ -177,10 +177,10 @@ class TestStartupDataEditor(unittest.TestCase):
             self.expected_message,
         )
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("\n...Now checking to see if the data was written properly...")
+        print("...Now checking to see if the data was written properly...")
 
         if os.path.isfile(self.TEST_FILE):
             try:
@@ -199,7 +199,7 @@ class TestStartupDataEditor(unittest.TestCase):
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     def test_json_writer_case_two(self):
-        print("\n\nTesting json_writer with parameter 'file_state' as 2...")
+        print("\n\n7) Testing json_writer with parameter 'file_state' as 2...")
 
         if os.path.isfile(self.TEST_FILE):
             os.remove(self.TEST_FILE)
@@ -214,7 +214,7 @@ class TestStartupDataEditor(unittest.TestCase):
             )
             raise self.failureException(err_msg)
 
-        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
+        self.expected_message = "Expected: (True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
         )
@@ -227,10 +227,10 @@ class TestStartupDataEditor(unittest.TestCase):
             self.expected_message,
         )
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("\n...Now checking to see if the data was written properly...")
+        print("...Now checking to see if the data was written properly...")
 
         if os.path.isfile(self.TEST_FILE):
             try:
@@ -256,12 +256,12 @@ class TestStartupDataEditor(unittest.TestCase):
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     def test_json_creator(self):
-        print("\n\nTesting json_creator...")
+        print("\n\n8) Testing json_creator...")
 
         if os.path.isfile(self.TEST_FILE):
             os.remove(self.TEST_FILE)
 
-        self.expected_message = "Expected:\n(True, 'JSON file written successfully!')"
+        self.expected_message = "Expected: (True, 'JSON file written successfully!')"
         self.sde_func_tpl_return = self.COMP_START.json_creator(
             self.TEST_PATH, self.TEST_FILENAME
         )
@@ -270,10 +270,10 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("\n...Now checking to see if the data was written properly...")
+        print("...Now checking to see if the data was written properly...")
 
         if os.path.isfile(self.TEST_FILE):
             try:
@@ -300,13 +300,13 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def test_json_reader_no_file_extension(self):
         print(
-            "\n\nTesting json_reader with parameter 'json_filename' as a file",
+            "\n\n9) Testing json_reader with parameter 'json_filename' as a file",
             "with no extension...",
         )
 
         test_filename = "unittest"
         self.expected_message = (
-            "Expected:\n(False, 'Please specify a valid JSON file name', {})"
+            "Expected: (False, 'Please specify a valid JSON file name', {})"
         )
         self.sde_func_tpl_return = self.COMP_START.json_reader(
             self.TEST_PATH, test_filename
@@ -315,18 +315,18 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
     def test_json_reader_wrong_file_extension(self):
         print(
-            "\n\nTesting json_reader with parameter 'json_filename' as a file",
+            "\n\n10) Testing json_reader with parameter 'json_filename' as a file",
             "with an incorrect extension...",
         )
 
         test_filename = "unittest.test"
         self.expected_message = (
-            "Expected:\n(False, 'Invalid JSON file name."
+            "Expected: (False, 'Invalid JSON file name."
             + "\\nReceived extension of: test\\nExpected extension of: json',"
             + "{})"
         )
@@ -343,17 +343,17 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
     def test_json_reader_valid_file(self):
         print(
-            "\n\nTesting json_reader with parameter 'json_filename' as a",
+            "\n\n11) Testing json_reader with parameter 'json_filename' as a",
             "valid JSON file...",
         )
 
         self.expected_message = (
-            "Expected:\n(True, 'JSON data read in successfully', "
+            "Expected: (True, 'JSON data read in successfully', "
             + json.dumps(self.EXAMPLE_JSON)
             + ")"
         )
@@ -368,34 +368,34 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.assertEqual(self.sde_func_tpl_return, return_value, self.expected_message)
 
-        print(self.sde_func_tpl_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_tpl_return))
 
     @patch("builtins.input", lambda _: "Y")
     def test_check_overwrite_yes(self):
-        print("\n\nTesting check_overwrite mocking input as 'Y'...")
+        print("\n\n12) Testing check_overwrite mocking input as 'Y'...")
 
-        self.expected_message = "True"
+        self.expected_message = "Expected message: True"
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = True
 
         self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
 
-        print(self.sde_func_bool_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_bool_return))
 
     @patch("builtins.input", lambda _: "N")
     def test_check_overwrite_no(self):
-        print("\n\nTesting check_overwrite mocking input as 'N'...")
+        print("\n\n13) Testing check_overwrite mocking input as 'N'...")
 
-        self.expected_message = "False"
+        self.expected_message = "Expected message: False"
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = False
 
         self.assertEqual(self.sde_func_bool_return, return_value, self.expected_message)
 
-        print(self.sde_func_bool_return)
-        print(return_value)
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_bool_return))
 
     def test_generate_json(self):
         # Need to fill this in
