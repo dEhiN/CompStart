@@ -199,6 +199,33 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_dict_return))
 
+    def confirm_written_data(self, check_dict: dict):
+        print("...Now checking to see if the data was written properly...")
+        temp_data = []
+
+        if os.path.isfile(self.TEST_FILE):
+            try:
+                with open(self.TEST_FILE, "r") as file:
+                    temp_data = json.load(file)
+            except Exception as error:
+                return_message = (
+                    "Unable to read JSON data. Error information is below:\n"
+                    + str(type(error).__name__)
+                    + " - "
+                    + str(error)
+                )
+
+                print(return_message)
+
+            if temp_data == check_dict:
+                print("...The data was written properly as expected!")
+            else:
+                print(
+                    "...Uh oh, something went wrong! The data wasn't what was expected!"
+                )
+        else:
+            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
+
     # Tuple
     def test_008_json_writer_case_zero(self):
         print("\n\nTesting json_writer with parameter 'file_state' as 0...")
@@ -217,24 +244,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("...Now checking to see if the data was written properly...")
-        temp_data = []
-
-        if os.path.isfile(self.TEST_FILE):
-            try:
-                with open(self.TEST_FILE, "r") as file:
-                    temp_data = json.load(file)
-            except Exception:
-                print(Exception)
-
-            if temp_data == self.EXAMPLE_TEST:
-                print("...The data was written properly as expected!")
-            else:
-                print(
-                    "...Uh oh, something went wrong! The data wasn't what was expected!"
-                )
-        else:
-            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
+        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
 
     # Skip
     def test_009_json_writer_case_one(self):
@@ -269,31 +279,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("...Now checking to see if the data was written properly...")
-        temp_data = []
-
-        if os.path.isfile(self.TEST_FILE):
-            try:
-                with open(self.TEST_FILE, "r") as file:
-                    temp_data = json.load(file)
-            except Exception as error:
-                return_message = (
-                    "Unable to read JSON data. Error information is below:\n"
-                    + str(type(error).__name__)
-                    + " - "
-                    + str(error)
-                )
-
-                print(return_message)
-
-            if temp_data == self.APPEND_EXAMPLE_TEST:
-                print("...The data was written properly as expected!")
-            else:
-                print(
-                    "...Uh oh, something went wrong! The data wasn't what was expected!"
-                )
-        else:
-            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
+        self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
 
     # Tuple
     def test_011_json_creator(self):
@@ -313,31 +299,7 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Actual: " + str(self.sde_func_tpl_return))
 
-        print("...Now checking to see if the data was written properly...")
-        temp_data = []
-
-        if os.path.isfile(self.TEST_FILE):
-            try:
-                with open(self.TEST_FILE, "r") as file:
-                    temp_data = json.load(file)
-            except Exception as error:
-                return_message = (
-                    "Unable to read JSON data. Error information is below:\n"
-                    + str(type(error).__name__)
-                    + " - "
-                    + str(error)
-                )
-
-                print(return_message)
-
-            if temp_data == self.EXAMPLE_JSON:
-                print("...The data was written properly as expected!")
-            else:
-                print(
-                    "...Uh oh, something went wrong! The data wasn't what was expected!"
-                )
-        else:
-            print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
+        self.confirm_written_data(check_dict=self.EXAMPLE_JSON)
 
     # Tuple
     def test_012_json_reader_no_file_extension(self):
