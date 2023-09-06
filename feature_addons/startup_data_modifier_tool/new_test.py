@@ -103,6 +103,10 @@ class TestStartupDataEditor(unittest.TestCase):
             cls.TEST_FILE += os.sep + os.path.join(item)
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
+    def print_results(self, results):
+        print(self.expected_message)
+        print("Actual: " + str(results))
+
     # String
     def test_001_parse_full_path(self):
         print("\n\nTesting parse_full_path...")
@@ -114,9 +118,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += return_value
 
         self.assertEqual(self.sde_func_str_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + self.sde_func_str_return)
+        self.print_results(results=self.sde_func_str_return)
 
     # Boolean
     @patch("builtins.input", lambda _: "Y")
@@ -128,9 +130,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_bool_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_bool_return))
+        self.print_results(results=self.sde_func_bool_return)
 
     # Boolean
     @patch("builtins.input", lambda _: "N")
@@ -142,9 +142,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_bool_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_bool_return))
+        self.print_results(results=self.sde_func_bool_return)
 
     # Dictionary
     def test_004_generate_json(self):
@@ -156,9 +154,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_dict_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_dict_return))
+        self.print_results(results=self.sde_func_dict_return)
 
     # Dictionary
     def test_005_generate_default(self):
@@ -169,9 +165,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_dict_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_dict_return))
+        self.print_results(results=self.sde_func_dict_return)
 
     # Dictionary
     def test_006_create_json_data_true(self):
@@ -182,9 +176,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_dict_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_dict_return))
+        self.print_results(results=self.sde_func_dict_return)
 
     # Dictionary
     def test_007_create_json_data_false(self):
@@ -195,9 +187,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_dict_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_dict_return))
+        self.print_results(results=self.sde_func_dict_return)
 
     def confirm_written_data(self, check_dict: dict):
         print("...Now checking to see if the data was written properly...")
@@ -240,10 +230,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
-
+        self.print_results(results=self.sde_func_tpl_return)
         self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
 
     # Skip
@@ -275,10 +262,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
-
+        self.print_results(results=self.sde_func_tpl_return)
         self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
 
     # Tuple
@@ -295,10 +279,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
-
+        self.print_results(results=self.sde_func_tpl_return)
         self.confirm_written_data(check_dict=self.EXAMPLE_JSON)
 
     # Tuple
@@ -316,9 +297,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
+        self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
     def test_013_json_reader_wrong_file_extension(self):
@@ -341,9 +320,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
+        self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
     def test_014_json_reader_valid_file(self):
@@ -363,9 +340,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_tpl_return, return_value)
-
-        print(self.expected_message)
-        print("Actual: " + str(self.sde_func_tpl_return))
+        self.print_results(results=self.sde_func_tpl_return)
 
 
 def set_startdir():
