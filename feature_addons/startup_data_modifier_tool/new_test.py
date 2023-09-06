@@ -145,7 +145,16 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def test_004_generate_json(self):
         # Need to fill this in
-        print("\n\nSkipping test for generate_json...")
+        print("\n\nTesting generate_json...")
+
+        self.sde_func_dict_return = self.COMP_START.generate_json()
+        return_value = []
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_dict_return, return_value)
+
+        print(self.expected_message)
+        print("Actual: " + str(self.sde_func_dict_return))
 
     def test_005_generate_default(self):
         print("\n\nTesting generate_default...")
