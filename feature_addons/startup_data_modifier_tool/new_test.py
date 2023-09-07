@@ -134,11 +134,19 @@ class TestStartupDataEditor(unittest.TestCase):
         print(self.expected_message)
         print("Returned: " + str(results))
 
-    def generate_test_message(self, func_name: str, msg_addons=""):
-        if msg_addons == "":
-            print(f'\n\nTesting function "{func_name}"...')
-        else:
-            print(f'\n\nTesting function "{func_name}" with {msg_addons}...')
+    def generate_test_message(
+        self, func_name: str, test_num: int, msg_addons: bool, msg_extras: list = []
+    ):
+        print(f"\n\nTest #{test_num}: Testing function {func_name}", end="")
+        if msg_addons:
+            num_addons = len(msg_extras)
+            print(f" with {msg_extras[0]}", end="")
+
+            if num_addons > 1:
+                for i in range(1, num_addons):
+                    print(f" and {msg_extras[i]}", end="")
+
+        print("...")
 
     def clear_test_file(self):
         if os.path.isfile(self.TEST_FILE):
@@ -146,7 +154,9 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # String
     def test_001_parse_full_path(self):
-        self.generate_test_message("parse_full_path")
+        self.generate_test_message(
+            test_num=1, func_name="parse_full_path", msg_addons=False
+        )
 
         self.sde_func_str_return = self.COMP_START.parse_full_path(
             self.TEST_PATH, self.TEST_FILENAME
@@ -160,7 +170,12 @@ class TestStartupDataEditor(unittest.TestCase):
     # Boolean
     @patch("builtins.input", lambda _: "Y")
     def test_002_check_overwrite_yes(self):
-        self.generate_test_message("check_overwrite", "input mocked as 'Y'")
+        self.generate_test_message(
+            test_num=2,
+            func_name="check_overwrite",
+            msg_addons=True,
+            msg_extras=["input mocked as 'Y'"],
+        )
 
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = True
@@ -172,7 +187,12 @@ class TestStartupDataEditor(unittest.TestCase):
     # Boolean
     @patch("builtins.input", lambda _: "N")
     def test_003_check_overwrite_no(self):
-        self.generate_test_message("check_overwrite", "input mocked as 'N'")
+        self.generate_test_message(
+            test_num=3,
+            func_name="check_overwrite",
+            msg_addons=True,
+            msg_extras=["input mocked as 'N'"],
+        )
 
         self.sde_func_bool_return = self.COMP_START.check_overwrite(self.TEST_FILE)
         return_value = False
@@ -184,7 +204,9 @@ class TestStartupDataEditor(unittest.TestCase):
     # Dictionary
     def test_004_generate_json(self):
         # Need to fill this in
-        self.generate_test_message("generate_json")
+        self.generate_test_message(
+            test_num=4, func_name="generate_json", msg_addons=False
+        )
 
         self.sde_func_dict_return = self.COMP_START.generate_json()
         return_value = []
@@ -195,7 +217,9 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # Dictionary
     def test_005_generate_default(self):
-        self.generate_test_message("generate_default")
+        self.generate_test_message(
+            test_num=5, func_name="generate_default", msg_addons=False
+        )
 
         self.sde_func_dict_return = self.COMP_START.generate_default()
         return_value = self.EXAMPLE_JSON.copy()
@@ -206,7 +230,12 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # Dictionary
     def test_006_create_json_data_true(self):
-        self.generate_test_message("create_json_data", "parameter 'new_file' as True")
+        self.generate_test_message(
+            test_num=6,
+            func_name="create_json_data",
+            msg_addons=True,
+            msg_extras=["parameter 'new_file' as True"],
+        )
 
         self.sde_func_dict_return = self.COMP_START.create_json_data(True)
         return_value = self.EXAMPLE_JSON.copy()
@@ -217,7 +246,12 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # Dictionary
     def test_007_create_json_data_false(self):
-        self.generate_test_message("create_json_data", "parameter 'new_file' as False")
+        self.generate_test_message(
+            test_num=7,
+            func_name="create_json_data",
+            msg_addons=True,
+            msg_extras=["parameter 'new_file' as False"],
+        )
 
         self.sde_func_dict_return = self.COMP_START.create_json_data(False)
         return_value = self.COMP_START.generate_json()
@@ -228,7 +262,12 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # Tuple
     def test_008_json_writer_case_zero(self):
-        self.generate_test_message("json_writer", "parameter 'file_state' as 0")
+        self.generate_test_message(
+            test_num=8,
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 0"],
+        )
 
         self.clear_test_file()
 
@@ -247,7 +286,10 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_009_json_writer_case_one_yes(self):
         # Need to fill this in
         self.generate_test_message(
-            "json_writer", "parameter 'file_state' as 1 and input mocked as 'Y'"
+            test_num=9,
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 1", "input mocked as 'Y'"],
         )
 
         self.clear_test_file()
@@ -267,7 +309,10 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_010_json_writer_case_one_no(self):
         # Need to fill this in
         self.generate_test_message(
-            "json_writer", "parameter 'file_state' as 1 and input mocked as 'N'"
+            test_num=10,
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 1", "input mocked as 'N'"],
         )
 
         self.clear_test_file()
@@ -284,7 +329,10 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def test_011_json_writer_case_two_diff_data(self):
         self.generate_test_message(
-            "json_writer", "parameter 'file_state' as 2 and using updated JSON data"
+            test_num=11,
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 2", "using updated JSON data"],
         )
 
         self.clear_test_file()
@@ -303,7 +351,10 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def test_012_json_writer_case_two_same_data(self):
         self.generate_test_message(
-            "json_writer", "parameter 'file_state' as 2 but using the same JSON data"
+            test_num=12,
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 2", "using the same JSON data"],
         )
 
         self.clear_test_file()
@@ -324,7 +375,9 @@ class TestStartupDataEditor(unittest.TestCase):
 
     # Tuple
     def test_013_json_creator(self):
-        self.generate_test_message("json_creator")
+        self.generate_test_message(
+            test_num=13, func_name="json_creator", msg_addons=False
+        )
 
         self.clear_test_file()
 
@@ -341,7 +394,10 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def test_014_json_reader_no_file_extension(self):
         self.generate_test_message(
-            "json_reader", "parameter 'json_filename' as a file with no extension"
+            test_num=14,
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=["parameter 'json_filename' as a file with no extension"],
         )
 
         test_filename = "unittest"
@@ -357,8 +413,12 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def test_015_json_reader_wrong_file_extension(self):
         self.generate_test_message(
-            "json_reader",
-            "parameter 'json_filename' as a file with an incorrect extension",
+            test_num=15,
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=[
+                "parameter 'json_filename' as a file with an incorrect extension"
+            ],
         )
 
         test_filename = "unittest.test"
@@ -380,7 +440,10 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def test_016_json_reader_valid_file(self):
         self.generate_test_message(
-            "json_reader", "parameter 'json_filename' as a valid JSON file"
+            test_num=16,
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=["parameter 'json_filename' as a valid JSON file"],
         )
 
         self.sde_func_tpl_return = self.COMP_START.json_reader(
