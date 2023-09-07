@@ -242,13 +242,44 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_tpl_return)
         self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
 
-    # Skip
+    # Tuple
     @patch("builtins.input", lambda _: "Y")
     def test_009_json_writer_case_one_yes(self):
         # Need to fill this in
-        self.generate_test_message("json_writer", "parameter 'file_state' as 1")
-        print("...Code not found, skipping test", end="")
-        print("...Tell the programmer to fix this!")
+        self.generate_test_message(
+            "json_writer", "parameter 'file_state' as 1 and input mocked as 'Y'"
+        )
+
+        self.clear_test_file()
+
+        self.sde_func_tpl_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 1, self.EXAMPLE_TEST
+        )
+        return_value = (True, "JSON file written successfully!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_tpl_return, return_value)
+        self.print_results(results=self.sde_func_tpl_return)
+        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
+
+    # Tuple
+    @patch("builtins.input", lambda _: "N")
+    def test_009_json_writer_case_one_no(self):
+        # Need to fill this in
+        self.generate_test_message(
+            "json_writer", "parameter 'file_state' as 1 and input mocked as 'N'"
+        )
+
+        self.clear_test_file()
+
+        self.sde_func_tpl_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 1, self.EXAMPLE_TEST
+        )
+        return_value = (False, "Skipped writing JSON file!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_tpl_return, return_value)
+        self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
     def test_010_json_writer_case_two_diff_data(self):
