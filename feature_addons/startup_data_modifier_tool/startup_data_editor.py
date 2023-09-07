@@ -132,6 +132,19 @@ def generate_default():
     return json_data
 
 
+def print_pretty_json(json_data: dict):
+    """Print out the passed in JSON data in a nicely formatted manner
+
+    This function will go through the JSON data dictionary and prettify the
+    data to display it in a human readable manner
+
+    Args:
+        json_data (dict): The JSON data to prettify
+    """
+    pretty_json_data = json.dumps(json_data, indent=1)
+    print(pretty_json_data)
+
+
 def create_json_data(new_file: bool, **kwargs):
     """Function to create JSON data
 
@@ -403,20 +416,26 @@ if __name__ == "__main__":
         # User chose a valid option, process accordingly
         user_choice = int(user_choice)
 
-        if user_choice == 1:
-            # Create a new JSON file
-            status_state, status_message = json_creator(json_path, json_filename)
-        elif user_choice == 2:
-            # Read in existing JSON file and store the return results of the
-            # json_read function
-            status_state, status_message, json_data = json_reader(
-                json_path, json_filename
-            )
-        else:
-            quit_loop = True
+        match user_choice:
+            case 1:
+                # Create a new JSON file
+                status_state, status_message = json_creator(json_path, json_filename)
+
+                print(f"\n{status_message}")
+            case 2:
+                # Read in existing JSON file and store the return results of the
+                # json_read function
+                status_state, status_message, json_data = json_reader(
+                    json_path, json_filename
+                )
+
+                print(f"\n{status_message}\n")
+
+                if status_state:
+                    print_pretty_json(json_data)
+            case _:
+                quit_loop = True
 
         # Print the status message if user isn't exiting the program
-        if not quit_loop:
-            print(f"\n{status_message}")
-        else:
+        if quit_loop:
             print("\nThank you for using CompStart. Have a wonderful day.")
