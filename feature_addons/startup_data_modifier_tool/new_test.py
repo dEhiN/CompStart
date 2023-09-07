@@ -140,6 +140,10 @@ class TestStartupDataEditor(unittest.TestCase):
         else:
             print(f'\n\nTesting function "{func_name}" with {msg_addons}...')
 
+    def clear_test_file(self):
+        if os.path.isfile(self.TEST_FILE):
+            os.remove(self.TEST_FILE)
+
     # String
     def test_001_parse_full_path(self):
         self.generate_test_message("parse_full_path")
@@ -226,8 +230,7 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_008_json_writer_case_zero(self):
         self.generate_test_message("json_writer", "parameter 'file_state' as 0")
 
-        if os.path.isfile(self.TEST_FILE):
-            os.remove(self.TEST_FILE)
+        self.clear_test_file()
 
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 0, self.EXAMPLE_TEST
@@ -251,18 +254,8 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_010_json_writer_case_two(self):
         self.generate_test_message("json_writer", "parameter 'file_state' as 2")
 
-        if os.path.isfile(self.TEST_FILE):
-            os.remove(self.TEST_FILE)
-
-        try:
-            with open(self.TEST_FILE, "w") as file:
-                json.dump(self.EXAMPLE_TEST, file)
-        except Exception as e:
-            err_msg = (
-                "...Uh oh, something went wrong! Cannot find or create "
-                + self.TEST_FILE
-            )
-            raise self.failureException(err_msg)
+        self.clear_test_file()
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
 
         self.sde_func_tpl_return = self.COMP_START.json_writer(
             self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
@@ -278,8 +271,7 @@ class TestStartupDataEditor(unittest.TestCase):
     def test_011_json_creator(self):
         self.generate_test_message("json_creator")
 
-        if os.path.isfile(self.TEST_FILE):
-            os.remove(self.TEST_FILE)
+        self.clear_test_file()
 
         self.sde_func_tpl_return = self.COMP_START.json_creator(
             self.TEST_PATH, self.TEST_FILENAME
