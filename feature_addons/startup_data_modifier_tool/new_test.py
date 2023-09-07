@@ -270,7 +270,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
 
     # Tuple
-    def test_010_json_writer_case_two_same_data(self):
+    def test_011_json_writer_case_two_same_data(self):
         self.generate_test_message(
             "json_writer", "parameter 'file_state' as 2 but using the same JSON data"
         )
@@ -292,7 +292,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
-    def test_011_json_creator(self):
+    def test_012_json_creator(self):
         self.generate_test_message("json_creator")
 
         self.clear_test_file()
@@ -308,7 +308,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.confirm_written_data(check_dict=self.EXAMPLE_JSON)
 
     # Tuple
-    def test_012_json_reader_no_file_extension(self):
+    def test_013_json_reader_no_file_extension(self):
         self.generate_test_message(
             "json_reader", "parameter 'json_filename' as a file with no extension"
         )
@@ -324,7 +324,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
-    def test_013_json_reader_wrong_file_extension(self):
+    def test_014_json_reader_wrong_file_extension(self):
         self.generate_test_message(
             "json_reader",
             "parameter 'json_filename' as a file with an incorrect extension",
@@ -347,7 +347,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
-    def test_014_json_reader_valid_file(self):
+    def test_015_json_reader_valid_file(self):
         self.generate_test_message(
             "json_reader", "parameter 'json_filename' as a valid JSON file"
         )
