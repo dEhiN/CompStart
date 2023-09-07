@@ -382,8 +382,9 @@ if __name__ == "__main__":
     user_choices = (
         "Choose one of the following:\n"
         "[1] Create a new startup JSON file\n"
-        "[2] Edit an existing startup JSON file\n"
-        "[3] Quit the program\n"
+        "[2] View the existing startup JSON file\n"
+        "[3] Edit the existing startup JSON file\n"
+        "[4] Quit the program\n"
     )
 
     # Initialize status variables
