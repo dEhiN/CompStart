@@ -476,6 +476,12 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_tpl_return)
 
     def test_suite(self):
+        print("Running test suite in...")
+        time.sleep(1)
+        for i in range(3, 0, -1):
+            print(f"{i}...")
+            time.sleep(1)
+
         self.fn_parse_full_path()
         self.fn_check_overwrite_no()
         self.fn_check_overwrite_yes()
