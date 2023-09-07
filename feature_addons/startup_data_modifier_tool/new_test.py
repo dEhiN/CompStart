@@ -251,8 +251,10 @@ class TestStartupDataEditor(unittest.TestCase):
         print("...Tell the programmer to fix this!")
 
     # Tuple
-    def test_010_json_writer_case_two(self):
-        self.generate_test_message("json_writer", "parameter 'file_state' as 2")
+    def test_010_json_writer_case_two_diff_data(self):
+        self.generate_test_message(
+            "json_writer", "parameter 'file_state' as 2 and using updated JSON data"
+        )
 
         self.clear_test_file()
         self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
@@ -266,6 +268,28 @@ class TestStartupDataEditor(unittest.TestCase):
         self.assertEqual(self.sde_func_tpl_return, return_value)
         self.print_results(results=self.sde_func_tpl_return)
         self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
+
+    # Tuple
+    def test_010_json_writer_case_two_same_data(self):
+        self.generate_test_message(
+            "json_writer", "parameter 'file_state' as 2 but using the same JSON data"
+        )
+
+        self.clear_test_file()
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+
+        self.sde_func_tpl_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 2, self.EXAMPLE_TEST
+        )
+        return_value = (
+            False,
+            "Existing JSON data and new JSON data are the same. Not"
+            + f" updating {self.TEST_FILE} because there is no point.",
+        )
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_tpl_return, return_value)
+        self.print_results(results=self.sde_func_tpl_return)
 
     # Tuple
     def test_011_json_creator(self):

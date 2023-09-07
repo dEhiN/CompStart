@@ -233,8 +233,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 file_mode = "w"
             else:
                 return_message = (
-                    "Existing JSON data and new JSON data are the same. Not",
-                    "updating {json_file} because there is no point.",
+                    "Existing JSON data and new JSON data are the same. Not"
+                    + f" updating {json_file} because there is no point."
                 )
         case _:
             return_message = (
