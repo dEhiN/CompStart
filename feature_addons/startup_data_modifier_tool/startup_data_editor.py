@@ -228,7 +228,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 # Write JSON data to file
                 file_mode = "w"
             else:
-                return_message = "Skipped writing JSON file!"
+                return_message = "Skipped writing startup file!"
         case 2:
             # Check to see if the current JSON data in the file is different
             # from json_data
@@ -238,7 +238,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             except Exception as error:
                 existing_data = json_data
                 return_message = (
-                    "Unable to open existing JSON file! Error information is"
+                    "Unable to open existing startup file! Error information is"
                     + "below:\n"
                     + str(type(error).__name__)
                     + " - "
@@ -249,12 +249,12 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 file_mode = "w"
             else:
                 return_message = (
-                    "Existing JSON data and new JSON data are the same. Not"
+                    "Existing startup data and new startup data are the same. Not"
                     + f" updating {json_file} because there is no point."
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write JSON data. Please try again."
+                "Invalid file state! Could not write startup data. Please try again."
             )
 
     # Write to file if needed
@@ -267,7 +267,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             write_json_success = True
         except Exception as error:
             return_message = (
-                "Unable to write JSON data. Error information is below:\n"
+                "Unable to write startup data. Error information is below:\n"
                 + str(type(error).__name__)
                 + " - "
                 + str(error)
@@ -332,7 +332,7 @@ def json_reader(json_path: list, json_filename: str):
 
     # Create return values
     read_json_success = False
-    return_message = "JSON data read in successfully!"
+    return_message = "Startup data read in successfully!"
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -341,7 +341,7 @@ def json_reader(json_path: list, json_filename: str):
     # Validate if correct JSON file
     if len(split_filename) == 1:
         # The filename has no extension component
-        return_message = "Please specify a valid JSON file name"
+        return_message = "Please specify a valid startup file name"
     else:
         # Grab the extension
         last_item = split_filename[len(split_filename) - 1]
@@ -349,9 +349,9 @@ def json_reader(json_path: list, json_filename: str):
         # Check the extension is "json"
         if last_item != "json":
             return_message = (
-                "Invalid JSON file name.\n"
-                f"Received extension of: {last_item}\n"
-                "Expected extension of: json"
+                "Invalid startup file name.\n"
+                f"Received extension of: .{last_item}\n"
+                "Expected extension of: .json"
             )
         else:
             # Get the full path to the file in string format
@@ -366,7 +366,7 @@ def json_reader(json_path: list, json_filename: str):
                 read_json_success = True
             except Exception as error:
                 return_message = (
-                    "Unable to read JSON data. Error information is below:\n"
+                    "Unable to read startup data. Error information is below:\n"
                     + str(type(error).__name__)
                     + " - "
                     + str(error)
@@ -397,9 +397,9 @@ if __name__ == "__main__":
 
     user_choices = (
         "Choose one of the following:\n"
-        "[1] Create a new startup JSON file\n"
-        "[2] View the existing startup JSON file\n"
-        "[3] Edit the existing startup JSON file\n"
+        "[1] Create a new startup file\n"
+        "[2] View the existing startup file\n"
+        "[3] Edit the existing startup file\n"
         "[4] Quit the program\n"
     )
 
@@ -436,6 +436,9 @@ if __name__ == "__main__":
 
                 if status_state:
                     print(prettify_json(json_data))
+            case 3:
+                print("\nI'm sorry that functionality isn't implemented yet...")
+                quit_loop = True
             case _:
                 quit_loop = True
 
