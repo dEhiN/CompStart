@@ -79,20 +79,6 @@ def check_overwrite(json_file: str):
     return overwrite_file
 
 
-def generate_json(**kwargs):
-    """Function to create JSON data from **kwargs parameter
-
-    Args:
-        **kwargs: Optional parameters that contain new JSON data
-
-    Returns:
-        dict: The same dictionary passed in but now filled with JSON data
-    """
-
-    # For now return a blank dictionary
-    return []
-
-
 def generate_default():
     """Function to create default startup data
 
@@ -132,17 +118,34 @@ def generate_default():
     return json_data
 
 
-def print_pretty_json(json_data: dict):
-    """Print out the passed in JSON data in a nicely formatted manner
+def generate_json(**kwargs):
+    """Function to create JSON data from **kwargs parameter
+
+    Args:
+        **kwargs: Optional parameters that contain new JSON data
+
+    Returns:
+        dict: The same dictionary passed in but now filled with JSON data
+    """
+
+    # For now return a blank dictionary
+    return []
+
+
+def prettify_json(json_data: dict):
+    """Return the passed-in JSON data in a nicely formatted manner
 
     This function will go through the JSON data dictionary and prettify the
     data to display it in a human readable manner
 
     Args:
         json_data (dict): The JSON data to prettify
+
+    Returns:
+        str: The JSON data in a nicely formatted manner as a string
     """
     pretty_json_data = json.dumps(json_data, indent=1)
-    print(pretty_json_data)
+    return pretty_json_data
 
 
 def create_json_data(new_file: bool, **kwargs):
@@ -432,7 +435,7 @@ if __name__ == "__main__":
                 print(f"\n{status_message}\n")
 
                 if status_state:
-                    print_pretty_json(json_data)
+                    print(prettify_json(json_data))
             case _:
                 quit_loop = True
 
