@@ -24,13 +24,63 @@ EXAMPLE_JSON = {
 }
 
 
+def prettify_error(error: Exception, file_mode: str = ""):
+    """Helper function to prettify an error or exception
+
+    This function will take an Exception and create a more human-readable
+    output for the error
+
+    Args:
+        error (Exception): The Exception that was caught (might be most likely
+        through a try-except block).
+
+        file_mode (str, optional): If the Exception was caught while working
+        with files, this parameter will tell which file mode or what action was
+        being taken. Acceptable values are "r" for reading, "w" for writing.
+        Defaults to "". If the default value is used or a non-acceptable value
+        is used, only the Exception will be returned without any extra
+        messaging.
+    """
+    return_message = ""
+    match file_mode:
+        case "r":
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
+        case "w":
+            return_message += (
+                "Unable to write startup data. Error information is below:\n"
+            )
+        case _:
+            pass
+    return_message += str(type(error).__name__) + " - " + str(error)
+    return return_message
+
+
+def prettify_json(json_data: dict):
+    """Helper function to prettify the passed-in JSON data
+
+    This function will go through the JSON data dictionary and format the data
+    to display it in a human readable manner
+
+    Args:
+        json_data (dict): The JSON data to prettify
+
+    Returns:
+        str: The JSON data in a nicely formatted manner as a string
+    """
+    pretty_json_data = json.dumps(json_data, indent=1)
+    return pretty_json_data
+
+
 def parse_full_path(json_path: list, json_filename: str):
     """Helper function to parse the path components to a JSON file
 
     Args:
         json_path (list): A list containing the relative or absolute path to
-            the JSON file with each list item representing one subfolder from
-            Current Working Directory (CWD)
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
         json_filename (str): The filename of the JSON file
 
     Returns:
@@ -49,14 +99,18 @@ def parse_full_path(json_path: list, json_filename: str):
 
 
 def check_overwrite(json_file: str):
-    """Check to see if user is ok to overwrite existing file
+    """Helper function to confirm before overwriting the startup file
+
+    If a startup file already exists, this function will check to see if the
+    user would like to overwrite it. This function assumes the file exists and
+    doesn't check for that.
 
     Args:
         json_file (str): The file that will be overwritten
 
     Returns:
         bool: True if user would like to overwrite the existing file, False
-            otherwise
+        otherwise
     """
 
     # Loop until user gives a valid response
@@ -80,7 +134,7 @@ def check_overwrite(json_file: str):
 
 
 def generate_default():
-    """Function to create default startup data
+    """Helper function to create default startup data
 
     The default startup data opens notepad and contains what's in EXAMPLE_JSON.
 
@@ -119,7 +173,11 @@ def generate_default():
 
 
 def generate_json(**kwargs):
-    """Function to create JSON data from **kwargs parameter
+    """Helper function to create JSON data from **kwargs parameter
+
+    As of 09/08/23:
+    Haven't yet decided how **kwargs parameter will be structured, but it will
+    most likely either be a dictionary itself, or a list of strings.
 
     Args:
         **kwargs: Optional parameters that contain new JSON data
@@ -132,24 +190,8 @@ def generate_json(**kwargs):
     return []
 
 
-def prettify_json(json_data: dict):
-    """Return the passed-in JSON data in a nicely formatted manner
-
-    This function will go through the JSON data dictionary and prettify the
-    data to display it in a human readable manner
-
-    Args:
-        json_data (dict): The JSON data to prettify
-
-    Returns:
-        str: The JSON data in a nicely formatted manner as a string
-    """
-    pretty_json_data = json.dumps(json_data, indent=1)
-    return pretty_json_data
-
-
 def create_json_data(new_file: bool, **kwargs):
-    """Function to create JSON data
+    """Helper function to create JSON data
 
     Depending on the parameters passed in, the function will either create
     default startup data and create a new startup_data.json file with the
@@ -165,7 +207,7 @@ def create_json_data(new_file: bool, **kwargs):
 
     Returns:
         dict: The actual JSON data if there is any to return or an empty
-            dictionary if not
+        dictionary if not
     """
 
     # If need to create default JSON data
@@ -201,15 +243,18 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
     Args:
         json_file (str): The full absolute path of the JSON file including
-            filename and extension
+        filename and extension
+
         file_state (int): An indicator of how the file to be written should be
-            handled. See extended summary above.
+        handled. See extended summary above.
+
         json_data (dict): The JSON data to write to file. See note above.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
+
         string: An error message to display if the JSON data couldn't be
-            written to disk or a message that it was written successfully
+        written to disk or a message that it was written successfully
     """
 
     # Initialize return variables
@@ -237,13 +282,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     existing_data = json.load(file)
             except Exception as error:
                 existing_data = json_data
-                return_message = (
-                    "Unable to open existing startup file! Error information is"
-                    + "below:\n"
-                    + str(type(error).__name__)
-                    + " - "
-                    + str(error)
-                )
+                return_message = prettify_error(error, "r")
 
             if not json_data == existing_data:
                 file_mode = "w"
@@ -266,12 +305,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             # Created file successfully
             write_json_success = True
         except Exception as error:
-            return_message = (
-                "Unable to write startup data. Error information is below:\n"
-                + str(type(error).__name__)
-                + " - "
-                + str(error)
-            )
+            return_message = prettify_error(error, file_mode)
 
     return write_json_success, return_message
 
@@ -281,14 +315,16 @@ def json_creator(json_path: list, json_filename: str):
 
     Args:
         json_path (list): A list containing the relative or absolute path to
-            the JSON file with each list item representing one subfolder from
-            Current Working Directory (CWD)
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
         json_filename (str): The filename of the JSON file
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
+
         string: An error message to display if the JSON data couldn't be
-            written to disk or a message that it was written successfully
+        written to disk or a message that it was written successfully
     """
 
     # Initialize variables
@@ -318,16 +354,19 @@ def json_reader(json_path: list, json_filename: str):
 
     Args:
         json_path (list): A list containing the relative or absolute path to
-            the JSON file with each list item representing one subfolder from
-            Current Working Directory (CWD)
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
         json_filename (str): The filename of the JSON file
 
     Returns:
         bool: True if there is JSON data to return, False if not
+
         string: An error message to display if there's no JSON data to return
-            or blank otherwise
+        or blank otherwise
+
         dict: The actual JSON data if there is any to return or an empty
-            dictionary if not
+        dictionary if not
     """
 
     # Create return values
@@ -365,12 +404,7 @@ def json_reader(json_path: list, json_filename: str):
                 # Read was successful
                 read_json_success = True
             except Exception as error:
-                return_message = (
-                    "Unable to read startup data. Error information is below:\n"
-                    + str(type(error).__name__)
-                    + " - "
-                    + str(error)
-                )
+                return_message = prettify_error(error, "r")
 
     return read_json_success, return_message, json_data
 
@@ -402,6 +436,7 @@ if __name__ == "__main__":
         "[3] Edit the existing startup file\n"
         "[4] Quit the program\n"
     )
+    max_choices = 4
 
     # Initialize status variables
     status_state = False
@@ -413,7 +448,11 @@ if __name__ == "__main__":
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > 3:
+        if (
+            not user_choice.isnumeric()
+            or int(user_choice) < 1
+            or int(user_choice) > max_choices
+        ):
             print("\nPlease enter a valid choice\n")
 
         # User chose a valid option, process accordingly
@@ -438,8 +477,7 @@ if __name__ == "__main__":
                     print(prettify_json(json_data))
             case 3:
                 print("\nI'm sorry that functionality isn't implemented yet...")
-                quit_loop = True
-            case _:
+            case 4:
                 quit_loop = True
 
         # Print the status message if user isn't exiting the program
