@@ -1,9 +1,7 @@
 # This will be a command line tool to create and edit the startup_data.json
 # file.
 
-import json
-import os
-
+import json, os
 from program_files.enum_classes import JsonSchemaKeys as ec_jsk
 from program_files.enum_classes import JsonSchemaStructure as ec_jss
 
@@ -448,15 +446,11 @@ if __name__ == "__main__":
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        if (
-            not user_choice.isnumeric()
-            or int(user_choice) < 1
-            or int(user_choice) > max_choices
-        ):
+        if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > max_choices:
             print("\nPlease enter a valid choice\n")
-
-        # User chose a valid option, process accordingly
-        user_choice = int(user_choice)
+        else:
+            # User chose a valid option, process accordingly
+            user_choice = int(user_choice)
 
         match user_choice:
             case 1:
