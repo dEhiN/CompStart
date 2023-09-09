@@ -16,8 +16,46 @@ EXAMPLE_JSON = {
             "Description": "A text editor",
             "Browser": False,
             "ArgumentCount": 0,
-            "ArgumentList": [],
+            "ArgumentList": []
         }
+    ],
+}
+
+# A second example of startup data with more items
+EXAMPLE_TWO = {
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "Calculator",
+            "FilePath": "calc",
+            "Description": "A simple calculator",
+            "Browser": False,
+            "ArgumentCount": 0,
+            "ArgumentList": [],
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Dealer-FX Homepage",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "The DFX homepage",
+            "Browser": True,
+            "ArgumentCount": 3,
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--new-window",
+                "https://www.dealer-fx.com/",
+            ],
+        },
+        {
+            "ItemNumber": 3,
+            "Name": "Notepad",
+            "FilePath": "notepad",
+            "Description": "A text editor",
+            "Browser": False,
+            "ArgumentCount": 0,
+            "ArgumentList": [],
+        },
     ],
 }
 
