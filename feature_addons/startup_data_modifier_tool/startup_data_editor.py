@@ -80,13 +80,9 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += (
-                "Unable to read startup data. Error information is below:\n"
-            )
+            return_message += "Unable to read startup data. Error information is below:\n"
         case "w":
-            return_message += (
-                "Unable to write startup data. Error information is below:\n"
-            )
+            return_message += "Unable to write startup data. Error information is below:\n"
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
@@ -328,9 +324,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     + f" updating {json_file} because there is no point."
                 )
         case _:
-            return_message = (
-                "Invalid file state! Could not write startup data. Please try again."
-            )
+            return_message = "Invalid file state! Could not write startup data. Please try again."
 
     # Write to file if needed
     if not file_mode == "":
@@ -457,9 +451,7 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(
-            ["feature_addons", "startup_data_modifier_tool", "program_files"]
-        )
+        json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
         json_filename = "test_data.json"
 
     # Main loop to allow user to navigate program options
@@ -499,9 +491,7 @@ if __name__ == "__main__":
             case 2:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
-                status_state, status_message, json_data = json_reader(
-                    json_path, json_filename
-                )
+                status_state, status_message, json_data = json_reader(json_path, json_filename)
 
                 print(f"\n{status_message}\n")
 
