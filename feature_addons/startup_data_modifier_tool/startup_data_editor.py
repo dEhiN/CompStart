@@ -76,6 +76,9 @@ def prettify_error(error: Exception, file_mode: str = ""):
         Defaults to "". If the default value is used or a non-acceptable value
         is used, only the Exception will be returned without any extra
         messaging.
+
+    Returns:
+        str: The Exception printed out in a way that makes sense
     """
     return_message = ""
     match file_mode:
