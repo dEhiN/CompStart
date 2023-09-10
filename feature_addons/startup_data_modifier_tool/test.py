@@ -1,4 +1,4 @@
-import os, unittest, json, time
+import os, unittest, json, time, random
 from unittest.mock import patch
 import startup_data_editor
 
@@ -517,31 +517,52 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_return)
 
     def test_suite(self):
+        user_pause = input("Would you like a pause between each test (Y/[N])? ")
+        if user_pause.isnumeric() or not user_pause.upper() == "Y":
+            print("Defaulting to no pause...")
+            user_pause = "N"
+
         print("Running test suite in...")
         time.sleep(1)
         for i in range(3, 0, -1):
             print(f"{i}...")
             time.sleep(1)
 
-        self.fn_prettify_error_read()
-        self.fn_prettify_error_write()
-        self.fn_prettify_error_default()
-        self.fn_parse_full_path()
-        self.fn_check_overwrite_no()
-        self.fn_check_overwrite_yes()
-        self.fn_generate_json()
-        self.fn_generate_default()
-        self.fn_create_json_data_false()
-        self.fn_create_json_data_true()
-        self.fn_json_writer_case_zero()
-        self.fn_json_writer_case_one_no()
-        self.fn_json_writer_case_one_yes()
-        self.fn_json_writer_case_two_same_data()
-        self.fn_json_writer_case_two_diff_data()
-        self.fn_json_creator()
-        self.fn_json_reader_no_file_extension()
-        self.fn_json_reader_wrong_file_extension()
-        self.fn_json_reader_valid_file()
+        all_functions = [
+            self.fn_prettify_error_read,
+            self.fn_prettify_error_write,
+            self.fn_prettify_error_default,
+            self.fn_parse_full_path,
+            self.fn_check_overwrite_no,
+            self.fn_check_overwrite_yes,
+            self.fn_generate_json,
+            self.fn_generate_default,
+            self.fn_create_json_data_false,
+            self.fn_create_json_data_true,
+            self.fn_json_writer_case_zero,
+            self.fn_json_writer_case_one_no,
+            self.fn_json_writer_case_one_yes,
+            self.fn_json_writer_case_two_same_data,
+            self.fn_json_writer_case_two_diff_data,
+            self.fn_json_creator,
+            self.fn_json_reader_no_file_extension,
+            self.fn_json_reader_wrong_file_extension,
+            self.fn_json_reader_valid_file,
+        ]
+
+        while all_functions:
+            random_index = 0
+            total_functions = len(all_functions) - 1
+            if total_functions > 0:
+                random_index = random.randrange(0, total_functions)
+
+            chosen_function = all_functions[random_index]
+            chosen_function()
+
+            if user_pause == "Y":
+                input("Press any key to continue...")
+
+            all_functions.pop(random_index)
 
 
 def set_startdir():
