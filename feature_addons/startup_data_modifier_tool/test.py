@@ -8,6 +8,7 @@ class TestStartupDataEditor(unittest.TestCase):
     def setUpClass(cls):
         # Creating and initializing class variables
         cls.COMP_START = startup_data_editor
+        cls.func_counter = 0
 
         # Creating all JSON variable constants to use in testing
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
@@ -116,10 +117,9 @@ class TestStartupDataEditor(unittest.TestCase):
             case 4:
                 self.sde_func_return = ()
 
-    def generate_test_message(
-        self, func_name: str, test_num: int, msg_addons: bool, msg_extras: list = []
-    ):
-        print(f"\n\nTest #{test_num}: Function {func_name}", end="")
+    def generate_test_message(self, func_name: str, msg_addons: bool, msg_extras: list = []):
+        self.func_counter += 1
+        print(f"\n\nTest #{self.func_counter}: Function {func_name}", end="")
         if msg_addons:
             num_addons = len(msg_extras)
             print(f" with {msg_extras[0]}", end="")
@@ -164,304 +164,9 @@ class TestStartupDataEditor(unittest.TestCase):
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     # String
-    def fn_parse_full_path(self):
-        self.set_vars(return_type=1)
-        self.generate_test_message(test_num=1, func_name="parse_full_path", msg_addons=False)
-
-        self.sde_func_return = self.COMP_START.parse_full_path(self.TEST_PATH, self.TEST_FILENAME)
-        return_value = self.TEST_FILE
-        self.expected_message += return_value
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Boolean
-    @patch("builtins.input", lambda _: "N")
-    def fn_check_overwrite_no(self):
-        self.set_vars(return_type=2)
-        self.generate_test_message(
-            test_num=2,
-            func_name="check_overwrite",
-            msg_addons=True,
-            msg_extras=["input mocked as 'N'"],
-        )
-
-        self.sde_func_return = self.COMP_START.check_overwrite(self.TEST_FILE)
-        return_value = False
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Boolean
-    @patch("builtins.input", lambda _: "Y")
-    def fn_check_overwrite_yes(self):
-        self.set_vars(return_type=2)
-        self.generate_test_message(
-            test_num=3,
-            func_name="check_overwrite",
-            msg_addons=True,
-            msg_extras=["input mocked as 'Y'"],
-        )
-
-        self.sde_func_return = self.COMP_START.check_overwrite(self.TEST_FILE)
-        return_value = True
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Dictionary
-    def fn_generate_json(self):
-        self.set_vars(return_type=3)
-        self.generate_test_message(test_num=4, func_name="generate_json", msg_addons=False)
-
-        self.sde_func_return = self.COMP_START.generate_json()
-        return_value = []
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Dictionary
-    def fn_generate_default(self):
-        self.set_vars(return_type=3)
-        self.generate_test_message(test_num=5, func_name="generate_default", msg_addons=False)
-
-        self.sde_func_return = self.COMP_START.generate_default()
-        return_value = self.EXAMPLE_JSON.copy()
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Dictionary
-    def fn_create_json_data_false(self):
-        self.set_vars(return_type=3)
-        self.generate_test_message(
-            test_num=6,
-            func_name="create_json_data",
-            msg_addons=True,
-            msg_extras=["parameter 'new_file' as False"],
-        )
-
-        self.sde_func_return = self.COMP_START.create_json_data(False)
-        return_value = self.COMP_START.generate_json()
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Dictionary
-    def fn_create_json_data_true(self):
-        self.set_vars(return_type=3)
-        self.generate_test_message(
-            test_num=7,
-            func_name="create_json_data",
-            msg_addons=True,
-            msg_extras=["parameter 'new_file' as True"],
-        )
-
-        self.sde_func_return = self.COMP_START.create_json_data(True)
-        return_value = self.EXAMPLE_JSON.copy()
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Tuple
-    def fn_json_writer_case_zero(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=8,
-            func_name="json_writer",
-            msg_addons=True,
-            msg_extras=["parameter 'file_state' as 0"],
-        )
-
-        self.clear_test_file()
-
-        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
-        return_value = (True, "Startup file written successfully!")
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
-
-    # Tuple
-    @patch("builtins.input", lambda _: "N")
-    def fn_json_writer_case_one_no(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=9,
-            func_name="json_writer",
-            msg_addons=True,
-            msg_extras=["parameter 'file_state' as 1", "input mocked as 'N'"],
-        )
-
-        self.clear_test_file()
-
-        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
-        return_value = (False, "Skipped writing startup file!")
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Tuple
-    @patch("builtins.input", lambda _: "Y")
-    def fn_json_writer_case_one_yes(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=10,
-            func_name="json_writer",
-            msg_addons=True,
-            msg_extras=["parameter 'file_state' as 1", "input mocked as 'Y'"],
-        )
-
-        self.clear_test_file()
-
-        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
-        return_value = (True, "Startup file written successfully!")
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
-
-    # Tuple
-    def fn_json_writer_case_two_same_data(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=11,
-            func_name="json_writer",
-            msg_addons=True,
-            msg_extras=["parameter 'file_state' as 2", "using the same JSON (or startup) data"],
-        )
-
-        self.clear_test_file()
-        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
-
-        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 2, self.EXAMPLE_TEST)
-        return_value = (
-            False,
-            "Existing startup data and new startup data are the same. Not"
-            + f" updating {self.TEST_FILE} because there is no point.",
-        )
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Tuple
-    def fn_json_writer_case_two_diff_data(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=12,
-            func_name="json_writer",
-            msg_addons=True,
-            msg_extras=["parameter 'file_state' as 2", "using updated JSON (or startup) data"],
-        )
-
-        self.clear_test_file()
-        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
-
-        self.sde_func_return = self.COMP_START.json_writer(
-            self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
-        )
-        return_value = (True, "Startup file written successfully!")
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-        self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
-
-    # Tuple
-    def fn_json_creator(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(test_num=13, func_name="json_creator", msg_addons=False)
-
-        self.clear_test_file()
-
-        self.sde_func_return = self.COMP_START.json_creator(self.TEST_PATH, self.TEST_FILENAME)
-        return_value = (True, "Startup file written successfully!")
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-        self.confirm_written_data(check_dict=self.EXAMPLE_JSON)
-
-    # Tuple
-    def fn_json_reader_no_file_extension(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=14,
-            func_name="json_reader",
-            msg_addons=True,
-            msg_extras=["parameter 'json_filename' as a file with no extension"],
-        )
-
-        test_filename = "unittest"
-        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
-        return_value = (False, "Please specify a valid startup file name", {})
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Tuple
-    def fn_json_reader_wrong_file_extension(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=15,
-            func_name="json_reader",
-            msg_addons=True,
-            msg_extras=["parameter 'json_filename' as a file with an incorrect extension"],
-        )
-
-        test_filename = "unittest.test"
-        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
-        return_value = (
-            False,
-            "Invalid startup file name.\n"
-            "Received extension of: .test\n"
-            "Expected extension of: .json",
-            {},
-        )
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # Tuple
-    def fn_json_reader_valid_file(self):
-        self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=16,
-            func_name="json_reader",
-            msg_addons=True,
-            msg_extras=["parameter 'json_filename' as a valid JSON file"],
-        )
-
-        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
-
-        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, self.TEST_FILENAME)
-        return_value = (
-            True,
-            "Startup data read in successfully!",
-            self.EXAMPLE_TEST.copy(),
-        )
-        self.expected_message += str(return_value)
-
-        self.assertEqual(self.sde_func_return, return_value)
-        self.print_results(results=self.sde_func_return)
-
-    # String
     def fn_prettify_error_read(self):
         self.set_vars(return_type=1)
         self.generate_test_message(
-            test_num=17,
             func_name="prettify_error",
             msg_addons=True,
             msg_extras=["the parameter 'file_mode' as 'r'"],
@@ -489,7 +194,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def fn_prettify_error_write(self):
         self.set_vars(return_type=1)
         self.generate_test_message(
-            test_num=18,
             func_name="prettify_error",
             msg_addons=True,
             msg_extras=["the parameter 'file_mode' as 'r'"],
@@ -517,7 +221,6 @@ class TestStartupDataEditor(unittest.TestCase):
     def fn_prettify_error_default(self):
         self.set_vars(return_type=1)
         self.generate_test_message(
-            test_num=19,
             func_name="prettify_error",
             msg_addons=True,
             msg_extras=["the parameter 'file_mode' as 'r'"],
@@ -528,6 +231,288 @@ class TestStartupDataEditor(unittest.TestCase):
         return_value = str(type(error).__name__) + " - " + str(error)
 
         self.expected_message += return_value
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # String
+    def fn_parse_full_path(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(func_name="parse_full_path", msg_addons=False)
+
+        self.sde_func_return = self.COMP_START.parse_full_path(self.TEST_PATH, self.TEST_FILENAME)
+        return_value = self.TEST_FILE
+        self.expected_message += return_value
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Boolean
+    @patch("builtins.input", lambda _: "N")
+    def fn_check_overwrite_no(self):
+        self.set_vars(return_type=2)
+        self.generate_test_message(
+            func_name="check_overwrite",
+            msg_addons=True,
+            msg_extras=["input mocked as 'N'"],
+        )
+
+        self.sde_func_return = self.COMP_START.check_overwrite(self.TEST_FILE)
+        return_value = False
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Boolean
+    @patch("builtins.input", lambda _: "Y")
+    def fn_check_overwrite_yes(self):
+        self.set_vars(return_type=2)
+        self.generate_test_message(
+            func_name="check_overwrite",
+            msg_addons=True,
+            msg_extras=["input mocked as 'Y'"],
+        )
+
+        self.sde_func_return = self.COMP_START.check_overwrite(self.TEST_FILE)
+        return_value = True
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Dictionary
+    def fn_generate_json(self):
+        self.set_vars(return_type=3)
+        self.generate_test_message(func_name="generate_json", msg_addons=False)
+
+        self.sde_func_return = self.COMP_START.generate_json()
+        return_value = []
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Dictionary
+    def fn_generate_default(self):
+        self.set_vars(return_type=3)
+        self.generate_test_message(func_name="generate_default", msg_addons=False)
+
+        self.sde_func_return = self.COMP_START.generate_default()
+        return_value = self.EXAMPLE_JSON.copy()
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Dictionary
+    def fn_create_json_data_false(self):
+        self.set_vars(return_type=3)
+        self.generate_test_message(
+            func_name="create_json_data",
+            msg_addons=True,
+            msg_extras=["parameter 'new_file' as False"],
+        )
+
+        self.sde_func_return = self.COMP_START.create_json_data(False)
+        return_value = self.COMP_START.generate_json()
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Dictionary
+    def fn_create_json_data_true(self):
+        self.set_vars(return_type=3)
+        self.generate_test_message(
+            func_name="create_json_data",
+            msg_addons=True,
+            msg_extras=["parameter 'new_file' as True"],
+        )
+
+        self.sde_func_return = self.COMP_START.create_json_data(True)
+        return_value = self.EXAMPLE_JSON.copy()
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Tuple
+    def fn_json_writer_case_zero(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 0"],
+        )
+
+        self.clear_test_file()
+
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+        return_value = (True, "Startup file written successfully!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
+
+    # Tuple
+    @patch("builtins.input", lambda _: "N")
+    def fn_json_writer_case_one_no(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 1", "input mocked as 'N'"],
+        )
+
+        self.clear_test_file()
+
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
+        return_value = (False, "Skipped writing startup file!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Tuple
+    @patch("builtins.input", lambda _: "Y")
+    def fn_json_writer_case_one_yes(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 1", "input mocked as 'Y'"],
+        )
+
+        self.clear_test_file()
+
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
+        return_value = (True, "Startup file written successfully!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+        self.confirm_written_data(check_dict=self.EXAMPLE_TEST)
+
+    # Tuple
+    def fn_json_writer_case_two_same_data(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 2", "using the same JSON (or startup) data"],
+        )
+
+        self.clear_test_file()
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 2, self.EXAMPLE_TEST)
+        return_value = (
+            False,
+            "Existing startup data and new startup data are the same. Not"
+            + f" updating {self.TEST_FILE} because there is no point.",
+        )
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Tuple
+    def fn_json_writer_case_two_diff_data(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_writer",
+            msg_addons=True,
+            msg_extras=["parameter 'file_state' as 2", "using updated JSON (or startup) data"],
+        )
+
+        self.clear_test_file()
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+
+        self.sde_func_return = self.COMP_START.json_writer(
+            self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
+        )
+        return_value = (True, "Startup file written successfully!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+        self.confirm_written_data(check_dict=self.APPEND_EXAMPLE_TEST)
+
+    # Tuple
+    def fn_json_creator(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(func_name="json_creator", msg_addons=False)
+
+        self.clear_test_file()
+
+        self.sde_func_return = self.COMP_START.json_creator(self.TEST_PATH, self.TEST_FILENAME)
+        return_value = (True, "Startup file written successfully!")
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+        self.confirm_written_data(check_dict=self.EXAMPLE_JSON)
+
+    # Tuple
+    def fn_json_reader_no_file_extension(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=["parameter 'json_filename' as a file with no extension"],
+        )
+
+        test_filename = "unittest"
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
+        return_value = (False, "Please specify a valid startup file name", {})
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Tuple
+    def fn_json_reader_wrong_file_extension(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=["parameter 'json_filename' as a file with an incorrect extension"],
+        )
+
+        test_filename = "unittest.test"
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
+        return_value = (
+            False,
+            "Invalid startup file name.\n"
+            "Received extension of: .test\n"
+            "Expected extension of: .json",
+            {},
+        )
+        self.expected_message += str(return_value)
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # Tuple
+    def fn_json_reader_valid_file(self):
+        self.set_vars(return_type=4)
+        self.generate_test_message(
+            func_name="json_reader",
+            msg_addons=True,
+            msg_extras=["parameter 'json_filename' as a valid JSON file"],
+        )
+
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, self.TEST_FILENAME)
+        return_value = (
+            True,
+            "Startup data read in successfully!",
+            self.EXAMPLE_TEST.copy(),
+        )
+        self.expected_message += str(return_value)
+
         self.assertEqual(self.sde_func_return, return_value)
         self.print_results(results=self.sde_func_return)
 
