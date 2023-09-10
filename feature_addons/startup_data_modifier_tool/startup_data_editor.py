@@ -16,7 +16,7 @@ EXAMPLE_JSON = {
             "Description": "A text editor",
             "Browser": False,
             "ArgumentCount": 0,
-            "ArgumentList": []
+            "ArgumentList": [],
         }
     ],
 }
@@ -89,6 +89,59 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return return_message
 
 
+def prettify_startup_item(startup_item: dict):
+    """Helper function to prettify the passed-in JSON data
+
+    This function will go through the JSON data dictionary and format the data
+    to display it in a human readable manner
+
+    Args:
+        startup_item (dict): A dictionary representing the JSON data for one startup item.
+
+    Returns:
+        str: The startup item JSON data in a nicely formatted manner as a string
+    """
+    # Used to add a new line or tab
+    line = "\n"
+    tab = "\t"
+
+    startup_data = ""
+
+    # Add the startup item number
+    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
+
+    # Add the startup item name
+    startup_data += line + tab + "Item name: " + startup_item["Name"]
+
+    # Add the startup description
+    startup_data += line + tab + "Item description: " + startup_item["Description"]
+
+    # Add any argument information
+    startup_data += line + tab + "Does this item use arguments: "
+    arg_count = startup_item["ArgumentCount"]
+    if arg_count > 0:
+        startup_data += "Yes"
+
+        # Get the total number of arguments
+        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
+        arg_list = startup_item["ArgumentList"]
+
+        # Go through each argument
+        if arg_count > 2:
+            counter = 0
+            for argument in arg_list:
+                counter += 1
+                startup_data += (
+                    line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                )
+        else:
+            startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
+    else:
+        startup_data += "No"
+
+    return startup_data
+
+
 def prettify_json(json_data: dict):
     """Helper function to prettify the passed-in JSON data
 
@@ -101,8 +154,23 @@ def prettify_json(json_data: dict):
     Returns:
         str: The JSON data in a nicely formatted manner as a string
     """
-    pretty_json_data = json.dumps(json_data, indent=1)
-    return pretty_json_data
+    # Create and initialize our function variables
+    pretty_data = ""
+    total_items = json_data["TotalItems"]
+    items_list = json_data["Items"]
+
+    # Start populating pretty_data
+    pretty_data += "Number of startup items: " + str(total_items)
+
+    # Go through all the startup items
+    for i in range(total_items):
+        # Get the specific startup item
+        item = items_list[i]
+
+        # Prettify the startup item data
+        pretty_data += prettify_startup_item(item)
+
+    return pretty_data
 
 
 def parse_full_path(json_path: list, json_filename: str):
