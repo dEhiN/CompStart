@@ -425,8 +425,8 @@ class TestStartupDataEditor(unittest.TestCase):
         return_value = (
             False,
             "Invalid startup file name.\n"
-            "Received extension of: test\n"
-            "Expected extension of: json",
+            "Received extension of: .test\n"
+            "Expected extension of: .json",
             {},
         )
         self.expected_message += str(return_value)
