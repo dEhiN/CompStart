@@ -444,11 +444,13 @@ class TestStartupDataEditor(unittest.TestCase):
             msg_extras=["parameter 'json_filename' as a valid JSON file"],
         )
 
-        self.sde_func_return = self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME)
+        self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, self.TEST_FILENAME)
         return_value = (
             True,
             "Startup data read in successfully!",
-            self.EXAMPLE_JSON.copy(),
+            self.EXAMPLE_TEST.copy(),
         )
         self.expected_message += str(return_value)
 
