@@ -362,7 +362,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
     # Initialize return variables
     write_json_success = False
-    return_message = "JSON file written successfully!"
+    return_message = "Startup file written successfully!"
     file_mode = ""
 
     # Check for valid file_state value

@@ -148,7 +148,7 @@ class TestStartupDataEditor(unittest.TestCase):
                     temp_data = json.load(file)
             except Exception as error:
                 return_message = (
-                    "Unable to read JSON data. Error information is below:\n"
+                    "Unable to read startup data. Error information is below:\n"
                     + str(type(error).__name__)
                     + " - "
                     + str(error)
@@ -159,22 +159,16 @@ class TestStartupDataEditor(unittest.TestCase):
             if temp_data == check_dict:
                 print("...The data was written as expected!")
             else:
-                print(
-                    "...Uh oh, something went wrong! The data wasn't what was expected!"
-                )
+                print("...Uh oh, something went wrong! The data wasn't what was expected!")
         else:
             print("...Uh oh, something went wrong! Cannot find " + self.TEST_FILE)
 
     # String
     def fn_parse_full_path(self):
         self.set_vars(return_type=1)
-        self.generate_test_message(
-            test_num=1, func_name="parse_full_path", msg_addons=False
-        )
+        self.generate_test_message(test_num=1, func_name="parse_full_path", msg_addons=False)
 
-        self.sde_func_return = self.COMP_START.parse_full_path(
-            self.TEST_PATH, self.TEST_FILENAME
-        )
+        self.sde_func_return = self.COMP_START.parse_full_path(self.TEST_PATH, self.TEST_FILENAME)
         return_value = self.TEST_FILE
         self.expected_message += return_value
 
@@ -220,9 +214,7 @@ class TestStartupDataEditor(unittest.TestCase):
     # Dictionary
     def fn_generate_json(self):
         self.set_vars(return_type=3)
-        self.generate_test_message(
-            test_num=4, func_name="generate_json", msg_addons=False
-        )
+        self.generate_test_message(test_num=4, func_name="generate_json", msg_addons=False)
 
         self.sde_func_return = self.COMP_START.generate_json()
         return_value = []
@@ -234,9 +226,7 @@ class TestStartupDataEditor(unittest.TestCase):
     # Dictionary
     def fn_generate_default(self):
         self.set_vars(return_type=3)
-        self.generate_test_message(
-            test_num=5, func_name="generate_default", msg_addons=False
-        )
+        self.generate_test_message(test_num=5, func_name="generate_default", msg_addons=False)
 
         self.sde_func_return = self.COMP_START.generate_default()
         return_value = self.EXAMPLE_JSON.copy()
@@ -291,10 +281,8 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.clear_test_file()
 
-        self.sde_func_return = self.COMP_START.json_writer(
-            self.TEST_FILE, 0, self.EXAMPLE_TEST
-        )
-        return_value = (True, "JSON file written successfully!")
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
+        return_value = (True, "Startup file written successfully!")
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -314,10 +302,8 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.clear_test_file()
 
-        self.sde_func_return = self.COMP_START.json_writer(
-            self.TEST_FILE, 1, self.EXAMPLE_TEST
-        )
-        return_value = (False, "Skipped writing JSON file!")
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
+        return_value = (False, "Skipped writing startup file!")
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -336,10 +322,8 @@ class TestStartupDataEditor(unittest.TestCase):
 
         self.clear_test_file()
 
-        self.sde_func_return = self.COMP_START.json_writer(
-            self.TEST_FILE, 1, self.EXAMPLE_TEST
-        )
-        return_value = (True, "JSON file written successfully!")
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 1, self.EXAMPLE_TEST)
+        return_value = (True, "Startup file written successfully!")
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -353,18 +337,16 @@ class TestStartupDataEditor(unittest.TestCase):
             test_num=11,
             func_name="json_writer",
             msg_addons=True,
-            msg_extras=["parameter 'file_state' as 2", "using the same JSON data"],
+            msg_extras=["parameter 'file_state' as 2", "using the same JSON (or startup) data"],
         )
 
         self.clear_test_file()
         self.COMP_START.json_writer(self.TEST_FILE, 0, self.EXAMPLE_TEST)
 
-        self.sde_func_return = self.COMP_START.json_writer(
-            self.TEST_FILE, 2, self.EXAMPLE_TEST
-        )
+        self.sde_func_return = self.COMP_START.json_writer(self.TEST_FILE, 2, self.EXAMPLE_TEST)
         return_value = (
             False,
-            "Existing JSON data and new JSON data are the same. Not"
+            "Existing startup data and new startup data are the same. Not"
             + f" updating {self.TEST_FILE} because there is no point.",
         )
         self.expected_message += str(return_value)
@@ -379,7 +361,7 @@ class TestStartupDataEditor(unittest.TestCase):
             test_num=12,
             func_name="json_writer",
             msg_addons=True,
-            msg_extras=["parameter 'file_state' as 2", "using updated JSON data"],
+            msg_extras=["parameter 'file_state' as 2", "using updated JSON (or startup) data"],
         )
 
         self.clear_test_file()
@@ -388,7 +370,7 @@ class TestStartupDataEditor(unittest.TestCase):
         self.sde_func_return = self.COMP_START.json_writer(
             self.TEST_FILE, 2, self.APPEND_EXAMPLE_TEST
         )
-        return_value = (True, "JSON file written successfully!")
+        return_value = (True, "Startup file written successfully!")
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -398,16 +380,12 @@ class TestStartupDataEditor(unittest.TestCase):
     # Tuple
     def fn_json_creator(self):
         self.set_vars(return_type=4)
-        self.generate_test_message(
-            test_num=13, func_name="json_creator", msg_addons=False
-        )
+        self.generate_test_message(test_num=13, func_name="json_creator", msg_addons=False)
 
         self.clear_test_file()
 
-        self.sde_func_return = self.COMP_START.json_creator(
-            self.TEST_PATH, self.TEST_FILENAME
-        )
-        return_value = (True, "JSON file written successfully!")
+        self.sde_func_return = self.COMP_START.json_creator(self.TEST_PATH, self.TEST_FILENAME)
+        return_value = (True, "Startup file written successfully!")
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -425,10 +403,8 @@ class TestStartupDataEditor(unittest.TestCase):
         )
 
         test_filename = "unittest"
-        self.sde_func_return = self.COMP_START.json_reader(
-            self.TEST_PATH, test_filename
-        )
-        return_value = (False, "Please specify a valid JSON file name", {})
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
+        return_value = (False, "Please specify a valid startup file name", {})
         self.expected_message += str(return_value)
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -441,18 +417,14 @@ class TestStartupDataEditor(unittest.TestCase):
             test_num=15,
             func_name="json_reader",
             msg_addons=True,
-            msg_extras=[
-                "parameter 'json_filename' as a file with an incorrect extension"
-            ],
+            msg_extras=["parameter 'json_filename' as a file with an incorrect extension"],
         )
 
         test_filename = "unittest.test"
-        self.sde_func_return = self.COMP_START.json_reader(
-            self.TEST_PATH, test_filename
-        )
+        self.sde_func_return = self.COMP_START.json_reader(self.TEST_PATH, test_filename)
         return_value = (
             False,
-            "Invalid JSON file name.\n"
+            "Invalid startup file name.\n"
             "Received extension of: test\n"
             "Expected extension of: json",
             {},
@@ -472,12 +444,10 @@ class TestStartupDataEditor(unittest.TestCase):
             msg_extras=["parameter 'json_filename' as a valid JSON file"],
         )
 
-        self.sde_func_return = self.COMP_START.json_reader(
-            self.JSON_PATH, self.JSON_FILENAME
-        )
+        self.sde_func_return = self.COMP_START.json_reader(self.JSON_PATH, self.JSON_FILENAME)
         return_value = (
             True,
-            "JSON data read in successfully!",
+            "Startup data read in successfully!",
             self.EXAMPLE_JSON.copy(),
         )
         self.expected_message += str(return_value)
