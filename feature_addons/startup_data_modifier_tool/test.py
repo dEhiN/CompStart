@@ -8,7 +8,7 @@ class TestStartupDataEditor(unittest.TestCase):
     def setUpClass(cls):
         # Creating and initializing class variables
         cls.COMP_START = startup_data_editor
-        cls.func_counter = 0
+        cls.function_counter = 0
 
         # Creating all JSON variable constants to use in testing
         cls.EXAMPLE_JSON = cls.COMP_START.EXAMPLE_JSON
@@ -68,9 +68,9 @@ class TestStartupDataEditor(unittest.TestCase):
                 },
                 {
                     "ItemNumber": 2,
-                    "Name": "Dealer-FX Homepage",
+                    "Name": "DFX Homepage",
                     "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-                    "Description": "The DFX homepage",
+                    "Description": "The Dealer-FX homepage in Chrome",
                     "Browser": True,
                     "ArgumentCount": 3,
                     "ArgumentList": [
@@ -81,12 +81,12 @@ class TestStartupDataEditor(unittest.TestCase):
                 },
                 {
                     "ItemNumber": 3,
-                    "Name": "Notepad",
+                    "Name": "Anki Examples Text File",
                     "FilePath": "notepad",
-                    "Description": "A text editor",
+                    "Description": "The text file 'Des exemples de Anki' in Notepad",
                     "Browser": False,
-                    "ArgumentCount": 0,
-                    "ArgumentList": [],
+                    "ArgumentCount": 1,
+                    "ArgumentList": "Des exemples de Anki.txt",
                 },
             ],
         }
@@ -118,8 +118,8 @@ class TestStartupDataEditor(unittest.TestCase):
                 self.sde_func_return = ()
 
     def generate_test_message(self, func_name: str, msg_addons: bool, msg_extras: list = []):
-        self.func_counter += 1
-        print(f"\n\nTest #{self.func_counter}: Function {func_name}", end="")
+        self.function_counter += 1
+        print(f"\n\nTest #{self.function_counter}: Function {func_name}", end="")
         if msg_addons:
             num_addons = len(msg_extras)
             print(f" with {msg_extras[0]}", end="")
@@ -231,6 +231,38 @@ class TestStartupDataEditor(unittest.TestCase):
         return_value = str(type(error).__name__) + " - " + str(error)
 
         self.expected_message += return_value
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # String
+    def fn_prettify_json(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(func_name="prettify_json", msg_addons=False)
+
+        self.sde_func_return = self.COMP_START.prettify_json(self.APPEND_EXAMPLE_TEST)
+        return_value = (
+            "Number of startup items: 3"
+            "\n\nStartup item #1"
+            "\n\tItem name: Calculator"
+            "\n\tItem description: A simple calculator"
+            "\n\tDoes this item use arguments: No"
+            "\n\nStartup item #2"
+            "\n\tItem name: DFX Homepage"
+            "\n\tItem description: The Dealer-FX homepage in Chrome"
+            "\n\tDoes this item use arguments: Yes"
+            "\n\tTotal number of arguments used: 3"
+            '\n\t\tArgument 1: "--profile-directory=Default"'
+            '\n\t\tArgument 2: "--new-window"'
+            '\n\t\tArgument 3: "https://www.dealer-fx.com/"'
+            "\n\nStartup item #3"
+            "\n\tItem name: Anki Examples Text File"
+            "\n\tItem description: The text file 'Des exemples de Anki' in Notepad"
+            "\n\tDoes this item use arguments: Yes"
+            "\n\tTotal number of arguments used: 1"
+            '\n\t\tArgument: "Des exemples de Anki.txt"'
+        )
+        self.expected_message += return_value
+
         self.assertEqual(self.sde_func_return, return_value)
         self.print_results(results=self.sde_func_return)
 
@@ -518,9 +550,18 @@ class TestStartupDataEditor(unittest.TestCase):
 
     def test_suite(self):
         user_pause = input("Would you like a pause between each test (Y/[N])? ")
-        if user_pause.isnumeric() or not user_pause.upper() == "Y":
+        if user_pause.isnumeric():
             print("Defaulting to no pause...")
             user_pause = "N"
+        elif user_pause.isalpha():
+            user_pause = user_pause.upper()
+
+            if not user_pause == "Y" and not user_pause == "N":
+                print("Defaulting to no pause...")
+                user_pause = "N'"
+        else:
+            print("Defaulting to no pause...")
+            user_pause = "N'"
 
         print("Running test suite in...")
         time.sleep(1)
@@ -532,6 +573,7 @@ class TestStartupDataEditor(unittest.TestCase):
             self.fn_prettify_error_read,
             self.fn_prettify_error_write,
             self.fn_prettify_error_default,
+            self.fn_prettify_json,
             self.fn_parse_full_path,
             self.fn_check_overwrite_no,
             self.fn_check_overwrite_yes,
@@ -564,6 +606,10 @@ class TestStartupDataEditor(unittest.TestCase):
 
             all_functions.pop(random_index)
 
+        print(
+            f"\n\nSuccessfully completed all {self.function_counter} tests!"
+            " You passed with flying colours!"
+        )
 
 def set_startdir():
     dirs_list = os.getcwd().split(os.sep)
