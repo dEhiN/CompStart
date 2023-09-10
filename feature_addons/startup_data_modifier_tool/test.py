@@ -235,6 +235,76 @@ class TestStartupDataEditor(unittest.TestCase):
         self.print_results(results=self.sde_func_return)
 
     # String
+    def fn_prettify_startup_item_noargs(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            func_name="prettify_startup_item",
+            msg_addons=True,
+            msg_extras=["a startup item that takes no extra arguments"],
+        )
+
+        startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][0]
+        self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
+        return_value = (
+            "\n\nStartup item #1"
+            "\n\tItem name: Calculator"
+            "\n\tItem description: A simple calculator"
+            "\n\tDoes this item use arguments: No"
+        )
+        self.expected_message += return_value
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    def fn_prettify_startup_item_onearg(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            func_name="prettify_startup_item",
+            msg_addons=True,
+            msg_extras=["a startup item that takes one extra argument"],
+        )
+
+        startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][2]
+        self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
+        return_value = (
+            "\n\nStartup item #3"
+            "\n\tItem name: Anki Examples Text File"
+            "\n\tItem description: The text file 'Des exemples de Anki' in Notepad"
+            "\n\tDoes this item use arguments: Yes"
+            "\n\tTotal number of arguments used: 1"
+            '\n\t\tArgument: "Des exemples de Anki.txt"'
+        )
+        self.expected_message += return_value
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    def fn_prettify_startup_item_manyargs(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            func_name="prettify_startup_item",
+            msg_addons=True,
+            msg_extras=["a startup item that takes multiple extra arguments"],
+        )
+
+        startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][1]
+        self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
+        return_value = (
+            "\n\nStartup item #2"
+            "\n\tItem name: DFX Homepage"
+            "\n\tItem description: The Dealer-FX homepage in Chrome"
+            "\n\tDoes this item use arguments: Yes"
+            "\n\tTotal number of arguments used: 3"
+            '\n\t\tArgument 1: "--profile-directory=Default"'
+            '\n\t\tArgument 2: "--new-window"'
+            '\n\t\tArgument 3: "https://www.dealer-fx.com/"'
+        )
+        self.expected_message += return_value
+
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # String
     def fn_prettify_json(self):
         self.set_vars(return_type=1)
         self.generate_test_message(func_name="prettify_json", msg_addons=False)
@@ -573,6 +643,9 @@ class TestStartupDataEditor(unittest.TestCase):
             self.fn_prettify_error_read,
             self.fn_prettify_error_write,
             self.fn_prettify_error_default,
+            self.fn_prettify_startup_item_noargs,
+            self.fn_prettify_startup_item_onearg,
+            self.fn_prettify_startup_item_manyargs,
             self.fn_prettify_json,
             self.fn_parse_full_path,
             self.fn_check_overwrite_no,
@@ -610,6 +683,7 @@ class TestStartupDataEditor(unittest.TestCase):
             f"\n\nSuccessfully completed all {self.function_counter} tests!"
             " You passed with flying colours!"
         )
+
 
 def set_startdir():
     dirs_list = os.getcwd().split(os.sep)
