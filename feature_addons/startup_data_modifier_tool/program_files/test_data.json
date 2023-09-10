@@ -11,20 +11,20 @@
             "ArgumentList": []
         }, {
             "ItemNumber": 2,
-            "Name": "Dealer-FX Homepage",
+            "Name": "DFX Homepage",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "The DFX homepage",
+            "Description": "The Dealer-FX homepage in Chrome",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": ["--profile-directory=Default", "--new-window", "https://www.dealer-fx.com/"]
         }, {
             "ItemNumber": 3,
-            "Name": "Notepad",
+            "Name": "Anki Examples Text File",
             "FilePath": "notepad",
-            "Description": "A text editor",
+            "Description": "The text file 'Des exemples de Anki' in Notepad",
             "Browser": false,
-            "ArgumentCount": 0,
-            "ArgumentList": []
+            "ArgumentCount": 1,
+            "ArgumentList": "Des exemples de Anki.txt"
         }
     ]
 }
