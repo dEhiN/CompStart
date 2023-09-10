@@ -457,6 +457,80 @@ class TestStartupDataEditor(unittest.TestCase):
         self.assertEqual(self.sde_func_return, return_value)
         self.print_results(results=self.sde_func_return)
 
+    # String
+    def fn_prettify_error_read(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            test_num=17,
+            func_name="prettify_error",
+            msg_addons=True,
+            msg_extras=["the parameter 'file_mode' as 'r'"],
+        )
+
+        self.clear_test_file()
+        return_value = ""
+        try:
+            with open(self.TEST_FILE, "r") as file:
+                pass
+        except Exception as error:
+            self.sde_func_return = self.COMP_START.prettify_error(error, "r")
+            return_value = (
+                "Unable to read startup data. Error information is below:\n"
+                + str(type(error).__name__)
+                + " - "
+                + str(error)
+            )
+
+        self.expected_message += return_value
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # String
+    def fn_prettify_error_write(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            test_num=18,
+            func_name="prettify_error",
+            msg_addons=True,
+            msg_extras=["the parameter 'file_mode' as 'r'"],
+        )
+
+        return_value = ""
+        temp_file = self.TEST_FILE + "\\nonexistentdirectory"
+        try:
+            with open(temp_file, "w") as file:
+                pass
+        except Exception as error:
+            self.sde_func_return = self.COMP_START.prettify_error(error, "w")
+            return_value = (
+                "Unable to write startup data. Error information is below:\n"
+                + str(type(error).__name__)
+                + " - "
+                + str(error)
+            )
+
+        self.expected_message += return_value
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
+    # String
+    def fn_prettify_error_default(self):
+        self.set_vars(return_type=1)
+        self.generate_test_message(
+            test_num=19,
+            func_name="prettify_error",
+            msg_addons=True,
+            msg_extras=["the parameter 'file_mode' as 'r'"],
+        )
+
+        error = OverflowError
+        self.sde_func_return = self.COMP_START.prettify_error(error)
+        return_value = str(type(error).__name__) + " - " + str(error)
+
+        self.expected_message += return_value
+        self.assertEqual(self.sde_func_return, return_value)
+        self.print_results(results=self.sde_func_return)
+
     def test_suite(self):
         print("Running test suite in...")
         time.sleep(1)
@@ -464,6 +538,9 @@ class TestStartupDataEditor(unittest.TestCase):
             print(f"{i}...")
             time.sleep(1)
 
+        self.fn_prettify_error_read()
+        self.fn_prettify_error_write()
+        self.fn_prettify_error_default()
         self.fn_parse_full_path()
         self.fn_check_overwrite_no()
         self.fn_check_overwrite_yes()
