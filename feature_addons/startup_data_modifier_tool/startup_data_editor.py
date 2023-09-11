@@ -515,7 +515,7 @@ def json_reader(json_path: list, json_filename: str):
 
 if __name__ == "__main__":
     # Variable to switch between testing and prod environments
-    is_prod = False
+    is_prod = True
 
     # Variables for location and name of JSON file with startup data
     json_path = []
@@ -569,6 +569,7 @@ if __name__ == "__main__":
 
                 print(f"\n{status_message}\n")
 
+                # If there was data read in, print it out in a prettified way
                 if status_state:
                     print(prettify_json(json_data))
             case 3:
