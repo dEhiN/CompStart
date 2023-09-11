@@ -130,10 +130,13 @@ def prettify_startup_item(startup_item: dict):
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
-        if arg_count > 2:
+        if arg_count >= 2:
             counter = 0
             for argument in arg_list:
                 counter += 1
+                if type(argument) == list:
+                    argument = " ".join(argument)
+
                 startup_data += (
                     line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
                 )
