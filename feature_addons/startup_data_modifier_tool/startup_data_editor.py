@@ -541,6 +541,7 @@ def json_editor(json_path: list, json_filename: str):
 
         # Get the total items and also print the JSON data out in a pretty format
         total_items = json_data["TotalItems"]
+        items = json_data["Items"]
         print(f"\n{prettify_json(json_data)}")
 
         # Loop through to allow the user to edit the JSON data until they are ready
@@ -566,8 +567,21 @@ def json_editor(json_path: list, json_filename: str):
             )
 
             if valid_choice:
-                # Currently, when a valid choice is entered, return to the main menu
-                quit_loop = True
+                # Format the user input for the match-case block
+                if user_choice.isalpha():
+                    user_choice = user_choice.upper()
+                else:
+                    user_choice = int(user_choice) - 1
+
+                match user_choice:
+                    case "Q":
+                        quit_loop = True
+                    case "A":
+                        print("That functionality hasn't yet been implemented!")
+                        quit_loop = True
+                    case _:
+                        # TODO Add ability to edit a startup item
+                        print(items[user_choice])
             else:
                 print("Please enter a valid choice")
 
