@@ -513,6 +513,37 @@ def json_reader(json_path: list, json_filename: str):
     return read_json_success, return_message, json_data
 
 
+def json_editor(json_path: list, json_filename: str):
+    # Read in existing JSON file and store the return results of the
+    # json_read function
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
+
+    print(f"\n{status_message}\n")
+
+    if status_state:
+        input("Press any key when ready to see the startup data...")
+
+    total_items = json_data["TotalItems"]
+    print(f"\n{prettify_json(json_data)}")
+
+    quit_loop = False
+    while not quit_loop:
+        user_choice = input(
+            "\nEnter the startup item number you want to edit"
+            + f" [1-{total_items}]"
+            + " or type Q to return to the main menu: "
+        )
+
+        valid_choice = (user_choice.isalpha() and user_choice.upper() == "Q") or (
+            user_choice.isnumeric() and int(user_choice) >= 1 and int(user_choice) <= total_items
+        )
+
+        if valid_choice:
+            quit_loop = True
+        else:
+            print("Please enter a valid choice")
+
+
 if __name__ == "__main__":
     # Variable to switch between testing and prod environments
     is_prod = True
@@ -573,7 +604,7 @@ if __name__ == "__main__":
                 if status_state:
                     print(prettify_json(json_data))
             case 3:
-                print("\nI'm sorry that functionality isn't implemented yet...")
+                json_editor(json_path, json_filename)
             case 4:
                 quit_loop = True
 
