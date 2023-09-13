@@ -5,14 +5,17 @@
             "ItemNumber": 1,
             "Name": "Internal Browser Tabs",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "Set up standard working tabs for internal resources:\n# Gmail\n# Google Calendar\n# GSheet Client Support Processes\n# AWS Connect",
+            "Description": "Set up standard working tabs for internal resources: # Gmail # Google Calendar # GSheet Client Support Processes # AWS Connect",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
-                    "https://mail.google.com/mail/u/0/#inbox", "https://calendar.google.com/calendar/u/0/r", "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/", "https://dfx1.my.connect.aws/home"
+                    "https://mail.google.com/mail/u/0/#inbox",
+                    "https://calendar.google.com/calendar/u/0/r",
+                    "https://docs.google.com/spreadsheets/d/1ZmCBNPA40Ixpcrkl7BmSZdFdrvrxmotk1eIRybobDAM/",
+                    "https://dfx1.my.connect.aws/home"
                 ]
             ]
         },
@@ -20,14 +23,17 @@
             "ItemNumber": 2,
             "Name": "External Browser Tabs",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "Set up standard working tabs for external resources:\n# Prod1 One Platform\n# Kibana Prod1\n# Prod2 One Platform\n# Kibana Prod2\n# AWS Agent App",
+            "Description": "Set up standard working tabs for external resources: # Prod1 One Platform # Kibana Prod1 # Prod2 One Platform # Kibana Prod2 # AWS Agent App",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
                 [
-                    "https://chrysler1.advisordashboard.net/logins/Login.2.aspx", "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))", "https://service.dealer-fx.com/logins/Login.2.aspx", "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())"
+                    "https://chrysler1.advisordashboard.net/logins/Login.2.aspx",
+                    "https://vpc-prod1-es01-logs-tt2fnqcrw3ks5r6uangob7sy6u.us-east-1.es.amazonaws.com/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:fa06ab90-d9d6-11e8-a98f-e9ebcc5de641,interval:auto,query:(language:lucene,query:''),sort:!('@timestamp',desc))",
+                    "https://service.dealer-fx.com/logins/Login.2.aspx",
+                    "https://vpc-prod2-es-logs-uf3z64zx5gyuk3chonnjhglbpy.us-east-1.es.amazonaws.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:b0c225e0-ce3e-11eb-82d0-0bde78b21518,interval:auto,query:(language:kuery,query:''),sort:!())"
                 ]
             ]
         },
@@ -38,7 +44,13 @@
             "Description": "Log into AWS Agent App",
             "Browser": true,
             "ArgumentCount": 3,
-            "ArgumentList": ["--profile-directory=Default", "--new-window", ["https://master.d3pfi7mlwkgahz.amplifyapp.com/"]]
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--new-window",
+                [
+                    "https://master.d3pfi7mlwkgahz.amplifyapp.com/"
+                ]
+            ]
         },
         {
             "ItemNumber": 4,
@@ -47,24 +59,36 @@
             "Description": "Google Chat Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
-            "ArgumentList": ["--profile-directory=Default", "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"]
-        }, {
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--app-id=mdpkiolbdkhdjpekfbkbmhigcaggjagi"
+            ]
+        },
+        {
             "ItemNumber": 5,
             "Name": "Chrome - Halo",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
             "Description": "Halo Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
-            "ArgumentList": ["--profile-directory=Default", "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"]
-        }, {
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--app-id=ifgfkkbichmgomaifmnecbnpibfepmco"
+            ]
+        },
+        {
             "ItemNumber": 6,
             "Name": "Chrome - Taskboard",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome_proxy.exe",
             "Description": "TasksBoard Chrome app",
             "Browser": false,
             "ArgumentCount": 2,
-            "ArgumentList": ["--profile-directory=Default", "--app-id=ffpdhnednbmelagcknnegjemgooenfml"]
-        }, {
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--app-id=ffpdhnednbmelagcknnegjemgooenfml"
+            ]
+        },
+        {
             "ItemNumber": 7,
             "Name": "FortiClient",
             "FilePath": "C:\\Program Files\\Fortinet\\FortiClient\\FortiClient.exe",
