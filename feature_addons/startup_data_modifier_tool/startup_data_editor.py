@@ -179,6 +179,12 @@ def prettify_json(json_data: dict):
     return pretty_data
 
 
+def edit_startup_item(startup_item: dict):
+    # Show startup item selected
+    prettified_item = prettify_startup_item(startup_item)
+    print(prettified_item)
+
+
 def parse_full_path(json_path: list, json_filename: str):
     """Helper function to parse the path components to a JSON file
 
@@ -533,16 +539,21 @@ def json_editor(json_path: list, json_filename: str):
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
-    print(f"\n{status_message}\n")
+    print(f"\n{status_message}")
 
     # If the data was read in successfully, display it when the user is ready
     if status_state:
-        input("Press any key when ready to see the startup data...")
+        # input("Press any key when ready to see the startup data...")
 
-        # Get the total items and also print the JSON data out in a pretty format
+        # Get the total items
         total_items = json_data["TotalItems"]
         items = json_data["Items"]
-        print(f"\n{prettify_json(json_data)}")
+        # print(f"\n{prettify_json(json_data)}")
+
+        # Print out the total number of items and list each startup item
+        print(f"\nNumber of startup items: {total_items}")
+        # for i in range(total_items):
+        #    print(f"Startup item # {i + 1}")
 
         # Loop through to allow the user to edit the JSON data until they are ready
         # to return to the main menu
@@ -581,7 +592,7 @@ def json_editor(json_path: list, json_filename: str):
                         quit_loop = True
                     case _:
                         # TODO Add ability to edit a startup item
-                        print(items[user_choice])
+                        edit_startup_item(items[user_choice])
             else:
                 print("Please enter a valid choice")
 
