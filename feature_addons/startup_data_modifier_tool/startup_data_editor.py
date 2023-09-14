@@ -83,9 +83,13 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
         case "w":
-            return_message += "Unable to write startup data. Error information is below:\n"
+            return_message += (
+                "Unable to write startup data. Error information is below:\n"
+            )
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
@@ -138,7 +142,15 @@ def prettify_startup_item(startup_item: dict):
                     argument = " ".join(argument)
 
                 startup_data += (
-                    line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                    line
+                    + tab
+                    + tab
+                    + "Argument "
+                    + str(counter)
+                    + ": "
+                    + '"'
+                    + argument
+                    + '"'
                 )
         else:
             startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
@@ -183,6 +195,39 @@ def edit_startup_item(startup_item: dict):
     # Show startup item selected
     prettified_item = prettify_startup_item(startup_item)
     print(prettified_item)
+
+    # Loop through to and ask the user what they want to do
+    quit_loop = False
+
+    user_choices = (
+        "Choose one of the following:\n"
+        "[1] Edit the item name\n"
+        "[2] Edit the item description\n"
+        "[3] Edit the item arguments\n"
+        "[4] Return to the previous screen"
+    )
+    max_choices = 4
+
+    while not quit_loop:
+        print("\n" + user_choices)
+        user_choice = input("What would you like to do? ")
+
+        # Validate input
+        if (
+            not user_choice.isnumeric()
+            or int(user_choice) < 1
+            or int(user_choice) > max_choices
+        ):
+            print("\nPlease enter a valid choice\n")
+        else:
+            # User chose a valid option, process accordingly
+            user_choice = int(user_choice)
+
+        match user_choice:
+            case "Q":
+                quit_loop = True
+            case _:
+                print("That functionality hasn't been implemented yet...")
 
 
 def parse_full_path(json_path: list, json_filename: str):
@@ -404,7 +449,9 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     + f" updating {json_file} because there is no point."
                 )
         case _:
-            return_message = "Invalid file state! Could not write startup data. Please try again."
+            return_message = (
+                "Invalid file state! Could not write startup data. Please try again."
+            )
 
     # Write to file if needed
     if not file_mode == "":
@@ -589,7 +636,6 @@ def json_editor(json_path: list, json_filename: str):
                         quit_loop = True
                     case "A":
                         print("That functionality hasn't yet been implemented!")
-                        quit_loop = True
                     case _:
                         # TODO Add ability to edit a startup item
                         edit_startup_item(items[user_choice])
@@ -609,7 +655,9 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
+        json_path.extend(
+            ["feature_addons", "startup_data_modifier_tool", "program_files"]
+        )
         json_filename = "test_data.json"
 
     # Main loop to allow user to navigate program options
@@ -629,12 +677,15 @@ if __name__ == "__main__":
     status_message = "No action taken..."
 
     while not quit_loop:
-        print("")  # Add a blank line before showing user choices
-        print(user_choices)
+        print("\n" + user_choices)
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        if not user_choice.isnumeric() or int(user_choice) < 1 or int(user_choice) > max_choices:
+        if (
+            not user_choice.isnumeric()
+            or int(user_choice) < 1
+            or int(user_choice) > max_choices
+        ):
             print("\nPlease enter a valid choice\n")
         else:
             # User chose a valid option, process accordingly
@@ -649,7 +700,9 @@ if __name__ == "__main__":
             case 2:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
-                status_state, status_message, json_data = json_reader(json_path, json_filename)
+                status_state, status_message, json_data = json_reader(
+                    json_path, json_filename
+                )
 
                 print(f"\n{status_message}\n")
 
