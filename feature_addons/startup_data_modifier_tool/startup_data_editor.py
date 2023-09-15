@@ -614,7 +614,7 @@ def json_editor(json_path: list, json_filename: str):
             user_choice = input(
                 "\nEnter the startup item number you want to edit"
                 + f" [1-{total_items}]"
-                + ", type A to add a new startup_item"
+                + ", type A to add a new startup item"
                 + ", or type Q to return to the main menu: "
             )
 
