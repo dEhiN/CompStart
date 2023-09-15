@@ -123,6 +123,9 @@ def prettify_startup_item(startup_item: dict):
     # Add the startup description
     startup_data += line + tab + "Item description: " + startup_item["Description"]
 
+    # Add the file path
+    startup_data += line + tab + "Item program path: " + startup_item["FilePath"]
+
     # Add any argument information
     startup_data += line + tab + "Does this item use arguments: "
     arg_count = startup_item["ArgumentCount"]
@@ -200,11 +203,11 @@ def edit_startup_item(startup_item: dict):
     quit_loop = False
 
     user_choices = (
-        "Choose one of the following:\n"
-        "[1] Edit the item name\n"
-        "[2] Edit the item description\n"
-        "[3] Edit the item arguments\n"
-        "[4] Return to the previous screen"
+        "Choose one of the following item properties to edit, or type R to return to the previous screen:\n"
+        "[1] Item name\n"
+        "[2] Item description\n"
+        "[3] Item program path\n"
+        "[4] Item arguments\n"
     )
     max_choices = 4
 
@@ -213,21 +216,23 @@ def edit_startup_item(startup_item: dict):
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        if (
-            not user_choice.isnumeric()
-            or int(user_choice) < 1
-            or int(user_choice) > max_choices
-        ):
+        valid_choice = (user_choice.isalpha() and user_choice.upper() == "R") or (
+            user_choice.isnumeric()
+            and int(user_choice) >= 1
+            and int(user_choice) <= max_choices
+        )
+
+        if not valid_choice:
             print("\nPlease enter a valid choice\n")
+        elif user_choice.isalpha():
+            quit_loop = True
         else:
             # User chose a valid option, process accordingly
             user_choice = int(user_choice)
 
-        match user_choice:
-            case "Q":
-                quit_loop = True
-            case _:
-                print("That functionality hasn't been implemented yet...")
+            match user_choice:
+                case _:
+                    print("That functionality hasn't been implemented yet...")
 
 
 def parse_full_path(json_path: list, json_filename: str):
@@ -624,7 +629,9 @@ def json_editor(json_path: list, json_filename: str):
                 )
             )
 
-            if valid_choice:
+            if not valid_choice:
+                print("Please enter a valid choice")
+            else:
                 # Format the user input for the match-case block
                 if user_choice.isalpha():
                     user_choice = user_choice.upper()
@@ -639,8 +646,6 @@ def json_editor(json_path: list, json_filename: str):
                     case _:
                         # TODO Add ability to edit a startup item
                         edit_startup_item(items[user_choice])
-            else:
-                print("Please enter a valid choice")
 
 
 if __name__ == "__main__":
