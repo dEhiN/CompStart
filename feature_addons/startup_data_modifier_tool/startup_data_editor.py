@@ -232,6 +232,7 @@ def edit_startup_item(startup_item: dict):
 
             match user_choice:
                 case _:
+                    print(startup_item)
                     print("That functionality hasn't been implemented yet...")
 
 

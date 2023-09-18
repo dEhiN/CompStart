@@ -99,6 +99,37 @@ class TestStartupDataEditor(unittest.TestCase):
             cls.TEST_FILE += os.sep + os.path.join(item)
         cls.TEST_FILE += os.sep + cls.TEST_FILENAME
 
+        cls.TEST_FORMATTED_LIST = [
+            (
+                "Number of startup items: 3"
+                "\n\nStartup item #1"
+                "\n\tItem name: Calculator"
+                "\n\tItem description: A simple calculator"
+                "\n\tItem program path: calc"
+                "\n\tDoes this item use arguments: No"
+            ),
+            (
+                "\n\nStartup item #2"
+                "\n\tItem name: DFX Homepage"
+                "\n\tItem description: The Dealer-FX homepage in Chrome"
+                "\n\tItem program path: C:\Program Files\Google\Chrome\Application\chrome.exe"
+                "\n\tDoes this item use arguments: Yes"
+                "\n\tTotal number of arguments used: 3"
+                '\n\t\tArgument 1: "--profile-directory=Default"'
+                '\n\t\tArgument 2: "--new-window"'
+                '\n\t\tArgument 3: "https://www.dealer-fx.com/"'
+            ),
+            (
+                "\n\nStartup item #3"
+                "\n\tItem name: Anki Examples Text File"
+                "\n\tItem description: The text file 'Des exemples de Anki' in Notepad"
+                "\n\tItem program path: notepad"
+                "\n\tDoes this item use arguments: Yes"
+                "\n\tTotal number of arguments used: 1"
+                '\n\t\tArgument: "Des exemples de Anki.txt"'
+            ),
+        ]
+
     def set_vars(self, return_type: int):
         # Set up (or reset) variables used by the test functions
         self.expected_message = "Expected: "
@@ -245,12 +276,7 @@ class TestStartupDataEditor(unittest.TestCase):
 
         startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][0]
         self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
-        return_value = (
-            "\n\nStartup item #1"
-            "\n\tItem name: Calculator"
-            "\n\tItem description: A simple calculator"
-            "\n\tDoes this item use arguments: No"
-        )
+        return_value = self.TEST_FORMATTED_LIST[0]
         self.expected_message += return_value
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -266,14 +292,7 @@ class TestStartupDataEditor(unittest.TestCase):
 
         startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][2]
         self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
-        return_value = (
-            "\n\nStartup item #3"
-            "\n\tItem name: Anki Examples Text File"
-            "\n\tItem description: The text file 'Des exemples de Anki' in Notepad"
-            "\n\tDoes this item use arguments: Yes"
-            "\n\tTotal number of arguments used: 1"
-            '\n\t\tArgument: "Des exemples de Anki.txt"'
-        )
+        return_value = self.TEST_FORMATTED_LIST[2]
         self.expected_message += return_value
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -289,16 +308,7 @@ class TestStartupDataEditor(unittest.TestCase):
 
         startup_item_test = self.APPEND_EXAMPLE_TEST["Items"][1]
         self.sde_func_return = self.COMP_START.prettify_startup_item(startup_item_test)
-        return_value = (
-            "\n\nStartup item #2"
-            "\n\tItem name: DFX Homepage"
-            "\n\tItem description: The Dealer-FX homepage in Chrome"
-            "\n\tDoes this item use arguments: Yes"
-            "\n\tTotal number of arguments used: 3"
-            '\n\t\tArgument 1: "--profile-directory=Default"'
-            '\n\t\tArgument 2: "--new-window"'
-            '\n\t\tArgument 3: "https://www.dealer-fx.com/"'
-        )
+        return_value = self.TEST_FORMATTED_LIST[1]
         self.expected_message += return_value
 
         self.assertEqual(self.sde_func_return, return_value)
@@ -310,27 +320,9 @@ class TestStartupDataEditor(unittest.TestCase):
         self.generate_test_message(func_name="prettify_json", msg_addons=False)
 
         self.sde_func_return = self.COMP_START.prettify_json(self.APPEND_EXAMPLE_TEST)
-        return_value = (
-            "Number of startup items: 3"
-            "\n\nStartup item #1"
-            "\n\tItem name: Calculator"
-            "\n\tItem description: A simple calculator"
-            "\n\tDoes this item use arguments: No"
-            "\n\nStartup item #2"
-            "\n\tItem name: DFX Homepage"
-            "\n\tItem description: The Dealer-FX homepage in Chrome"
-            "\n\tDoes this item use arguments: Yes"
-            "\n\tTotal number of arguments used: 3"
-            '\n\t\tArgument 1: "--profile-directory=Default"'
-            '\n\t\tArgument 2: "--new-window"'
-            '\n\t\tArgument 3: "https://www.dealer-fx.com/"'
-            "\n\nStartup item #3"
-            "\n\tItem name: Anki Examples Text File"
-            "\n\tItem description: The text file 'Des exemples de Anki' in Notepad"
-            "\n\tDoes this item use arguments: Yes"
-            "\n\tTotal number of arguments used: 1"
-            '\n\t\tArgument: "Des exemples de Anki.txt"'
-        )
+        return_value = ""
+        for item in self.TEST_FORMATTED_LIST:
+            return_value += item
         self.expected_message += return_value
 
         self.assertEqual(self.sde_func_return, return_value)
