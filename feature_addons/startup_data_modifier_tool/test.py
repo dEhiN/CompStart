@@ -112,7 +112,7 @@ class TestStartupDataEditor(unittest.TestCase):
                 "\n\nStartup item #2"
                 "\n\tItem name: DFX Homepage"
                 "\n\tItem description: The Dealer-FX homepage in Chrome"
-                "\n\tItem program path: C:\Program Files\Google\Chrome\Application\chrome.exe"
+                "\n\tItem program path: C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
                 "\n\tDoes this item use arguments: Yes"
                 "\n\tTotal number of arguments used: 3"
                 '\n\t\tArgument 1: "--profile-directory=Default"'
