@@ -224,6 +224,28 @@ def edit_startup_name(item_name: str):
     return new_name
 
 
+def edit_startup_description(item_description: str):
+    """Helper function to change the description of a startup item
+
+    Args:
+        item_description (str): The existing startup item description
+
+    Returns:
+        str: The new startup item description
+    """
+    print(
+        "\nThe current description for this startup item is:", item_description
+    )
+    new_description = input(
+        "Please enter a new description or press enter to leave the existing description: "
+    )
+
+    if new_description == "":
+        new_description = item_description
+
+    return new_description
+
+
 def edit_startup_item(startup_item: dict):
     """Helper function to edit a single startup item
 
@@ -276,8 +298,14 @@ def edit_startup_item(startup_item: dict):
 
             match user_choice:
                 case 1:
-                    new_name = edit_startup_name(startup_item["Name"])
-                    startup_item["Name"] = new_name
+                    startup_item["Name"] = edit_startup_name(
+                        startup_item["Name"]
+                    )
+                    print(prettify_startup_item(startup_item))
+                case 2:
+                    startup_item["Description"] = edit_startup_description(
+                        startup_item["Description"]
+                    )
                     print(prettify_startup_item(startup_item))
                 case _:
                     print(startup_item)
@@ -763,7 +791,7 @@ if __name__ == "__main__":
                 )
 
                 print(f"\n{status_message}\n")
-                input("Press any key to continue...")
+                input("Press any key to view the startup data...")
 
                 # If there was data read in, print it out in a prettified way
                 if status_state:
