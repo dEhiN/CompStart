@@ -83,9 +83,7 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += (
-                "Unable to read startup data. Error information is below:\n"
-            )
+            return_message += "Unable to read startup data. Error information is below:\n"
         case "w":
             return_message += (
                 "Unable to write startup data. Error information is below:\n"
@@ -115,22 +113,16 @@ def prettify_startup_item(startup_item: dict):
     startup_data = ""
 
     # Add the startup item number
-    startup_data += (
-        line + line + "Startup item #" + str(startup_item["ItemNumber"])
-    )
+    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
 
     # Add the startup item name
     startup_data += line + tab + "Item name: " + startup_item["Name"]
 
     # Add the startup description
-    startup_data += (
-        line + tab + "Item description: " + startup_item["Description"]
-    )
+    startup_data += line + tab + "Item description: " + startup_item["Description"]
 
     # Add the file path
-    startup_data += (
-        line + tab + "Item program path: " + startup_item["FilePath"]
-    )
+    startup_data += line + tab + "Item program path: " + startup_item["FilePath"]
 
     # Add any argument information
     startup_data += line + tab + "Does this item use arguments: "
@@ -139,9 +131,7 @@ def prettify_startup_item(startup_item: dict):
         startup_data += "Yes"
 
         # Get the total number of arguments
-        startup_data += (
-            line + tab + "Total number of arguments used: " + str(arg_count)
-        )
+        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
@@ -164,9 +154,7 @@ def prettify_startup_item(startup_item: dict):
                     + '"'
                 )
         else:
-            startup_data += (
-                line + tab + tab + "Argument: " + '"' + arg_list + '"'
-            )
+            startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
     else:
         startup_data += "No"
 
@@ -233,11 +221,10 @@ def edit_startup_description(item_description: str):
     Returns:
         str: The new startup item description
     """
-    print(
-        "\nThe current description for this startup item is:", item_description
-    )
+    print("\nThe current description for this startup item is:", item_description)
     new_description = input(
-        "Please enter a new description or press enter to leave the existing description: "
+        "Please enter a new description or press enter to leave the",
+        "existing description: ",
     )
 
     if new_description == "":
@@ -256,8 +243,7 @@ def edit_startup_item(startup_item: dict):
         startup_item (dict): A dictionary with the single startup item
 
     Returns:
-        HAVEN'T DECIDED
-        _type_: _description_
+        ##TODO##
     """
     # Show startup item selected
     prettified_item = prettify_startup_item(startup_item)
@@ -280,9 +266,7 @@ def edit_startup_item(startup_item: dict):
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        valid_choice = (
-            user_choice.isalpha() and user_choice.upper() == "R"
-        ) or (
+        valid_choice = (user_choice.isalpha() and user_choice.upper() == "R") or (
             user_choice.isnumeric()
             and int(user_choice) >= 1
             and int(user_choice) <= max_choices
@@ -298,9 +282,7 @@ def edit_startup_item(startup_item: dict):
 
             match user_choice:
                 case 1:
-                    startup_item["Name"] = edit_startup_name(
-                        startup_item["Name"]
-                    )
+                    startup_item["Name"] = edit_startup_name(startup_item["Name"])
                     print(prettify_startup_item(startup_item))
                 case 2:
                     startup_item["Description"] = edit_startup_description(
@@ -531,7 +513,9 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     + f" updating {json_file} because there is no point."
                 )
         case _:
-            return_message = "Invalid file state! Could not write startup data. Please try again."
+            return_message = (
+                "Invalid file state! Could not write startup data. Please try again."
+            )
 
     # Write to file if needed
     if not file_mode == "":
@@ -581,9 +565,7 @@ def json_creator(json_path: list, json_filename: str):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(
-        json_file, file_state, json_data
-    )
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
     return write_json_success, return_message
 
@@ -666,9 +648,7 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     print(f"\n{status_message}")
 
@@ -778,9 +758,7 @@ if __name__ == "__main__":
         match user_choice:
             case 1:
                 # Create a new JSON file
-                status_state, status_message = json_creator(
-                    json_path, json_filename
-                )
+                status_state, status_message = json_creator(json_path, json_filename)
 
                 print(f"\n{status_message}")
             case 2:
