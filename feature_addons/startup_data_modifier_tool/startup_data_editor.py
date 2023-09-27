@@ -208,6 +208,7 @@ def edit_startup_name(item_name: str):
     )
 
     if new_name == "":
+        print("\nUsing the existing name...")
         new_name = item_name
 
     return new_name
@@ -270,11 +271,11 @@ def edit_startup_description(item_description: str):
     """
     print("\nThe current description for this startup item is:", item_description)
     new_description = input(
-        "Please enter a new description or press enter to leave the",
-        "existing description: ",
+        "Please enter a new description or press enter to leave the existing description: "
     )
 
     if new_description == "":
+        print("\nUsing the existing description...")
         new_description = item_description
 
     return new_description
