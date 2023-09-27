@@ -1,0 +1,16 @@
+Sep 23
+Avatar de membre
+Robswc
+ 
+2:20 PM
+nice!
+
+I like the idea of the project, a few things I would recommend:
+
+json config files could go in a directory called "config" as its a bit more conventional and less ambiguous. This could also potentially be moved to the root of the project directory, something like "config.json"
+
+You could also include some sections like "installation" or "quickstart" so people can get an idea of how to use it in just a few lines/sentences.
+
+This could depend on your structure, I'm not familiar with it so maybe it is necessary but you could remove the "ItemNumber" and the TotalItems, as could be calculated at runtime.
+
+Other than that, I believe if you could make it into a CLI, this would be an awesome, marketable (as in something to show potential employers or windows users) app!
