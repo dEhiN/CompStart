@@ -2,6 +2,7 @@
 # file.
 
 import json, os
+from tkinter import filedialog as file_chooser
 from program_files.enum_classes import JsonSchemaKeys as ec_jsk
 from program_files.enum_classes import JsonSchemaStructure as ec_jss
 
@@ -212,6 +213,52 @@ def edit_startup_name(item_name: str):
     return new_name
 
 
+def choose_file(item_name: str):
+    """Helper function to show a file dialog box
+
+    Args:
+        item_name: The existing startup item name
+
+    Returns:
+        str: The full path of the file that was selected
+    """
+    file_name = file_chooser.askopenfilename(
+        initialdir="C:/Program Files/",
+        title="Choose the program executable for {}".format(item_name),
+    )
+    return file_name
+
+
+def edit_startup_path(item_name: str, item_path: str):
+    """Helper function to change the path of a startup item
+
+    Args:
+        item_name (str): The existing startup item name
+        item_path (str): The existing startup item absolute path
+
+    Returns:
+        str: The new startup item absolute path
+    """
+    new_path = ""
+    print("\nThe current file path for this startup item is:", item_path)
+    user_choice = input(
+        "Would you like to use the file chooser window to select the new file path [Y/N]? "
+    )
+
+    if user_choice.isalpha():
+        if user_choice.upper() == "Y":
+            new_path = choose_file(item_name)
+        elif user_choice.upper() == "N":
+            input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
+            new_path = input(input_msg)
+
+    if new_path == "":
+        print("\nUsing the existing path...")
+        new_path = item_path
+
+    return new_path
+
+
 def edit_startup_description(item_description: str):
     """Helper function to change the description of a startup item
 
@@ -287,6 +334,11 @@ def edit_startup_item(startup_item: dict):
                 case 2:
                     startup_item["Description"] = edit_startup_description(
                         startup_item["Description"]
+                    )
+                    print(prettify_startup_item(startup_item))
+                case 3:
+                    startup_item["FilePath"] = edit_startup_path(
+                        startup_item["Name"], startup_item["FilePath"]
                     )
                     print(prettify_startup_item(startup_item))
                 case _:
