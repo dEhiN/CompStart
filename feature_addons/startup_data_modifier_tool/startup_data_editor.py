@@ -208,7 +208,7 @@ def edit_startup_name(item_name: str):
     )
 
     if new_name == "":
-        print("\nUsing the existing name...")
+        print("\nNo change was made...")
         new_name = item_name
 
     return new_name
@@ -254,7 +254,7 @@ def edit_startup_path(item_name: str, item_path: str):
             new_path = input(input_msg)
 
     if new_path == "":
-        print("\nUsing the existing path...")
+        print("\nNo change was made...")
         new_path = item_path
 
     return new_path
@@ -275,7 +275,7 @@ def edit_startup_description(item_description: str):
     )
 
     if new_description == "":
-        print("\nUsing the existing description...")
+        print("\nNo change was made...")
         new_description = item_description
 
     return new_description
