@@ -549,18 +549,17 @@ def json_editor(json_path: list, json_filename: str):
                 "\nEnter the startup item number you want to edit"
                 + f" [1-{total_items}]"
                 + ", type A to add a new startup item"
+                + ", type D to delete a startup item"
                 + ", or type Q to return to the main menu: "
             )
 
             # Confirm the user entered a valid choice
             valid_choice = (
-                (user_choice.isalpha() and user_choice.upper() == "Q")
-                or (user_choice.isalpha() and user_choice.upper() == "A")
-                or (
-                    user_choice.isnumeric()
-                    and int(user_choice) >= 1
-                    and int(user_choice) <= total_items
-                )
+                user_choice.isalpha() and user_choice.upper() in ["Q", "A", "D"]
+            ) or (
+                user_choice.isnumeric()
+                and int(user_choice) >= 1
+                and int(user_choice) <= total_items
             )
 
             if not valid_choice:
