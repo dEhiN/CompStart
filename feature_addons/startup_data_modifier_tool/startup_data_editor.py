@@ -464,17 +464,22 @@ def generate_json(**kwargs):
     return []
 
 
-def create_json_data(new_file: bool, **kwargs):
+def create_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
     """Helper function to create JSON data
 
-    Depending on the parameters passed in, the function will either create
-    default startup data and create a new startup_data.json file with the
-    default data, or will update an existing startup_data.json file with
-    JSON data that's passed in.
+    Depending on the parameters passed in, the function will either:
+
+        1) Create default startup data and create a new startup_data.json file with the
+            default data
+        2) Create a new startup_data.json file but first have the user specify the data
+        3) Update an existing startup_data.json file with JSON data that's passed in.
 
     Args:
-        default (bool): Tells this function whether to generate default startup
-        data for a new startup_data.json file or not; is mandatory
+        new_file (bool): Tells this function whether to create a new file or not; default
+        is False
+
+        is_default (bool): Tells this function if, when new_file is True, whether to
+        create a file with default values or user-specified ones; default is False.
 
         **kwargs: Optional parameters that can contain JSON data to update an
         existing startup_data.json file; can be in any format
@@ -484,9 +489,11 @@ def create_json_data(new_file: bool, **kwargs):
         dictionary if not
     """
 
-    # If need to create default JSON data
-    if new_file:
+    # Determine what type of JSON data to create
+    if new_file and is_default:
         json_data = generate_default()
+    elif new_file and not is_default:
+        json_data = get_startup_data()
     else:
         json_data = generate_json(**kwargs)
 
@@ -584,8 +591,15 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
     return write_json_success, return_message
 
 
-def json_creator(json_path: list, json_filename: str):
-    """Function to create new JSON file with default startup data
+def json_creator(json_path: list, json_filename: str, default_mode: bool):
+    """Function to create a new JSON file
+
+    There are two possibilities here:
+
+        1) The user wants to use the default startup data for creating a new file
+        2) The user wants to specify the data themselves
+
+    The third argument or parameter passed in will tell this function which is the case
 
     Args:
         json_path (list): A list containing the relative or absolute path to
@@ -593,6 +607,9 @@ def json_creator(json_path: list, json_filename: str):
         Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
+
+        default_mode (bool): If True, create a new file with startup data. If False,
+                            allow the user to specify their own startup data.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
@@ -610,7 +627,7 @@ def json_creator(json_path: list, json_filename: str):
     json_file = parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = dict(create_json_data(new_file=True))
+    json_data = dict(create_json_data(new_file=True, is_default=default_mode))
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
@@ -802,12 +819,13 @@ if __name__ == "__main__":
 
     user_choices = (
         "Choose one of the following:\n"
-        "[1] Create a new startup file\n"
-        "[2] View the existing startup file\n"
-        "[3] Edit the existing startup file\n"
-        "[4] Quit the program\n"
+        "[1] Create a new startup file with defaults\n"
+        "[2] Create a new startup file with your own values\n"
+        "[3] View the existing startup file\n"
+        "[4] Edit the existing startup file\n"
+        "[5] Quit the program\n"
     )
-    max_choices = 4
+    max_choices = 5
 
     # Initialize status variables
     status_state = False
@@ -829,12 +847,16 @@ if __name__ == "__main__":
             user_choice = int(user_choice)
 
         match user_choice:
-            case 1:
+            case 1, 2:
                 # Create a new JSON file
-                status_state, status_message = json_creator(json_path, json_filename)
-
+                is_default = False
+                if user_choice == 1:
+                    is_default = True
+                status_state, status_message = json_creator(
+                    json_path, json_filename, is_default
+                )
                 print(f"\n{status_message}")
-            case 2:
+            case 3:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
                 status_state, status_message, json_data = json_reader(
@@ -848,9 +870,9 @@ if __name__ == "__main__":
                 if status_state:
                     print(prettify_json(json_data))
                     input("\nPress any key to continue...")
-            case 3:
-                json_editor(json_path, json_filename)
             case 4:
+                json_editor(json_path, json_filename)
+            case 5:
                 quit_loop = True
 
         # Print the status message if user isn't exiting the program
