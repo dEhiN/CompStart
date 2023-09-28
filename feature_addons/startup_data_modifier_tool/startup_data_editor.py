@@ -61,6 +61,220 @@ EXAMPLE_TWO = {
 }
 
 
+def check_overwrite(json_file: str):
+    """Helper function to confirm before overwriting the startup file
+
+    If a startup file already exists, this function will check to see if the
+    user would like to overwrite it. This function assumes the file exists and
+    doesn't check for that.
+
+    Args:
+        json_file (str): The file that will be overwritten
+
+    Returns:
+        bool: True if user would like to overwrite the existing file, False
+        otherwise
+    """
+
+    # Loop until user gives a valid response
+    quit_loop = False
+    overwrite_file = False
+
+    exists_message = f"\n{json_file} already exists!"
+    input_message = "Would you like to completely overwrite this file [Y/N]? "
+    while not quit_loop:
+        # Get user input and validate it
+        print(exists_message)
+        user_choice = input(input_message)
+
+        if user_choice.upper() == "Y" or user_choice.upper() == "N":
+            if user_choice.upper() == "Y":
+                overwrite_file = True
+
+            quit_loop = True
+
+    return overwrite_file
+
+
+def choose_file(item_name: str):
+    """Helper function to show a file dialog box
+
+    Args:
+        item_name: The existing startup item name
+
+    Returns:
+        str: The full path of the file that was selected
+    """
+    file_name = file_chooser.askopenfilename(
+        initialdir="C:/Program Files/",
+        title="Choose the program executable for {}".format(item_name),
+    )
+    return file_name
+
+
+def parse_full_path(json_path: list, json_filename: str):
+    """Helper function to parse the path components to a JSON file
+
+    Args:
+        json_path (list): A list containing the relative or absolute path to
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+        string: The full absolute path with filename of the JSON file
+    """
+
+    # Get the full path to the JSON file
+    full_path = os.getcwd()
+    for item in json_path:
+        full_path += os.sep + os.path.join(item)
+
+    # Add the full path and JSON filename together
+    json_file = full_path + os.sep + json_filename
+
+    return json_file
+
+
+def edit_startup_path(item_name: str, item_path: str):
+    """Helper function to change the path of a startup item
+
+    Args:
+        item_name (str): The existing startup item name
+        item_path (str): The existing startup item absolute path
+
+    Returns:
+        str: The new startup item absolute path
+    """
+    new_path = ""
+    print("\nThe current file path for this startup item is:", item_path)
+    user_choice = input(
+        "Would you like to use the file chooser window to select the new file path [Y/N]? "
+    )
+
+    if user_choice.isalpha():
+        if user_choice.upper() == "Y":
+            new_path = choose_file(item_name)
+        elif user_choice.upper() == "N":
+            input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
+            new_path = input(input_msg)
+
+    if new_path == "":
+        print("\nNo change was made...")
+        new_path = item_path
+
+    return new_path
+
+
+def edit_startup_description(item_description: str):
+    """Helper function to change the description of a startup item
+
+    Args:
+        item_description (str): The existing startup item description
+
+    Returns:
+        str: The new startup item description
+    """
+    print("\nThe current description for this startup item is:", item_description)
+    new_description = input(
+        "Please enter a new description or press enter to leave the existing description: "
+    )
+
+    if new_description == "":
+        print("\nNo change was made...")
+        new_description = item_description
+
+    return new_description
+
+
+def edit_startup_name(item_name: str):
+    """Helper function to change the name of a startup item
+
+    Args:
+        item_name (str): The existing startup item name
+
+    Returns:
+        str: The new startup item name
+    """
+    print("\nThe current name for this startup item is:", item_name)
+    new_name = input(
+        "Please enter a new name or press enter to leave the existing name: "
+    )
+
+    if new_name == "":
+        print("\nNo change was made...")
+        new_name = item_name
+
+    return new_name
+
+
+def edit_startup_item(startup_item: dict):
+    """Helper function to edit a single startup item
+
+    This function will take the specific startup item passed in, display it and
+    allow the user to edit any part of that item
+
+    Args:
+        startup_item (dict): A dictionary with the single startup item
+
+    Returns:
+        ##TODO##
+    """
+    # Show startup item selected
+    prettified_item = prettify_startup_item(startup_item)
+    print(prettified_item)
+
+    # Loop through to and ask the user what they want to do
+    quit_loop = False
+
+    user_choices = (
+        "Choose one of the following item properties to edit, or type R to return to the previous screen:\n"
+        "[1] Item name\n"
+        "[2] Item description\n"
+        "[3] Item program path\n"
+        "[4] Item arguments\n"
+    )
+    max_choices = 4
+
+    while not quit_loop:
+        print("\n" + user_choices)
+        user_choice = input("What would you like to do? ")
+
+        # Validate input
+        valid_choice = (user_choice.isalpha() and user_choice.upper() == "R") or (
+            user_choice.isnumeric()
+            and int(user_choice) >= 1
+            and int(user_choice) <= max_choices
+        )
+
+        if not valid_choice:
+            print("\nPlease enter a valid choice\n")
+        elif user_choice.isalpha():
+            quit_loop = True
+        else:
+            # User chose a valid option, process accordingly
+            user_choice = int(user_choice)
+
+            match user_choice:
+                case 1:
+                    startup_item["Name"] = edit_startup_name(startup_item["Name"])
+                    print(prettify_startup_item(startup_item))
+                case 2:
+                    startup_item["Description"] = edit_startup_description(
+                        startup_item["Description"]
+                    )
+                    print(prettify_startup_item(startup_item))
+                case 3:
+                    startup_item["FilePath"] = edit_startup_path(
+                        startup_item["Name"], startup_item["FilePath"]
+                    )
+                    print(prettify_startup_item(startup_item))
+                case _:
+                    print(startup_item)
+                    print("That functionality hasn't been implemented yet...")
+
+
 def prettify_error(error: Exception, file_mode: str = ""):
     """Helper function to prettify an error or exception
 
@@ -193,221 +407,25 @@ def prettify_json(json_data: dict):
     return pretty_data
 
 
-def edit_startup_name(item_name: str):
-    """Helper function to change the name of a startup item
+def generate_user_edited_data(**kwargs):
+    """Helper function to create JSON data from **kwargs parameter
+
+    As of 09/08/23:
+    Haven't yet decided how **kwargs parameter will be structured, but it will
+    most likely either be a dictionary itself, or a list of strings.
 
     Args:
-        item_name (str): The existing startup item name
+        **kwargs: Optional parameters that contain new JSON data
 
     Returns:
-        str: The new startup item name
-    """
-    print("\nThe current name for this startup item is:", item_name)
-    new_name = input(
-        "Please enter a new name or press enter to leave the existing name: "
-    )
-
-    if new_name == "":
-        print("\nNo change was made...")
-        new_name = item_name
-
-    return new_name
-
-
-def choose_file(item_name: str):
-    """Helper function to show a file dialog box
-
-    Args:
-        item_name: The existing startup item name
-
-    Returns:
-        str: The full path of the file that was selected
-    """
-    file_name = file_chooser.askopenfilename(
-        initialdir="C:/Program Files/",
-        title="Choose the program executable for {}".format(item_name),
-    )
-    return file_name
-
-
-def edit_startup_path(item_name: str, item_path: str):
-    """Helper function to change the path of a startup item
-
-    Args:
-        item_name (str): The existing startup item name
-        item_path (str): The existing startup item absolute path
-
-    Returns:
-        str: The new startup item absolute path
-    """
-    new_path = ""
-    print("\nThe current file path for this startup item is:", item_path)
-    user_choice = input(
-        "Would you like to use the file chooser window to select the new file path [Y/N]? "
-    )
-
-    if user_choice.isalpha():
-        if user_choice.upper() == "Y":
-            new_path = choose_file(item_name)
-        elif user_choice.upper() == "N":
-            input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
-            new_path = input(input_msg)
-
-    if new_path == "":
-        print("\nNo change was made...")
-        new_path = item_path
-
-    return new_path
-
-
-def edit_startup_description(item_description: str):
-    """Helper function to change the description of a startup item
-
-    Args:
-        item_description (str): The existing startup item description
-
-    Returns:
-        str: The new startup item description
-    """
-    print("\nThe current description for this startup item is:", item_description)
-    new_description = input(
-        "Please enter a new description or press enter to leave the existing description: "
-    )
-
-    if new_description == "":
-        print("\nNo change was made...")
-        new_description = item_description
-
-    return new_description
-
-
-def edit_startup_item(startup_item: dict):
-    """Helper function to edit a single startup item
-
-    This function will take the specific startup item passed in, display it and
-    allow the user to edit any part of that item
-
-    Args:
-        startup_item (dict): A dictionary with the single startup item
-
-    Returns:
-        ##TODO##
-    """
-    # Show startup item selected
-    prettified_item = prettify_startup_item(startup_item)
-    print(prettified_item)
-
-    # Loop through to and ask the user what they want to do
-    quit_loop = False
-
-    user_choices = (
-        "Choose one of the following item properties to edit, or type R to return to the previous screen:\n"
-        "[1] Item name\n"
-        "[2] Item description\n"
-        "[3] Item program path\n"
-        "[4] Item arguments\n"
-    )
-    max_choices = 4
-
-    while not quit_loop:
-        print("\n" + user_choices)
-        user_choice = input("What would you like to do? ")
-
-        # Validate input
-        valid_choice = (user_choice.isalpha() and user_choice.upper() == "R") or (
-            user_choice.isnumeric()
-            and int(user_choice) >= 1
-            and int(user_choice) <= max_choices
-        )
-
-        if not valid_choice:
-            print("\nPlease enter a valid choice\n")
-        elif user_choice.isalpha():
-            quit_loop = True
-        else:
-            # User chose a valid option, process accordingly
-            user_choice = int(user_choice)
-
-            match user_choice:
-                case 1:
-                    startup_item["Name"] = edit_startup_name(startup_item["Name"])
-                    print(prettify_startup_item(startup_item))
-                case 2:
-                    startup_item["Description"] = edit_startup_description(
-                        startup_item["Description"]
-                    )
-                    print(prettify_startup_item(startup_item))
-                case 3:
-                    startup_item["FilePath"] = edit_startup_path(
-                        startup_item["Name"], startup_item["FilePath"]
-                    )
-                    print(prettify_startup_item(startup_item))
-                case _:
-                    print(startup_item)
-                    print("That functionality hasn't been implemented yet...")
-
-
-def parse_full_path(json_path: list, json_filename: str):
-    """Helper function to parse the path components to a JSON file
-
-    Args:
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
-
-        json_filename (str): The filename of the JSON file
-
-    Returns:
-        string: The full absolute path with filename of the JSON file
+        dict: The same dictionary passed in but now filled with JSON data
     """
 
-    # Get the full path to the JSON file
-    full_path = os.getcwd()
-    for item in json_path:
-        full_path += os.sep + os.path.join(item)
-
-    # Add the full path and JSON filename together
-    json_file = full_path + os.sep + json_filename
-
-    return json_file
+    # For now return a blank dictionary
+    return {}
 
 
-def check_overwrite(json_file: str):
-    """Helper function to confirm before overwriting the startup file
-
-    If a startup file already exists, this function will check to see if the
-    user would like to overwrite it. This function assumes the file exists and
-    doesn't check for that.
-
-    Args:
-        json_file (str): The file that will be overwritten
-
-    Returns:
-        bool: True if user would like to overwrite the existing file, False
-        otherwise
-    """
-
-    # Loop until user gives a valid response
-    quit_loop = False
-    overwrite_file = False
-
-    exists_message = f"\n{json_file} already exists!"
-    input_message = "Would you like to completely overwrite this file [Y/N]? "
-    while not quit_loop:
-        # Get user input and validate it
-        print(exists_message)
-        user_choice = input(input_message)
-
-        if user_choice.upper() == "Y" or user_choice.upper() == "N":
-            if user_choice.upper() == "Y":
-                overwrite_file = True
-
-            quit_loop = True
-
-    return overwrite_file
-
-
-def generate_default():
+def generate_default_startup_data():
     """Helper function to create default startup data
 
     The default startup data opens notepad and contains what's in EXAMPLE_JSON.
@@ -446,30 +464,12 @@ def generate_default():
     return json_data
 
 
-def generate_json(**kwargs):
-    """Helper function to create JSON data from **kwargs parameter
-
-    As of 09/08/23:
-    Haven't yet decided how **kwargs parameter will be structured, but it will
-    most likely either be a dictionary itself, or a list of strings.
-
-    Args:
-        **kwargs: Optional parameters that contain new JSON data
-
-    Returns:
-        dict: The same dictionary passed in but now filled with JSON data
-    """
-
+def generate_user_startup_data():
     # For now return a blank dictionary
     return {}
 
 
-def get_startup_data():
-    # For now return a blank dictionary
-    return {}
-
-
-def create_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
+def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
     """Helper function to create JSON data
 
     Depending on the parameters passed in, the function will either:
@@ -496,13 +496,90 @@ def create_json_data(new_file: bool = False, is_default: bool = False, **kwargs)
 
     # Determine what type of JSON data to create
     if new_file and is_default:
-        json_data = generate_default()
+        json_data = generate_default_startup_data()
     elif new_file and not is_default:
-        json_data = get_startup_data()
+        json_data = generate_user_startup_data()
     else:
-        json_data = generate_json(**kwargs)
+        json_data = generate_user_edited_data(**kwargs)
 
     return json_data
+
+
+def json_editor(json_path: list, json_filename: str):
+    """Function to allow the user to edit existing JSON data
+
+    This function will display the existing JSON data and then allow the
+    user to edit each startup item one at a time, including delete startup
+    items and add new ones
+
+    Args:
+        json_path (list): A list containing the relative or absolute path to
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+        ##TODO##
+    """
+    # Read in existing JSON file and store the return results of the json_read function
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
+
+    print(f"\n{status_message}")
+
+    # If the data was read in successfully, display it when the user is ready
+    if status_state:
+        # input("Press any key when ready to see the startup data...")
+
+        # Get the total items
+        total_items = json_data["TotalItems"]
+        items = json_data["Items"]
+        # print(f"\n{prettify_json(json_data)}")
+
+        # Print out the total number of items and list each startup item
+        print(f"\nNumber of startup items: {total_items}")
+        # for i in range(total_items):
+        #    print(f"Startup item # {i + 1}")
+
+        # Loop through to allow the user to edit the JSON data until they are ready
+        # to return to the main menu
+        quit_loop = False
+        while not quit_loop:
+            user_choice = input(
+                "\nEnter the startup item number you want to edit"
+                + f" [1-{total_items}]"
+                + ", type A to add a new startup item"
+                + ", or type Q to return to the main menu: "
+            )
+
+            # Confirm the user entered a valid choice
+            valid_choice = (
+                (user_choice.isalpha() and user_choice.upper() == "Q")
+                or (user_choice.isalpha() and user_choice.upper() == "A")
+                or (
+                    user_choice.isnumeric()
+                    and int(user_choice) >= 1
+                    and int(user_choice) <= total_items
+                )
+            )
+
+            if not valid_choice:
+                print("Please enter a valid choice")
+            else:
+                # Format the user input for the match-case block
+                if user_choice.isalpha():
+                    user_choice = user_choice.upper()
+                else:
+                    user_choice = int(user_choice) - 1
+
+                match user_choice:
+                    case "Q":
+                        quit_loop = True
+                    case "A":
+                        print("That functionality hasn't yet been implemented!")
+                    case _:
+                        # TODO Add ability to edit a startup item
+                        edit_startup_item(items[user_choice])
 
 
 def json_writer(json_file: str, file_state: int, json_data: dict):
@@ -596,55 +673,6 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
     return write_json_success, return_message
 
 
-def json_creator(json_path: list, json_filename: str, default_mode: bool):
-    """Function to create a new JSON file
-
-    There are two possibilities here:
-
-        1) The user wants to use the default startup data for creating a new file
-        2) The user wants to specify the data themselves
-
-    The third argument or parameter passed in will tell this function which is the case
-
-    Args:
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
-
-        json_filename (str): The filename of the JSON file
-
-        default_mode (bool): If True, create a new file with startup data. If False,
-                            allow the user to specify their own startup data.
-
-    Returns:
-        bool: True if the JSON data was written successfully, False if not
-
-        string: An error message to display if the JSON data couldn't be
-        written to disk or a message that it was written successfully
-    """
-
-    # Initialize variables
-    write_json_success = False
-    return_message = ""
-    file_state = 0
-
-    # Get the full path to the file in string format
-    json_file = parse_full_path(json_path, json_filename)
-
-    # Create default JSON data to add to the startup_data.json file
-    json_data = dict(create_json_data(new_file=True, is_default=default_mode))
-
-    # If the file exists, make sure we confirm from the user before overwriting
-    # the file
-    if os.path.isfile(json_file):
-        file_state = 1
-
-    # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
-
-    return write_json_success, return_message
-
-
 def json_reader(json_path: list, json_filename: str):
     """Function to read in JSON data from a file
 
@@ -705,12 +733,15 @@ def json_reader(json_path: list, json_filename: str):
     return read_json_success, return_message, json_data
 
 
-def json_editor(json_path: list, json_filename: str):
-    """Function to allow the user to edit existing JSON data
+def json_creator(json_path: list, json_filename: str, default_mode: bool):
+    """Function to create a new JSON file
 
-    This function will display the existing JSON data and then allow the
-    user to edit each startup item one at a time, including delete startup
-    items and add new ones
+    There are two possibilities here:
+
+        1) The user wants to use the default startup data for creating a new file
+        2) The user wants to specify the data themselves
+
+    The third argument or parameter passed in will tell this function which is the case
 
     Args:
         json_path (list): A list containing the relative or absolute path to
@@ -719,67 +750,36 @@ def json_editor(json_path: list, json_filename: str):
 
         json_filename (str): The filename of the JSON file
 
+        default_mode (bool): If True, create a new file with startup data. If False,
+                            allow the user to specify their own startup data.
+
     Returns:
-        ##TODO##
+        bool: True if the JSON data was written successfully, False if not
+
+        string: An error message to display if the JSON data couldn't be
+        written to disk or a message that it was written successfully
     """
-    # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
-    print(f"\n{status_message}")
+    # Initialize variables
+    write_json_success = False
+    return_message = ""
+    file_state = 0
 
-    # If the data was read in successfully, display it when the user is ready
-    if status_state:
-        # input("Press any key when ready to see the startup data...")
+    # Get the full path to the file in string format
+    json_file = parse_full_path(json_path, json_filename)
 
-        # Get the total items
-        total_items = json_data["TotalItems"]
-        items = json_data["Items"]
-        # print(f"\n{prettify_json(json_data)}")
+    # Create default JSON data to add to the startup_data.json file
+    json_data = dict(generate_json_data(new_file=True, is_default=default_mode))
 
-        # Print out the total number of items and list each startup item
-        print(f"\nNumber of startup items: {total_items}")
-        # for i in range(total_items):
-        #    print(f"Startup item # {i + 1}")
+    # If the file exists, make sure we confirm from the user before overwriting
+    # the file
+    if os.path.isfile(json_file):
+        file_state = 1
 
-        # Loop through to allow the user to edit the JSON data until they are ready
-        # to return to the main menu
-        quit_loop = False
-        while not quit_loop:
-            user_choice = input(
-                "\nEnter the startup item number you want to edit"
-                + f" [1-{total_items}]"
-                + ", type A to add a new startup item"
-                + ", or type Q to return to the main menu: "
-            )
+    # Write the file to disk and get the return values
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
-            # Confirm the user entered a valid choice
-            valid_choice = (
-                (user_choice.isalpha() and user_choice.upper() == "Q")
-                or (user_choice.isalpha() and user_choice.upper() == "A")
-                or (
-                    user_choice.isnumeric()
-                    and int(user_choice) >= 1
-                    and int(user_choice) <= total_items
-                )
-            )
-
-            if not valid_choice:
-                print("Please enter a valid choice")
-            else:
-                # Format the user input for the match-case block
-                if user_choice.isalpha():
-                    user_choice = user_choice.upper()
-                else:
-                    user_choice = int(user_choice) - 1
-
-                match user_choice:
-                    case "Q":
-                        quit_loop = True
-                    case "A":
-                        print("That functionality hasn't yet been implemented!")
-                    case _:
-                        # TODO Add ability to edit a startup item
-                        edit_startup_item(items[user_choice])
+    return write_json_success, return_message
 
 
 def set_startdir():
