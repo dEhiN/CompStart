@@ -461,7 +461,12 @@ def generate_json(**kwargs):
     """
 
     # For now return a blank dictionary
-    return []
+    return {}
+
+
+def get_startup_data():
+    # For now return a blank dictionary
+    return {}
 
 
 def create_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
