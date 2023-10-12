@@ -6,24 +6,8 @@ from tkinter import filedialog as file_chooser
 from program_files.enum_classes import JsonSchemaKeys as ec_jsk
 from program_files.enum_classes import JsonSchemaStructure as ec_jss
 
-# An example of valid startup_data.json data to use while coding
-EXAMPLE_JSON = {
-    "TotalItems": 1,
-    "Items": [
-        {
-            "ItemNumber": 1,
-            "Name": "Notepad",
-            "FilePath": "notepad",
-            "Description": "A text editor",
-            "Browser": False,
-            "ArgumentCount": 0,
-            "ArgumentList": [],
-        }
-    ],
-}
-
-# A second example of startup data with more items
-EXAMPLE_TWO = {
+# Default new startup data to use
+DEFAULT_JSON = {
     "TotalItems": 3,
     "Items": [
         {
@@ -37,15 +21,15 @@ EXAMPLE_TWO = {
         },
         {
             "ItemNumber": 2,
-            "Name": "Dealer-FX Homepage",
+            "Name": "Google",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "The DFX homepage",
+            "Description": "The Google Homepage",
             "Browser": True,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "--profile-directory=Default",
                 "--new-window",
-                "https://www.dealer-fx.com/",
+                "https://www.google.com/",
             ],
         },
         {
@@ -465,7 +449,8 @@ def generate_user_edited_data(**kwargs):
 def generate_default_startup_data():
     """Helper function to create default startup data
 
-    The default startup data opens notepad and contains what's in EXAMPLE_JSON.
+    The default startup data opens 3 programs at startup - notepad, calculator and Chrome
+    to www.google.com.
 
     Returns:
         dict: A dictionary of JSON startup data
