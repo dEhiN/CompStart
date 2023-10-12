@@ -61,6 +61,59 @@ EXAMPLE_TWO = {
 }
 
 
+def new_file_chooser():
+    """Helper function to have the user choose what type of new file to create
+
+    This function will ask the user to choose whether to create a new startup file with
+    default data or with values the user decides
+
+    Args:
+        None
+
+    Returns:
+        bool: True if the startup file should contain default data, False if not
+    """
+    # Loop through until user makes a valid choice
+    is_default = False
+    quit_loop = False
+    user_question = (
+        "Would you like to create a new startup file with some default values [D] ",
+        "or choose your own programs to add [C]? ",
+    )
+
+    while not quit_loop:
+        # Ask user what type of new file they want
+        user_choice = input(user_question)
+        user_choice = user_choice.upper()
+
+        # Validate user input
+        if user_choice == "D":
+            is_default = True
+            quit_loop = True
+        elif user_choice == "C":
+            quit_loop = True
+        else:
+            print("\nPlease make a valid choice\n")
+
+    return is_default
+
+
+def edit_file_chooser(item_name: str):
+    """Helper function to show a file dialog box
+
+    Args:
+        item_name: The existing startup item name
+
+    Returns:
+        str: The full path of the file that was selected
+    """
+    file_name = file_chooser.askopenfilename(
+        initialdir="C:/Program Files/",
+        title="Choose the program executable for {}".format(item_name),
+    )
+    return file_name
+
+
 def check_overwrite(json_file: str):
     """Helper function to confirm before overwriting the startup file
 
@@ -94,22 +147,6 @@ def check_overwrite(json_file: str):
             quit_loop = True
 
     return overwrite_file
-
-
-def choose_file(item_name: str):
-    """Helper function to show a file dialog box
-
-    Args:
-        item_name: The existing startup item name
-
-    Returns:
-        str: The full path of the file that was selected
-    """
-    file_name = file_chooser.askopenfilename(
-        initialdir="C:/Program Files/",
-        title="Choose the program executable for {}".format(item_name),
-    )
-    return file_name
 
 
 def parse_full_path(json_path: list, json_filename: str):
@@ -155,7 +192,7 @@ def edit_startup_path(item_name: str, item_path: str):
 
     if user_choice.isalpha():
         if user_choice.upper() == "Y":
-            new_path = choose_file(item_name)
+            new_path = edit_file_chooser(item_name)
         elif user_choice.upper() == "N":
             input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
             new_path = input(input_msg)
@@ -825,11 +862,10 @@ if __name__ == "__main__":
 
     user_choices = (
         "Choose one of the following:\n"
-        "[1] Create a new startup file with defaults\n"
-        "[2] Create a new startup file with your own values\n"
-        "[3] View the existing startup file\n"
-        "[4] Edit the existing startup file\n"
-        "[5] Quit the program\n"
+        "[1] Create a new startup file\n"
+        "[2] View the existing startup file\n"
+        "[3] Edit the existing startup file\n"
+        "[4] Quit the program\n"
     )
     max_choices = 5
 
@@ -853,16 +889,16 @@ if __name__ == "__main__":
             user_choice = int(user_choice)
 
         match user_choice:
-            case 1, 2:
+            case 1:
+                # Find out which type of new file the user wants
+                is_default = new_file_chooser()
+
                 # Create a new JSON file
-                is_default = False
-                if user_choice == 1:
-                    is_default = True
                 status_state, status_message = json_creator(
                     json_path, json_filename, is_default
                 )
                 print(f"\n{status_message}")
-            case 3:
+            case 2:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
                 status_state, status_message, json_data = json_reader(
@@ -876,9 +912,9 @@ if __name__ == "__main__":
                 if status_state:
                     print(prettify_json(json_data))
                     input("\nPress any key to continue...")
-            case 4:
+            case 3:
                 json_editor(json_path, json_filename)
-            case 5:
+            case 4:
                 quit_loop = True
 
         # Print the status message if user isn't exiting the program
