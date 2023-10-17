@@ -61,8 +61,8 @@ def new_file_chooser():
     is_default = False
     quit_loop = False
     user_question = (
-        "Would you like to create a new startup file with some default values [D] ",
-        "or choose your own programs to add [C]? ",
+        "Would you like to create a new startup file with some default values"
+        + " [D] or choose your own programs to add [C]? "
     )
 
     while not quit_loop:
@@ -456,39 +456,54 @@ def generate_default_startup_data():
         dict: A dictionary of JSON startup data
     """
 
-    # Create empty JSON object / Python dictionary
-    json_data = ec_jss.OBJECT.value.copy()
+    # FOR NOW, SKIPPING CREATING THE JSON DATA USING THE ENUM CLASSES
+    # DATE: 16-Oct-23
+    #    # Create empty JSON object / Python dictionary
+    #    json_data = ec_jss.OBJECT.value.copy()
 
-    """
-    Populate the dictionary with the keys and values specified in the 
-    docstring. Use the Enum class JsonSchemaKey through the variable ec_jsk to 
-    populate the keys. Use the Enum class JsonSchemaStructure through the 
-    variable ec_jss to create a Python dictionary for a JSON object and a 
-    Python list for a JSON array when called for. Because of how Python passes 
-    mutable data types, when using the ec_jss members, a copy has to be made of
-    the member value. Additionally, in order to make the code easier to read 
-    and follow, the variables json_arr and json_items are used as reference 
-    aliases.
-    """
-    json_data[ec_jsk.TOTALITEMS.value] = 1
-    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
-    json_arr = json_data[ec_jsk.ITEMS.value]
-    json_arr.append(ec_jss.OBJECT.value.copy())
-    json_items = json_arr[0]
-    json_items[ec_jsk.ITEMNUMBER.value] = 1
-    json_items[ec_jsk.NAME.value] = "Notepad"
-    json_items[ec_jsk.FILEPATH.value] = "notepad"
-    json_items[ec_jsk.DESCRIPTION.value] = "A text editor"
-    json_items[ec_jsk.BROWSER.value] = False
-    json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
-    json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()
+    # """
+    # Populate the dictionary with the keys and values specified in the
+    # docstring. Use the Enum class JsonSchemaKey through the variable ec_jsk to
+    # populate the keys. Use the Enum class JsonSchemaStructure through the
+    # variable ec_jss to create a Python dictionary for a JSON object and a
+    # Python list for a JSON array when called for. Because of how Python passes
+    # mutable data types, when using the ec_jss members, a copy has to be made of
+    # the member value. Additionally, in order to make the code easier to read
+    # and follow, the variables json_arr and json_items are used as reference
+    # aliases.
+    # """
+    #    json_data[ec_jsk.TOTALITEMS.value] = 1
+    #    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
+    #    json_arr = json_data[ec_jsk.ITEMS.value]
+    #    json_arr.append(ec_jss.OBJECT.value.copy())
+    #    json_items = json_arr[0]
+    #    json_items[ec_jsk.ITEMNUMBER.value] = 1
+    #    json_items[ec_jsk.NAME.value] = "Notepad"
+    #    json_items[ec_jsk.FILEPATH.value] = "notepad"
+    #    json_items[ec_jsk.DESCRIPTION.value] = "A text editor"
+    #    json_items[ec_jsk.BROWSER.value] = False
+    #    json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
+    #    json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()
+
+    json_data = DEFAULT_JSON
 
     return json_data
 
 
 def generate_user_startup_data():
-    # For now return a blank dictionary
-    return {}
+    """Helper function to create startup data that the user chooses
+
+    Currently, this function just returns a JSON object with no startup data
+
+    Returns:
+        dict: A dictionary of JSON startup data
+    """
+    # Create empty JSON object / Python dictionary
+    json_data = ec_jss.OBJECT.value.copy()
+    json_data[ec_jsk.TOTALITEMS.value] = 0
+    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
+
+    return json_data
 
 
 def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
@@ -792,7 +807,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     json_file = parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = dict(generate_json_data(new_file=True, is_default=default_mode))
+    json_data = generate_json_data(new_file=True, is_default=default_mode)
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
