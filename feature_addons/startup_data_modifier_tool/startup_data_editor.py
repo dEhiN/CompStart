@@ -438,7 +438,14 @@ def prettify_json(json_data: dict):
 def generate_user_edited_data(**kwargs):
     """Helper function to create JSON data from **kwargs parameter
 
-    As of 09/08/23:
+    Creates a dictionary with keys and values taken from **kwargs. Uses the
+    Enum class JsonSchemaKey through the variable ec_jsk to populate the keys.
+    Uses the Enum class JsonSchemaStructure through the variable ec_jss to
+    create a Python dictionary for a JSON object and a Python list for a JSON
+    array when called for. Because of how Python passes mutable data types,
+    when using the ec_jss members, a copy has to be made of the member value.
+
+    As of 09-Aug-23:
     Haven't yet decided how **kwargs parameter will be structured, but it will
     most likely either be a dictionary itself, or a list of strings.
 
@@ -446,11 +453,14 @@ def generate_user_edited_data(**kwargs):
         **kwargs: Optional parameters that contain new JSON data
 
     Returns:
-        dict: The same dictionary passed in but now filled with JSON data
+        dict: A dictionary with the updated JSON data
     """
 
+    # Create empty JSON object / Python dictionary
+    temp_data = ec_jss.OBJECT.value.copy()
+
     # For now return a blank dictionary
-    return {}
+    return temp_data
 
 
 def generate_default_startup_data():
@@ -463,38 +473,7 @@ def generate_default_startup_data():
         dict: A dictionary of JSON startup data
     """
 
-    # FOR NOW, SKIPPING CREATING THE JSON DATA USING THE ENUM CLASSES
-    # DATE: 16-Oct-23
-    #    # Create empty JSON object / Python dictionary
-    #    json_data = ec_jss.OBJECT.value.copy()
-
-    # """
-    # Populate the dictionary with the keys and values specified in the
-    # docstring. Use the Enum class JsonSchemaKey through the variable ec_jsk to
-    # populate the keys. Use the Enum class JsonSchemaStructure through the
-    # variable ec_jss to create a Python dictionary for a JSON object and a
-    # Python list for a JSON array when called for. Because of how Python passes
-    # mutable data types, when using the ec_jss members, a copy has to be made of
-    # the member value. Additionally, in order to make the code easier to read
-    # and follow, the variables json_arr and json_items are used as reference
-    # aliases.
-    # """
-    #    json_data[ec_jsk.TOTALITEMS.value] = 1
-    #    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
-    #    json_arr = json_data[ec_jsk.ITEMS.value]
-    #    json_arr.append(ec_jss.OBJECT.value.copy())
-    #    json_items = json_arr[0]
-    #    json_items[ec_jsk.ITEMNUMBER.value] = 1
-    #    json_items[ec_jsk.NAME.value] = "Notepad"
-    #    json_items[ec_jsk.FILEPATH.value] = "notepad"
-    #    json_items[ec_jsk.DESCRIPTION.value] = "A text editor"
-    #    json_items[ec_jsk.BROWSER.value] = False
-    #    json_items[ec_jsk.ARGUMENTCOUNT.value] = 0
-    #    json_items[ec_jsk.ARGUMENTLIST.value] = ec_jss.ARRAY.value.copy()
-
-    json_data = DEFAULT_JSON
-
-    return json_data
+    return DEFAULT_JSON
 
 
 def generate_user_startup_data():
