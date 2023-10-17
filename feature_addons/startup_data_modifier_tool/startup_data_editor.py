@@ -116,11 +116,7 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
 
-    if (
-        not user_input.isnumeric()
-        or int(user_input) < 1
-        or int(user_input) > total_menu_choices
-    ):
+    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
         # User didn't choose a valid option
         print("\nPlease enter a valid choice\n")
     else:
@@ -251,9 +247,7 @@ def edit_startup_name(item_name: str):
         str: The new startup item name
     """
     print("\nThe current name for this startup item is:", item_name)
-    new_name = input(
-        "Please enter a new name or press enter to leave the existing name: "
-    )
+    new_name = input("Please enter a new name or press enter to leave the existing name: ")
 
     if new_name == "":
         print("\nNo change was made...")
@@ -298,9 +292,7 @@ def edit_startup_item(startup_item: dict):
                 startup_item["Name"] = edit_startup_name(startup_item["Name"])
                 print(prettify_startup_item(startup_item))
             case 2:
-                startup_item["Description"] = edit_startup_description(
-                    startup_item["Description"]
-                )
+                startup_item["Description"] = edit_startup_description(startup_item["Description"])
                 print(prettify_startup_item(startup_item))
             case 3:
                 startup_item["FilePath"] = edit_startup_path(
@@ -336,13 +328,9 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += (
-                "Unable to read startup data. Error information is below:\n"
-            )
+            return_message += "Unable to read startup data. Error information is below:\n"
         case "w":
-            return_message += (
-                "Unable to write startup data. Error information is below:\n"
-            )
+            return_message += "Unable to write startup data. Error information is below:\n"
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
@@ -398,15 +386,7 @@ def prettify_startup_item(startup_item: dict):
                     argument = " ".join(argument)
 
                 startup_data += (
-                    line
-                    + tab
-                    + tab
-                    + "Argument "
-                    + str(counter)
-                    + ": "
-                    + '"'
-                    + argument
-                    + '"'
+                    line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
                 )
         else:
             startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
@@ -711,9 +691,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     + f" updating {json_file} because there is no point."
                 )
         case _:
-            return_message = (
-                "Invalid file state! Could not write startup data. Please try again."
-            )
+            return_message = "Invalid file state! Could not write startup data. Please try again."
 
     # Write to file if needed
     if not file_mode == "":
@@ -870,9 +848,7 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(
-            ["feature_addons", "startup_data_modifier_tool", "program_files"]
-        )
+        json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
         json_filename = "test_data.json"
 
     # Initialize status variables
@@ -899,16 +875,12 @@ if __name__ == "__main__":
                 is_default = new_file_chooser()
 
                 # Create a new JSON file
-                status_state, status_message = json_creator(
-                    json_path, json_filename, is_default
-                )
+                status_state, status_message = json_creator(json_path, json_filename, is_default)
                 print(f"\n{status_message}")
             case 2:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
-                status_state, status_message, json_data = json_reader(
-                    json_path, json_filename
-                )
+                status_state, status_message, json_data = json_reader(json_path, json_filename)
 
                 print(f"\n{status_message}\n")
                 input("Press any key to view the startup data...")
