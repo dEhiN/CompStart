@@ -227,12 +227,33 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
     """
     new_arg_list = []
+    new_argument = ""
 
-    if args_exist:
-        print(
-            "Unable to edit existing arguments for startup item. This functionality has been implemented yet..."
+    if args_exist and arg_count > 0:
+        arg_items_menu = ""
+        for index in range(0, arg_count):
+            arg_items_menu += f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}\n"
+
+        cancel_choice = arg_count + 1
+        menu_choices = (
+            "Choose one of the following:\n" + arg_items_menu + f"[{cancel_choice}] Cancel"
         )
-        new_arg_list = arg_list.copy()
+        total_menu_choices = arg_count
+        quit_loop = False
+
+        while not quit_loop:
+            user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+
+            if user_choice == cancel_choice:
+                quit_loop = True
+            else:
+                new_argument = input(
+                    "Please enter the new argument or press enter to leave the existing information: "
+                )
+
+                if new_argument == "":
+                    print("\nNo change was made...")
+                    new_arg_list = arg_list.copy()
     else:
         # Check if user wants to add arguments
         user_choice = input(
@@ -368,8 +389,7 @@ def edit_startup_item(startup_item: dict):
                     )
                 else:
                     temp_arg_list = edit_startup_arguments(False)
-                    # If user has added arguments, add them to the startup
-                    # item
+                    # If user has added arguments, add them to the startup item
                     if temp_arg_list:
                         startup_item["ArgumentCount"] = len(temp_arg_list)
                         startup_item["ArgumentList"] = temp_arg_list.copy()
