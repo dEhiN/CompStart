@@ -197,15 +197,29 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
     Args:
         args_exist (bool): Required to let the function
-        know if there are arguments
+        know if there are arguments.
 
-        arg_count (int): The number of arguments with the
-        default being 0
+        arg_count (int, optional): The number of arguments. Defaults to 0.
+        arg_list (list, optional): A list of the arguments. Defaults to [].
 
-        arg_list (list): A list of the arguments with the
-        default being an empty list
+    Returns:
+        list: A list containing the edited or added
+        startup items. If there aren't any arguments, an
+        empty list is returned
+
     """
-    pass
+    if args_exist:
+        pass
+    else:
+        # Check if user wants to add arguments
+        user_choice = input(
+            "\There are currently no arguments. Would you like to add some arguments (Y/[N])? "
+        )
+
+        if user_choice.isalpha() and user_choice.upper() == "Y":
+            arg_list = add_startup_arguments().copy()
+
+    return arg_list
 
 
 def edit_startup_path(item_name: str, item_path: str):
