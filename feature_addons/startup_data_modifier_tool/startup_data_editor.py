@@ -353,15 +353,12 @@ def edit_startup_item(startup_item: dict):
         match user_choice:
             case 1:
                 startup_item["Name"] = edit_startup_name(startup_item["Name"])
-                print(prettify_startup_item(startup_item))
             case 2:
                 startup_item["Description"] = edit_startup_description(startup_item["Description"])
-                print(prettify_startup_item(startup_item))
             case 3:
                 startup_item["FilePath"] = edit_startup_path(
                     startup_item["Name"], startup_item["FilePath"]
                 )
-                print(prettify_startup_item(startup_item))
             case 4:
                 # Check if startup item has arguments
                 arg_count = startup_item["ArgumentCount"]
@@ -369,7 +366,6 @@ def edit_startup_item(startup_item: dict):
                     startup_item["ArgumentList"] = edit_startup_arguments(
                         True, arg_count, startup_item["ArgumentList"]
                     )
-                    print(prettify_startup_item(startup_item["ArgumentList"]))
                 else:
                     temp_arg_list = edit_startup_arguments(False)
                     # If user has added arguments, add them to the startup
