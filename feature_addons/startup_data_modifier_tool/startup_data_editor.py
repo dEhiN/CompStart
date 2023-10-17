@@ -627,7 +627,6 @@ def json_editor(json_path: list, json_filename: str):
                         case "D":
                             print("That functionality hasn't yet been implemented")
                         case _:
-                            # TODO Add ability to edit a startup item
                             edit_startup_item(items[user_choice])
         else:
             print("There are no startup items to edit!")
