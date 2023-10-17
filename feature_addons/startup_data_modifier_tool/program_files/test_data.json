@@ -9,15 +9,21 @@
             "Browser": false,
             "ArgumentCount": 0,
             "ArgumentList": []
-        }, {
+        },
+        {
             "ItemNumber": 2,
             "Name": "Google",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
             "Description": "The Google Homepage",
             "Browser": true,
             "ArgumentCount": 3,
-            "ArgumentList": ["--profile-directory=Default", "--new-window", "https://www.google.com/"]
-        }, {
+            "ArgumentList": [
+                "--profile-directory=Default",
+                "--new-window",
+                "https://www.google.com/"
+            ]
+        },
+        {
             "ItemNumber": 3,
             "Name": "Notepad",
             "FilePath": "notepad",
