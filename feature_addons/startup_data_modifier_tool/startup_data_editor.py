@@ -186,6 +186,28 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
+def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list = []):
+    """Helper function to change the arguments list of a
+    startup item
+
+    If there are no arguments, this function will ask the
+    user if they want to add arguments. If there are
+    arguments, this function will allow the user to edit
+    or delete arguments.
+
+    Args:
+        args_exist (bool): Required to let the function
+        know if there are arguments
+
+        arg_count (int): The number of arguments with the
+        default being 0
+
+        arg_list (list): A list of the arguments with the
+        default being an empty list
+    """
+    pass
+
+
 def edit_startup_path(item_name: str, item_path: str):
     """Helper function to change the path of a startup item
 
@@ -300,7 +322,20 @@ def edit_startup_item(startup_item: dict):
                 )
                 print(prettify_startup_item(startup_item))
             case 4:
-                print("That functionality hasn't been implemented yet...")
+                # Check if startup item has arguments
+                arg_count = startup_item["ArgumentCount"]
+                if arg_count > 0:
+                    startup_item["ArgumentList"] = edit_startup_arguments(
+                        True, arg_count, startup_item["ArgumentList"]
+                    )
+                    print(prettify_startup_item(startup_item["ArgumentList"]))
+                else:
+                    temp_arg_list = edit_startup_arguments(False)
+                    # If user has added arguments, add them to the startup
+                    # item
+                    if temp_arg_list:
+                        startup_item["ArgumentCount"] = len(temp_arg_list)
+                        startup_item["ArgumentList"] = temp_arg_list.copy()
             case 5:
                 quit_loop = True
 
