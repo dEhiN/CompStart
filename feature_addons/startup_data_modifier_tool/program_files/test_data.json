@@ -1,30 +1,4 @@
 {
-    "TotalItems": 3,
-    "Items": [
-        {
-            "ItemNumber": 1,
-            "Name": "Calculator",
-            "FilePath": "calc",
-            "Description": "A simple calculator",
-            "Browser": false,
-            "ArgumentCount": 0,
-            "ArgumentList": []
-        }, {
-            "ItemNumber": 2,
-            "Name": "DFX Homepage",
-            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "The Dealer-FX homepage in Chrome",
-            "Browser": true,
-            "ArgumentCount": 3,
-            "ArgumentList": ["--profile-directory=Default", "--new-window", "https://www.dealer-fx.com/"]
-        }, {
-            "ItemNumber": 3,
-            "Name": "Anki Examples Text File",
-            "FilePath": "notepad",
-            "Description": "The text file 'Des exemples de Anki' in Notepad",
-            "Browser": false,
-            "ArgumentCount": 1,
-            "ArgumentList": "Des exemples de Anki.txt"
-        }
-    ]
+    "TotalItems": 0,
+    "Items": []
 }

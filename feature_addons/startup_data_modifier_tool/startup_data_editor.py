@@ -319,7 +319,9 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
         case "w":
             return_message += (
                 "Unable to write startup data. Error information is below:\n"
