@@ -98,6 +98,41 @@ def edit_file_chooser(item_name: str):
     return file_name
 
 
+def user_menu_chooser(user_choices: str, max_choices: int):
+    """Helper function for displaying a menu with choices for the user
+
+    This function is called by a few other functions that need to display
+    a menu to the user for them to make a choice. The function just prints
+
+    Args:
+        user_choices (str): A formatted string of how the choices should be
+        displayed
+        max_choices (int): The maximum number of choices there are
+
+    Returns:
+        int: _description_
+    """
+    # Set the user choice as default to last option, which is usually to quit
+    # or return to the previous menu
+    user_choice = max_choices
+
+    print("\n" + user_choices)
+    user_input = input("What would you like to do? ")
+
+    if (
+        not user_input.isnumeric()
+        or int(user_input) < 1
+        or int(user_input) > max_choices
+    ):
+        # User didn't choose a valid option
+        print("\nPlease enter a valid choice\n")
+    else:
+        # User chose a valid option, process accordingly
+        user_choice = int(user_input)
+
+    return user_choice
+
+
 def check_overwrite(json_file: str):
     """Helper function to confirm before overwriting the startup file
 
