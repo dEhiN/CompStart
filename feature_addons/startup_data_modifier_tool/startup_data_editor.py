@@ -226,8 +226,13 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         empty list is returned
 
     """
+    new_arg_list = []
+
     if args_exist:
-        pass
+        print(
+            "Unable to edit existing arguments for startup item. This functionality has been implemented yet..."
+        )
+        new_arg_list = arg_list.copy()
     else:
         # Check if user wants to add arguments
         user_choice = input(
@@ -235,9 +240,12 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            arg_list = add_startup_arguments().copy()
+            new_arg_list = add_startup_arguments().copy()
+        else:
+            print("\nNo change was made...")
+            new_arg_list = arg_list.copy()
 
-    return arg_list
+    return new_arg_list
 
 
 def edit_startup_path(item_name: str, item_path: str):
