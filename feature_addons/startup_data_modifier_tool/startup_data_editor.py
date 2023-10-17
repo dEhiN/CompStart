@@ -250,29 +250,26 @@ def edit_startup_item(startup_item: dict):
     quit_loop = False
 
     user_choices = (
-        "Choose one of the following item properties to edit, or type R to return to the previous screen:\n"
+        "Choose one of the following item properties to edit:\n"
         "[1] Item name\n"
         "[2] Item description\n"
         "[3] Item program path\n"
         "[4] Item arguments\n"
+        "[5] Return to the previous menu\n"
     )
-    max_choices = 4
+    max_choices = 5
 
     while not quit_loop:
         print("\n" + user_choices)
         user_choice = input("What would you like to do? ")
 
         # Validate input
-        valid_choice = (user_choice.isalpha() and user_choice.upper() == "R") or (
-            user_choice.isnumeric()
-            and int(user_choice) >= 1
-            and int(user_choice) <= max_choices
-        )
-
-        if not valid_choice:
+        if (
+            not user_choice.isnumeric()
+            or int(user_choice) < 1
+            or int(user_choice) > max_choices
+        ):
             print("\nPlease enter a valid choice\n")
-        elif user_choice.isalpha():
-            quit_loop = True
         else:
             # User chose a valid option, process accordingly
             user_choice = int(user_choice)
@@ -291,9 +288,10 @@ def edit_startup_item(startup_item: dict):
                         startup_item["Name"], startup_item["FilePath"]
                     )
                     print(prettify_startup_item(startup_item))
-                case _:
-                    print(startup_item)
+                case 4:
                     print("That functionality hasn't been implemented yet...")
+                case 5:
+                    quit_loop = True
 
 
 def prettify_error(error: Exception, file_mode: str = ""):
@@ -576,8 +574,6 @@ def json_editor(json_path: list, json_filename: str):
 
     # If the data was read in successfully, display it when the user is ready
     if status_state:
-        input("Press any key when ready to see the startup data...")
-
         # Check to make sure there really are startup items in case TotalItems is
         # wrong
         if len(json_data["Items"]) > 0:
@@ -591,43 +587,47 @@ def json_editor(json_path: list, json_filename: str):
 
             # Loop through to allow the user to edit the JSON data until they are ready
             # to return to the main menu
+            start_items_msg = ""
+            for item_number in range(1, total_items + 1):
+                start_items_msg += f"[{item_number}] Edit startup item {item_number}\n"
+
+            item_add = total_items + 1
+            item_delete = total_items + 2
+            item_quit = total_items + 3
+            max_choices = item_quit
+
+            user_choices = (
+                "Choose one of the following:\n"
+                + start_items_msg
+                + f"[{item_add}] Add a new startup item\n"
+                + f"[{item_delete}] Delete a startup item\n"
+                + f"[{item_quit}] Return to the previous menu\n"
+            )
+
             quit_loop = False
             while not quit_loop:
-                user_choice = input(
-                    "\nEnter the startup item number you want to edit"
-                    + f" [1-{total_items}]"
-                    + ", type A to add a new startup item"
-                    + ", type D to delete a startup item"
-                    + ", or type Q to return to the main menu: "
-                )
+                print("\n" + user_choices)
+                user_choice = input("What would you like to do? ")
 
-                # Confirm the user entered a valid choice
-                valid_choice = (
-                    user_choice.isalpha() and user_choice.upper() in ["Q", "A", "D"]
-                ) or (
-                    user_choice.isnumeric()
-                    and int(user_choice) >= 1
-                    and int(user_choice) <= total_items
-                )
-
-                if not valid_choice:
-                    print("Please enter a valid choice")
+                # Validate input
+                if (
+                    not user_choice.isnumeric()
+                    or int(user_choice) < 1
+                    or int(user_choice) > max_choices
+                ):
+                    print("\nPlease enter a valid choice\n")
                 else:
-                    # Format the user input for the match-case block
-                    if user_choice.isalpha():
-                        user_choice = user_choice.upper()
-                    else:
-                        user_choice = int(user_choice) - 1
+                    # User chose a valid option, process accordingly
+                    user_choice = int(user_choice)
 
-                    match user_choice:
-                        case "Q":
-                            quit_loop = True
-                        case "A":
-                            print("That functionality hasn't yet been implemented!")
-                        case "D":
-                            print("That functionality hasn't yet been implemented")
-                        case _:
-                            edit_startup_item(items[user_choice])
+                    if user_choice == item_quit:
+                        quit_loop = True
+                    elif user_choice == item_add:
+                        print("That functionality hasn't yet been implemented!")
+                    elif user_choice == item_delete:
+                        print("That functionality hasn't yet been implemented")
+                    else:
+                        edit_startup_item(items[user_choice - 1])
         else:
             print("There are no startup items to edit!")
 
