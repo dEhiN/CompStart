@@ -414,6 +414,10 @@ def prettify_json(json_data: dict):
     total_items = json_data["TotalItems"]
     items_list = json_data["Items"]
 
+    # Check edge case where total_items > 0 but items_list is blank
+    if total_items > 0 and len(items_list) == 0:
+        total_items = 0
+
     # Start populating pretty_data
     pretty_data += "Number of startup items: " + str(total_items)
 
@@ -424,6 +428,10 @@ def prettify_json(json_data: dict):
 
         # Prettify the startup item data
         pretty_data += prettify_startup_item(item)
+
+    # If there are no startup items, display a different message
+    if total_items == 0:
+        pretty_data = "There are no startup items to display!"
 
     return pretty_data
 
@@ -566,58 +574,61 @@ def json_editor(json_path: list, json_filename: str):
 
     # If the data was read in successfully, display it when the user is ready
     if status_state:
-        # input("Press any key when ready to see the startup data...")
+        input("Press any key when ready to see the startup data...")
 
-        # Get the total items
-        total_items = json_data["TotalItems"]
-        items = json_data["Items"]
-        # print(f"\n{prettify_json(json_data)}")
+        # Check to make sure there really are startup items in case TotalItems is
+        # wrong
+        if len(json_data["Items"]) > 0:
+            # Get the total items
+            total_items = json_data["TotalItems"]
+            items = json_data["Items"]
+            # print(f"\n{prettify_json(json_data)}")
 
-        # Print out the total number of items and list each startup item
-        print(f"\nNumber of startup items: {total_items}")
-        # for i in range(total_items):
-        #    print(f"Startup item # {i + 1}")
+            # Print out the total number of items
+            print(f"\nNumber of startup items: {total_items}")
 
-        # Loop through to allow the user to edit the JSON data until they are ready
-        # to return to the main menu
-        quit_loop = False
-        while not quit_loop:
-            user_choice = input(
-                "\nEnter the startup item number you want to edit"
-                + f" [1-{total_items}]"
-                + ", type A to add a new startup item"
-                + ", type D to delete a startup item"
-                + ", or type Q to return to the main menu: "
-            )
+            # Loop through to allow the user to edit the JSON data until they are ready
+            # to return to the main menu
+            quit_loop = False
+            while not quit_loop:
+                user_choice = input(
+                    "\nEnter the startup item number you want to edit"
+                    + f" [1-{total_items}]"
+                    + ", type A to add a new startup item"
+                    + ", type D to delete a startup item"
+                    + ", or type Q to return to the main menu: "
+                )
 
-            # Confirm the user entered a valid choice
-            valid_choice = (
-                user_choice.isalpha() and user_choice.upper() in ["Q", "A", "D"]
-            ) or (
-                user_choice.isnumeric()
-                and int(user_choice) >= 1
-                and int(user_choice) <= total_items
-            )
+                # Confirm the user entered a valid choice
+                valid_choice = (
+                    user_choice.isalpha() and user_choice.upper() in ["Q", "A", "D"]
+                ) or (
+                    user_choice.isnumeric()
+                    and int(user_choice) >= 1
+                    and int(user_choice) <= total_items
+                )
 
-            if not valid_choice:
-                print("Please enter a valid choice")
-            else:
-                # Format the user input for the match-case block
-                if user_choice.isalpha():
-                    user_choice = user_choice.upper()
+                if not valid_choice:
+                    print("Please enter a valid choice")
                 else:
-                    user_choice = int(user_choice) - 1
+                    # Format the user input for the match-case block
+                    if user_choice.isalpha():
+                        user_choice = user_choice.upper()
+                    else:
+                        user_choice = int(user_choice) - 1
 
-                match user_choice:
-                    case "Q":
-                        quit_loop = True
-                    case "A":
-                        print("That functionality hasn't yet been implemented!")
-                    case "D":
-                        print("That functionality hasn't yet been implemented")
-                    case _:
-                        # TODO Add ability to edit a startup item
-                        edit_startup_item(items[user_choice])
+                    match user_choice:
+                        case "Q":
+                            quit_loop = True
+                        case "A":
+                            print("That functionality hasn't yet been implemented!")
+                        case "D":
+                            print("That functionality hasn't yet been implemented")
+                        case _:
+                            # TODO Add ability to edit a startup item
+                            edit_startup_item(items[user_choice])
+        else:
+            print("There are no startup items to edit!")
 
 
 def json_writer(json_file: str, file_state: int, json_data: dict):
