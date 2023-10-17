@@ -186,6 +186,24 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
+def add_startup_arguments(arg_list: list = []):
+    """Helper function to allow the user to add arguments for a
+    startup item
+
+    Args:
+        arg_list (list, optional): _description_. Defaults to [].
+
+    Returns:
+        list: A list containing the arguments the user added or
+        blank if there aren't any
+    """
+    # For now, just return arg_list as is
+    print(
+        "\nUnable to add arguments to startup item. This functionality hasn't been implemented yet..."
+    )
+    return arg_list
+
+
 def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list = []):
     """Helper function to change the arguments list of a
     startup item
@@ -310,14 +328,15 @@ def edit_startup_item(startup_item: dict):
 
     # Loop through to and ask the user what they want to do
     menu_choices = (
-        "Choose one of the following item properties to edit:\n"
-        "[1] Item name\n"
-        "[2] Item description\n"
-        "[3] Item program path\n"
-        "[4] Item arguments\n"
-        "[5] Return to the previous menu\n"
+        "Choose one of the following:\n"
+        "[1] Edit item name\n"
+        "[2] Edit item description\n"
+        "[3] Edit item program path\n"
+        "[4] Edit or add item arguments\n"
+        "[5] Show startup data\n"
+        "[6] Return to the previous menu\n"
     )
-    total_menu_choices = 5
+    total_menu_choices = 6
     quit_loop = False
 
     while not quit_loop:
@@ -351,23 +370,9 @@ def edit_startup_item(startup_item: dict):
                         startup_item["ArgumentCount"] = len(temp_arg_list)
                         startup_item["ArgumentList"] = temp_arg_list.copy()
             case 5:
+                print(prettify_startup_item(startup_item))
+            case 6:
                 quit_loop = True
-
-
-def add_startup_arguments(arg_list: list = []):
-    """Helper function to allow the user to add arguments for a
-    startup item
-
-    Args:
-        arg_list (list, optional): _description_. Defaults to [].
-
-    Returns:
-        list: A list containing the arguments the user added or
-        blank if there aren't any
-    """
-    # For now, just return arg_list as is
-    print("Unable to add startup item arguments. This functionality hasn't been implemented yet...")
-    return arg_list
 
 
 def prettify_error(error: Exception, file_mode: str = ""):
