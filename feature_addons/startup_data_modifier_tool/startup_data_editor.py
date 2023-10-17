@@ -213,7 +213,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
     else:
         # Check if user wants to add arguments
         user_choice = input(
-            "\There are currently no arguments. Would you like to add some arguments (Y/[N])? "
+            "There are currently no arguments. Would you like to add some arguments (Y/[N])? "
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
@@ -352,6 +352,22 @@ def edit_startup_item(startup_item: dict):
                         startup_item["ArgumentList"] = temp_arg_list.copy()
             case 5:
                 quit_loop = True
+
+
+def add_startup_arguments(arg_list: list = []):
+    """Helper function to allow the user to add arguments for a
+    startup item
+
+    Args:
+        arg_list (list, optional): _description_. Defaults to [].
+
+    Returns:
+        list: A list containing the arguments the user added or
+        blank if there aren't any
+    """
+    # For now, just return arg_list as is
+    print("Unable to add startup item arguments. This functionality hasn't been implemented yet...")
+    return arg_list
 
 
 def prettify_error(error: Exception, file_mode: str = ""):
