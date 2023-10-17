@@ -59,25 +59,23 @@ def new_file_chooser():
     """
     # Loop through until user makes a valid choice
     is_default = False
-    quit_loop = False
-    user_question = (
-        "Would you like to create a new startup file with some default values"
-        + " [D] or choose your own programs to add [C]? "
+    menu_choices = (
+        "Choose one of the following:\n"
+        "[1] Create a new startup file with some default values\n"
+        "[2] Create a new startup file with programs that you choose\n"
+        "[3] Return to the previous menu\n"
     )
+    total_menu_choices = 3
+    quit_loop = False
 
     while not quit_loop:
         # Ask user what type of new file they want
-        user_choice = input(user_question)
-        user_choice = user_choice.upper()
+        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
-        # Validate user input
-        if user_choice == "D":
-            is_default = True
+        if user_choice in range(1, total_menu_choices + 1):
             quit_loop = True
-        elif user_choice == "C":
-            quit_loop = True
-        else:
-            print("\nPlease make a valid choice\n")
+            if user_choice == 1:
+                is_default = True
 
     return is_default
 
@@ -98,31 +96,30 @@ def edit_file_chooser(item_name: str):
     return file_name
 
 
-def user_menu_chooser(user_choices: str, max_choices: int):
+def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     """Helper function for displaying a menu with choices for the user
 
     This function is called by a few other functions that need to display
     a menu to the user for them to make a choice. The function just prints
 
     Args:
-        user_choices (str): A formatted string of how the choices should be
+        menu_choices (str): A formatted string of how the choices should be
         displayed
-        max_choices (int): The maximum number of choices there are
+        total_menu_choices (int): The maximum number of choices there are
 
     Returns:
         int: _description_
     """
-    # Set the user choice as default to last option, which is usually to quit
-    # or return to the previous menu
-    user_choice = max_choices
+    # Set the user choice as default to 0 meaning no valid choice was made
+    user_choice = 0
 
-    print("\n" + user_choices)
+    print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
 
     if (
         not user_input.isnumeric()
         or int(user_input) < 1
-        or int(user_input) > max_choices
+        or int(user_input) > total_menu_choices
     ):
         # User didn't choose a valid option
         print("\nPlease enter a valid choice\n")
@@ -282,9 +279,7 @@ def edit_startup_item(startup_item: dict):
     print(prettified_item)
 
     # Loop through to and ask the user what they want to do
-    quit_loop = False
-
-    user_choices = (
+    menu_choices = (
         "Choose one of the following item properties to edit:\n"
         "[1] Item name\n"
         "[2] Item description\n"
@@ -292,41 +287,30 @@ def edit_startup_item(startup_item: dict):
         "[4] Item arguments\n"
         "[5] Return to the previous menu\n"
     )
-    max_choices = 5
+    total_menu_choices = 5
+    quit_loop = False
 
     while not quit_loop:
-        print("\n" + user_choices)
-        user_choice = input("What would you like to do? ")
+        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
-        # Validate input
-        if (
-            not user_choice.isnumeric()
-            or int(user_choice) < 1
-            or int(user_choice) > max_choices
-        ):
-            print("\nPlease enter a valid choice\n")
-        else:
-            # User chose a valid option, process accordingly
-            user_choice = int(user_choice)
-
-            match user_choice:
-                case 1:
-                    startup_item["Name"] = edit_startup_name(startup_item["Name"])
-                    print(prettify_startup_item(startup_item))
-                case 2:
-                    startup_item["Description"] = edit_startup_description(
-                        startup_item["Description"]
-                    )
-                    print(prettify_startup_item(startup_item))
-                case 3:
-                    startup_item["FilePath"] = edit_startup_path(
-                        startup_item["Name"], startup_item["FilePath"]
-                    )
-                    print(prettify_startup_item(startup_item))
-                case 4:
-                    print("That functionality hasn't been implemented yet...")
-                case 5:
-                    quit_loop = True
+        match user_choice:
+            case 1:
+                startup_item["Name"] = edit_startup_name(startup_item["Name"])
+                print(prettify_startup_item(startup_item))
+            case 2:
+                startup_item["Description"] = edit_startup_description(
+                    startup_item["Description"]
+                )
+                print(prettify_startup_item(startup_item))
+            case 3:
+                startup_item["FilePath"] = edit_startup_path(
+                    startup_item["Name"], startup_item["FilePath"]
+                )
+                print(prettify_startup_item(startup_item))
+            case 4:
+                print("That functionality hasn't been implemented yet...")
+            case 5:
+                quit_loop = True
 
 
 def prettify_error(error: Exception, file_mode: str = ""):
@@ -615,25 +599,24 @@ def json_editor(json_path: list, json_filename: str):
             # Get the total items
             total_items = json_data["TotalItems"]
             items = json_data["Items"]
-            # print(f"\n{prettify_json(json_data)}")
 
             # Print out the total number of items
             print(f"\nNumber of startup items: {total_items}")
 
             # Loop through to allow the user to edit the JSON data until they are ready
             # to return to the main menu
-            start_items_msg = ""
+            start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_msg += f"[{item_number}] Edit startup item {item_number}\n"
+                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
 
             item_add = total_items + 1
             item_delete = total_items + 2
             item_quit = total_items + 3
-            max_choices = item_quit
+            total_menu_choices = item_quit
 
-            user_choices = (
+            menu_choices = (
                 "Choose one of the following:\n"
-                + start_items_msg
+                + start_items_menu
                 + f"[{item_add}] Add a new startup item\n"
                 + f"[{item_delete}] Delete a startup item\n"
                 + f"[{item_quit}] Return to the previous menu\n"
@@ -641,28 +624,16 @@ def json_editor(json_path: list, json_filename: str):
 
             quit_loop = False
             while not quit_loop:
-                print("\n" + user_choices)
-                user_choice = input("What would you like to do? ")
+                user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
-                # Validate input
-                if (
-                    not user_choice.isnumeric()
-                    or int(user_choice) < 1
-                    or int(user_choice) > max_choices
-                ):
-                    print("\nPlease enter a valid choice\n")
+                if user_choice == item_quit:
+                    quit_loop = True
+                elif user_choice == item_add:
+                    print("That functionality hasn't yet been implemented!")
+                elif user_choice == item_delete:
+                    print("That functionality hasn't yet been implemented")
                 else:
-                    # User chose a valid option, process accordingly
-                    user_choice = int(user_choice)
-
-                    if user_choice == item_quit:
-                        quit_loop = True
-                    elif user_choice == item_add:
-                        print("That functionality hasn't yet been implemented!")
-                    elif user_choice == item_delete:
-                        print("That functionality hasn't yet been implemented")
-                    else:
-                        edit_startup_item(items[user_choice - 1])
+                    edit_startup_item(items[user_choice - 1])
         else:
             print("There are no startup items to edit!")
 
@@ -904,36 +875,23 @@ if __name__ == "__main__":
         )
         json_filename = "test_data.json"
 
-    # Main loop to allow user to navigate program options
-    quit_loop = False
+    # Initialize status variables
+    status_state = False
+    status_message = "No action taken..."
 
-    user_choices = (
+    # Main loop to allow user to navigate program options
+    menu_choices = (
         "Choose one of the following:\n"
         "[1] Create a new startup file\n"
         "[2] View the existing startup file\n"
         "[3] Edit the existing startup file\n"
         "[4] Quit the program\n"
     )
-    max_choices = 5
-
-    # Initialize status variables
-    status_state = False
-    status_message = "No action taken..."
+    total_menu_choices = 4
+    quit_loop = False
 
     while not quit_loop:
-        print("\n" + user_choices)
-        user_choice = input("What would you like to do? ")
-
-        # Validate input
-        if (
-            not user_choice.isnumeric()
-            or int(user_choice) < 1
-            or int(user_choice) > max_choices
-        ):
-            print("\nPlease enter a valid choice\n")
-        else:
-            # User chose a valid option, process accordingly
-            user_choice = int(user_choice)
+        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
