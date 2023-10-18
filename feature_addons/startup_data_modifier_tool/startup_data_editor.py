@@ -226,21 +226,24 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         empty list is returned
 
     """
-    new_arg_list = []
+    new_arg_list = arg_list.copy()
     new_argument = ""
 
     if args_exist and arg_count > 0:
-        arg_items_menu = ""
+        # Create the menu listing all the choices for the user
+        arg_items_menu = []
+        arg_items_menu.append("Choose one of the following:")
         for index in range(0, arg_count):
-            arg_items_menu += f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}\n"
+            arg_items_menu.append(f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}")
+        add_choice = arg_count + 1
+        arg_items_menu.append(f"[{add_choice}] Add a new argument")
+        cancel_choice = arg_count + 2
+        arg_items_menu.append(f"[{cancel_choice}] Cancel")
+        menu_choices = "\n".join(arg_items_menu) + "\n"
+        total_menu_choices = cancel_choice
 
-        cancel_choice = arg_count + 1
-        menu_choices = (
-            "Choose one of the following:\n" + arg_items_menu + f"[{cancel_choice}] Cancel"
-        )
-        total_menu_choices = arg_count
+        # Loop through the menu until the user cancels
         quit_loop = False
-
         while not quit_loop:
             user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
@@ -253,7 +256,18 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
                 if new_argument == "":
                     print("\nNo change was made...")
-                    new_arg_list = arg_list.copy()
+            else:
+                if user_choice == add_choice:
+                    pass
+                else:
+                    # Update the arguments list to be returned as well as the menu being shown
+                    changed_argument_index = user_choice - 1
+                    new_arg_list[changed_argument_index] = new_argument
+                    arg_items_menu[user_choice] = (
+                        f"[{user_choice}] Edit argument {user_choice}: "
+                        + new_arg_list[changed_argument_index]
+                    )
+                    menu_choices = "\n".join(arg_items_menu) + "\n"
     else:
         # Check if user wants to add arguments
         user_choice = input(
