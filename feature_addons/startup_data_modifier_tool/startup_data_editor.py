@@ -254,8 +254,8 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                     "Please enter the new argument or press enter to leave the existing information: "
                 )
 
-            if new_argument == "":
-                print("\nNo change was made...")
+                if new_argument == "":
+                    print("\nNo change was made...")
             else:
                 if user_choice == add_choice:
                     pass
@@ -263,7 +263,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                     # Update the arguments list to be returned as well as the menu being shown
                     changed_argument_index = user_choice - 1
                     new_arg_list[changed_argument_index] = new_argument
-                    arg_items_menu[user] = (
+                    arg_items_menu[user_choice] = (
                         f"[{user_choice}] Edit argument {user_choice}: "
                         + new_arg_list[changed_argument_index]
                     )
