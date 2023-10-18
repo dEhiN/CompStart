@@ -232,14 +232,17 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
     if args_exist and arg_count > 0:
         # Create the menu listing all the choices for the user
         arg_items_menu = []
-        arg_items_menu.append("Choose one of the following:")
         for index in range(0, arg_count):
-            arg_items_menu.append(f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}")
+            arg_items_menu.append(f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}\n")
+
+        # Add menu choices to add a new argument or cancel
         add_choice = arg_count + 1
-        arg_items_menu.append(f"[{add_choice}] Add a new argument")
         cancel_choice = arg_count + 2
-        arg_items_menu.append(f"[{cancel_choice}] Cancel")
-        menu_choices = "\n".join(arg_items_menu) + "\n"
+        menu_header = "Choose one of the following:\n"
+        menu_footer = f"[{add_choice}] Add a new argument\n[{cancel_choice}] Cancel\n"
+
+        # Generate the full menu
+        menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
         total_menu_choices = cancel_choice
 
         # Loop through the menu until the user cancels
@@ -250,24 +253,41 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
             if user_choice == cancel_choice:
                 quit_loop = True
             else:
-                new_argument = input(
-                    "Please enter the new argument or press enter to leave the existing information: "
-                )
+                new_argument = input("Please enter the new argument or press enter to cancel: ")
 
                 if new_argument == "":
                     print("\nNo change was made...")
-            else:
-                if user_choice == add_choice:
-                    pass
                 else:
                     # Update the arguments list to be returned as well as the menu being shown
                     changed_argument_index = user_choice - 1
-                    new_arg_list[changed_argument_index] = new_argument
-                    arg_items_menu[user_choice] = (
-                        f"[{user_choice}] Edit argument {user_choice}: "
-                        + new_arg_list[changed_argument_index]
-                    )
-                    menu_choices = "\n".join(arg_items_menu) + "\n"
+
+                    # Depending on if user chose to add a new argument or edit an existing argument,
+                    # act accordingly
+                    if user_choice == add_choice:
+                        # Add the new argument to the argument list and menu
+                        new_arg_list.append(new_argument)
+                        new_arg_item = f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
+                        arg_items_menu.append(new_arg_item)
+
+                        # Update the argument count and positions of the add argument and cancel menu choices
+                        arg_count += 1
+                        add_choice = arg_count + 1
+                        cancel_choice = arg_count + 2
+                        total_menu_choices = cancel_choice
+                        menu_footer = (
+                            f"[{add_choice}] Add a new argument\n[{cancel_choice}] Cancel\n"
+                        )
+                    else:
+                        # Edit the existing argument and the argument list menu
+                        new_arg_list[changed_argument_index] = new_argument
+                        arg_items_menu[changed_argument_index] = (
+                            f"[{user_choice}] Edit argument {user_choice}: "
+                            + new_arg_list[changed_argument_index]
+                            + "\n"
+                        )
+
+                    menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
+
     else:
         # Check if user wants to add arguments
         user_choice = input(
@@ -517,7 +537,7 @@ def prettify_json(json_data: dict):
         str: The JSON data in a nicely formatted manner as a string
     """
     # Create and initialize our function variables
-    pretty_data = ""
+    pretty_data = "\n"
     total_items = json_data["TotalItems"]
     items_list = json_data["Items"]
 
@@ -975,7 +995,7 @@ if __name__ == "__main__":
                 # If there was data read in, print it out in a prettified way
                 if status_state:
                     print(prettify_json(json_data))
-                    input("\nPress any key to continue...")
+                    input("\nPress any key to return to the main menu...")
             case 3:
                 json_editor(json_path, json_filename)
             case 4:
