@@ -63,9 +63,8 @@ def new_file_chooser():
         "Choose one of the following:\n"
         "[1] Create a new startup file with some default values\n"
         "[2] Create a new startup file with programs that you choose\n"
-        "[3] Return to the previous menu\n"
     )
-    total_menu_choices = 3
+    total_menu_choices = 2
     quit_loop = False
 
     while not quit_loop:
@@ -326,7 +325,7 @@ def edit_startup_path(item_name: str, item_path: str):
             input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
             new_path = input(input_msg)
 
-    if new_path == "":
+    if not new_path:
         print("\nNo change was made...")
         new_path = item_path
 
@@ -347,7 +346,7 @@ def edit_startup_description(item_description: str):
         "Please enter a new description or press enter to leave the existing description: "
     )
 
-    if new_description == "":
+    if not new_description:
         print("\nNo change was made...")
         new_description = item_description
 
@@ -366,7 +365,7 @@ def edit_startup_name(item_name: str):
     print("\nThe current name for this startup item is:", item_name)
     new_name = input("Please enter a new name or press enter to leave the existing name: ")
 
-    if new_name == "":
+    if not new_name:
         print("\nNo change was made...")
         new_name = item_name
 
@@ -706,7 +705,7 @@ def json_editor(json_path: list, json_filename: str):
                 + start_items_menu
                 + f"[{item_add}] Add a new startup item\n"
                 + f"[{item_delete}] Delete a startup item\n"
-                + f"[{item_quit}] Return to the previous menu\n"
+                + f"[{item_quit}] Return to the main menu\n"
             )
 
             quit_loop = False
