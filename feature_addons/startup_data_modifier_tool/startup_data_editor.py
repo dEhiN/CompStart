@@ -223,7 +223,6 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         list: A list containing the edited or added
         startup items. If there aren't any arguments, an
         empty list is returned
-
     """
     new_arg_list = arg_list.copy()
     new_argument = ""
@@ -240,7 +239,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         menu_header = ""
         menu_footer = ""
         menu_choices = "[0] Return to previous menu"
-        add_choice, delete_choice, save_choice, cancel_choice, total_menu_choices = 0, 0, 0, 0, 0
+        add_choice, delete_choice, cancel_choice, total_menu_choices = 0, 0, 0, 0
 
         # Loop through the menu until the user cancels
         quit_loop = False
@@ -251,15 +250,13 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
                 add_choice = arg_count + 1
                 delete_choice = arg_count + 2
-                save_choice = arg_count + 3
-                cancel_choice = arg_count + 4
+                cancel_choice = arg_count + 3
                 total_menu_choices = cancel_choice
                 menu_header = "Choose one of the following:\n"
                 menu_footer = (
                     f"[{add_choice}] Add a new argument\n"
                     + f"[{delete_choice}] Delete an argument\n"
-                    + f"[{save_choice}] Save the updated arguments list\n"
-                    + f"[{cancel_choice}] Cancel\n"
+                    + f"[{cancel_choice}] Return to the previous menu\n"
                 )
 
                 menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
@@ -269,7 +266,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
             if user_choice == cancel_choice:
                 quit_loop = True
             else:
-                if user_choice == delete_choice or user_choice == save_choice:
+                if user_choice == delete_choice:
                     print("That functionality hasn't been implemented yet...")
                 else:
                     new_argument = input("Please enter the new argument or press enter to cancel: ")
@@ -392,7 +389,7 @@ def edit_startup_item(startup_item: dict):
         startup_item (dict): A dictionary with the single startup item
 
     Returns:
-        ##TODO##
+        list: A list containing the updated startup items.
     """
     # Show startup item selected
     prettified_item = prettify_startup_item(startup_item)
@@ -406,9 +403,10 @@ def edit_startup_item(startup_item: dict):
         "[3] Edit item program path\n"
         "[4] Edit or add item arguments\n"
         "[5] Show startup data\n"
-        "[6] Return to the previous menu\n"
+        "[6] Save startup data to disk\n"
+        "[7] Return to the previous menu\n"
     )
-    total_menu_choices = 6
+    total_menu_choices = 7
     quit_loop = False
 
     while not quit_loop:
@@ -424,21 +422,25 @@ def edit_startup_item(startup_item: dict):
                     startup_item["Name"], startup_item["FilePath"]
                 )
             case 4:
-                # Check if startup item has arguments
                 arg_count = startup_item["ArgumentCount"]
+                temp_arg_list = []
+
+                # Check if startup item has arguments
                 if arg_count > 0:
-                    startup_item["ArgumentList"] = edit_startup_arguments(
+                    temp_arg_list = edit_startup_arguments(
                         True, arg_count, startup_item["ArgumentList"]
                     )
                 else:
                     temp_arg_list = edit_startup_arguments(False)
-                    # If user has added arguments, add them to the startup item
-                    if temp_arg_list:
-                        startup_item["ArgumentCount"] = len(temp_arg_list)
-                        startup_item["ArgumentList"] = temp_arg_list.copy()
+
+                # Update the startup_item dictionary
+                startup_item["ArgumentCount"] = len(temp_arg_list)
+                startup_item["ArgumentList"] = temp_arg_list.copy()
             case 5:
                 print(prettify_startup_item(startup_item))
             case 6:
+                print("That functionality hasn't been implemented yet...")
+            case 7:
                 quit_loop = True
 
 
