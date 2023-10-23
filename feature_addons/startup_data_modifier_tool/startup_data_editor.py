@@ -231,11 +231,6 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
     # Check if there are existing arguments
     if args_exist and arg_count > 0:
-        # Create a menu listing all the arguments
-        arg_items_menu = []
-        for index in range(0, arg_count):
-            arg_items_menu.append(f"[{index + 1}] Edit argument {index + 1}: {arg_list[index]}\n")
-
         # Initialize all the variables pertaining to the full user menu
         create_full_menu = True
         menu_header = ""
@@ -246,6 +241,13 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         # Loop through the menu until the user cancels
         quit_loop = False
         while not quit_loop:
+            # Create a menu listing all the arguments
+            arg_items_menu = []
+            for index in range(0, arg_count):
+                arg_items_menu.append(
+                    f"[{index + 1}] Edit argument {index + 1}: {new_arg_list[index]}\n"
+                )
+
             # Generate the full menu
             add_choice = arg_count + 1
             delete_choice = arg_count + 2
@@ -272,7 +274,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                 arg_delete_menu = []
                 for index in range(0, arg_count):
                     arg_delete_menu.append(
-                        f"[{index + 1}] Argument {index + 1}: {arg_list[index]}\n"
+                        f"[{index + 1}] Argument {index + 1}: {new_arg_list[index]}\n"
                     )
 
                 cancel_choice = arg_count + 1
@@ -284,6 +286,19 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                 while user_choice == 0:
                     user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
+                if user_choice < cancel_choice:
+                    # Calculate which list index we're working with
+                    changed_argument_index = user_choice - 1
+                    try:
+                        deleted_arg = new_arg_list.pop(changed_argument_index)
+                        arg_count = len(new_arg_list)
+                        print("\nSuccessfully deleted " + deleted_arg + "!")
+                    except IndexError:
+                        print(
+                            "\nUnable to delete argument "
+                            + deleted_arg
+                            + ". Encountered an IndexError."
+                        )
             elif user_choice > 0:
                 new_argument = input("Please enter the new argument or press enter to cancel: ")
 
@@ -298,7 +313,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                 if user_choice == add_choice:
                     # Add the new argument to the argument list and update the argument list menu
                     new_arg_list.append(new_argument)
-                    arg_count += 1
+                    arg_count = len(new_arg_list)
                     arg_items_menu.append(
                         f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
                     )
