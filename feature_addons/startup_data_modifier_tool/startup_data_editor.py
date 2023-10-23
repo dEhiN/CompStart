@@ -247,55 +247,67 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         quit_loop = False
         while not quit_loop:
             # Generate the full menu
-            if create_full_menu:
-                create_full_menu = False
+            add_choice = arg_count + 1
+            delete_choice = arg_count + 2
+            cancel_choice = arg_count + 3
+            total_menu_choices = cancel_choice
+            menu_header = "Choose one of the following:\n"
+            menu_footer = (
+                f"[{add_choice}] Add a new argument\n"
+                + f"[{delete_choice}] Delete an argument\n"
+                + f"[{cancel_choice}] Return to the previous menu\n"
+            )
 
-                add_choice = arg_count + 1
-                delete_choice = arg_count + 2
-                cancel_choice = arg_count + 3
-                total_menu_choices = cancel_choice
-                menu_header = "Choose one of the following:\n"
-                menu_footer = (
-                    f"[{add_choice}] Add a new argument\n"
-                    + f"[{delete_choice}] Delete an argument\n"
-                    + f"[{cancel_choice}] Return to the previous menu\n"
-                )
-
-                menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
+            menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
 
             user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
             if user_choice == cancel_choice:
                 quit_loop = True
-            else:
-                if user_choice == delete_choice:
-                    print("That functionality hasn't been implemented yet...")
+            elif user_choice == delete_choice:
+                # Generate delete menu
+                menu_header = "Please specify which argument you want to delete:\n"
+
+                # Create a menu listing all the arguments
+                arg_delete_menu = []
+                for index in range(0, arg_count):
+                    arg_delete_menu.append(
+                        f"[{index + 1}] Argument {index + 1}: {arg_list[index]}\n"
+                    )
+
+                cancel_choice = arg_count + 1
+                menu_footer = f"[{cancel_choice}] Cancel deletion\n"
+                menu_choices = menu_header + "".join(arg_delete_menu) + menu_footer
+                total_menu_choices = cancel_choice
+                user_choice = 0
+
+                while user_choice == 0:
+                    user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+
+            elif user_choice > 0:
+                new_argument = input("Please enter the new argument or press enter to cancel: ")
+
+                if not new_argument:
+                    print("\nNo change was made...")
+                    continue
+
+                # Calculate which list index we're working with
+                changed_argument_index = user_choice - 1
+
+                # Determine if user added a new argument or edited an existing one
+                if user_choice == add_choice:
+                    # Add the new argument to the argument list and update the argument list menu
+                    new_arg_list.append(new_argument)
+                    arg_count += 1
+                    arg_items_menu.append(
+                        f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
+                    )
                 else:
-                    new_argument = input("Please enter the new argument or press enter to cancel: ")
-
-                    if not new_argument:
-                        print("\nNo change was made...")
-                        continue
-
-                    # Calculate which list index we're working with
-                    changed_argument_index = user_choice - 1
-
-                    # Determine if user added a new argument or edited an existing one
-                    if user_choice == add_choice:
-                        # Add the new argument to the argument list and update the argument list menu
-                        new_arg_list.append(new_argument)
-                        arg_count += 1
-                        arg_items_menu.append(
-                            f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
-                        )
-                    else:
-                        # Edit the existing argument and update the argument list menu
-                        new_arg_list[changed_argument_index] = new_argument
-                        arg_items_menu[
-                            changed_argument_index
-                        ] = f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
-
-                    create_full_menu = True
+                    # Edit the existing argument and update the argument list menu
+                    new_arg_list[changed_argument_index] = new_argument
+                    arg_items_menu[
+                        changed_argument_index
+                    ] = f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
     else:
         # Check if user wants to add arguments
         user_choice = input(
