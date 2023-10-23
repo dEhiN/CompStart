@@ -209,8 +209,10 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
     If there are no arguments, this function will ask the
     user if they want to add arguments. If there are
-    arguments, this function will allow the user to edit
-    or delete arguments.
+    arguments, this function will allow the user to edit,
+    delete, or add arguments. It does so all within this
+    function and only calls add_startup_arguments if there
+    are no arguments and the user wants to add some.
 
     Args:
         args_exist (bool): Required to let the function
@@ -627,6 +629,8 @@ def generate_user_startup_data():
     json_data = ec_jss.OBJECT.value.copy()
     json_data[ec_jsk.TOTALITEMS.value] = 0
     json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
+
+    print("This functionality hasn't been fully implemented yet. Creating blank startup file...")
 
     return json_data
 
