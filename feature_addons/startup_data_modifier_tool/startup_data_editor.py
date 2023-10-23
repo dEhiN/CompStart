@@ -941,7 +941,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 def set_startdir():
     dirs_list = os.getcwd().split(os.sep)
     len_dirs_list = len(dirs_list) - 1
-    start_dir = "CompStart"
+    start_dir = "Demord"
 
     if start_dir in dirs_list:
         idx_start_dir = dirs_list.index(start_dir)
