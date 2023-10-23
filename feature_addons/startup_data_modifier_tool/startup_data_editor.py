@@ -117,7 +117,7 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
 
     if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
         # User didn't choose a valid option
-        print("\nPlease enter a valid choice\n")
+        print("\nThat choice is invalid!")
     else:
         # User chose a valid option, process accordingly
         user_choice = int(user_input)
@@ -734,7 +734,7 @@ def json_editor(json_path: list, json_filename: str):
                     print("That functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
                     print("That functionality hasn't yet been implemented")
-                else:
+                elif user_choice > 0:
                     edit_startup_item(items[user_choice - 1])
         else:
             print("There are no startup items to edit!")
