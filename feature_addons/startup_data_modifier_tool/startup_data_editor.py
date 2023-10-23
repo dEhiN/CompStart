@@ -471,6 +471,8 @@ def edit_startup_item(startup_item: dict):
             case 7:
                 quit_loop = True
 
+    return startup_item
+
 
 def prettify_error(error: Exception, file_mode: str = ""):
     """Helper function to prettify an error or exception
