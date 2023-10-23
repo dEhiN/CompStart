@@ -232,7 +232,6 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
     # Check if there are existing arguments
     if args_exist and arg_count > 0:
         # Initialize all the variables pertaining to the full user menu
-        create_full_menu = True
         menu_header = ""
         menu_footer = ""
         menu_choices = "[0] Return to previous menu"
