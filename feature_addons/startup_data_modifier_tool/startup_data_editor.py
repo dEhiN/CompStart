@@ -1,7 +1,7 @@
 # This will be a command line tool to create and edit the startup_data.json
 # file.
 
-import json, os
+import json, os, sys
 from tkinter import filedialog as file_chooser
 from program_files.enum_classes import JsonSchemaKeys as ec_jsk
 from program_files.enum_classes import JsonSchemaStructure as ec_jss
@@ -112,6 +112,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
+    # Create option to quit the whole program and add it to the end of the passed in menu
+    total_menu_choices += 1
+    quit_choice = total_menu_choices
+    menu_choices = menu_choices + f"[{quit_choice}] Quit the program\n"
+
     print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
 
@@ -121,6 +126,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     else:
         # User chose a valid option, process accordingly
         user_choice = int(user_input)
+
+        # Check if user chose to quit the program
+        if user_choice == quit_choice:
+            print("\nThank you for using Demord. Have a wonderful day.")
+            sys.exit()
 
     return user_choice
 
@@ -1006,9 +1016,8 @@ if __name__ == "__main__":
         "[1] Create a new startup file\n"
         "[2] View the existing startup file\n"
         "[3] Edit the existing startup file\n"
-        "[4] Quit the program\n"
     )
-    total_menu_choices = 4
+    total_menu_choices = 3
     quit_loop = False
 
     while not quit_loop:
@@ -1036,9 +1045,3 @@ if __name__ == "__main__":
                     input("\nPress any key to return to the main menu...")
             case 3:
                 json_editor(json_path, json_filename)
-            case 4:
-                quit_loop = True
-
-        # Print the status message if user isn't exiting the program
-        if quit_loop:
-            print("\nThank you for using CompStart. Have a wonderful day.")
