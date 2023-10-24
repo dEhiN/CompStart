@@ -60,7 +60,6 @@ def new_file_chooser():
     # Loop through until user makes a valid choice
     is_default = False
     menu_choices = (
-        "Please choose one of the following:\n"
         "[1] Create a new startup file with some default values\n"
         "[2] Create a new startup file with programs that you choose\n"
     )
@@ -115,7 +114,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     # Create option to quit the whole program and add it to the end of the passed in menu
     total_menu_choices += 1
     quit_choice = total_menu_choices
-    menu_choices = menu_choices + f"[{quit_choice}] Quit the program\n"
+
+    # Create menu header and footers
+    menu_header = "Please choose one of the following:\n"
+    menu_footer = f"[{quit_choice}] Quit the program\n"
+    menu_choices = menu_header + menu_choices + menu_footer
 
     print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
@@ -262,14 +265,13 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
             delete_choice = arg_count + 2
             cancel_choice = arg_count + 3
             total_menu_choices = cancel_choice
-            menu_header = "Choose one of the following:\n"
             menu_footer = (
                 f"[{add_choice}] Add a new argument\n"
                 + f"[{delete_choice}] Delete an argument\n"
                 + f"[{cancel_choice}] Return to the previous menu\n"
             )
 
-            menu_choices = menu_header + "".join(arg_items_menu) + menu_footer
+            menu_choices = "".join(arg_items_menu) + menu_footer
 
             user_choice = user_menu_chooser(menu_choices, total_menu_choices)
 
@@ -288,7 +290,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
                 cancel_choice = arg_count + 1
                 menu_footer = f"[{cancel_choice}] Cancel deletion\n"
-                menu_choices = menu_header + "".join(arg_delete_menu) + menu_footer
+                menu_choices = "".join(arg_delete_menu) + menu_footer
                 total_menu_choices = cancel_choice
                 user_choice = 0
 
@@ -430,7 +432,6 @@ def edit_startup_item(startup_item: dict):
 
     # Loop through to and ask the user what they want to do
     menu_choices = (
-        "Choose one of the following:\n"
         "[1] Edit item name\n"
         "[2] Edit item description\n"
         "[3] Edit item program path\n"
@@ -472,7 +473,7 @@ def edit_startup_item(startup_item: dict):
             case 5:
                 print(prettify_startup_item(startup_item))
             case 6:
-                print("That functionality hasn't been implemented yet...")
+                print("\nThat functionality hasn't been implemented yet...")
             case 7:
                 quit_loop = True
 
@@ -750,8 +751,7 @@ def json_editor(json_path: list, json_filename: str):
             total_menu_choices = item_quit
 
             menu_choices = (
-                "Choose one of the following:\n"
-                + start_items_menu
+                start_items_menu
                 + f"[{item_add}] Add a new startup item\n"
                 + f"[{item_delete}] Delete a startup item\n"
                 + f"[{item_quit}] Return to the main menu\n"
@@ -764,9 +764,9 @@ def json_editor(json_path: list, json_filename: str):
                 if user_choice == item_quit:
                     quit_loop = True
                 elif user_choice == item_add:
-                    print("That functionality hasn't yet been implemented!")
+                    print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    print("That functionality hasn't yet been implemented")
+                    print("\nThat functionality hasn't yet been implemented")
                 elif user_choice > 0:
                     edit_startup_item(items[user_choice - 1])
         else:
@@ -1020,7 +1020,6 @@ if __name__ == "__main__":
 
     # Main loop to allow user to navigate program options
     menu_choices = (
-        "Please choose one of the following:\n"
         "[1] What is Demord?\n"
         "[2] Create a new startup file\n"
         "[3] View the existing startup file\n"
