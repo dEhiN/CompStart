@@ -60,7 +60,7 @@ def new_file_chooser():
     # Loop through until user makes a valid choice
     is_default = False
     menu_choices = (
-        "Choose one of the following:\n"
+        "Please choose one of the following:\n"
         "[1] Create a new startup file with some default values\n"
         "[2] Create a new startup file with programs that you choose\n"
     )
@@ -973,7 +973,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
 def explain_demord():
     """Function to explain what this program is and how it works"""
-    print("Currently under construction...come back later...")
+    print("\nCurrently under construction...come back later...")
 
 
 def set_startdir():
@@ -1011,13 +1011,15 @@ if __name__ == "__main__":
         json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
         json_filename = "test_data.json"
 
+    # Print welcome message
+    print("\nWelcome to Demord: The computer startup tool that will make your life easier.")
+
     # Initialize status variables
     status_state = False
     status_message = "No action taken..."
 
     # Main loop to allow user to navigate program options
     menu_choices = (
-        "Welcome to Demord: The computer startup tool that will make your life easier.\n\n"
         "Please choose one of the following:\n"
         "[1] What is Demord?\n"
         "[2] Create a new startup file\n"
