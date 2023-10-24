@@ -971,6 +971,11 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     return write_json_success, return_message
 
 
+def explain_demord():
+    """Function to explain what this program is and how it works"""
+    print("Currently under construction...come back later...")
+
+
 def set_startdir():
     dirs_list = os.getcwd().split(os.sep)
     len_dirs_list = len(dirs_list) - 1
@@ -1012,12 +1017,14 @@ if __name__ == "__main__":
 
     # Main loop to allow user to navigate program options
     menu_choices = (
-        "Choose one of the following:\n"
-        "[1] Create a new startup file\n"
-        "[2] View the existing startup file\n"
-        "[3] Edit the existing startup file\n"
+        "Welcome to Demord: The computer startup tool that will make your life easier.\n\n"
+        "Please choose one of the following:\n"
+        "[1] What is Demord?\n"
+        "[2] Create a new startup file\n"
+        "[3] View the existing startup file\n"
+        "[4] Edit the existing startup file\n"
     )
-    total_menu_choices = 3
+    total_menu_choices = 4
     quit_loop = False
 
     while not quit_loop:
@@ -1025,13 +1032,15 @@ if __name__ == "__main__":
 
         match user_choice:
             case 1:
+                explain_demord()
+            case 2:
                 # Find out which type of new file the user wants
                 is_default = new_file_chooser()
 
                 # Create a new JSON file
                 status_state, status_message = json_creator(json_path, json_filename, is_default)
                 print(f"\n{status_message}")
-            case 2:
+            case 3:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
                 status_state, status_message, json_data = json_reader(json_path, json_filename)
@@ -1043,5 +1052,5 @@ if __name__ == "__main__":
                 if status_state:
                     print(prettify_json(json_data))
                     input("\nPress any key to return to the main menu...")
-            case 3:
+            case 4:
                 json_editor(json_path, json_filename)
