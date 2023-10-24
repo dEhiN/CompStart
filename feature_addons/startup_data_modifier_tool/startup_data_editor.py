@@ -291,7 +291,7 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                     try:
                         deleted_arg = new_arg_list.pop(changed_argument_index)
                         arg_count = len(new_arg_list)
-                        print("\nSuccessfully deleted " + deleted_arg + "!")
+                        print('\nSuccessfully deleted "' + deleted_arg + '"!')
                     except IndexError:
                         print(
                             "\nUnable to delete argument "
@@ -313,15 +313,10 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                     # Add the new argument to the argument list and update the argument list menu
                     new_arg_list.append(new_argument)
                     arg_count = len(new_arg_list)
-                    arg_items_menu.append(
-                        f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
-                    )
+                    print('\nSuccessfully added "' + new_argument + '"!')
                 else:
                     # Edit the existing argument and update the argument list menu
                     new_arg_list[changed_argument_index] = new_argument
-                    arg_items_menu[
-                        changed_argument_index
-                    ] = f"[{user_choice}] Edit argument {user_choice}: {new_arg_list[changed_argument_index]}\n"
     else:
         # Check if user wants to add arguments
         user_choice = input(
