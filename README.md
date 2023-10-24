@@ -2,7 +2,7 @@
 
 ## Purpose
 
-CompStart is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. CompStart will let you set up specific tabs and browser windows including web apps (i.e., Chrome apps) in addition to installed programs.
+Demord is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. CompStart will let you set up specific tabs and browser windows including web apps (i.e., Chrome apps) in addition to installed programs.
 <br>
 <br>
 
