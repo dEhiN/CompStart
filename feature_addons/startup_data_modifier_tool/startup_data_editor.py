@@ -111,7 +111,8 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
-    # Create option to quit the whole program and add it to the end of the passed in menu
+    # Create option to quit the whole program and add it to the end of the passed
+    # in menu
     total_menu_choices += 1
     quit_choice = total_menu_choices
 
@@ -123,7 +124,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
 
-    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
+    if (
+        not user_input.isnumeric()
+        or int(user_input) < 1
+        or int(user_input) > total_menu_choices
+    ):
         # User didn't choose a valid option
         print("\nThat choice is invalid!")
     else:
@@ -211,12 +216,16 @@ def add_startup_arguments(arg_list: list = []):
     """
     # For now, just return arg_list as is
     print(
-        "\nUnable to add arguments to startup item. This functionality hasn't been implemented yet..."
+        "\nUnable to add arguments to startup item. That functionality hasn't been"
+        " implemented yet..."
     )
+
     return arg_list
 
 
-def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list = []):
+def edit_startup_arguments(
+    args_exist: bool, arg_count: int = 0, arg_list: list = []
+):
     """Helper function to change the arguments list of a
     startup item
 
@@ -248,7 +257,12 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
         menu_header = ""
         menu_footer = ""
         menu_choices = "[0] Return to previous menu"
-        add_choice, delete_choice, cancel_choice, total_menu_choices = 0, 0, 0, 0
+        add_choice, delete_choice, cancel_choice, total_menu_choices = (
+            0,
+            0,
+            0,
+            0,
+        )
 
         # Loop through the menu until the user cancels
         quit_loop = False
@@ -279,7 +293,9 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                 quit_loop = True
             elif user_choice == delete_choice:
                 # Generate delete menu
-                menu_header = "Please specify which argument you want to delete:\n"
+                menu_header = (
+                    "Please specify which argument you want to delete:\n"
+                )
 
                 # Create a menu listing all the arguments
                 arg_delete_menu = []
@@ -295,7 +311,9 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                 user_choice = 0
 
                 while user_choice == 0:
-                    user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                    user_choice = user_menu_chooser(
+                        menu_choices, total_menu_choices
+                    )
 
                 if user_choice < cancel_choice:
                     # Calculate which list index we're working with
@@ -311,7 +329,9 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
                             + ". Encountered an IndexError."
                         )
             elif user_choice > 0:
-                new_argument = input("Please enter the new argument or press enter to cancel: ")
+                new_argument = input(
+                    "Please enter the new argument or press enter to cancel: "
+                )
 
                 if not new_argument:
                     print("\nNo change was made...")
@@ -322,7 +342,8 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
 
                 # Determine if user added a new argument or edited an existing one
                 if user_choice == add_choice:
-                    # Add the new argument to the argument list and update the argument list menu
+                    # Add the new argument to the argument list and update the
+                    # argument list menu
                     new_arg_list.append(new_argument)
                     arg_count = len(new_arg_list)
                     print('\nSuccessfully added "' + new_argument + '"!')
@@ -332,7 +353,8 @@ def edit_startup_arguments(args_exist: bool, arg_count: int = 0, arg_list: list 
     else:
         # Check if user wants to add arguments
         user_choice = input(
-            "There are currently no arguments. Would you like to add some arguments (Y/[N])? "
+            "There are currently no arguments. Would you like to add some"
+            " arguments (Y/[N])? "
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
@@ -357,14 +379,18 @@ def edit_startup_path(item_name: str, item_path: str):
     new_path = ""
     print("\nThe current file path for this startup item is:", item_path)
     user_choice = input(
-        "Would you like to use the file chooser window to select the new file path [Y/N]? "
+        "Would you like to use the file chooser window to select the new file"
+        " path [Y/N]? "
     )
 
     if user_choice.isalpha():
         if user_choice.upper() == "Y":
             new_path = edit_file_chooser(item_name)
         elif user_choice.upper() == "N":
-            input_msg = "Please enter the new path to the program executable in full or press enter to use the existing path: "
+            input_msg = (
+                "Please enter the new path to the program executable in full"
+                " or press enter to use the existing path: "
+            )
             new_path = input(input_msg)
 
     if not new_path:
@@ -383,9 +409,12 @@ def edit_startup_description(item_description: str):
     Returns:
         str: The new startup item description
     """
-    print("\nThe current description for this startup item is:", item_description)
+    print(
+        "\nThe current description for this startup item is:", item_description
+    )
     new_description = input(
-        "Please enter a new description or press enter to leave the existing description: "
+        "Please enter a new description or press enter to leave the existing"
+        " description: "
     )
 
     if not new_description:
@@ -405,7 +434,9 @@ def edit_startup_name(item_name: str):
         str: The new startup item name
     """
     print("\nThe current name for this startup item is:", item_name)
-    new_name = input("Please enter a new name or press enter to leave the existing name: ")
+    new_name = input(
+        "Please enter a new name or press enter to leave the existing name: "
+    )
 
     if not new_name:
         print("\nNo change was made...")
@@ -450,7 +481,9 @@ def edit_startup_item(startup_item: dict):
             case 1:
                 startup_item["Name"] = edit_startup_name(startup_item["Name"])
             case 2:
-                startup_item["Description"] = edit_startup_description(startup_item["Description"])
+                startup_item["Description"] = edit_startup_description(
+                    startup_item["Description"]
+                )
             case 3:
                 startup_item["FilePath"] = edit_startup_path(
                     startup_item["Name"], startup_item["FilePath"]
@@ -503,9 +536,13 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
         case "w":
-            return_message += "Unable to write startup data. Error information is below:\n"
+            return_message += (
+                "Unable to write startup data. Error information is below:\n"
+            )
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
@@ -519,7 +556,8 @@ def prettify_startup_item(startup_item: dict):
     to display it in a human readable manner
 
     Args:
-        startup_item (dict): A dictionary representing the JSON data for one startup item.
+        startup_item (dict): A dictionary representing the JSON data for one startup
+        item.
 
     Returns:
         str: The startup item JSON data in a nicely formatted manner as a string
@@ -531,16 +569,22 @@ def prettify_startup_item(startup_item: dict):
     startup_data = ""
 
     # Add the startup item number
-    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    startup_data += (
+        line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    )
 
     # Add the startup item name
     startup_data += line + tab + "Item name: " + startup_item["Name"]
 
     # Add the startup description
-    startup_data += line + tab + "Item description: " + startup_item["Description"]
+    startup_data += (
+        line + tab + "Item description: " + startup_item["Description"]
+    )
 
     # Add the file path
-    startup_data += line + tab + "Item program path: " + startup_item["FilePath"]
+    startup_data += (
+        line + tab + "Item program path: " + startup_item["FilePath"]
+    )
 
     # Add any argument information
     startup_data += line + tab + "Does this item use arguments: "
@@ -549,7 +593,9 @@ def prettify_startup_item(startup_item: dict):
         startup_data += "Yes"
 
         # Get the total number of arguments
-        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
+        startup_data += (
+            line + tab + "Total number of arguments used: " + str(arg_count)
+        )
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
@@ -561,10 +607,20 @@ def prettify_startup_item(startup_item: dict):
                     argument = " ".join(argument)
 
                 startup_data += (
-                    line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                    line
+                    + tab
+                    + tab
+                    + "Argument "
+                    + str(counter)
+                    + ": "
+                    + '"'
+                    + argument
+                    + '"'
                 )
         else:
-            startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
+            startup_data += (
+                line + tab + tab + "Argument: " + '"' + arg_list + '"'
+            )
     else:
         startup_data += "No"
 
@@ -641,8 +697,8 @@ def generate_user_edited_data(**kwargs):
 def generate_default_startup_data():
     """Helper function to create default startup data
 
-    The default startup data opens 3 programs at startup - notepad, calculator and Chrome
-    to www.google.com.
+    The default startup data opens 3 programs at startup - notepad, calculator and
+    Chrome to www.google.com.
 
     Returns:
         dict: A dictionary of JSON startup data
@@ -664,12 +720,17 @@ def generate_user_startup_data():
     json_data[ec_jsk.TOTALITEMS.value] = 0
     json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
 
-    print("This functionality hasn't been fully implemented yet. Creating blank startup file...")
+    print(
+        "This functionality hasn't been fully implemented yet. Creating blank"
+        " startup file..."
+    )
 
     return json_data
 
 
-def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
+def generate_json_data(
+    new_file: bool = False, is_default: bool = False, **kwargs
+):
     """Helper function to create JSON data
 
     Depending on the parameters passed in, the function will either:
@@ -723,7 +784,9 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    status_state, status_message, json_data = json_reader(
+        json_path, json_filename
+    )
 
     print(f"\n{status_message}")
 
@@ -743,7 +806,9 @@ def json_editor(json_path: list, json_filename: str):
             # to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                start_items_menu += (
+                    f"[{item_number}] Edit startup item {item_number}\n"
+                )
 
             item_add = total_items + 1
             item_delete = total_items + 2
@@ -759,7 +824,9 @@ def json_editor(json_path: list, json_filename: str):
 
             quit_loop = False
             while not quit_loop:
-                user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                user_choice = user_menu_chooser(
+                    menu_choices, total_menu_choices
+                )
 
                 if user_choice == item_quit:
                     quit_loop = True
@@ -846,7 +913,10 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     + f" updating {json_file} because there is no point."
                 )
         case _:
-            return_message = "Invalid file state! Could not write startup data. Please try again."
+            return_message = (
+                "Invalid file state! Could not write startup data."
+                " Please try again."
+            )
 
     # Write to file if needed
     if not file_mode == "":
@@ -940,7 +1010,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         json_filename (str): The filename of the JSON file
 
         default_mode (bool): If True, create a new file with startup data. If False,
-                            allow the user to specify their own startup data.
+        allow the user to specify their own startup data.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
@@ -966,17 +1036,19 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+    write_json_success, return_message = json_writer(
+        json_file, file_state, json_data
+    )
 
     return write_json_success, return_message
 
 
-def explain_demord():
+def program_info():
     """Function to explain what this program is and how it works"""
     print("\nCurrently under construction...come back later...")
 
 
-def set_startdir():
+def set_start_dir():
     dirs_list = os.getcwd().split(os.sep)
     len_dirs_list = len(dirs_list) - 1
     start_dir = "Demord"
@@ -995,7 +1067,7 @@ def set_startdir():
 
 if __name__ == "__main__":
     # Set the starting directory
-    set_startdir()
+    set_start_dir()
 
     # Variable to switch between testing and prod environments
     is_prod = False
@@ -1008,11 +1080,16 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
+        json_path.extend(
+            ["feature_addons", "startup_data_modifier_tool", "program_files"]
+        )
         json_filename = "test_data.json"
 
     # Print welcome message
-    print("\nWelcome to Demord: The computer startup tool that will make your life easier.")
+    print(
+        "\nWelcome to Demord: The computer startup tool that will make your"
+        " life easier."
+    )
 
     # Initialize status variables
     status_state = False
@@ -1033,18 +1110,22 @@ if __name__ == "__main__":
 
         match user_choice:
             case 1:
-                explain_demord()
+                program_info()
             case 2:
                 # Find out which type of new file the user wants
                 is_default = new_file_chooser()
 
                 # Create a new JSON file
-                status_state, status_message = json_creator(json_path, json_filename, is_default)
+                status_state, status_message = json_creator(
+                    json_path, json_filename, is_default
+                )
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the
                 # json_read function
-                status_state, status_message, json_data = json_reader(json_path, json_filename)
+                status_state, status_message, json_data = json_reader(
+                    json_path, json_filename
+                )
 
                 print(f"\n{status_message}\n")
                 input("Press any key to view the startup data...")
