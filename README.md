@@ -20,6 +20,8 @@ Demord is a program that allows you to choose which programs open automatically 
 #### within folder: */*
 * *startup.ps1* - The main PowerShell script that sets up all the programs, browser windows, and tabs
 * *startup.bat* - A batch file that is run on Windows start and calls *startup.ps1*
+* *README.md* - This README
+* *.gitignore* - The gitignore file for this project
 #### within folder: *data/json_data*
 * *startup_data.json* - The startup data that *startup.ps1* reads and will store all the programs and websites to open along with any parameters to pass in, etc
 * *startup_data.schema.json* - A JSON Schema file for *startup_data.json*
@@ -28,6 +30,7 @@ Demord is a program that allows you to choose which programs open automatically 
 * *extra_info.txt* - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
 * *json_schema_update_ideas.txt* - A text file with ideas to implement in the JSON schema
 * *robswc_suggestions.txt* - A text file with some project changes and enhancements from Reddit user robswc
+* *md_examples.md* - Examples of Markdown language
 #### within folder: *data/old_data*
 * *old_startup.ps1* - The original startup PowerShell script file with all the startup data hard coded in
 * *old_setup.bat* - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
