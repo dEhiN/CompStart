@@ -2,7 +2,11 @@
 
 ## Purpose
 
-Demord is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. CompStart will let you set up specific tabs and browser windows including web apps (i.e., Chrome apps) in addition to installed programs.
+Demord is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. This program will let you set up specific tabs and browser windows including web apps (i.e., Chrome apps) in addition to installed programs. For example, the program could open up a specific Word document as well as 2 different Chrome windows with the first one showing 3 tabs and the second one showing 2 tabs.
+
+This is done using a JSON config file and a Powershell script. There is also a Batch file that starts off the whole process. This Batch file starts off the whole process. The idea will be that the Batch file will be put into the Windows Start Menu folder, and it will run the Powershell script. The Batch file is interactive, and first asks the user if they want to run the script. This ensures that a user could start their computer without having all their startup programs run whenever they want.
+
+Currently, as of 2023-10-27, the Powershell script and Batch file both work and I use them at work. However, the JSON file has to be manually adjusted but there is a JSON Schema file that can be used. There is a feature branch for creating a command-line tool written in Python to allow the creation, viewing and editing of the JSON file. Currently, the tool can create a new JSON file with some default startup data and view the existing startup data. It can also edit existing startup items, but can't save the changes. There is another feathre branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README lists all the past feature branches as well as the current ones.
 <br>
 <br>
 
