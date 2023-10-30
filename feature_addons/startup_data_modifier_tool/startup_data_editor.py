@@ -435,6 +435,12 @@ def edit_startup_item(startup_item: dict):
     Args:
         startup_item (dict): A dictionary with the single startup item
 
+        json_path (list): A list containing the relative or absolute path to
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
     Returns:
         list: A list containing the updated startup items.
     """
@@ -783,7 +789,7 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_delete:
                     print("\nThat functionality hasn't yet been implemented")
                 elif user_choice > 0:
-                    edit_startup_item(items[user_choice - 1])
+                    edit_startup_item(items[user_choice - 1], json_path, json_filename)
         else:
             print("There are no startup items to edit!")
 
