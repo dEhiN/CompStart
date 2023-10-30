@@ -445,8 +445,6 @@ def save_startup_item(startup_item: dict, json_path: list, json_filename: str):
         string: An error message to display if the JSON data couldn't be
         written to disk or a message that it was written successfully
     """
-    print(json_data)
-
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
@@ -455,7 +453,7 @@ def save_startup_item(startup_item: dict, json_path: list, json_filename: str):
     else:
         pass
 
-    return (False, "This functionality is under construction...come back later...")
+    return (status_state, status_message)
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
