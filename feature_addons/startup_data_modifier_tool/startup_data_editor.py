@@ -1074,14 +1074,13 @@ if __name__ == "__main__":
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the
-                # json_read function
+                # json_read function, then print out if the read was successful
                 status_state, status_message, json_data = json_reader(json_path, json_filename)
-
                 print(f"\n{status_message}\n")
-                input("Press any key to view the startup data...")
 
                 # If there was data read in, print it out in a prettified way
                 if status_state:
+                    input("Press any key to view the startup data...")
                     print(prettify_json(json_data))
                     input("\nPress any key to return to the main menu...")
             case 4:
