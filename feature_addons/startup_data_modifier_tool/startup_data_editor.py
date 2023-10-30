@@ -524,7 +524,18 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
             case 5:
                 print(prettify_startup_item(startup_item))
             case 6:
-                write_status, return_message = save_startup_item(startup_item.copy())
+                write_status, return_message = save_startup_item(
+                    startup_item, json_path, json_filename
+                )
+
+                print("\nAttempt to read in startup data from file was...")
+                if write_status:
+                    print("...successful!")
+                else:
+                    print("...not successful!")
+                print(
+                    "This functionality is still under construction...nothing was saved...try again later..."
+                )
             case 7:
                 quit_loop = True
 
