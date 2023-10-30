@@ -426,7 +426,39 @@ def edit_startup_item_name(item_name: str):
     return new_name
 
 
-def edit_startup_item(startup_item: dict):
+def save_startup_item(startup_item: dict, json_path: list, json_filename: str):
+    """Helper function to save a modified startup item
+
+    Args:
+        startup_item (dict): A dictionary with the single startup item, which
+        will be saved to disk
+
+        json_path (list): A list containing the relative or absolute path to
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+        bool: True if the JSON data was written successfully, False if not
+
+        string: An error message to display if the JSON data couldn't be
+        written to disk or a message that it was written successfully
+    """
+    print(json_data)
+
+    # Read in existing JSON file and store the return results of the json_read function
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
+
+    if status_state:
+        pass
+    else:
+        pass
+
+    return (False, "This functionality is under construction...come back later...")
+
+
+def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     """Helper function to edit a single startup item
 
     This function will take the specific startup item passed in, display it and
