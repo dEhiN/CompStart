@@ -447,6 +447,7 @@ def edit_startup_item(startup_item: dict):
     # Show startup item selected
     prettified_item = prettify_startup_item(startup_item)
     print(prettified_item)
+    input("\nPress any key to continue...")
 
     # Loop through to and ask the user what they want to do
     menu_choices = (
@@ -493,7 +494,7 @@ def edit_startup_item(startup_item: dict):
             case 5:
                 print(prettify_startup_item(startup_item))
             case 6:
-                print("\nThat functionality hasn't been implemented yet...")
+                write_status, return_message = save_startup_item(startup_item.copy())
             case 7:
                 quit_loop = True
 
