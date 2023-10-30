@@ -3,8 +3,8 @@
 
 import json, os, sys
 from tkinter import filedialog as file_chooser
-from dependencies.enum_classes import JsonSchemaKeys as ec_jsk
-from dependencies.enum_classes import JsonSchemaStructure as ec_jss
+from dependencies import JsonSchemaKeys as ec_jsk
+from dependencies import JsonSchemaStructure as ec_jss
 
 # Default new startup data to use
 DEFAULT_JSON = {
