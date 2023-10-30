@@ -426,11 +426,11 @@ def edit_startup_item_name(item_name: str):
     return new_name
 
 
-def save_startup_item(startup_item: dict, json_path: list, json_filename: str):
+def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to save a modified startup item
 
     Args:
-        startup_item (dict): A dictionary with the single startup item, which
+        modified_startup_item (dict): A dictionary with the single startup item, which
         will be saved to disk
 
         json_path (list): A list containing the relative or absolute path to
@@ -449,7 +449,19 @@ def save_startup_item(startup_item: dict, json_path: list, json_filename: str):
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     if status_state:
-        pass
+        # Get the item number of the startup item being work with
+        # and then the original version of that startup item
+        modified_item_number = modified_startup_item["ItemNumber"]
+        original_startup_item = json_data["Items"][modified_item_number - 1]
+
+        # Check to see if the data was actually changed
+        if modified_startup_item != original_startup_item:
+            return (False, "The startup data hasn't changed. There was nothing to save!")
+
+        print("Original:")
+        print(original_startup_item)
+        print("\nNew:")
+        print(modified_startup_item)
     else:
         pass
 
