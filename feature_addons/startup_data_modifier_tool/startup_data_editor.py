@@ -3,8 +3,8 @@
 
 import json, os, sys
 from tkinter import filedialog as file_chooser
-from program_files.enum_classes import JsonSchemaKeys as ec_jsk
-from program_files.enum_classes import JsonSchemaStructure as ec_jss
+from dependencies.enum_classes import JsonSchemaKeys as ec_jsk
+from dependencies.enum_classes import JsonSchemaStructure as ec_jss
 
 # Default new startup data to use
 DEFAULT_JSON = {
@@ -124,7 +124,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     print("\n" + menu_choices)
     user_input = input("What would you like to do? ")
 
-    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
+    if (
+        not user_input.isnumeric()
+        or int(user_input) < 1
+        or int(user_input) > total_menu_choices
+    ):
         # User didn't choose a valid option
         print("\nThat choice is invalid!")
     else:
@@ -219,7 +223,9 @@ def add_startup_arguments(arg_list: list = []):
     return arg_list
 
 
-def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_list: list = []):
+def edit_startup_item_arguments_list(
+    args_exist: bool, arg_count: int = 0, arg_list: list = []
+):
     """Helper function to change the arguments list of a
     startup item
 
@@ -287,7 +293,9 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
                 quit_loop = True
             elif user_choice == delete_choice:
                 # Generate delete menu
-                menu_header = "Please specify which argument you want to delete:\n"
+                menu_header = (
+                    "Please specify which argument you want to delete:\n"
+                )
 
                 # Create a menu listing all the arguments
                 arg_delete_menu = []
@@ -303,7 +311,9 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
                 user_choice = 0
 
                 while user_choice == 0:
-                    user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                    user_choice = user_menu_chooser(
+                        menu_choices, total_menu_choices
+                    )
 
                 if user_choice < cancel_choice:
                     # Calculate which list index we're working with
@@ -319,7 +329,9 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
                             + ". Encountered an IndexError."
                         )
             elif user_choice > 0:
-                new_argument = input("Please enter the new argument or press enter to cancel: ")
+                new_argument = input(
+                    "Please enter the new argument or press enter to cancel: "
+                )
 
                 if not new_argument:
                     print("\nNo change was made...")
@@ -341,7 +353,8 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
     else:
         # Check if user wants to add arguments
         user_choice = input(
-            "There are currently no arguments. Would you like to add some" " arguments (Y/[N])? "
+            "There are currently no arguments. Would you like to add some"
+            " arguments (Y/[N])? "
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
@@ -366,7 +379,8 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     new_path = ""
     print("\nThe current file path for this startup item is:", item_path)
     user_choice = input(
-        "Would you like to use the file chooser window to select the new file" " path [Y/N]? "
+        "Would you like to use the file chooser window to select the new file"
+        " path [Y/N]? "
     )
 
     if user_choice.isalpha():
@@ -395,9 +409,12 @@ def edit_startup_item_description(item_description: str):
     Returns:
         str: The new startup item description
     """
-    print("\nThe current description for this startup item is:", item_description)
+    print(
+        "\nThe current description for this startup item is:", item_description
+    )
     new_description = input(
-        "Please enter a new description or press enter to leave the existing" " description: "
+        "Please enter a new description or press enter to leave the existing"
+        " description: "
     )
 
     if not new_description:
@@ -417,7 +434,9 @@ def edit_startup_item_name(item_name: str):
         str: The new startup item name
     """
     print("\nThe current name for this startup item is:", item_name)
-    new_name = input("Please enter a new name or press enter to leave the existing name: ")
+    new_name = input(
+        "Please enter a new name or press enter to leave the existing name: "
+    )
 
     if not new_name:
         print("\nNo change was made...")
@@ -426,7 +445,9 @@ def edit_startup_item_name(item_name: str):
     return new_name
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
+def save_startup_item(
+    modified_startup_item: dict, json_path: list, json_filename: str
+):
     """Helper function to save a modified startup item
 
     Args:
@@ -446,7 +467,9 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         written to disk or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    status_state, status_message, json_data = json_reader(
+        json_path, json_filename
+    )
 
     if status_state:
         # Get the item number of the startup item being work with
@@ -456,7 +479,10 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
         # Check to see if the data was actually changed
         if modified_startup_item != original_startup_item:
-            return (False, "The startup data hasn't changed. There was nothing to save!")
+            return (
+                False,
+                "The startup data hasn't changed. There was nothing to save!",
+            )
 
         print("Original:")
         print(original_startup_item)
@@ -509,7 +535,9 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
 
         match user_choice:
             case 1:
-                startup_item["Name"] = edit_startup_item_name(startup_item["Name"])
+                startup_item["Name"] = edit_startup_item_name(
+                    startup_item["Name"]
+                )
             case 2:
                 startup_item["Description"] = edit_startup_item_description(
                     startup_item["Description"]
@@ -577,9 +605,13 @@ def prettify_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
         case "w":
-            return_message += "Unable to write startup data. Error information is below:\n"
+            return_message += (
+                "Unable to write startup data. Error information is below:\n"
+            )
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
@@ -606,16 +638,22 @@ def prettify_startup_item(startup_item: dict):
     startup_data = ""
 
     # Add the startup item number
-    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    startup_data += (
+        line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    )
 
     # Add the startup item name
     startup_data += line + tab + "Item name: " + startup_item["Name"]
 
     # Add the startup description
-    startup_data += line + tab + "Item description: " + startup_item["Description"]
+    startup_data += (
+        line + tab + "Item description: " + startup_item["Description"]
+    )
 
     # Add the file path
-    startup_data += line + tab + "Item program path: " + startup_item["FilePath"]
+    startup_data += (
+        line + tab + "Item program path: " + startup_item["FilePath"]
+    )
 
     # Add any argument information
     startup_data += line + tab + "Does this item use arguments: "
@@ -624,7 +662,9 @@ def prettify_startup_item(startup_item: dict):
         startup_data += "Yes"
 
         # Get the total number of arguments
-        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
+        startup_data += (
+            line + tab + "Total number of arguments used: " + str(arg_count)
+        )
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
@@ -636,10 +676,20 @@ def prettify_startup_item(startup_item: dict):
                     argument = " ".join(argument)
 
                 startup_data += (
-                    line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                    line
+                    + tab
+                    + tab
+                    + "Argument "
+                    + str(counter)
+                    + ": "
+                    + '"'
+                    + argument
+                    + '"'
                 )
         else:
-            startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
+            startup_data += (
+                line + tab + tab + "Argument: " + '"' + arg_list + '"'
+            )
     else:
         startup_data += "No"
 
@@ -739,12 +789,17 @@ def generate_user_startup_data():
     json_data[ec_jsk.TOTALITEMS.value] = 0
     json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
 
-    print("This functionality hasn't been fully implemented yet. Creating blank" " startup file...")
+    print(
+        "This functionality hasn't been fully implemented yet. Creating blank"
+        " startup file..."
+    )
 
     return json_data
 
 
-def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
+def generate_json_data(
+    new_file: bool = False, is_default: bool = False, **kwargs
+):
     """Helper function to create JSON data
 
     Depending on the parameters passed in, the function will either:
@@ -798,7 +853,9 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    status_state, status_message, json_data = json_reader(
+        json_path, json_filename
+    )
 
     print(f"\n{status_message}")
 
@@ -818,7 +875,9 @@ def json_editor(json_path: list, json_filename: str):
             # to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                start_items_menu += (
+                    f"[{item_number}] Edit startup item {item_number}\n"
+                )
 
             item_add = total_items + 1
             item_delete = total_items + 2
@@ -834,7 +893,9 @@ def json_editor(json_path: list, json_filename: str):
 
             quit_loop = False
             while not quit_loop:
-                user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                user_choice = user_menu_chooser(
+                    menu_choices, total_menu_choices
+                )
 
                 if user_choice == item_quit:
                     quit_loop = True
@@ -843,7 +904,9 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_delete:
                     print("\nThat functionality hasn't yet been implemented")
                 elif user_choice > 0:
-                    edit_startup_item(items[user_choice - 1], json_path, json_filename)
+                    edit_startup_item(
+                        items[user_choice - 1], json_path, json_filename
+                    )
         else:
             print("There are no startup items to edit!")
 
@@ -922,7 +985,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write startup data." " Please try again."
+                "Invalid file state! Could not write startup data."
+                " Please try again."
             )
 
     # Write to file if needed
@@ -1043,7 +1107,9 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+    write_json_success, return_message = json_writer(
+        json_file, file_state, json_data
+    )
 
     return write_json_success, return_message
 
@@ -1099,11 +1165,16 @@ if __name__ == "__main__":
         json_path.extend(["data", "json_data"])
         json_filename = "startup_data.json"
     else:
-        json_path.extend(["feature_addons", "startup_data_modifier_tool", "program_files"])
+        json_path.extend(
+            ["feature_addons", "startup_data_modifier_tool", "dependencies"]
+        )
         json_filename = "test_data.json"
 
     # Print welcome message
-    print("\nWelcome to Demord: The computer startup tool that will make your" " life easier.")
+    print(
+        "\nWelcome to Demord: The computer startup tool that will make your"
+        " life easier."
+    )
 
     # Initialize status variables
     status_state = False
@@ -1130,12 +1201,16 @@ if __name__ == "__main__":
                 is_default = new_file_chooser()
 
                 # Create a new JSON file
-                status_state, status_message = json_creator(json_path, json_filename, is_default)
+                status_state, status_message = json_creator(
+                    json_path, json_filename, is_default
+                )
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the
                 # json_read function, then print out if the read was successful
-                status_state, status_message, json_data = json_reader(json_path, json_filename)
+                status_state, status_message, json_data = json_reader(
+                    json_path, json_filename
+                )
                 print(f"\n{status_message}\n")
 
                 # If there was data read in, print it out in a prettified way
