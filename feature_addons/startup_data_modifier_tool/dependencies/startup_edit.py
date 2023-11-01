@@ -1,9 +1,9 @@
 # Dependency to store the helper functions that are used when
 # editing a startup item
 
-from chooser import user_menu_chooser, edit_file_chooser
-from pretty import prettify_startup_item
-from startup_add import save_startup_item, add_startup_item_arguments
+from dependencies.chooser import user_menu_chooser, edit_file_chooser
+from dependencies.pretty import prettify_startup_item
+from dependencies.startup_add import save_startup_item, add_startup_item_arguments
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):

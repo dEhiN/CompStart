@@ -1,9 +1,9 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-from helper import DEFAULT_JSON
-from enum import JsonSchemaKeys as ec_jsk
-from enum import JsonSchemaStructure as ec_jss
+from dependencies.helper import DEFAULT_JSON
+from dependencies.enum import JsonSchemaKeys as ec_jsk
+from dependencies.enum import JsonSchemaStructure as ec_jss
 
 
 def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
