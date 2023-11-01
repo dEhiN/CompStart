@@ -3,7 +3,7 @@
 
 from dependencies.chooser import user_menu_chooser, edit_file_chooser
 from dependencies.pretty import prettify_startup_item
-from dependencies.startup_add import save_startup_item, add_startup_item_arguments
+from dependencies.startup_add import save_startup_item, add_startup_item_arguments_list
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -300,7 +300,7 @@ def edit_startup_item_arguments_list(
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            new_arg_list = add_startup_item_arguments().copy()
+            new_arg_list = add_startup_item_arguments_list().copy()
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()
