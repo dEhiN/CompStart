@@ -358,7 +358,7 @@ def edit_startup_item_arguments_list(
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            new_arg_list = add_startup_arguments().copy()
+            new_arg_list = add_startup_item_arguments().copy()
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()
