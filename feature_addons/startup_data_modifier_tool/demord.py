@@ -1,5 +1,5 @@
-# This will be a command line tool to create and edit the startup_data.json
-# file.
+# This will be a command line tool to create and edit the
+# startup_data.json file
 
 import json, os, sys
 from tkinter import filedialog as file_chooser
