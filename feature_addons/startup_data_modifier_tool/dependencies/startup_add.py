@@ -1,6 +1,8 @@
 # Dependency to store the helper functions that are used to
 # add a new startup item
 
+from demord import json_reader
+
 
 def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to save a modified startup item
