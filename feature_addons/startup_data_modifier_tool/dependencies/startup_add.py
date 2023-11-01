@@ -47,7 +47,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
     return (status_state, status_message)
 
 
-def add_startup_item_arguments(arg_list: list = []):
+def add_startup_item_arguments_list(arg_list: list = []):
     """Helper function to allow the user to add arguments for a
     startup item
 
