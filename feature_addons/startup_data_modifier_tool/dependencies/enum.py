@@ -1,3 +1,6 @@
+# Dependency to store the Enum classes for creating properly
+# structured JSON data
+
 from enum import Enum
 
 
