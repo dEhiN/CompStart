@@ -203,7 +203,7 @@ def parse_full_path(json_path: list, json_filename: str):
     return json_file
 
 
-def add_startup_arguments(arg_list: list = []):
+def add_startup_item_arguments(arg_list: list = []):
     """Helper function to allow the user to add arguments for a
     startup item
 
