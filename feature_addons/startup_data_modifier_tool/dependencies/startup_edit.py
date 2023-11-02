@@ -1,9 +1,9 @@
 # Dependency to store the helper functions that are used when
 # editing a startup item
 
+import dependencies.startup_add as dsa
 from dependencies.chooser import user_menu_chooser, edit_file_chooser
 from dependencies.pretty import prettify_startup_item
-from dependencies.startup_add import save_startup_item, add_startup_item_arguments_list
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -74,7 +74,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
             case 5:
                 print(prettify_startup_item(startup_item))
             case 6:
-                write_status, return_message = save_startup_item(
+                write_status, return_message = dsa.save_startup_item(
                     startup_item, json_path, json_filename
                 )
 
@@ -300,7 +300,7 @@ def edit_startup_item_arguments_list(
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            new_arg_list = add_startup_item_arguments_list().copy()
+            new_arg_list = dsa.add_startup_item_arguments_list().copy()
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()
