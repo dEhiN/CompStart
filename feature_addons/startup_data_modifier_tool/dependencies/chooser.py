@@ -64,15 +64,25 @@ def new_file_chooser():
         None
 
     Returns:
-        bool: True if the startup file should contain default data, False if not
+        tuple: Consisting of the following two Boolean variables:
+                bool: True if the startup file should contain default data,
+                False if not. Default is False.
+                bool: True if the user wants to continue with creating a startup
+                file, False if not. Default is True.
     """
     # Loop through until user makes a valid choice
+    # is_default will specify if the user wants to create a startup file
+    # with default values or not
+    # to_continue will specify if the user wants to return to the main
+    # menu or proceed with creating a startup file
     is_default = False
+    to_continue = True
     menu_choices = (
         "[1] Create a new startup file with some default values\n"
         "[2] Create a new startup file with programs that you choose\n"
+        "[3] Return to the main menu\n"
     )
-    total_menu_choices = 2
+    total_menu_choices = 3
     quit_loop = False
 
     while not quit_loop:
@@ -83,8 +93,10 @@ def new_file_chooser():
             quit_loop = True
             if user_choice == 1:
                 is_default = True
+            elif user_choice == 3:
+                to_continue = False
 
-    return is_default
+    return (is_default, to_continue)
 
 
 def edit_file_chooser(item_name: str):

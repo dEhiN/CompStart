@@ -324,12 +324,13 @@ if __name__ == "__main__":
                 program_info()
             case 2:
                 # Find out which type of new file the user wants
-                is_default = new_file_chooser()
+                is_default, to_continue = new_file_chooser()
 
-                # Create a new JSON file
-                status_state, status_message = json_creator(
-                    json_path, json_filename, is_default
-                )
+                if to_continue:
+                    # Create a new JSON file
+                    status_state, status_message = json_creator(
+                        json_path, json_filename, is_default
+                    )
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the
