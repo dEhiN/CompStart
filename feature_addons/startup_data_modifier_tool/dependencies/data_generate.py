@@ -1,9 +1,10 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-from dependencies.helper import DEFAULT_JSON
-from dependencies.enum import JsonSchemaKeys as ec_jsk
-from dependencies.enum import JsonSchemaStructure as ec_jss
+from dependencies.imports import *
+
+ENUM_JSK = deps_enum.JsonSchemaKeys
+ENUM_JSS = deps_enum.JsonSchemaStructure
 
 
 def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
@@ -46,11 +47,11 @@ def generate_user_edited_data(**kwargs):
     """Helper function to create JSON data from **kwargs parameter
 
     Creates a dictionary with keys and values taken from **kwargs. Uses the
-    Enum class JsonSchemaKey through the variable ec_jsk to populate the keys.
-    Uses the Enum class JsonSchemaStructure through the variable ec_jss to
+    Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys.
+    Uses the Enum class JsonSchemaStructure through the variable ENUM_JSS to
     create a Python dictionary for a JSON object and a Python list for a JSON
     array when called for. Because of how Python passes mutable data types,
-    when using the ec_jss members, a copy has to be made of the member value.
+    when using the ENUM_JSS members, a copy has to be made of the member value.
 
     As of 09-Aug-23:
     Haven't yet decided how **kwargs parameter will be structured, but it will
@@ -64,7 +65,7 @@ def generate_user_edited_data(**kwargs):
     """
 
     # Create empty JSON object / Python dictionary
-    temp_data = ec_jss.OBJECT.value.copy()
+    temp_data = ENUM_JSS.OBJECT.value.copy()
 
     # For now return a blank dictionary
     return temp_data
@@ -80,7 +81,7 @@ def generate_default_startup_data():
         dict: A dictionary of JSON startup data
     """
 
-    return DEFAULT_JSON
+    return deps_helper.DEFAULT_JSON
 
 
 def generate_user_startup_data():
@@ -92,9 +93,9 @@ def generate_user_startup_data():
         dict: A dictionary of JSON startup data
     """
     # Create empty JSON object / Python dictionary
-    json_data = ec_jss.OBJECT.value.copy()
-    json_data[ec_jsk.TOTALITEMS.value] = 0
-    json_data[ec_jsk.ITEMS.value] = ec_jss.ARRAY.value.copy()
+    json_data = ENUM_JSS.OBJECT.value.copy()
+    json_data[ENUM_JSK.TOTALITEMS.value] = 0
+    json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
 
     print(
         "This functionality hasn't been fully implemented yet. Creating blank"

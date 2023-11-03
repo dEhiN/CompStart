@@ -1,9 +1,7 @@
 # Dependency to store the helper functions that are used when
 # editing a startup item
 
-import dependencies.startup_add as dsa
-from dependencies.chooser import user_menu_chooser, edit_file_chooser
-from dependencies.pretty import prettify_startup_item
+from dependencies.imports import *
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -25,7 +23,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
         list: A list containing the updated startup items.
     """
     # Show startup item selected
-    prettified_item = prettify_startup_item(startup_item)
+    prettified_item = deps_pretty.prettify_startup_item(startup_item)
     print(prettified_item)
     input("\nPress any key to continue...")
 
@@ -43,7 +41,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     quit_loop = False
 
     while not quit_loop:
-        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
@@ -72,9 +70,9 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
                 startup_item["ArgumentCount"] = len(temp_arg_list)
                 startup_item["ArgumentList"] = temp_arg_list.copy()
             case 5:
-                print(prettify_startup_item(startup_item))
+                print(deps_pretty.prettify_startup_item(startup_item))
             case 6:
-                write_status, return_message = dsa.save_startup_item(
+                write_status, return_message = deps_item_add.save_startup_item(
                     startup_item, json_path, json_filename
                 )
 
@@ -154,7 +152,7 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
 
     if user_choice.isalpha():
         if user_choice.upper() == "Y":
-            new_path = edit_file_chooser(item_name)
+            new_path = deps_chooser.edit_file_chooser(item_name)
         elif user_choice.upper() == "N":
             input_msg = (
                 "Please enter the new path to the program executable in full"
@@ -233,7 +231,9 @@ def edit_startup_item_arguments_list(
 
             menu_choices = "".join(arg_items_menu) + menu_footer
 
-            user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+            user_choice = deps_chooser.user_menu_chooser(
+                menu_choices, total_menu_choices
+            )
 
             if user_choice == cancel_choice:
                 quit_loop = True
@@ -255,7 +255,9 @@ def edit_startup_item_arguments_list(
                 user_choice = 0
 
                 while user_choice == 0:
-                    user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                    user_choice = deps_chooser.user_menu_chooser(
+                        menu_choices, total_menu_choices
+                    )
 
                 if user_choice < cancel_choice:
                     # Calculate which list index we're working with
@@ -300,7 +302,7 @@ def edit_startup_item_arguments_list(
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            new_arg_list = dsa.add_startup_item_arguments_list().copy()
+            new_arg_list = deps_item_add.add_startup_item_arguments_list().copy()
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()

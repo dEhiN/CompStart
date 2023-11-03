@@ -1,7 +1,7 @@
 # Dependency to store the helper functions that are used to
 # add a new startup item
 
-from demord import json_reader
+from dependencies.imports import *
 
 
 def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
@@ -24,7 +24,9 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         written to disk or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    status_state, status_message, json_data = app_demord.json_reader(
+        json_path, json_filename
+    )
 
     if status_state:
         # Get the item number of the startup item being work with

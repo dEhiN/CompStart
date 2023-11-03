@@ -2,12 +2,8 @@
 # startup_data.json file
 
 import json, os
-from dependencies.helper import *
-from dependencies.chooser import *
-from dependencies.pretty import *
-from dependencies.data_generate import *
-from dependencies.startup_add import *
-from dependencies.startup_edit import *
+
+from dependencies.imports import *
 
 
 def json_reader(json_path: list, json_filename: str):
@@ -55,7 +51,7 @@ def json_reader(json_path: list, json_filename: str):
             )
         else:
             # Get the full path to the file in string format
-            json_file = parse_full_path(json_path, json_filename)
+            json_file = deps_helper.parse_full_path(json_path, json_filename)
 
             # Read in JSON data
             try:
@@ -65,7 +61,7 @@ def json_reader(json_path: list, json_filename: str):
                 # Read was successful
                 read_json_success = True
             except Exception as error:
-                return_message = prettify_error(error, "r")
+                return_message = deps_pretty.prettify_error(error, "r")
 
     return read_json_success, return_message, json_data
 
@@ -120,7 +116,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             file_mode = "w"
         case 1:
             # Check if user wants to overwrite the existing file
-            if check_overwrite(json_file):
+            if deps_helper.check_overwrite(json_file):
                 # Write JSON data to file
                 file_mode = "w"
             else:
@@ -133,7 +129,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     existing_data = json.load(file)
             except Exception as error:
                 existing_data = json_data
-                return_message = prettify_error(error, "r")
+                return_message = deps_pretty.prettify_error(error, "r")
 
             if not json_data == existing_data:
                 file_mode = "w"
@@ -156,7 +152,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             # Created file successfully
             write_json_success = True
         except Exception as error:
-            return_message = prettify_error(error, file_mode)
+            return_message = deps_pretty.prettify_error(error, file_mode)
 
     return write_json_success, return_message
 
@@ -194,10 +190,10 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     file_state = 0
 
     # Get the full path to the file in string format
-    json_file = parse_full_path(json_path, json_filename)
+    json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = generate_json_data(new_file=True, is_default=default_mode)
+    json_data = deps_data_gen.generate_json_data(new_file=True, is_default=default_mode)
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
@@ -264,7 +260,9 @@ def json_editor(json_path: list, json_filename: str):
 
             quit_loop = False
             while not quit_loop:
-                user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+                user_choice = deps_chooser.user_menu_chooser(
+                    menu_choices, total_menu_choices
+                )
 
                 if user_choice == item_quit:
                     quit_loop = True
@@ -273,14 +271,16 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_delete:
                     print("\nThat functionality hasn't yet been implemented")
                 elif user_choice > 0:
-                    edit_startup_item(items[user_choice - 1], json_path, json_filename)
+                    deps_item_edit.edit_startup_item(
+                        items[user_choice - 1], json_path, json_filename
+                    )
         else:
             print("There are no startup items to edit!")
 
 
 if __name__ == "__main__":
     # Set the starting directory
-    set_start_dir()
+    deps_helper.set_start_dir()
 
     # Variable to switch between testing and prod environments
     is_prod = False
@@ -317,14 +317,14 @@ if __name__ == "__main__":
     quit_loop = False
 
     while not quit_loop:
-        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
-                program_info()
+                deps_helper.program_info()
             case 2:
                 # Find out which type of new file the user wants
-                is_default, to_continue = new_file_chooser()
+                is_default, to_continue = deps_chooser.new_file_chooser()
 
                 if to_continue:
                     # Create a new JSON file
@@ -343,7 +343,7 @@ if __name__ == "__main__":
                 # If there was data read in, print it out in a prettified way
                 if status_state:
                     input("Press any key to view the startup data...")
-                    print(prettify_json(json_data))
+                    print(deps_pretty.prettify_json(json_data))
                     input("\nPress any key to return to the main menu...")
             case 4:
                 json_editor(json_path, json_filename)
