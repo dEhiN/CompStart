@@ -76,6 +76,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
                     startup_item, json_path, json_filename
                 )
 
+                print(return_message)
                 print("\nAttempt to read in startup data from file was...")
                 if write_status:
                     print("...successful!")
