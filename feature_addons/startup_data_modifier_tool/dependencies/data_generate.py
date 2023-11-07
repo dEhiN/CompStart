@@ -129,12 +129,15 @@ def generate_user_edited_data(
     if not item_add and not valid_orig_data:
         # Can't update a startup item when the original data is blank
         deps_pretty.prettify_custom_error(
-            "The modified JSON data passed in is not properly formed. Cannot proceed.",
+            "Original JSON data cannot be found. Please provide original JSON data when updating.",
             "data_generate.generate_user_edited_data",
         )
         return temp_data
 
-    if len(valid_mod_data) != num_startup_keys:
+    if (
+        len(valid_mod_data) != num_startup_keys
+        or len(modified_json_data.keys()) != num_startup_keys
+    ):
         # The modified JSON data passed in isn't a valid startup item
         deps_pretty.prettify_custom_error(
             "The modified JSON data passed in is not properly formed. Cannot proceed.",
