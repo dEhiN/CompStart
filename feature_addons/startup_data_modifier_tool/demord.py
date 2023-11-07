@@ -61,7 +61,7 @@ def json_reader(json_path: list, json_filename: str):
                 # Read was successful
                 read_json_success = True
             except Exception as error:
-                return_message = deps_pretty.prettify_error(error, "r")
+                return_message = deps_pretty.prettify_io_error(error, "r")
 
     return read_json_success, return_message, json_data
 
@@ -129,7 +129,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                     existing_data = json.load(file)
             except Exception as error:
                 existing_data = json_data
-                return_message = deps_pretty.prettify_error(error, "r")
+                return_message = deps_pretty.prettify_io_error(error, "r")
 
             if not json_data == existing_data:
                 file_mode = "w"
@@ -152,7 +152,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             # Created file successfully
             write_json_success = True
         except Exception as error:
-            return_message = deps_pretty.prettify_error(error, file_mode)
+            return_message = deps_pretty.prettify_io_error(error, file_mode)
 
     return write_json_success, return_message
 

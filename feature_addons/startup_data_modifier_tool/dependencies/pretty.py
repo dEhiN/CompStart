@@ -110,8 +110,9 @@ def prettify_startup_item(startup_item: dict):
     return startup_data
 
 
-def prettify_error(error: Exception, file_mode: str = ""):
-    """Helper function to prettify an error or exception
+def prettify_io_error(error: Exception, file_mode: str = ""):
+    """Helper function to prettify an error or exception when performing an
+    I/O operation
 
     This function will take an Exception and create a more human-readable
     output for the error
