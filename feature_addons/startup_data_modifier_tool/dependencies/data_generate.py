@@ -78,7 +78,7 @@ def generate_user_startup_data():
 
 
 def generate_user_edited_data(
-    modified_json_data: dict, orig_json_data: dict = {}, item_add: bool = False
+    modified_json_data: dict, item_add: bool, orig_json_data: dict = {}
 ):
     """Helper function to create JSON data
 
@@ -93,13 +93,12 @@ def generate_user_edited_data(
         modified_json_data (dict): Required. A dictionary containing new JSON
         data that needs to be written to disk.
 
+        item_add (bool): Required. Specify whether the modified_json_data is to
+        be added to orig_json_data or should replace some or all of it.
+
         orig_json_data (dict): Optional. A dictionary containing the original
         JSON data to be replaced or updated. If nothing is passed in, then it's
         blank by default.
-
-        item_add (bool): Optional. Specify whether the modified_json_data is to
-        be added to orig_json_data or should replace some or all of it. Default
-        is False.
 
     Returns:
         dict: A dictionary with the updated JSON data
@@ -117,7 +116,10 @@ def generate_user_edited_data(
             total_items = orig_json_data["TotalItems"]
             new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items
         else:
-            print()
+            deps_pretty.prettify_custom_error(
+                "Original JSON data cannot be found. Please provide original JSON data when updating.",
+                "data_generate.generate_user_edited_data",
+            )
 
     # For now return a blank dictionary
     return temp_data
