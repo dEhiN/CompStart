@@ -2,6 +2,7 @@
 # add a new startup item
 
 from dependencies.imports import *
+import demord as app_demord
 
 
 def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
@@ -29,16 +30,16 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
     )
 
     if status_state:
-        # Get the item number of the startup item being work with
+        # Get the item number of the startup item being worked with
         # and then the original version of that startup item
         modified_item_number = modified_startup_item["ItemNumber"]
         original_startup_item = json_data["Items"][modified_item_number - 1]
 
         # Check to see if the data was actually changed
-        if modified_startup_item != original_startup_item:
+        if modified_startup_item == original_startup_item:
             return (
                 False,
-                "The startup data hasn't changed. There was nothing to save!",
+                "\nThe startup data hasn't changed. There was nothing to save!",
             )
 
         print("Original:")
