@@ -145,3 +145,17 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
     return return_message
+
+
+def prettify_custom_error(msg: str, func_name: str):
+    """A helper function to print out a passed-in custom error message
+
+    Args:
+        msg (str): The custom message to print out
+
+        func_name (str): The name of the calling function
+    """
+    err_msg = "\n***ERROR***\nThe following error was encountered:\n"
+    err_msg += "\nFunction: " + func_name
+    err_msg += "\nMessage: " + msg
+    print(err_msg)
