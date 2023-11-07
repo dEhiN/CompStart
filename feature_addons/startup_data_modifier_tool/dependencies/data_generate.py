@@ -43,34 +43,6 @@ def generate_json_data(new_file: bool = False, is_default: bool = False, **kwarg
     return json_data
 
 
-def generate_user_edited_data(**kwargs):
-    """Helper function to create JSON data from **kwargs parameter
-
-    Creates a dictionary with keys and values taken from **kwargs. Uses the
-    Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys.
-    Uses the Enum class JsonSchemaStructure through the variable ENUM_JSS to
-    create a Python dictionary for a JSON object and a Python list for a JSON
-    array when called for. Because of how Python passes mutable data types,
-    when using the ENUM_JSS members, a copy has to be made of the member value.
-
-    As of 09-Aug-23:
-    Haven't yet decided how **kwargs parameter will be structured, but it will
-    most likely either be a dictionary itself, or a list of strings.
-
-    Args:
-        **kwargs: Optional parameters that contain new JSON data
-
-    Returns:
-        dict: A dictionary with the updated JSON data
-    """
-
-    # Create empty JSON object / Python dictionary
-    temp_data = ENUM_JSS.OBJECT.value.copy()
-
-    # For now return a blank dictionary
-    return temp_data
-
-
 def generate_default_startup_data():
     """Helper function to create default startup data
 
@@ -103,3 +75,49 @@ def generate_user_startup_data():
     )
 
     return json_data
+
+
+def generate_user_edited_data(
+    modified_json_data: dict, orig_json_data: dict = {}, item_add: bool = False
+):
+    """Helper function to create JSON data
+
+    Creates a dictionary with the new JSON data added in or updated. Uses the
+    Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys.
+    Uses the Enum class JsonSchemaStructure through the variable ENUM_JSS to
+    create a Python dictionary for a JSON object and a Python list for a JSON
+    array when called for. Because of how Python passes mutable data types,
+    when using the ENUM_JSS members, a copy has to be made of the member value.
+
+    Args:
+        modified_json_data (dict): Required. A dictionary containing new JSON
+        data that needs to be written to disk.
+
+        orig_json_data (dict): Optional. A dictionary containing the original
+        JSON data to be replaced or updated. If nothing is passed in, then it's
+        blank by default.
+
+        item_add (bool): Optional. Specify whether the modified_json_data is to
+        be added to orig_json_data or should replace some or all of it. Default
+        is False.
+
+    Returns:
+        dict: A dictionary with the updated JSON data
+    """
+    # Create empty JSON object / Python dictionary
+    temp_data = ENUM_JSS.OBJECT.value.copy()
+
+    # Create empty JSON object / Python dictionary
+    new_json_data = ENUM_JSS.OBJECT.value.copy()
+    new_json_data[ENUM_JSK.TOTALITEMS.value] = 0
+    new_json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
+
+    if not item_add:
+        if len(orig_json_data) > 0:
+            total_items = orig_json_data["TotalItems"]
+            new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items
+        else:
+            print()
+
+    # For now return a blank dictionary
+    return temp_data

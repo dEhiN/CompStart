@@ -42,10 +42,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
                 "\nThe startup data hasn't changed. There was nothing to save!",
             )
 
-        print("Original:")
-        print(original_startup_item)
-        print("\nNew:")
-        print(modified_startup_item)
+        deps_data_gen.generate_user_edited_data(modified_item_number, json_data)
     else:
         pass
 
