@@ -106,20 +106,49 @@ def generate_user_edited_data(
     # Create empty JSON object / Python dictionary
     temp_data = ENUM_JSS.OBJECT.value.copy()
 
+    # List of all valid keys in a startup item dictionary
+    keys_to_check = [
+        ENUM_JSK.ITEMNUMBER.value,
+        ENUM_JSK.NAME.value,
+        ENUM_JSK.FILEPATH.value,
+        ENUM_JSK.DESCRIPTION.value,
+        ENUM_JSK.BROWSER.value,
+        ENUM_JSK.ARGUMENTLIST.value,
+        ENUM_JSK.ARGUMENTCOUNT.value,
+    ]
+    num_startup_keys = 7
+
+    # Check to see which of the valid keys are actually in the modified JSON
+    # data dictionary
+    valid_mod_data = [key for key in keys_to_check if key in modified_json_data]
+
+    # Check to see if the original JSON data dictionary is blank
+    valid_orig_data = True if len(orig_json_data) > 0 else False
+
+    # Validate the data before proceeding
+    if not item_add and not valid_orig_data:
+        # Can't update a startup item when the original data is blank
+        deps_pretty.prettify_custom_error(
+            "The modified JSON data passed in is not properly formed. Cannot proceed.",
+            "data_generate.generate_user_edited_data",
+        )
+        return temp_data
+
+    if len(valid_mod_data) != num_startup_keys:
+        # The modified JSON data passed in isn't a valid startup item
+        deps_pretty.prettify_custom_error(
+            "The modified JSON data passed in is not properly formed. Cannot proceed.",
+            "data_generate.generate_user_edited_data",
+        )
+        return temp_data
+
     # Create empty JSON object / Python dictionary
     new_json_data = ENUM_JSS.OBJECT.value.copy()
     new_json_data[ENUM_JSK.TOTALITEMS.value] = 0
     new_json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
 
-    if not item_add:
-        if len(orig_json_data) > 0:
-            total_items = orig_json_data["TotalItems"]
-            new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items
-        else:
-            deps_pretty.prettify_custom_error(
-                "Original JSON data cannot be found. Please provide original JSON data when updating.",
-                "data_generate.generate_user_edited_data",
-            )
+    # Start populating it
+    total_items = orig_json_data["TotalItems"]
+    new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items
 
-    # For now return a blank dictionary
-    return temp_data
+    return new_json_data
