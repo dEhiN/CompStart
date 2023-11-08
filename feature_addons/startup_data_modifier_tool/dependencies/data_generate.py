@@ -89,9 +89,28 @@ def generate_user_edited_data(
     array when called for. Because of how Python passes mutable data types,
     when using the ENUM_JSS members, a copy has to be made of the member value.
 
+    Because there are only certain possible scenarios, the parameter data must
+    be validated to determine which scenario and throw an error if the data
+    doesn't fit. The following scenarios will be considered valid and will be
+    checked for:
+
+    1) Need to update a single, existing startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_add will be False
+        - orig_json_data will be full JSON startup data
+    2) Need to update the full JSON data
+        - modified_json_data will be full JSON startup data
+        - item_add will be False
+        - orig_json_data will be blank
+    3) Need to add a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_add will be True
+        - orig_json_data will be full JSON startup data
+
     Args:
         modified_json_data (dict): Required. A dictionary containing new JSON
-        data that needs to be written to disk.
+        data that needs to be written to disk. It can either be a single
+        startup item or the full JSON startup data.
 
         item_add (bool): Required. Specify whether the modified_json_data is to
         be added to orig_json_data or should replace some or all of it.
@@ -106,8 +125,19 @@ def generate_user_edited_data(
     # Create empty JSON object / Python dictionary
     temp_data = ENUM_JSS.OBJECT.value.copy()
 
+    # Validate the data before proceeding - see docstring for details
+    valid_mod_data = False
+    mod_data_num_keys = len(modified_json_data.keys())
+    exists_orig_data = True if len(orig_json_data) > 0 else False
+    validation_proceed = True
+    validation_err_msg = ""
+
+    # List of all valid keys in the full JSON startup data
+    startup_keys_to_check = [ENUM_JSK.TOTALITEMS.value, ENUM_JSK.ITEMS.value]
+    num_startup_keys = 2
+
     # List of all valid keys in a startup item dictionary
-    keys_to_check = [
+    item_keys_to_check = [
         ENUM_JSK.ITEMNUMBER.value,
         ENUM_JSK.NAME.value,
         ENUM_JSK.FILEPATH.value,
@@ -116,32 +146,37 @@ def generate_user_edited_data(
         ENUM_JSK.ARGUMENTLIST.value,
         ENUM_JSK.ARGUMENTCOUNT.value,
     ]
-    num_startup_keys = 7
+    num_item_keys = 7
 
-    # Check to see which of the valid keys are actually in the modified JSON
-    # data dictionary
-    valid_mod_data = [key for key in keys_to_check if key in modified_json_data]
+    # Check if modified_json_data contains properly formed data
+    if ENUM_JSK.TOTALITEMS.value in modified_json_data:
+        # Full startup data
+        valid_mod_data = [
+            True for key in startup_keys_to_check if key in modified_json_data
+        ]
+    elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
+        # Startup item data
+        valid_mod_data = [
+            True for key in item_keys_to_check if key in modified_json_data
+        ]
 
-    # Check to see if the original JSON data dictionary is blank
-    valid_orig_data = True if len(orig_json_data) > 0 else False
+    # Check for each of the 3 scenarios listed in the docstring
+    if valid_mod_data:
+        if not item_add:
+            # Scenarios 1 and 2
+            if (exists_orig_data and mod_data_num_keys != num_item_keys) or (
+                not exists_orig_data and mod_data_num_keys != num_startup_keys
+            ):
+                validation_proceed = False
+                validation_err_msg = "The modified JSON data passed in is not properly formed. Cannot proceed."
+        else:
+            if not exists_orig_data:
+                validation_proceed = False
+                validation_err_msg = "Original JSON data cannot be found. Please provide original JSON data when updating."
 
-    # Validate the data before proceeding
-    if not item_add and not valid_orig_data:
-        # Can't update a startup item when the original data is blank
+    if not validation_proceed:
         deps_pretty.prettify_custom_error(
-            "Original JSON data cannot be found. Please provide original JSON data when updating.",
-            "data_generate.generate_user_edited_data",
-        )
-        return temp_data
-
-    if (
-        len(valid_mod_data) != num_startup_keys
-        or len(modified_json_data.keys()) != num_startup_keys
-    ):
-        # The modified JSON data passed in isn't a valid startup item
-        deps_pretty.prettify_custom_error(
-            "The modified JSON data passed in is not properly formed. Cannot proceed.",
-            "data_generate.generate_user_edited_data",
+            validation_err_msg, "data_generate.generate_user_edited_data"
         )
         return temp_data
 
