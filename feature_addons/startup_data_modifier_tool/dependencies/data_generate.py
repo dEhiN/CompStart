@@ -107,6 +107,10 @@ def generate_user_edited_data(
         - item_add will be True
         - orig_json_data will be full JSON startup data
 
+    #TODO As of 11/08/23: Code in use of jsonschema package to validate the
+    variable orig_json_data for scenarios 1 and 2 as well as modified_json_data
+    for scenario 2. This will make the validation code below easier and cleaner
+
     Args:
         modified_json_data (dict): Required. A dictionary containing new JSON
         data that needs to be written to disk. It can either be a single
