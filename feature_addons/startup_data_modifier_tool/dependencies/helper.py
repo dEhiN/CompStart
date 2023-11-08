@@ -1,7 +1,9 @@
 # Dependency to store miscellaneous helper functions that
 # don't fit anywhere else as well as the default JSON data
 
-import os
+import os, jsonschema
+import demord as app_demord
+import dependencies.pretty as deps_pretty
 
 # Default startup data to use
 DEFAULT_JSON = {
@@ -136,3 +138,35 @@ def check_overwrite(json_file: str):
             quit_loop = True
 
     return overwrite_file
+
+
+def startup_data_validator(json_data: dict):
+    """Helper function to validate given startup JSON data against the
+    JSON Schema defined in startup_data.schema.json
+
+    Args:
+        json_data (dict): The JSON data to validate
+
+    Returns:
+        bool: True if the validation was successful, False otherwise
+    """
+    valid_json = False
+    schema_file = "startup_data.schema.json"
+    schema_path = ["config"]
+
+    results = app_demord.json_reader(schema_path, schema_file)
+    read_status = results[0]
+
+    if read_status:
+        json_schema = results[2]
+
+        try:
+            jsonschema.validate(json_data, json_schema)
+            valid_json = True
+        except Exception as error:
+            err_param = str(type(error).__name__) + " - " + (error.__dict__["message"])
+            deps_pretty.prettify_custom_error(
+                err_param, "helper.startup_data_validator"
+            )
+
+    return valid_json
