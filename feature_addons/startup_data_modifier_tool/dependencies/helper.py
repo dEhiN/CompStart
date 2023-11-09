@@ -140,18 +140,26 @@ def check_overwrite(json_file: str):
     return overwrite_file
 
 
-def startup_data_validator(json_data: dict):
-    """Helper function to validate given startup JSON data against the
-    JSON Schema defined in startup_data.schema.json
+def startup_data_validator(json_data: dict, single_item: bool = False):
+    """Helper function to validate given startup JSON data, including both full
+    data and a single startup item, against the JSON Schema defined in
+    startup_data.schema.json or startup_item.schema.json, depending on what
+    needs to be validated.
 
     Args:
         json_data (dict): The JSON data to validate
+
+        single_item (bool): A boolean to specify whether to validate a single
+        startup item or consider json_data to be the full startup data.
+        Optional and is False by default.
 
     Returns:
         bool: True if the validation was successful, False otherwise
     """
     valid_json = False
-    schema_file = "startup_data.schema.json"
+    schema_file = (
+        "startup_item.schema.json" if single_item else "startup_data.schema.json"
+    )
     schema_path = ["config"]
 
     results = app_demord.json_reader(schema_path, schema_file)
