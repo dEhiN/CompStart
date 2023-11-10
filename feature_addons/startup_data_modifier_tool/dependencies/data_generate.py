@@ -91,25 +91,9 @@ def generate_user_edited_data(
 
     Because there are only certain possible scenarios, the parameter data must
     be validated to determine which scenario and throw an error if the data
-    doesn't fit. The following scenarios will be considered valid and will be
-    checked for:
-
-    1) Need to update a single, existing startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_add will be False
-        - orig_json_data will be full JSON startup data
-    2) Need to update the full JSON data
-        - modified_json_data will be full JSON startup data
-        - item_add will be False
-        - orig_json_data will be blank
-    3) Need to add a single startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_add will be True
-        - orig_json_data will be full JSON startup data
-
-    #TODO As of 11/08/23: Code in use of jsonschema package to validate the
-    variable orig_json_data for scenarios 1 and 2 as well as modified_json_data
-    for scenario 2. This will make the validation code below easier and cleaner
+    doesn't fit. A helper function called data_validation_scenario is created
+    below to do the actual validation. The docstring for that function lists
+    the possible scenarios and their criteria.
 
     Args:
         modified_json_data (dict): Required. A dictionary containing new JSON
@@ -129,99 +113,11 @@ def generate_user_edited_data(
     # Create empty JSON object / Python dictionary
     temp_data = ENUM_JSS.OBJECT.value.copy()
 
-    # Validate the data before proceeding - see docstring for details
-    validation_proceed = True
-    validation_err_msg = ""
-    valid_modified_data = False
-    valid_orig_data = False
-    single_item = False
+    scenario_number = data_validation_scenario(
+        modified_json_data, item_add, orig_json_data
+    )
 
-    exists_orig_data = True if len(orig_json_data) > 0 else False
-    if exists_orig_data:
-        valid_orig_data = deps_helper.startup_data_validator(orig_json_data)
-
-    # Check if modified_json_data contains properly formed data
-    if ENUM_JSK.TOTALITEMS.value in modified_json_data:
-        # Full startup data
-        valid_modified_data = deps_helper.startup_data_validator(modified_json_data)
-    elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
-        # List of all valid keys in a startup item dictionary
-        # Single startup item
-        valid_modified_data = deps_helper.startup_data_validator(
-            modified_json_data, True
-        )
-        single_item = True
-
-    """
-    Check for each of the 3 scenarios listed in the docstring:
-    1) Need to update a single, existing startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_add will be False
-        - orig_json_data will be full JSON startup data
-    2) Need to update the full JSON data
-        - modified_json_data will be full JSON startup data
-        - item_add will be False
-        - orig_json_data will be blank
-    3) Need to add a single startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_add will be True
-        - orig_json_data will be full JSON startup data
-    """
-    if item_add:
-        if exists_orig_data:
-            if valid_orig_data:
-                if valid_modified_data:
-                    if single_item:
-                        # Scenario 3
-                        pass
-                    else:
-                        validation_proceed = False
-                        validation_err_msg = "The modified JSON data does not contain just a single startup item. Cannot proceed."
-                else:
-                    validation_proceed = False
-                    validation_err_msg = "The modified JSON data passed in is not properly formed. Cannot proceed."
-            else:
-                validation_proceed = False
-                validation_err_msg = "Original JSON data passed in is not properly formed. Cannot proceed."
-        else:
-            validation_proceed = False
-            validation_err_msg = "Original JSON data cannot be found. Please provide original JSON data when adding a new startup item."
-    else:
-        if exists_orig_data:
-            if valid_orig_data:
-                if valid_modified_data:
-                    if single_item:
-                        # Scenario 1
-                        pass
-                    else:
-                        validation_proceed = False
-                        validation_err_msg = "The modified JSON data does not contain just a single startup item. Cannot proceed."
-                else:
-                    validation_proceed = False
-                    validation_err_msg = "The modified JSON data passed in is not properly formed. Cannot proceed."
-            else:
-                validation_proceed = False
-                validation_err_msg = "Original JSON data passed in is not properly formed. Cannot proceed."
-        else:
-            if valid_modified_data:
-                if not single_item:
-                    # Scenario 2
-                    pass
-                else:
-                    validation_proceed = False
-                    validation_err_msg = "The modified JSON data does not contain properly formed full startup data. Cannot proceed."
-            else:
-                validation_proceed = False
-                validation_err_msg = "The modified JSON data passed in is not properly formed. Cannot proceed."
-
-    # validation_err_msg = "The modified JSON data passed in is not properly formed. Cannot proceed."
-    # validation_err_msg = "Original JSON data cannot be found. Please provide original JSON data when updating."
-    # validation_err_msg = "Original JSON data passed in is not properly formed. Cannot proceed."
-
-    if not validation_proceed:
-        deps_pretty.prettify_custom_error(
-            validation_err_msg, "data_generate.generate_user_edited_data"
-        )
+    if scenario_number == 0:
         return temp_data
 
     # Create empty JSON object / Python dictionary
@@ -234,3 +130,124 @@ def generate_user_edited_data(
     new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items
 
     return new_json_data
+
+
+def data_validation_scenario(
+    modified_json_data: dict, item_add: bool, orig_json_data: dict
+):
+    """Helper function for generate_user_edited_data to handle the data
+    validation and determining which scenario is applicable based on the
+    following scenarios, which will be considered valid:
+
+    1) Need to update a single, existing startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_add will be False
+        - orig_json_data will be full JSON startup data
+    2) Need to update the full JSON data
+        - modified_json_data will be full JSON startup data
+        - item_add will be False
+        - orig_json_data will be blank
+    3) Need to add a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_add will be True
+        - orig_json_data will be full JSON startup data
+
+    This function takes in the same arguments passed to
+    generate_user_edited_data with the exception that the last parameter is
+    required instead of optional.
+
+    Args:
+        modified_json_data (dict): Required. A dictionary containing new JSON
+        data that needs to be written to disk. It can either be a single
+        startup item or the full JSON startup data.
+
+        item_add (bool): Required. Specify whether the modified_json_data is to
+        be added to orig_json_data or should replace some or all of it.
+
+        orig_json_data (dict): Required. A dictionary containing the original
+        JSON data to be replaced or updated. If nothing is passed in, then it's
+        blank by default.
+
+    Returns:
+        int: A scenario number based on the following legend:
+                0 - The validation failed and the function
+                generate_user_edited_data shouldn't proceed
+                1 - Scenario 1 listed above is applicable
+                2 - Scenario 2 listed above is applicable
+                3 - Scenario 3 listed above is applicable
+    """
+    # Variables to validate the data before proceeding and track which scenario
+    # listed in the docstring above is the case
+    scenario_number = 0
+    validation_results = ""
+    data_validation = {
+        "Add item": item_add,
+        "Exists orig data": True if len(orig_json_data) > 0 else False,
+        "Valid orig data": False,
+        "Valid mod data": False,
+        "Single item": False,
+    }
+
+    # If the orig_json_data dictionary isn't blank, check that it contains
+    # properly formed data
+    if data_validation[1]:
+        data_validation[2] = deps_helper.startup_data_validator(orig_json_data)
+
+    # Check if modified_json_data contains properly formed data
+    if ENUM_JSK.TOTALITEMS.value in modified_json_data:
+        # Full startup data
+        data_validation[3] = deps_helper.startup_data_validator(modified_json_data)
+    elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
+        # Single startup item
+        data_validation[3] = deps_helper.startup_data_validator(
+            modified_json_data, True
+        )
+        data_validation[4] = True
+
+    # Check for each of the 3 scenarios listed in the docstring:
+    # TODO: Rework the below into a match-case statement based on the
+    # data_validation dictionary
+    if data_validation[0]:
+        if data_validation[1]:
+            if data_validation[2]:
+                if data_validation[3]:
+                    if data_validation[4]:
+                        # Scenario 3
+                        scenario_number = 3
+                    else:
+                        validation_results = "The modified JSON data does not contain just a single startup item. Cannot proceed."
+                else:
+                    validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
+            else:
+                validation_results = "Original JSON data passed in is not properly formed. Cannot proceed."
+        else:
+            validation_results = "Original JSON data cannot be found. Please provide original JSON data when adding a new startup item."
+    else:
+        if data_validation[1]:
+            if data_validation[2]:
+                if data_validation[3]:
+                    if data_validation[4]:
+                        # Scenario 1
+                        scenario_number = 1
+                    else:
+                        validation_results = "The modified JSON data does not contain just a single startup item. Cannot proceed."
+                else:
+                    validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
+            else:
+                validation_results = "Original JSON data passed in is not properly formed. Cannot proceed."
+        else:
+            if data_validation[3]:
+                if not data_validation[4]:
+                    # Scenario 2
+                    scenario_number = 2
+                else:
+                    validation_results = "The modified JSON data does not contain properly formed full startup data. Cannot proceed."
+            else:
+                validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
+
+    if scenario_number == 0:
+        deps_pretty.prettify_custom_error(
+            validation_results, "data_generate.generate_user_edited_data"
+        )
+
+    return scenario_number
