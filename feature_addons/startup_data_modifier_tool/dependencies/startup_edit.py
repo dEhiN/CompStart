@@ -1,7 +1,9 @@
 # Dependency to store the helper functions that are used when
 # editing a startup item
 
-from dependencies.imports import *
+import dependencies.chooser as deps_chooser
+import dependencies.pretty as deps_pretty
+import dependencies.startup_add as deps_item_add
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):

@@ -1,7 +1,7 @@
 # Dependency to store the helper functions that are used to
 # add a new startup item
 
-from dependencies.imports import *
+import dependencies.data_generate as deps_data_gen
 import demord as app_demord
 
 

@@ -2,8 +2,9 @@
 # don't fit anywhere else as well as the default JSON data
 
 import os, jsonschema
-import demord as app_demord
+
 import dependencies.pretty as deps_pretty
+import demord as app_demord
 
 # Default startup data to use
 DEFAULT_JSON = {

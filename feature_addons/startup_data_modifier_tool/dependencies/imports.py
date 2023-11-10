@@ -1,4 +1,5 @@
-# Dependency to manage all local imports
+# File to store to all local import statements for
+# copy-paste as needed
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper

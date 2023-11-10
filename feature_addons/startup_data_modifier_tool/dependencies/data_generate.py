@@ -1,7 +1,9 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-from dependencies.imports import *
+import dependencies.enum as deps_enum
+import dependencies.helper as deps_helper
+import dependencies.pretty as deps_pretty
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
