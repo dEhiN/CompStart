@@ -39,7 +39,8 @@
                             "anyOf": [
                                 {
                                     "type": "string"
-                                }, {
+                                },
+                                {
                                     "type": "array",
                                     "items": {
                                         "type": "string"
@@ -64,10 +65,10 @@
         }
     },
     "required": [
-        "TotalItems", "Items"
+        "TotalItems",
+        "Items"
     ],
     "additionalProperties": false,
-
     "examples": [
         {
             "TotalItems": 1,
