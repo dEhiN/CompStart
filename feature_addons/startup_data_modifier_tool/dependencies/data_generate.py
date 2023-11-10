@@ -135,9 +135,9 @@ def generate_user_edited_data(
 def data_validation_scenario(
     modified_json_data: dict, item_add: bool, orig_json_data: dict
 ):
-    """Helper function for generate_user_edited_data to handle the data
-    validation and determining which scenario is applicable based on the
-    following scenarios, which will be considered valid:
+    """Helper function for the function generate_user_edited_data to handle
+    the data validation and determining which scenario is applicable based on
+    the following possible valid scenarios:
 
     1) Need to update a single, existing startup item
         - modified_json_data will be a fully-formed, single startup item
@@ -176,16 +176,14 @@ def data_validation_scenario(
                 2 - Scenario 2 listed above is applicable
                 3 - Scenario 3 listed above is applicable
     """
-    # Variables to validate the data before proceeding and track which scenario
+    # Dictionary to validate the data before proceeding and track which scenario
     # listed in the docstring above is the case
-    scenario_number = 0
-    validation_results = ""
     data_validation = {
         "Add item": item_add,
         "Exists orig data": True if len(orig_json_data) > 0 else False,
         "Valid orig data": False,
         "Valid mod data": False,
-        "Single item": False,
+        "Mod single item": False,
     }
 
     # If the orig_json_data dictionary isn't blank, check that it contains
@@ -205,49 +203,126 @@ def data_validation_scenario(
         data_validation[4] = True
 
     # Check for each of the 3 scenarios listed in the docstring:
-    # TODO: Rework the below into a match-case statement based on the
-    # data_validation dictionary
-    if data_validation[0]:
-        if data_validation[1]:
-            if data_validation[2]:
-                if data_validation[3]:
-                    if data_validation[4]:
-                        # Scenario 3
-                        scenario_number = 3
-                    else:
-                        validation_results = "The modified JSON data does not contain just a single startup item. Cannot proceed."
-                else:
-                    validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
-            else:
-                validation_results = "Original JSON data passed in is not properly formed. Cannot proceed."
-        else:
-            validation_results = "Original JSON data cannot be found. Please provide original JSON data when adding a new startup item."
-    else:
-        if data_validation[1]:
-            if data_validation[2]:
-                if data_validation[3]:
-                    if data_validation[4]:
-                        # Scenario 1
-                        scenario_number = 1
-                    else:
-                        validation_results = "The modified JSON data does not contain just a single startup item. Cannot proceed."
-                else:
-                    validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
-            else:
-                validation_results = "Original JSON data passed in is not properly formed. Cannot proceed."
-        else:
-            if data_validation[3]:
-                if not data_validation[4]:
-                    # Scenario 2
-                    scenario_number = 2
-                else:
-                    validation_results = "The modified JSON data does not contain properly formed full startup data. Cannot proceed."
-            else:
-                validation_results = "The modified JSON data passed in is not properly formed. Cannot proceed."
+    scenario_number, validation_results = match_scenario(data_validation)
 
+    # If the validation failed, print the error message
     if scenario_number == 0:
         deps_pretty.prettify_custom_error(
             validation_results, "data_generate.generate_user_edited_data"
         )
 
     return scenario_number
+
+
+def match_scenario(data_validation: dict):
+    """A small helper function to perform the actual match-case block for
+    the function data_validation_scenario. This function was created to split
+    up the code and make is easier to read, test and maintain.
+
+    Args:
+        data_validation (dict): A dictionary containing the boolean values
+        needed to validate the data for the function data_validation_scenario.
+
+    Returns:
+        tuple: Consists of an int and a string defined as follows:
+                int: A scenario number that indicates which scenario is
+                applicable. See the docstring for data_validation_scenario for
+                more information.
+
+                string: A message to print out if the validation failed.
+    """
+    scenario_number = 0
+    validation_results = ""
+    match data_validation:
+        case {
+            "Add item": False,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": True,
+            "Mod single item": True,
+        }:
+            scenario_number = 1
+        case {
+            "Add item": False,
+            "Exists orig data": False,
+            "Valid mod data": True,
+            "Mod single item": False,
+        }:
+            scenario_number = 2
+        case {
+            "Add item": True,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": True,
+            "Mod single item": True,
+        }:
+            scenario_number = 3
+        case {
+            "Add item": True,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": True,
+            "Mod single item": False,
+        } | {
+            "Add item": False,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": True,
+            "Mod single item": False,
+        }:
+            validation_results = (
+                "Expected a single startup item for the modified JSON data "
+                "but didn't receive that. Cannot proceed."
+            )
+        case {
+            "Add item": False,
+            "Exists orig data": False,
+            "Valid mod data": True,
+            "Mod single item": True,
+        }:
+            validation_results = (
+                "Expected full startup data for the modified JSON data but "
+                "didn't receive that. Cannot proceed."
+            )
+        case {
+            "Add item": True,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": False,
+        } | {
+            "Add item": False,
+            "Exists orig data": True,
+            "Valid orig data": True,
+            "Valid mod data": False,
+        } | {
+            "Add item": False,
+            "Exists orig data": False,
+            "Valid mod data": False,
+        }:
+            validation_results = (
+                "The modified JSON data passed in is not properly formed. "
+                "Cannot proceed."
+            )
+        case {
+            "Add item": True,
+            "Exists orig data": True,
+            "Valid orig data": False,
+        } | {
+            "Add item": False,
+            "Exists orig data": True,
+            "Valid orig data": False,
+        }:
+            validation_results = (
+                "Original JSON data passed in is not properly formed. "
+                "Cannot proceed."
+            )
+        case {
+            "Add item": True,
+            "Exists orig data": False,
+        }:
+            validation_results = (
+                "Original JSON data cannot be found. Please provide original "
+                "JSON data when adding a new startup item."
+            )
+
+    return (scenario_number, validation_results)
