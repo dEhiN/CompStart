@@ -190,6 +190,8 @@ def data_validation_scenario(
 
     # If the orig_json_data dictionary isn't blank, check that it contains
     # properly formed data
+    # TODO: data_validation is currently a dictionary so get a key-error with referencing using array notation
+    #       need to change data_validation into probably a list of tuples and rewrite following code for proper referencing
     if data_validation[1]:
         data_validation[2] = deps_helper.startup_data_validator(orig_json_data)
 
