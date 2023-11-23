@@ -4,6 +4,7 @@
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
+import demord as app_demord
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -184,17 +185,21 @@ def edit_startup_item_arguments_list(
     are no arguments and the user wants to add some.
 
     Args:
-        args_exist (bool): Required to let the function
-        know if there are arguments.
-
+        args_exist (bool): Required to let the function know if there are
+        arguments.
         arg_count (int, optional): The number of arguments. Defaults to 0.
         arg_list (list, optional): A list of the arguments. Defaults to [].
 
     Returns:
-        list: A list containing the edited or added
-        startup items. If there aren't any arguments, an
-        empty list is returned
+        list: A list containing the edited startup items,
+        including any additions or deletions. If there
+        aren't any arguments, an empty list is returned.
     """
+    # For testing purposes, skip this function to make it easier to test other
+    # functionality
+    if not app_demord.is_prod:
+        return testing_shortcut_arguments_list(arg_list.copy(), True)
+
     new_arg_list = arg_list.copy()
     new_argument = ""
 
@@ -309,5 +314,31 @@ def edit_startup_item_arguments_list(
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()
+
+    return new_arg_list
+
+
+def testing_shortcut_arguments_list(arg_list: list, is_add: bool):
+    """A helper function to automatically add or delete an argument
+    from the arguments list passed in. This is so we can shortcut
+    the steps needed to update an arguments list for testing, such
+    as testing the save function, etc.
+
+    Args:
+        arg_list (list): Required. The list of existing arguments.
+        is_add (bool): Required. Specifies whether to add an argument or delete
+        one.
+
+    Returns:
+        list: A list containing the edited or added
+        startup items.
+    """
+    new_arg_list = arg_list
+
+    if is_add:
+        new_arg_list.append("test argument")
+    else:
+        if len(new_arg_list) > 0:
+            new_arg_list.pop()
 
     return new_arg_list
