@@ -179,32 +179,39 @@ def data_validation_scenario(
                 3 - Scenario 3 listed above is applicable
     """
     # Dictionary to validate the data before proceeding and track which scenario
-    # listed in the docstring above is the case
+    # listed in the docstring above is the case. The keys are as follows:
+    # Item-Add: whether to add an item
+    # Orig-Exists: whether orig_json_data is blank or not
+    # Orig-Valid: if orig_json_data exists, is the data valid
+    # Mod-Valid: if modified_json_data is valid
+    # Item-Single: if modified_json_data contains a single startup item
     data_validation = {
-        "Add item": item_add,
-        "Exists orig data": True if len(orig_json_data) > 0 else False,
-        "Valid orig data": False,
-        "Valid mod data": False,
-        "Mod single item": False,
+        "Item-Add": item_add,
+        "Orig-Exists": True if len(orig_json_data) > 0 else False,
+        "Orig-Valid": False,
+        "Mod-Valid": False,
+        "Item-Single": False,
     }
 
     # If the orig_json_data dictionary isn't blank, check that it contains
     # properly formed data
-    # TODO: data_validation is currently a dictionary so get a key-error with referencing using array notation
-    #       need to change data_validation into probably a list of tuples and rewrite following code for proper referencing
-    if data_validation[1]:
-        data_validation[2] = deps_helper.startup_data_validator(orig_json_data)
+    if data_validation["Orig-Exists"]:
+        data_validation["Orig-Valid"] = deps_helper.startup_data_validator(
+            orig_json_data
+        )
 
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation[3] = deps_helper.startup_data_validator(modified_json_data)
+        data_validation["Mod-Valid"] = deps_helper.startup_data_validator(
+            modified_json_data
+        )
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
-        data_validation[3] = deps_helper.startup_data_validator(
+        data_validation["Mod-Valid"] = deps_helper.startup_data_validator(
             modified_json_data, True
         )
-        data_validation[4] = True
+        data_validation["Item-Single"] = True
 
     # Check for each of the 3 scenarios listed in the docstring:
     scenario_number, validation_results = match_scenario(data_validation)
@@ -212,7 +219,8 @@ def data_validation_scenario(
     # If the validation failed, print the error message
     if scenario_number == 0:
         deps_pretty.prettify_custom_error(
-            validation_results, "data_generate.generate_user_edited_data"
+            validation_results,
+            "data_generate.data_validation_scenario, data_generate.match_scenario",
         )
 
     return scenario_number
@@ -226,6 +234,12 @@ def match_scenario(data_validation: dict):
     Args:
         data_validation (dict): A dictionary containing the boolean values
         needed to validate the data for the function data_validation_scenario.
+        The keys are as follows:
+        - Item-Add: whether to add an item
+        - Orig-Exists: whether orig_json_data is blank or not
+        - Orig-Valid: if orig_json_data exists, is the data valid
+        - Mod-Valid: if modified_json_data is valid
+        - Item-Single: if modified_json_data contains a single startup item
 
     Returns:
         tuple: Consists of an int and a string defined as follows:
@@ -239,90 +253,90 @@ def match_scenario(data_validation: dict):
     validation_results = ""
     match data_validation:
         case {
-            "Add item": False,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": True,
-            "Mod single item": True,
+            "Item-Add": False,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": True,
+            "Item-Single": True,
         }:
             scenario_number = 1
         case {
-            "Add item": False,
-            "Exists orig data": False,
-            "Valid mod data": True,
-            "Mod single item": False,
+            "Item-Add": False,
+            "Orig-Exists": False,
+            "Mod-Valid": True,
+            "Item-Single": False,
         }:
             scenario_number = 2
         case {
-            "Add item": True,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": True,
-            "Mod single item": True,
+            "Item-Add": True,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": True,
+            "Item-Single": True,
         }:
             scenario_number = 3
         case {
-            "Add item": True,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": True,
-            "Mod single item": False,
+            "Item-Add": True,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": True,
+            "Item-Single": False,
         } | {
-            "Add item": False,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": True,
-            "Mod single item": False,
+            "Item-Add": False,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": True,
+            "Item-Single": False,
         }:
             validation_results = (
                 "Expected a single startup item for the modified JSON data "
                 "but didn't receive that. Cannot proceed."
             )
         case {
-            "Add item": False,
-            "Exists orig data": False,
-            "Valid mod data": True,
-            "Mod single item": True,
+            "Item-Add": False,
+            "Orig-Exists": False,
+            "Mod-Valid": True,
+            "Item-Single": True,
         }:
             validation_results = (
                 "Expected full startup data for the modified JSON data but "
                 "didn't receive that. Cannot proceed."
             )
         case {
-            "Add item": True,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": False,
+            "Item-Add": True,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": False,
         } | {
-            "Add item": False,
-            "Exists orig data": True,
-            "Valid orig data": True,
-            "Valid mod data": False,
+            "Item-Add": False,
+            "Orig-Exists": True,
+            "Orig-Valid": True,
+            "Mod-Valid": False,
         } | {
-            "Add item": False,
-            "Exists orig data": False,
-            "Valid mod data": False,
+            "Item-Add": False,
+            "Orig-Exists": False,
+            "Mod-Valid": False,
         }:
             validation_results = (
                 "The modified JSON data passed in is not properly formed. "
                 "Cannot proceed."
             )
         case {
-            "Add item": True,
-            "Exists orig data": True,
-            "Valid orig data": False,
+            "Item-Add": True,
+            "Orig-Exists": True,
+            "Orig-Valid": False,
         } | {
-            "Add item": False,
-            "Exists orig data": True,
-            "Valid orig data": False,
+            "Item-Add": False,
+            "Orig-Exists": True,
+            "Orig-Valid": False,
         }:
             validation_results = (
                 "Original JSON data passed in is not properly formed. "
                 "Cannot proceed."
             )
         case {
-            "Add item": True,
-            "Exists orig data": False,
+            "Item-Add": True,
+            "Orig-Exists": False,
         }:
             validation_results = (
                 "Original JSON data cannot be found. Please provide original "
