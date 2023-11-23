@@ -161,7 +161,7 @@ def startup_data_validator(json_data: dict, single_item: bool = False):
     schema_file = (
         "startup_item.schema.json" if single_item else "startup_data.schema.json"
     )
-    schema_path = ["config"]
+    schema_path = ["feature_addons", "startup_data_modifier_tool", "config"]
 
     results = app_demord.json_reader(schema_path, schema_file)
     read_status = results[0]
