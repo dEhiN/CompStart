@@ -253,7 +253,7 @@ def edit_startup_item_arguments_list(
 
                 cancel_choice = arg_count + 1
                 menu_footer = f"[{cancel_choice}] Cancel deletion\n"
-                menu_choices = "".join(arg_delete_menu) + menu_footer
+                menu_choices = menu_header + "".join(arg_delete_menu) + menu_footer
                 total_menu_choices = cancel_choice
                 user_choice = 0
 
