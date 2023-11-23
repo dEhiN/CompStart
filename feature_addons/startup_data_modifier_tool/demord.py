@@ -9,6 +9,9 @@ import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
 import dependencies.startup_edit as deps_item_edit
 
+# Global variable to specify is in testing or production environment
+is_prod = False
+
 
 def json_reader(json_path: list, json_filename: str):
     """Function to read in JSON data from a file
@@ -282,12 +285,23 @@ def json_editor(json_path: list, json_filename: str):
             print("There are no startup items to edit!")
 
 
+def is_production():
+    """Small helper function to return the variable
+    is_prod.
+
+    This can be used by other modules to skip certain
+    menu choices for testing purposes.
+
+    Returns:
+        bool: The variable is_prod which is False when in testing and True
+        otherwise.
+    """
+    return is_prod
+
+
 if __name__ == "__main__":
     # Set the starting directory
     deps_helper.set_start_dir()
-
-    # Variable to switch between testing and prod environments
-    is_prod = False
 
     # Variables for location and name of JSON file with startup data
     json_path = []
