@@ -149,6 +149,13 @@ def generate_user_edited_data(
 
         new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
         new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
+    elif scenario_number == 1:
+        # Data validation passed and modified JSON data passed in is a single
+        # startup item that is meant to update an existing startup item
+        # Return the original JSON data but with the changed, existing startup
+        # item
+        pass
+        # TODO: Code this in #
 
     return new_json_data
 
