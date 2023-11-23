@@ -28,6 +28,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
     status_state, status_message, json_data = app_demord.json_reader(
         json_path, json_filename
     )
+    print("\n" + status_message)
 
     if status_state:
         # Get the item number of the startup item being worked with
@@ -42,9 +43,14 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
                 "\nThe startup data hasn't changed. There was nothing to save!",
             )
 
+        print("\nThe original JSON data before call to generate_user_edited_data:")
+        print(json_data)
         new_json_data = deps_data_gen.generate_user_edited_data(
             modified_startup_item, False, json_data
         )
+        print("\nThe original JSON data after call to generate_user_edited_data:")
+        print(json_data)
+        print("\nThe new JSON data created by generate_user_edited_data:")
         print(new_json_data)
     else:
         pass

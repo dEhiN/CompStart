@@ -219,8 +219,7 @@ def data_validation_scenario(
     # If the validation failed, print the error message
     if scenario_number == 0:
         deps_pretty.prettify_custom_error(
-            validation_results,
-            "data_generate.data_validation_scenario, data_generate.match_scenario",
+            validation_results, "data_generate.data_validation_scenario"
         )
 
     return scenario_number
@@ -251,6 +250,9 @@ def match_scenario(data_validation: dict):
     """
     scenario_number = 0
     validation_results = ""
+    print("\nThe dictionary passed to match_scenario:")
+    print(data_validation)
+
     match data_validation:
         case {
             "Item-Add": False,
@@ -342,5 +344,11 @@ def match_scenario(data_validation: dict):
                 "Original JSON data cannot be found. Please provide original "
                 "JSON data when adding a new startup item."
             )
+
+    # If the validation failed, print the error message
+    if scenario_number == 0:
+        deps_pretty.prettify_custom_error(
+            validation_results, "data_generate.match_scenario"
+        )
 
     return (scenario_number, validation_results)

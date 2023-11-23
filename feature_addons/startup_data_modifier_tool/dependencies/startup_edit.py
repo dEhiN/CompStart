@@ -79,7 +79,6 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
                     startup_item, json_path, json_filename
                 )
 
-                print("\n" + str(write_status) + ": " + return_message)
                 print(
                     "This functionality is still under construction...nothing was saved...try again later..."
                 )
