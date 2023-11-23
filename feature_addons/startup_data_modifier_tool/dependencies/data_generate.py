@@ -196,19 +196,17 @@ def data_validation_scenario(
     # If the orig_json_data dictionary isn't blank, check that it contains
     # properly formed data
     if data_validation["Orig-Exists"]:
-        data_validation["Orig-Valid"] = deps_helper.startup_data_validator(
-            orig_json_data
-        )
+        data_validation["Orig-Valid"] = deps_helper.json_data_validator(orig_json_data)
 
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation["Mod-Valid"] = deps_helper.startup_data_validator(
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
             modified_json_data
         )
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
-        data_validation["Mod-Valid"] = deps_helper.startup_data_validator(
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
             modified_json_data, True
         )
         data_validation["Item-Single"] = True

@@ -141,8 +141,8 @@ def check_overwrite(json_file: str):
     return overwrite_file
 
 
-def startup_data_validator(json_data: dict, single_item: bool = False):
-    """Helper function to validate given startup JSON data, including both full
+def json_data_validator(json_data: dict, single_item: bool = False):
+    """Helper function to validate startup JSON data, including both full
     data and a single startup item, against the JSON Schema defined in
     startup_data.schema.json or startup_item.schema.json, depending on what
     needs to be validated.
@@ -174,8 +174,6 @@ def startup_data_validator(json_data: dict, single_item: bool = False):
             valid_json = True
         except Exception as error:
             err_param = str(type(error).__name__) + " - " + (error.__dict__["message"])
-            deps_pretty.prettify_custom_error(
-                err_param, "helper.startup_data_validator"
-            )
+            deps_pretty.prettify_custom_error(err_param, "helper.json_data_validator")
 
     return valid_json
