@@ -360,8 +360,8 @@ if __name__ == "__main__":
 
                 # If there was data read in, print it out in a prettified way
                 if status_state:
-                    input("Press any key to view the startup data...")
+                    input("Press enter when ready to view the startup data...")
                     print(deps_pretty.prettify_json(json_data))
-                    input("\nPress any key to return to the main menu...")
+                    input("\nPress enter when ready to return to the previous menu...")
             case 4:
                 json_editor(json_path, json_filename)

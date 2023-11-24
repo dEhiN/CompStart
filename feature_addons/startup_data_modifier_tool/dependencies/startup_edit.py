@@ -28,7 +28,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     # Show startup item selected
     prettified_item = deps_pretty.prettify_startup_item(startup_item)
     print(prettified_item)
-    input("\nPress any key to continue...")
+    input("\nPress enter when ready to continue...")
 
     # Loop through to and ask the user what they want to do
     menu_choices = (
