@@ -120,15 +120,20 @@ def generate_user_edited_data(
     new_json_data = ENUM_JSS.OBJECT.value.copy()
 
     # Check the status of the data validation
-    if scenario_number == 0:
-        # Data validation failed, so cannot generate JSON data
-        # Return an empty JSON object / Python dictionary
-        return new_json_data
+    # If the validation failed, then a blank Python dictionary is returned,
+    # so no need to code that in
+    if scenario_number == 1:
+        # Data validation passed and modified JSON data passed in is a single
+        # startup item that is meant to update an existing startup item
+        # Return the original JSON data but with the changed, existing startup
+        # item
+        pass
+        # TODO: Code this in #
     elif scenario_number == 2:
         # Data validation passed and modified JSON data passed in is full
         # JSON data
         # Return the modified_json_data variable
-        return modified_json_data
+        new_json_data = modified_json_data.copy()
     elif scenario_number == 3:
         # Data validation passed and modified JSON data passed in is a single
         # startup item that has to be added to the end
@@ -136,26 +141,22 @@ def generate_user_edited_data(
         # at the end
         current_total_items = orig_json_data["TotalItems"]
         orig_items_list = orig_json_data["Items"]
-
         new_total_items = current_total_items + 1
+
+        # Make sure the item number of the new startup item is correct
         if (
             modified_json_data["ItemNumber"]
             <= orig_items_list[current_total_items - 1]["ItemNumber"]
         ):
             modified_json_data["ItemNumber"] = new_total_items
 
+        # Copy the necessary data including adding the new startup item at
+        # the end of the items list
         new_items_list = orig_items_list.copy()
         new_items_list.append(modified_json_data.copy())
 
         new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
         new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
-    elif scenario_number == 1:
-        # Data validation passed and modified JSON data passed in is a single
-        # startup item that is meant to update an existing startup item
-        # Return the original JSON data but with the changed, existing startup
-        # item
-        pass
-        # TODO: Code this in #
 
     return new_json_data
 
