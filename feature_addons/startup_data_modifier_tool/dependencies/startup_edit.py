@@ -192,6 +192,7 @@ def edit_startup_item_arguments_list(
     # For testing purposes, skip this function to make it easier to test other
     # functionality
     if not app_demord.is_production():
+        print("Testing environment found: Skipping menu choice for shortcut")
         return testing_shortcut_arguments_list(arg_list.copy(), True)
 
     new_arg_list = arg_list.copy()
