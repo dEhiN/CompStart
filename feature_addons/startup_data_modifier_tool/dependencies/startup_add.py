@@ -45,32 +45,32 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
                 "\nThe startup data hasn't changed. There was nothing to save!",
             )
 
-        # For testing purposes, print the various dictionaries to a file for
-        # easier comparison
-        test_file_output = ""
-
-        test_file_output += "The original startup data:\n"
-        test_file_output += deps_pretty.prettify_json(json_data)
-
-        test_file_output += "\n\nThe original startup_item:\n"
-        test_file_output += deps_pretty.prettify_startup_item(original_startup_item)
-
-        test_file_output += "\n\nThe modified startup item:\n"
-        test_file_output += deps_pretty.prettify_startup_item(modified_startup_item)
-
-        new_json_data = deps_data_gen.generate_user_edited_data(
-            modified_startup_item, False, json_data
-        )
-
-        test_file_output += (
-            "\n\nThe new JSON data created by generate_user_edited_data:\n"
-        )
-        test_file_output += deps_pretty.prettify_json(new_json_data)
-
         if not app_demord.is_production():
             print(
                 "Testing environment found: Printing output of save_startup_item to text file"
             )
+
+            # For testing purposes, print the various dictionaries to a file for
+            # easier comparison
+            test_file_output = ""
+
+            test_file_output += "The original startup data:\n"
+            test_file_output += deps_pretty.prettify_json(json_data)
+
+            test_file_output += "\n\nThe original startup_item:\n"
+            test_file_output += deps_pretty.prettify_startup_item(original_startup_item)
+
+            test_file_output += "\n\nThe modified startup item:\n"
+            test_file_output += deps_pretty.prettify_startup_item(modified_startup_item)
+
+            new_json_data = deps_data_gen.generate_user_edited_data(
+                modified_startup_item, False, json_data
+            )
+
+            test_file_output += (
+                "\n\nThe new JSON data created by generate_user_edited_data:\n"
+            )
+            test_file_output += deps_pretty.prettify_json(new_json_data)
 
             test_file = deps_helper.parse_full_path(
                 ["feature_addons", "startup_data_modifier_tool", "testing"],
