@@ -36,8 +36,8 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
         "[2] Edit item description\n"
         "[3] Edit item program path\n"
         "[4] Edit or add item arguments\n"
-        "[5] Show startup data\n"
-        "[6] Save startup data to disk\n"
+        "[5] View startup item\n"
+        "[6] Save startup item data to disk\n"
         "[7] Return to the previous menu\n"
     )
     total_menu_choices = 7
@@ -78,6 +78,9 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
                 write_status, return_message = deps_item_add.save_startup_item(
                     startup_item, json_path, json_filename
                 )
+
+                if not write_status:
+                    print(return_message)
 
                 print(
                     "This functionality is still under construction...nothing was saved...try again later..."
