@@ -45,6 +45,10 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
                 "\nThe startup data hasn't changed. There was nothing to save!",
             )
 
+        new_json_data = deps_data_gen.generate_user_edited_data(
+            modified_startup_item, False, json_data
+        )
+
         if not app_demord.is_production():
             print(
                 "Testing environment found: Printing output of save_startup_item to text file"
