@@ -127,8 +127,21 @@ def generate_user_edited_data(
         # startup item that is meant to update an existing startup item
         # Return the original JSON data but with the changed, existing startup
         # item
-        pass
-        # TODO: Code this in #
+        total_items = orig_json_data["TotalItems"]
+        change_item_number = modified_json_data["ItemNumber"]
+
+        # Check to make sure the item number is valid
+        if change_item_number in range(1, total_items):
+            new_json_data = orig_json_data.copy()
+            new_json_data[ENUM_JSK.ITEMS.value][
+                change_item_number - 1
+            ] = modified_json_data.copy()
+        else:
+            deps_pretty.prettify_custom_error(
+                "Cannot update the JSON data! The startup item number passed in is invalid!",
+                "data_generate.generate_user_edited_data",
+            )
+
     elif scenario_number == 2:
         # Data validation passed and modified JSON data passed in is full
         # JSON data
