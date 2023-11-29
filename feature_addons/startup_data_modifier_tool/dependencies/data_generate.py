@@ -4,6 +4,7 @@
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
+import demord as app_demord
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
@@ -288,8 +289,9 @@ def match_scenario(data_validation: dict):
     """
     scenario_number = 0
     validation_results = ""
-    print("\nThe dictionary passed to match_scenario:")
-    print(data_validation)
+
+    if not app_demord.is_production():
+        print("\nThe dictionary passed to match_scenario:", data_validation)
 
     match data_validation:
         case {
