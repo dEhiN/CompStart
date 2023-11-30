@@ -1,6 +1,8 @@
 # Dependency to store the helper functions that are used to
 # add a new startup item
 
+import copy
+
 import dependencies.data_generate as deps_data_gen
 import dependencies.pretty as deps_pretty
 import dependencies.helper as deps_helper
@@ -46,7 +48,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
             )
 
         new_json_data = deps_data_gen.generate_user_edited_data(
-            modified_startup_item, False, json_data
+            copy.deepcopy(modified_startup_item), False, copy.deepcopy(json_data)
         )
 
         if not app_demord.is_production():
@@ -66,10 +68,6 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
             test_file_output += "\n\nThe modified startup item:\n"
             test_file_output += deps_pretty.prettify_startup_item(modified_startup_item)
-
-            new_json_data = deps_data_gen.generate_user_edited_data(
-                modified_startup_item, False, json_data
-            )
 
             test_file_output += (
                 "\n\nThe new JSON data created by generate_user_edited_data:\n"

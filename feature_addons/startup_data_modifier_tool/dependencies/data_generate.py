@@ -1,6 +1,8 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
+import copy
+
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
@@ -133,10 +135,10 @@ def generate_user_edited_data(
 
         # Check to make sure the item number is valid
         if change_item_number in range(1, total_items):
-            new_json_data = orig_json_data.copy()
-            new_json_data[ENUM_JSK.ITEMS.value][
-                change_item_number - 1
-            ] = modified_json_data.copy()
+            new_json_data = copy.deepcopy(orig_json_data)
+            new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
+                modified_json_data
+            )
         else:
             deps_pretty.prettify_custom_error(
                 "Cannot update the JSON data! The startup item number passed in is invalid!",
@@ -147,7 +149,7 @@ def generate_user_edited_data(
         # Data validation passed and modified JSON data passed in is full
         # JSON data
         # Return the modified_json_data variable
-        new_json_data = modified_json_data.copy()
+        new_json_data = copy.deepcopy(modified_json_data)
     elif scenario_number == 3:
         # Data validation passed and modified JSON data passed in is a single
         # startup item that has to be added to the end
@@ -166,8 +168,8 @@ def generate_user_edited_data(
 
         # Copy the necessary data including adding the new startup item at
         # the end of the items list
-        new_items_list = orig_items_list.copy()
-        new_items_list.append(modified_json_data.copy())
+        new_items_list = copy.deepcopy(orig_items_list)
+        new_items_list.append(copy.deepcopy(modified_json_data))
 
         new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
         new_json_data[ENUM_JSK.ITEMS.value] = new_items_list

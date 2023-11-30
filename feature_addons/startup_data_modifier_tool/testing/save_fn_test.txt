@@ -13,10 +13,11 @@ Startup item #2
 	Item description: The Google Homepage
 	Item program path: C:\Program Files\Google\Chrome\Application\chrome.exe
 	Does this item use arguments: Yes
-	Total number of arguments used: 3
+	Total number of arguments used: 4
 		Argument 1: "--profile-directory=Default"
 		Argument 2: "--new-window"
 		Argument 3: "https://www.google.com/"
+		Argument 4: "test argument"
 
 Startup item #3
 	Item name: Notepad
