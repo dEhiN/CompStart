@@ -8,8 +8,9 @@ from tkinter import filedialog as file_chooser
 def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     """Helper function for displaying a menu with choices for the user
 
-    This function is called by a few other functions that need to display
-    a menu to the user for them to make a choice. The function just prints
+    This function is called by a few other functions that need to display a menu to the
+    user for them to make a choice. The function prints the menu choice string passed
+    in and then loops until the user makes a valid choice. This is then returned.
 
     Args:
         menu_choices (str): A formatted string of how the choices should be
@@ -17,7 +18,7 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
         total_menu_choices (int): The maximum number of choices there are
 
     Returns:
-        int: _description_
+        int: A number representing which choice the user made
     """
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
@@ -58,7 +59,7 @@ def new_file_chooser():
     """Helper function to have the user choose what type of new file to create
 
     This function will ask the user to choose whether to create a new startup file with
-    default data or with values the user decides
+    default data or with values the user decides upon.
 
     Args:
         None
@@ -67,14 +68,14 @@ def new_file_chooser():
         tuple: Consisting of the following two Boolean variables:
                 bool: True if the startup file should contain default data,
                 False if not. Default is False.
-                bool: True if the user wants to continue with creating a startup
+                bool: True if the user wants to continue without creating a startup
                 file, False if not. Default is True.
     """
-    # Loop through until user makes a valid choice
-    # is_default will specify if the user wants to create a startup file
-    # with default values or not
-    # to_continue will specify if the user wants to return to the main
-    # menu or proceed with creating a startup file
+    # Loop through until user makes a valid choice:
+    # is_default will specify if the user wants to create a startup file with default
+    # values or not
+    # to_continue will specify if the user wants to return to the main menu or proceed
+    # with creating a startup file
     is_default = False
     to_continue = True
     menu_choices = (
