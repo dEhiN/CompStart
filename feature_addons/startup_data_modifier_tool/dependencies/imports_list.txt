@@ -1,5 +1,4 @@
-# File to store to all local import statements for
-# copy-paste as needed
+File to store to all local import statements for copy-paste as needed.
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
@@ -8,4 +7,5 @@ import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
 import dependencies.startup_add as deps_item_add
 import dependencies.startup_edit as deps_item_edit
+import dependencies.jsonfn as deps_json
 import demord as app_demord
