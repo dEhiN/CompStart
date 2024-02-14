@@ -6,10 +6,13 @@ import copy
 import dependencies.data_generate as deps_data_gen
 import dependencies.pretty as deps_pretty
 import dependencies.helper as deps_helper
+import dependencies.jsonfn as deps_json
 import demord as app_demord
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
+def save_startup_item(
+    modified_startup_item: dict, json_path: list, json_filename: str
+):
     """Helper function to save a modified startup item
 
     Args:
@@ -29,7 +32,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         written to disk or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = app_demord.json_reader(
+    status_state, status_message, json_data = deps_json.json_reader(
         json_path, json_filename
     )
     print("\n" + status_message)
@@ -48,7 +51,9 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
             )
 
         new_json_data = deps_data_gen.generate_user_edited_data(
-            copy.deepcopy(modified_startup_item), False, copy.deepcopy(json_data)
+            copy.deepcopy(modified_startup_item),
+            False,
+            copy.deepcopy(json_data),
         )
 
         if not app_demord.is_production():
@@ -64,10 +69,14 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
             test_file_output += deps_pretty.prettify_json(json_data)
 
             test_file_output += "\n\nThe original startup_item:\n"
-            test_file_output += deps_pretty.prettify_startup_item(original_startup_item)
+            test_file_output += deps_pretty.prettify_startup_item(
+                original_startup_item
+            )
 
             test_file_output += "\n\nThe modified startup item:\n"
-            test_file_output += deps_pretty.prettify_startup_item(modified_startup_item)
+            test_file_output += deps_pretty.prettify_startup_item(
+                modified_startup_item
+            )
 
             test_file_output += (
                 "\n\nThe new JSON data created by generate_user_edited_data:\n"
