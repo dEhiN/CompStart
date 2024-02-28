@@ -4,6 +4,7 @@
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
+import demord as app_demord
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -43,15 +44,11 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(
-            menu_choices, total_menu_choices
-        )
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
-                startup_item["Name"] = edit_startup_item_name(
-                    startup_item["Name"]
-                )
+                startup_item["Name"] = edit_startup_item_name(startup_item["Name"])
             case 2:
                 startup_item["Description"] = edit_startup_item_description(
                     startup_item["Description"]
@@ -124,9 +121,7 @@ def edit_startup_item_description(item_description: str):
     Returns:
         str: The new startup item description
     """
-    print(
-        "\nThe current description for this startup item is:", item_description
-    )
+    print("\nThe current description for this startup item is:", item_description)
     new_description = input(
         "Please enter a new description or press enter to leave the existing"
         " description: "
@@ -199,9 +194,9 @@ def edit_startup_item_arguments_list(
     """
     # For testing purposes, skip this function to make it easier to test other
     # functionality
-    # if not app_demord.is_production():
-    #    print("Testing environment found: Skipping menu choice for shortcut")
-    #    return testing_shortcut_arguments_list(arg_list.copy(), True)
+    if not app_demord.is_production():
+        print("Testing environment found: Skipping menu choice for shortcut")
+        return testing_shortcut_arguments_list(arg_list.copy(), True)
 
     new_arg_list = arg_list.copy()
     new_argument = ""
@@ -250,9 +245,7 @@ def edit_startup_item_arguments_list(
                 quit_loop = True
             elif user_choice == delete_choice:
                 # Generate delete menu
-                menu_header = (
-                    "Please specify which argument you want to delete:\n"
-                )
+                menu_header = "Please specify which argument you want to delete:\n"
 
                 # Create a menu listing all the arguments
                 arg_delete_menu = []
@@ -263,9 +256,7 @@ def edit_startup_item_arguments_list(
 
                 cancel_choice = arg_count + 1
                 menu_footer = f"[{cancel_choice}] Cancel deletion\n"
-                menu_choices = (
-                    menu_header + "".join(arg_delete_menu) + menu_footer
-                )
+                menu_choices = menu_header + "".join(arg_delete_menu) + menu_footer
                 total_menu_choices = cancel_choice
                 user_choice = 0
 
@@ -317,9 +308,7 @@ def edit_startup_item_arguments_list(
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
-            new_arg_list = (
-                deps_item_add.add_startup_item_arguments_list().copy()
-            )
+            new_arg_list = deps_item_add.add_startup_item_arguments_list().copy()
         else:
             print("\nNo change was made...")
             new_arg_list = arg_list.copy()
