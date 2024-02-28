@@ -41,7 +41,14 @@ def generate_json_data(new_file: bool = False, is_default: bool = False, **kwarg
     if new_file and is_default:
         json_data = generate_default_startup_data()
     elif new_file and not is_default:
-        json_data = generate_user_startup_data()
+        # Adding override to use default startup file for when not in production
+        if not app_demord.is_production():
+            print(
+                "This functionality hasn't been fully implemented yet. Creating default startup file..."
+            )
+            json_data = generate_default_startup_data()
+        else:
+            json_data = generate_user_startup_data()
     else:
         json_data = generate_user_edited_data(**kwargs)
 
@@ -346,21 +353,25 @@ def match_scenario(data_validation: dict):
                 "Expected full startup data for the modified JSON data but "
                 "didn't receive that. Cannot proceed."
             )
-        case {
-            "Item-Add": True,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Valid": False,
-        } | {
-            "Item-Add": False,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Valid": False,
-        } | {
-            "Item-Add": False,
-            "Orig-Exists": False,
-            "Mod-Valid": False,
-        }:
+        case (
+            {
+                "Item-Add": True,
+                "Orig-Exists": True,
+                "Orig-Valid": True,
+                "Mod-Valid": False,
+            }
+            | {
+                "Item-Add": False,
+                "Orig-Exists": True,
+                "Orig-Valid": True,
+                "Mod-Valid": False,
+            }
+            | {
+                "Item-Add": False,
+                "Orig-Exists": False,
+                "Mod-Valid": False,
+            }
+        ):
             validation_results = (
                 "The modified JSON data passed in is not properly formed. "
                 "Cannot proceed."
