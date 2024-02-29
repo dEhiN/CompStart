@@ -30,14 +30,12 @@ if __name__ == "__main__":
 
     # Variables for location and name of JSON file with startup data
     json_path = []
-    json_filename = ""
+    json_filename = "startup_data.json"
 
     if is_prod:
         json_path.extend(["data", "json_data"])
-        json_filename = "startup_data.json"
     else:
         json_path.extend(["feature_addons", "startup_data_modifier_tool"])
-        json_filename = "test_data.json"
 
     # Print welcome message
     print(
@@ -60,9 +58,7 @@ if __name__ == "__main__":
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(
-            menu_choices, total_menu_choices
-        )
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
@@ -89,8 +85,6 @@ if __name__ == "__main__":
                 if status_state:
                     input("Press enter when ready to view the startup data...")
                     print(deps_pretty.prettify_json(json_data))
-                    input(
-                        "\nPress enter when ready to return to the previous menu..."
-                    )
+                    input("\nPress enter when ready to return to the previous menu...")
             case 4:
                 deps_json.json_editor(json_path, json_filename)
