@@ -96,24 +96,42 @@ def add_startup_item_arguments_list(arg_list: list = []):
     startup item
 
     Args:
-        arg_list (list, optional): _description_. Defaults to [].
+        arg_list (list, optional): A list of the existing arguments. Defaults to [].
 
     Returns:
-        list: A list containing the arguments the user added or
-        blank if there aren't any
+        list: A new list containing the arguments the user added appended to the existing
+            list, if passed in.
     """
-    # For now, just return arg_list as is
-    print(
-        "\nUnable to add arguments to startup item. That functionality hasn't been"
-        " implemented yet..."
-    )
 
-    return arg_list
+    new_arg_list = arg_list.copy()
+    num_args = 0
 
-    # Determine if user added a new argument or edited an existing one
-    if user_choice == add_choice:
-        # Add the new argument to the argument list and update the
-        # argument list menu
-        new_arg_list.append(new_argument)
-        arg_count = len(new_arg_list)
-        print('\nSuccessfully added "' + new_argument + '"!')
+    # Ask user how many arguments they want to add and loop until the user enters a
+    # valid integer
+    while True:
+        try:
+            num_args = int(input("\nHow many arguments would you like to add? "))
+        except ValueError:
+            print("Please enter a valid number...")
+            continue
+        else:
+            break
+
+    for arg_num in range(num_args):
+        # Loop until the user enters an actual argument
+        quit_loop = False
+
+        while not quit_loop:
+            new_argument = input("\nPlease type in the new argument: ")
+
+            # Check if the input exists
+            if new_argument:
+                quit_loop = True
+
+                # Add the new argument to the argument list
+                new_arg_list.append(new_argument)
+                print('\nSuccessfully added "' + new_argument + '"!')
+            else:
+                print("Argument cannot be blank!")
+
+    return new_arg_list

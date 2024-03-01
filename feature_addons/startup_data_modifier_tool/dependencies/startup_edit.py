@@ -65,7 +65,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
                 if arg_count > 0:
                     temp_arg_list = edit_startup_item_arguments_list(
                         True, arg_count, startup_item["ArgumentList"]
-                    )
+                    ).copy()
                 else:
                     temp_arg_list = edit_startup_item_arguments_list(False)
 
@@ -246,14 +246,10 @@ def edit_startup_item_arguments_list(
             elif user_choice == add_choice:
                 pass
                 # User chose to add a new argument
-
-                # TODO: Fill this in via a call to function add_startup_item_arguments_list in module startup_add
-
-                # Add the new argument to the argument list and update the
-                # argument list menu
-                # new_arg_list.append(new_argument)
-                # arg_count = len(new_arg_list)
-                # print('\nSuccessfully added "' + new_argument + '"!')
+                new_arg_list = deps_item_add.add_startup_item_arguments_list(
+                    arg_list
+                ).copy()
+                arg_count = len(new_arg_list)
             elif user_choice == delete_choice:
                 # User chose to delete an existing argument
 
