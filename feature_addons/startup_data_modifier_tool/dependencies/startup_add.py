@@ -10,9 +10,7 @@ import dependencies.jsonfn as deps_json
 import demord as app_demord
 
 
-def save_startup_item(
-    modified_startup_item: dict, json_path: list, json_filename: str
-):
+def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to save a modified startup item
 
     Args:
@@ -69,14 +67,10 @@ def save_startup_item(
             test_file_output += deps_pretty.prettify_json(json_data)
 
             test_file_output += "\n\nThe original startup_item:\n"
-            test_file_output += deps_pretty.prettify_startup_item(
-                original_startup_item
-            )
+            test_file_output += deps_pretty.prettify_startup_item(original_startup_item)
 
             test_file_output += "\n\nThe modified startup item:\n"
-            test_file_output += deps_pretty.prettify_startup_item(
-                modified_startup_item
-            )
+            test_file_output += deps_pretty.prettify_startup_item(modified_startup_item)
 
             test_file_output += (
                 "\n\nThe new JSON data created by generate_user_edited_data:\n"
@@ -115,3 +109,11 @@ def add_startup_item_arguments_list(arg_list: list = []):
     )
 
     return arg_list
+
+    # Determine if user added a new argument or edited an existing one
+    if user_choice == add_choice:
+        # Add the new argument to the argument list and update the
+        # argument list menu
+        new_arg_list.append(new_argument)
+        arg_count = len(new_arg_list)
+        print('\nSuccessfully added "' + new_argument + '"!')
