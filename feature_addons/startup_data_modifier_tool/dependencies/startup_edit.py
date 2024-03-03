@@ -4,7 +4,6 @@
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
-import demord as app_demord
 
 
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
@@ -237,7 +236,9 @@ def edit_startup_item_arguments_list(
             menu_choices = "".join(arg_items_menu) + menu_footer
 
             # Find out what the user wants to do
-            user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+            user_choice = deps_chooser.user_menu_chooser(
+                menu_choices, total_menu_choices
+            )
 
             # Depending on user choice, perform the next action
             if user_choice == cancel_choice:
