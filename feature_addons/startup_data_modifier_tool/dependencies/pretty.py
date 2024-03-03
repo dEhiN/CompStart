@@ -84,26 +84,20 @@ def prettify_startup_item(startup_item: dict):
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
-        if arg_count >= 2:
-            counter = 0
-            for argument in arg_list:
-                counter += 1
-                if type(argument) == list:
-                    argument = " ".join(argument)
-
-                startup_data += (
-                    line
-                    + tab
-                    + tab
-                    + "Argument "
-                    + str(counter)
-                    + ": "
-                    + '"'
-                    + argument
-                    + '"'
-                )
-        else:
-            startup_data += line + tab + tab + "Argument: " + '"' + arg_list + '"'
+        counter = 0
+        for argument in arg_list:
+            counter += 1
+            startup_data += (
+                line
+                + tab
+                + tab
+                + "Argument "
+                + str(counter)
+                + ": "
+                + '"'
+                + argument
+                + '"'
+            )
     else:
         startup_data += "No"
 
@@ -134,9 +128,7 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += (
-                "Unable to read startup data. Error information is below:\n"
-            )
+            return_message += "Unable to read startup data. Error information is below:\n"
         case "w":
             return_message += (
                 "Unable to write startup data. Error information is below:\n"

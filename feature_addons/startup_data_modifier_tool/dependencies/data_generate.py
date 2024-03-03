@@ -141,7 +141,7 @@ def generate_user_edited_data(
         change_item_number = modified_json_data["ItemNumber"]
 
         # Check to make sure the item number is valid
-        if change_item_number in range(1, total_items):
+        if change_item_number in range(1, total_items + 1):
             new_json_data = copy.deepcopy(orig_json_data)
             new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
                 modified_json_data
@@ -251,9 +251,7 @@ def data_validation_scenario(
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
-            modified_json_data
-        )
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data)
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
         data_validation["Mod-Valid"] = deps_helper.json_data_validator(
@@ -386,8 +384,7 @@ def match_scenario(data_validation: dict):
             "Orig-Valid": False,
         }:
             validation_results = (
-                "Original JSON data passed in is not properly formed. "
-                "Cannot proceed."
+                "Original JSON data passed in is not properly formed. " "Cannot proceed."
             )
         case {
             "Item-Add": True,
