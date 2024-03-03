@@ -143,7 +143,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write startup data." " Please try again."
+                "Invalid file state! Could not write startup data."
+                " Please try again."
             )
 
     # Write to file if needed
@@ -196,7 +197,9 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = deps_data_gen.generate_json_data(new_file=True, is_default=default_mode)
+    json_data = deps_data_gen.generate_json_data(
+        new_file=True, is_default=default_mode
+    )
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
@@ -204,7 +207,9 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+    write_json_success, return_message = json_writer(
+        json_file, file_state, json_data
+    )
 
     return write_json_success, return_message
 
@@ -227,7 +232,9 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    status_state, status_message, json_data = json_reader(
+        json_path, json_filename
+    )
 
     print(f"\n{status_message}")
 
@@ -247,7 +254,9 @@ def json_editor(json_path: list, json_filename: str):
             # to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                start_items_menu += (
+                    f"[{item_number}] Edit startup item {item_number}\n"
+                )
 
             item_add = total_items + 1
             item_delete = total_items + 2
@@ -274,9 +283,7 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_add:
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    question_prompt = (
-                        "\nPlease enter the startup item number you want to remove"
-                    )
+                    question_prompt = "\nPlease enter the startup item number you want to remove"
                     if total_items == 1:
                         question_prompt += " [1]: "
                     else:
@@ -296,9 +303,11 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_prune(copy.deepcopy(items), user_item_choice, total_items)
+                        json_pruner(
+                            copy.deepcopy(items), user_item_choice, total_items
+                        )
                 elif user_choice == data_save:
-                    status_state, status_message = json_save(
+                    status_state, status_message = json_saver(
                         json_data, json_path, json_filename
                     )
 
@@ -312,7 +321,7 @@ def json_editor(json_path: list, json_filename: str):
             print("There are no startup items to edit!")
 
 
-def json_save(json_data: dict, json_path: list, json_filename: str):
+def json_saver(json_data: dict, json_path: list, json_filename: str):
     """Function to allow the user to save startup data
 
     This function takes in startup data in the form of a JSON object / Python
@@ -349,7 +358,7 @@ def json_save(json_data: dict, json_path: list, json_filename: str):
     return (status_state, status_message)
 
 
-def json_prune(items_data: list, item_number: int, total_items: int):
+def json_pruner(items_data: list, item_number: int, total_items: int):
     """Function to remove a whole startup item from existing startup data
 
     This function will remove the item and update the startup data as necessary
