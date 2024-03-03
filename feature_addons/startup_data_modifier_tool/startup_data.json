@@ -1,36 +1,39 @@
 {
-  "TotalItems": 3,
-  "Items": [
-    {
-      "ItemNumber": 1,
-      "Name": "Calculator",
-      "FilePath": "calc",
-      "Description": "A simple calculator",
-      "Browser": false,
-      "ArgumentCount": 0,
-      "ArgumentList": []
-    },
-    {
-      "ItemNumber": 2,
-      "Name": "Google",
-      "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "Description": "The Google Homepage",
-      "Browser": true,
-      "ArgumentCount": 3,
-      "ArgumentList": [
-        "--profile-directory=Default",
-        "--new-window",
-        "https://www.google.com/"
-      ]
-    },
-    {
-      "ItemNumber": 3,
-      "Name": "Notepad",
-      "FilePath": "notepad",
-      "Description": "A text editor",
-      "Browser": false,
-      "ArgumentCount": 0,
-      "ArgumentList": []
-    }
-  ]
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "Calculator",
+            "FilePath": "calc",
+            "Description": "A simple calculator",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Google",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "The Google Homepage",
+            "Browser": true,
+            "ArgumentCount": 4,
+            "ArgumentList": [
+                "--new-window",
+                "https://www.google.com/",
+                "https://www.facebook.com",
+                "http://www.dealer-fx.com"
+            ]
+        },
+        {
+            "ItemNumber": 3,
+            "Name": "Notepad",
+            "FilePath": "notepad",
+            "Description": "A text editor",
+            "Browser": false,
+            "ArgumentCount": 1,
+            "ArgumentList": [
+                "C:\\Users\\David\\Documents\\startup_add.py"
+            ]
+        }
+    ]
 }
