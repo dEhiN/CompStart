@@ -80,10 +80,6 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
 
                 if not write_status:
                     print(return_message)
-                else:
-                    print(
-                        "This functionality is still under construction...nothing was saved...try again later..."
-                    )
             case 7:
                 quit_loop = True
 
