@@ -143,8 +143,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write startup data."
-                " Please try again."
+                "Invalid file state! Could not write startup data." " Please try again."
             )
 
     # Write to file if needed
@@ -197,9 +196,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create default JSON data to add to the startup_data.json file
-    json_data = deps_data_gen.generate_json_data(
-        new_file=True, is_default=default_mode
-    )
+    json_data = deps_data_gen.generate_json_data(new_file=True, is_default=default_mode)
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
@@ -207,9 +204,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(
-        json_file, file_state, json_data
-    )
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
     return write_json_success, return_message
 
@@ -232,9 +227,7 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     print(f"\n{status_message}")
 
@@ -254,19 +247,19 @@ def json_editor(json_path: list, json_filename: str):
             # to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_menu += (
-                    f"[{item_number}] Edit startup item {item_number}\n"
-                )
+                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
 
             item_add = total_items + 1
             item_delete = total_items + 2
-            item_quit = total_items + 3
+            data_save = total_items + 3
+            item_quit = total_items + 4
             total_menu_choices = item_quit
 
             menu_choices = (
                 start_items_menu
                 + f"[{item_add}] Add a new startup item\n"
-                + f"[{item_delete}] Delete a startup item\n"
+                + f"[{item_delete}] Delete an existing startup item\n"
+                + f"[{data_save}] Save the current startup data\n"
                 + f"[{item_quit}] Return to the main menu\n"
             )
 
@@ -282,6 +275,8 @@ def json_editor(json_path: list, json_filename: str):
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
                     print("\nThat functionality hasn't yet been implemented")
+                elif user_choice == data_save:
+                    print("\nThat functionality hasn't been implemented yet...")
                 elif user_choice > 0:
                     deps_start_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
