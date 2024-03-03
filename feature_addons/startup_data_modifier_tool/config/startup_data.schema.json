@@ -35,19 +35,6 @@
                     },
                     "ArgumentList": {
                         "type": "array",
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            ]
-                        },
                         "default": []
                     }
                 },
