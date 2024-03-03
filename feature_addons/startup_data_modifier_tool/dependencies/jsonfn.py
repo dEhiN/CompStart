@@ -274,9 +274,36 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_add:
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    print("\nThat functionality hasn't yet been implemented")
+                    question_prompt = (
+                        "\nPlease enter the startup item number you want to remove"
+                    )
+                    if total_items == 1:
+                        question_prompt += " [1]: "
+                    else:
+                        question_prompt += f" [1-{total_items}]: "
+
+                    user_item_choice = ""
+                    user_input = input(question_prompt)
+
+                    if (
+                        not user_input.isnumeric()
+                        or int(user_input) < 1
+                        or int(user_input) > total_items
+                    ):
+                        # User didn't choose a valid option
+                        print("\nThat choice is invalid!")
+                    else:
+                        # User chose a valid option, process accordingly
+                        user_item_choice = int(user_input)
+
+                        json_prune(copy.deepcopy(items), user_item_choice, total_items)
                 elif user_choice == data_save:
-                    json_save(json_data, json_path, json_filename)
+                    status_state, status_message = json_save(
+                        json_data, json_path, json_filename
+                    )
+
+                    if not status_state:
+                        print(status_message)
                 elif user_choice > 0:
                     deps_start_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
@@ -320,3 +347,25 @@ def json_save(json_data: dict, json_path: list, json_filename: str):
     status_state, status_message = json_writer(data_file, 2, new_json_data)
 
     return (status_state, status_message)
+
+
+def json_prune(items_data: list, item_number: int, total_items: int):
+    """Function to remove a whole startup item from existing startup data
+
+    This function will remove the item and update the startup data as necessary
+
+    Args:
+        items_data (dict): The existing startup data but only as the Items
+        array
+
+        item_number (int): The number of the startup item to delete
+
+        total_items (int): The total number of startup items. While this can be
+        pulled from json_data, to make the code simpler, any calling function
+        must pass in this value.
+    """
+    prune_item = items_data[item_number - 1]
+    items_data.remove(prune_item)
+    print(f"{item_number} out of {total_items}:")
+    print(prune_item)
+    print(items_data)
