@@ -151,7 +151,6 @@ def generate_user_edited_data(
                 "Cannot update the JSON data! The startup item number passed in is invalid!",
                 "data_generate.generate_user_edited_data",
             )
-
     elif scenario_number == 2:
         # Data validation passed and modified JSON data passed in is full
         # JSON data
@@ -251,7 +250,9 @@ def data_validation_scenario(
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data)
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
+            modified_json_data
+        )
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
         data_validation["Mod-Valid"] = deps_helper.json_data_validator(
@@ -384,7 +385,8 @@ def match_scenario(data_validation: dict):
             "Orig-Valid": False,
         }:
             validation_results = (
-                "Original JSON data passed in is not properly formed. " "Cannot proceed."
+                "Original JSON data passed in is not properly formed. "
+                "Cannot proceed."
             )
         case {
             "Item-Add": True,

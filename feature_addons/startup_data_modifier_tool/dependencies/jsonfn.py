@@ -1,6 +1,6 @@
 # Dependency to store the main JSON related functions used by Demord
 
-import json, os
+import json, os, copy
 
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
@@ -276,10 +276,47 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_delete:
                     print("\nThat functionality hasn't yet been implemented")
                 elif user_choice == data_save:
-                    print("\nThat functionality hasn't been implemented yet...")
+                    json_save(json_data, json_path, json_filename)
                 elif user_choice > 0:
                     deps_start_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:
             print("There are no startup items to edit!")
+
+
+def json_save(json_data: dict, json_path: list, json_filename: str):
+    """Function to allow the user to save startup data
+
+    This function takes in startup data in the form of a JSON object / Python
+    dictionary. After calling the generate_user_edited_data function to
+    basically validate it, json_writer will be called to save the actual data.
+
+    Args:
+        json_data (dict): A dictionary containing the JSON startup data to save
+        to disk.
+
+        json_path (list): A list containing the relative or absolute path to
+        the JSON file with each list item representing one subfolder from
+        Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+        bool: True if the JSON data was written successfully, False if not
+
+        string: An error message to display if the JSON data couldn't be
+        written to disk or a message that it was written successfully
+    """
+    # Call the generate_user_edited_data function for scenario 2
+    new_json_data = deps_data_gen.generate_user_edited_data(
+        copy.deepcopy(json_data), False
+    )
+
+    # Grab the full file path and name
+    data_file = deps_helper.parse_full_path(json_path, json_filename)
+
+    # Save the actual data
+    status_state, status_message = json_writer(data_file, 2, new_json_data)
+
+    return (status_state, status_message)
