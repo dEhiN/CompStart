@@ -1,36 +1,38 @@
 {
-  "TotalItems": 3,
-  "Items": [
-    {
-      "ItemNumber": 1,
-      "Name": "Calculator",
-      "FilePath": "calc",
-      "Description": "A simple calculator",
-      "Browser": false,
-      "ArgumentCount": 0,
-      "ArgumentList": []
-    },
-    {
-      "ItemNumber": 2,
-      "Name": "Chrome",
-      "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "Description": "Some websites for demonstration",
-      "Browser": true,
-      "ArgumentCount": 3,
-      "ArgumentList": [
-        "https://www.google.com/",
-        "https://www.facebook.com",
-        "http://www.dealer-fx.com"
-      ]
-    },
-    {
-      "ItemNumber": 3,
-      "Name": "Notepad",
-      "FilePath": "notepad",
-      "Description": "A text editor",
-      "Browser": false,
-      "ArgumentCount": 1,
-      "ArgumentList": ["C:\\Users\\David\\Documents\\startup_add.py"]
-    }
-  ]
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "Calculator",
+            "FilePath": "calc",
+            "Description": "A simple calculator",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Chrome",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "Some websites for demonstration",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": [
+                "https://www.google.com/",
+                "https://www.facebook.com",
+                "http://www.dealer-fx.com"
+            ]
+        },
+        {
+            "ItemNumber": 3,
+            "Name": "Notepad",
+            "FilePath": "notepad",
+            "Description": "A text editor",
+            "Browser": false,
+            "ArgumentCount": 1,
+            "ArgumentList": [
+                "C:\\Windows\\WindowsUpdate.log"
+            ]
+        }
+    ]
 }
