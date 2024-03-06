@@ -95,7 +95,7 @@ def new_file_chooser():
 
     while not quit_loop:
         # Ask user what type of new file they want
-        user_choice = user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = user_menu_chooser(menu_choices, total_menu_choices, False)
 
         if user_choice in range(1, total_menu_choices + 1):
             quit_loop = True
