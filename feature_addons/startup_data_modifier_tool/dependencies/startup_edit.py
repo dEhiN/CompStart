@@ -43,7 +43,9 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(
+            menu_choices, total_menu_choices
+        )
 
         match user_choice:
             case 1:
@@ -233,7 +235,7 @@ def edit_startup_item_arguments_list(
 
             # Find out what the user wants to do
             user_choice = deps_chooser.user_menu_chooser(
-                menu_choices, total_menu_choices
+                menu_choices, total_menu_choices, False
             )
 
             # Depending on user choice, perform the next action

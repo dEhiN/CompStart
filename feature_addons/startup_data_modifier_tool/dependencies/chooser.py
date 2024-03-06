@@ -5,7 +5,9 @@ import sys
 from tkinter import filedialog as file_chooser
 
 
-def user_menu_chooser(menu_choices: str, total_menu_choices: int):
+def user_menu_chooser(
+    menu_choices: str, total_menu_choices: int, allow_quit: bool = True
+):
     """Helper function for displaying a menu with choices for the user
 
     This function is called by a few other functions that need to display a menu to the
@@ -15,7 +17,11 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     Args:
         menu_choices (str): A formatted string of how the choices should be
         displayed
+
         total_menu_choices (int): The maximum number of choices there are
+
+        allow_quit (bool, optional): Whether to show the option to quit the whole program
+        in the current menu. Defaults to True.
 
     Returns:
         int: A number representing which choice the user made
@@ -23,17 +29,18 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
-    # Create option to quit the whole program and add it to the end of the passed
-    # in menu
-    total_menu_choices += 1
-    quit_choice = total_menu_choices
+    # Create full menu
+    full_menu = "Please choose one of the following:\n"
+    full_menu += menu_choices
 
-    # Create menu header and footers
-    menu_header = "Please choose one of the following:\n"
-    menu_footer = f"[{quit_choice}] Quit the program\n"
-    menu_choices = menu_header + menu_choices + menu_footer
+    if allow_quit:
+        # Create option to quit the whole program and add it to the end of the
+        # passed in menu
+        total_menu_choices += 1
+        quit_choice = total_menu_choices
+        full_menu += f"[{quit_choice}] Quit the program\n"
 
-    print("\n" + menu_choices)
+    print("\n" + full_menu)
     user_input = input("What would you like to do? ")
 
     if (
@@ -48,7 +55,7 @@ def user_menu_chooser(menu_choices: str, total_menu_choices: int):
         user_choice = int(user_input)
 
         # Check if user chose to quit the program
-        if user_choice == quit_choice:
+        if allow_quit and user_choice == quit_choice:
             print("\nThank you for using Demord. Have a wonderful day.")
             sys.exit()
 

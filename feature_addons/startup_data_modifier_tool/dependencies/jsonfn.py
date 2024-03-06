@@ -232,9 +232,7 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     print(f"\n{status_message}")
 
@@ -268,7 +266,7 @@ def json_editor(json_path: list, json_filename: str):
                 start_items_menu
                 + f"[{item_add}] Add a new startup item\n"
                 + f"[{item_delete}] Delete an existing startup item\n"
-                + f"[{data_save}] Save the current startup data\n"
+                + f"[{data_save}] Save full startup data to disk\n"
                 + f"[{item_quit}] Return to the main menu\n"
             )
 
@@ -283,7 +281,9 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_add:
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    question_prompt = "\nPlease enter the startup item number you want to remove"
+                    question_prompt = (
+                        "\nPlease enter the startup item number you want to remove"
+                    )
                     if total_items == 1:
                         question_prompt += " [1]: "
                     else:
