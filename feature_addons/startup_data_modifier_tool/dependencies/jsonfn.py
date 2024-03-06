@@ -373,6 +373,11 @@ def json_pruner(items_data: list, item_number: int, total_items: int):
     """
     prune_item = items_data[item_number - 1]
     items_data.remove(prune_item)
-    print(f"{item_number} out of {total_items}:")
+
+    print(f"You have chosen to delete {item_number} out of {total_items}:")
     print(prune_item)
+
+    print("\nThe remaining startup items are:")
     print(items_data)
+
+    deps_data_gen.generate_user_edited_data(items_data, False)

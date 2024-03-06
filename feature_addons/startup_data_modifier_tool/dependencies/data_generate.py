@@ -103,7 +103,7 @@ def generate_user_edited_data(
         startup item or the full JSON startup data.
 
         item_add (bool): Required. Specify whether the modified_json_data is to
-        be added to orig_json_data or should replace some or all of it.
+        be added to orig_json_data, or should replace some or all of it.
 
         orig_json_data (dict): Optional. A dictionary containing the original
         JSON data to be replaced or updated. If nothing is passed in, then it's
