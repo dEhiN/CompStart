@@ -178,7 +178,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
         json_filename (str): The filename of the JSON file
 
-        default_mode (bool): If True, create a new file with startup data. If False,
+        default_mode (bool): If True, create a new file with default startup data. If False,
         allow the user to specify their own startup data.
 
     Returns:
@@ -196,10 +196,8 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     # Get the full path to the file in string format
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
-    # Create default JSON data to add to the startup_data.json file
-    json_data = deps_data_gen.generate_json_data(
-        new_file=True, is_default=default_mode
-    )
+    # Create startup JSON data to add to the startup_data.json file
+    json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
 
     # If the file exists, make sure we confirm from the user before overwriting
     # the file
@@ -232,9 +230,7 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     print(f"\n{status_message}")
 
@@ -283,7 +279,9 @@ def json_editor(json_path: list, json_filename: str):
                 elif user_choice == item_add:
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    question_prompt = "\nPlease enter the startup item number you want to remove"
+                    question_prompt = (
+                        "\nPlease enter the startup item number you want to remove"
+                    )
                     if total_items == 1:
                         question_prompt += " [1]: "
                     else:
