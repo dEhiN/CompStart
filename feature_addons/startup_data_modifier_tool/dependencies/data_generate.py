@@ -12,45 +12,35 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
 
 
-def generate_json_data(new_file: bool = False, is_default: bool = False, **kwargs):
-    """Helper function to create JSON data
+def generate_new_json_data(is_default: bool = False):
+    """Helper function to create new startup JSON data
 
     Depending on the parameters passed in, the function will either:
 
         1) Create default startup data and create a new startup_data.json file with the
             default data
         2) Create a new startup_data.json file but first have the user specify the data
-        3) Update an existing startup_data.json file with JSON data that's passed in.
 
     Args:
-        new_file (bool): Tells this function whether to create a new file or not; default
-        is False
-
         is_default (bool): Tells this function if, when new_file is True, whether to
         create a file with default values or user-specified ones; default is False.
-
-        **kwargs: Optional parameters that can contain JSON data to update an
-        existing startup_data.json file; can be in any format
 
     Returns:
         dict: The actual JSON data if there is any to return or an empty
         dictionary if not
     """
+    # Adding override to use default startup file for when not in production
+    if not app_demord.is_production():
+        print(
+            "This functionality hasn't been fully implemented yet. Creating default startup file..."
+        )
+        is_default = True
 
     # Determine what type of JSON data to create
-    if new_file and is_default:
+    if is_default:
         json_data = generate_default_startup_data()
-    elif new_file and not is_default:
-        # Adding override to use default startup file for when not in production
-        if not app_demord.is_production():
-            print(
-                "This functionality hasn't been fully implemented yet. Creating default startup file..."
-            )
-            json_data = generate_default_startup_data()
-        else:
-            json_data = generate_user_startup_data()
     else:
-        json_data = generate_user_edited_data(**kwargs)
+        json_data = generate_user_startup_data()
 
     return json_data
 
@@ -92,7 +82,7 @@ def generate_user_startup_data():
 def generate_user_edited_data(
     modified_json_data: dict, item_add: bool, orig_json_data: dict = {}
 ):
-    """Helper function to create JSON data
+    """Helper function to create JSON data for edited startup data
 
     Creates a dictionary with the new JSON data added in or updated. Uses the
     Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys.
@@ -143,8 +133,8 @@ def generate_user_edited_data(
         # Check to make sure the item number is valid
         if change_item_number in range(1, total_items + 1):
             new_json_data = copy.deepcopy(orig_json_data)
-            new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
-                modified_json_data
+            new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = (
+                copy.deepcopy(modified_json_data)
             )
         else:
             deps_pretty.prettify_custom_error(
@@ -245,7 +235,9 @@ def data_validation_scenario(
     # If the orig_json_data dictionary isn't blank, check that it contains
     # properly formed data
     if data_validation["Orig-Exists"]:
-        data_validation["Orig-Valid"] = deps_helper.json_data_validator(orig_json_data)
+        data_validation["Orig-Valid"] = deps_helper.json_data_validator(
+            orig_json_data
+        )
 
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
