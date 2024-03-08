@@ -134,49 +134,52 @@ def generate_user_edited_data(
         # Check the status of the data validation
         # If the validation failed, then a blank Python dictionary is returned,
         # so no need to code that in
-        if scenario_number == 1:
-            # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
-            total_items = orig_json_data["TotalItems"]
-            change_item_number = modified_json_data["ItemNumber"]
+        match scenario_number:
+            case 1:
+                # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
+                total_items = orig_json_data["TotalItems"]
+                change_item_number = modified_json_data["ItemNumber"]
 
-            # Check to make sure the item number is valid
-            if change_item_number in range(1, total_items + 1):
-                new_json_data = copy.deepcopy(orig_json_data)
-                new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = (
-                    copy.deepcopy(modified_json_data)
-                )
-            else:
-                deps_pretty.prettify_custom_error(
-                    "Cannot update the JSON data! The startup item number passed in is invalid!",
-                    "data_generate.generate_user_edited_data",
-                )
-        elif scenario_number == 2:
-            # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
-            pass
-        elif scenario_number == 3:
-            # Data validation passed and modified JSON data passed in is full
-            # JSON data. Return the modified_json_data variable.
-            new_json_data = copy.deepcopy(modified_json_data)
-        elif scenario_number == 4:
-            # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
-            current_total_items = orig_json_data["TotalItems"]
-            orig_items_list = orig_json_data["Items"]
-            new_total_items = current_total_items + 1
+                # Check to make sure the item number is valid
+                if change_item_number in range(1, total_items + 1):
+                    new_json_data = copy.deepcopy(orig_json_data)
+                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = (
+                        copy.deepcopy(modified_json_data)
+                    )
+                else:
+                    deps_pretty.prettify_custom_error(
+                        "Cannot update the JSON data! The startup item number passed in is invalid!",
+                        "data_generate.generate_user_edited_data",
+                    )
+            case 2:
+                # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
 
-            # Make sure the item number of the new startup item is correct
-            if (
-                modified_json_data["ItemNumber"]
-                <= orig_items_list[current_total_items - 1]["ItemNumber"]
-            ):
-                modified_json_data["ItemNumber"] = new_total_items
+                # TODO# Code this in!!!
+                pass
+            case 3:
+                # Data validation passed and modified JSON data passed in is full
+                # JSON data. Return the modified_json_data variable.
+                new_json_data = copy.deepcopy(modified_json_data)
+            case 4:
+                # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
+                current_total_items = orig_json_data["TotalItems"]
+                orig_items_list = orig_json_data["Items"]
+                new_total_items = current_total_items + 1
 
-            # Copy the necessary data including adding the new startup item at
-            # the end of the items list
-            new_items_list = copy.deepcopy(orig_items_list)
-            new_items_list.append(copy.deepcopy(modified_json_data))
+                # Make sure the item number of the new startup item is correct
+                if (
+                    modified_json_data["ItemNumber"]
+                    <= orig_items_list[current_total_items - 1]["ItemNumber"]
+                ):
+                    modified_json_data["ItemNumber"] = new_total_items
 
-            new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
-            new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
+                # Copy the necessary data including adding the new startup item at
+                # the end of the items list
+                new_items_list = copy.deepcopy(orig_items_list)
+                new_items_list.append(copy.deepcopy(modified_json_data))
+
+                new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
+                new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
 
     return new_json_data
 
