@@ -135,10 +135,7 @@ def generate_user_edited_data(
         # If the validation failed, then a blank Python dictionary is returned,
         # so no need to code that in
         if scenario_number == 1:
-            # Data validation passed and modified JSON data passed in is a single
-            # startup item that is meant to update an existing startup item
-            # Return the original JSON data but with the changed, existing startup
-            # item
+            # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
             total_items = orig_json_data["TotalItems"]
             change_item_number = modified_json_data["ItemNumber"]
 
@@ -154,15 +151,14 @@ def generate_user_edited_data(
                     "data_generate.generate_user_edited_data",
                 )
         elif scenario_number == 2:
-            # Data validation passed and modified JSON data passed in is full
-            # JSON data
-            # Return the modified_json_data variable
-            new_json_data = copy.deepcopy(modified_json_data)
+            # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
+            pass
         elif scenario_number == 3:
-            # Data validation passed and modified JSON data passed in is a single
-            # startup item that has to be added to the end
-            # Return the original JSON data but updated with the new startup item
-            # at the end
+            # Data validation passed and modified JSON data passed in is full
+            # JSON data. Return the modified_json_data variable.
+            new_json_data = copy.deepcopy(modified_json_data)
+        elif scenario_number == 4:
+            # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
             current_total_items = orig_json_data["TotalItems"]
             orig_items_list = orig_json_data["Items"]
             new_total_items = current_total_items + 1
