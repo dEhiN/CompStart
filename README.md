@@ -2,39 +2,83 @@
 
 ## Purpose
 
-Demord is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. This program will let you set up specific tabs and browser windows including web apps (i.e., Chrome apps) in addition to installed programs. For example, the program could open up a specific Word document as well as 2 different Chrome windows with the first one showing 3 tabs and the second one showing 2 tabs.
-
-This is done using a JSON config file and a Powershell script. There is also a Batch file that starts off the whole process. This Batch file starts off the whole process. The idea will be that the Batch file will be put into the Windows Start Menu folder, and it will run the Powershell script. The Batch file is interactive, and first asks the user if they want to run the script. This ensures that a user could start their computer without having all their startup programs run whenever they want.
-
-Currently, as of 2023-10-27, the Powershell script and Batch file both work and I use them at work. However, the JSON file has to be manually adjusted but there is a JSON Schema file that can be used. There is a feature branch for creating a command-line tool written in Python to allow the creation, viewing and editing of the JSON file. Currently, the tool can create a new JSON file with some default startup data and view the existing startup data. It can also edit existing startup items, but can't save the changes. There is another feathre branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README lists all the past feature branches as well as the current ones.
+Demord is a program that allows you to choose which programs open automatically when your computer starts. This is different from using the built-in Windows functionality to control startup items, such as through Task Manager or using the startup folders. This program will let you set up specific tabs and browser windows, including web apps (i.e., Chrome apps) in addition to installed programs. For example, the program could open up a specific Word document as well as 2 different Chrome windows with the first one showing 3 tabs and the second one showing 2 tabs.
+<br>
 <br>
 <br>
 
-## Files and Folders
+# Installation
+
+## For non-devs
+
+Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the releases section (coming soon) to find the files to download. There will be setup instructions included. Follow them and you can start using Demord yourself!
+
+## For devs
+
+The installation instructions are essentially the same as above if you just want to use the tool. However, if you want to install Demord to work on it, depending on what you want to do, you have 2 options:
+
+1. If you want to contribute to this program, read the <strong>How to help</strong> section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
+
+2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the <strong>How to help</strong> section. I also ask that if you publish anything you create based on this project, please give credit. It would also be nice if you let me know.
+
+# How to help
+
+## First Steps
+
+If you'd like to contribute to this program, please get in touch! On my GitHub profile page, you'll find how to reach me. My profile page is: https://github.com/dEhiN.
+
+Next, read through the following sections:
+
+1. <strong>Technical Details</strong>
+2. <strong>Listing of Files and Folders</strong>
+
+Then, read through the README in the <code>feature_addons</code> folder to get an understanding of the current branches being worked on.
+
+Finally, check out the project board <a url="https://github.com/users/dEhiN/projects/4">here</a> and familiarize yourself with the open issues and work.
+
+All work I've contributed is well documented and my commits are pretty detailed. However, if there's something you're not sure about, you can always connect with me.
+
+## Technical Details
+
+Demord consists of a Batch file, a PowerShell script, and a JSON config file. The Batch file starts off the whole process. The idea will be to put the Batch file into the Windows Start Menu folder, and it will run the Powershell script. The Batch file is interactive, and first asks the user if they want to run the script. This ensures that a user could start their computer without having all their startup programs run whenever they want.
+
+Currently, as of 2023-10-27, the Powershell script and Batch file both work and I use them at work. However, the JSON file has to be manually created or updated. There is a JSON Schema file that can be used to know how the JSON file data should be structured.
+
+There is a feature branch for creating a command-line tool that will allow for the creation, viewing, and updating of the JSON file. The tool is being written in Python. There is another feature branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README contains detailed information on present and past feature branches.
+
+## Listing of Files and Folders
 
 ### Folders
-* *data* - The main data folder consisting of subfolders and data files.
-* *data/json_data* - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
-* *data/misc_data* - Holds any non-code related files such as text files with planning information, etc.
-* *data/old_data* - Holds any old or original code files that I want to keep for posterity or just in case
-* *feature_addons* - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
 
+- _data_ - The main data folder consisting of subfolders and data files.
+- _data/json_data_ - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
+- _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
+- _data/old_data_ - Holds any old or original code files that I want to keep for posterity or just in case
+- _feature_addons_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
 
 ### Files
-#### within folder: */*
-* *startup.ps1* - The main PowerShell script that sets up all the programs, browser windows, and tabs
-* *startup.bat* - A batch file that is run on Windows start and calls *startup.ps1*
-* *README.md* - This README
-* *.gitignore* - The gitignore file for this project
-#### within folder: *data/json_data*
-* *startup_data.json* - The startup data that *startup.ps1* reads and will store all the programs and websites to open along with any parameters to pass in, etc
-* *startup_data.schema.json* - A JSON Schema file for *startup_data.json*
-* *test_data.json* - A simple startup data file that only opens Notepad and was used in testing the *startup.ps1* script to make sure it worked
-#### within folder: *data/misc_data*
-* *extra_info.txt* - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
-* *json_schema_update_ideas.txt* - A text file with ideas to implement in the JSON schema
-* *robswc_suggestions.txt* - A text file with some project changes and enhancements from Reddit user robswc
-* *md_examples.md* - Examples of Markdown language
-#### within folder: *data/old_data*
-* *old_startup.ps1* - The original startup PowerShell script file with all the startup data hard coded in
-* *old_setup.bat* - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+
+#### within folder: _/_
+
+- _startup.ps1_ - The main PowerShell script that sets up all the programs, browser windows, and tabs
+- _startup.bat_ - A batch file that is run on Windows start and calls _startup.ps1_
+- _README.md_ - This README
+- _.gitignore_ - The gitignore file for this project
+
+#### within folder: _data/json_data_
+
+- _startup_data.json_ - The startup data that _startup.ps1_ reads and will store all the programs and websites to open along with any parameters to pass in, etc
+- _startup_data.schema.json_ - A JSON Schema file for _startup_data.json_
+- _test_data.json_ - A simple startup data file that only opens Notepad and was used in testing the _startup.ps1_ script to make sure it worked
+
+#### within folder: _data/misc_data_
+
+- _extra_info.txt_ - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
+- _json_schema_update_ideas.txt_ - A text file with ideas to implement in the JSON schema
+- _robswc_suggestions.txt_ - A text file with some project changes and enhancements from Reddit user robswc
+- _md_examples.md_ - Examples of Markdown language
+
+#### within folder: _data/old_data_
+
+- _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
+- _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
