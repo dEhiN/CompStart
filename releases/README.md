@@ -15,3 +15,9 @@ Currently, there is no plan to add a third level of versioning, such as 1.1.1 fo
 
 ### Packaging
 For now, a ZIP archive should be created with the content. Until an installer is created, this will serve as the release package. The content should have an instructions.txt file at the root level since manual installation will need to be done.
+
+## List of Releases
+
+### 1.1-alpha
+
+This is the first official release of Demord. It consists of the startup.ps1 file, the startup.bat file, and a config folder. In development, the data folder will be used for storing JSON data among other things. But, in production, the folder will be called config and will contain startup_data.json for now. This release also contains the instructions.txt file.
