@@ -14,25 +14,23 @@
             "ItemNumber": 2,
             "Name": "Chrome",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "Some websites for demonstration",
+            "Description": "Some websites for demonstration - Google, Facebook, and Twitter",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
                 "https://www.google.com/",
                 "https://www.facebook.com",
-                "http://www.dealer-fx.com"
+                "https://www.twitter.com/"
             ]
         },
         {
             "ItemNumber": 3,
             "Name": "Notepad",
             "FilePath": "notepad",
-            "Description": "A text editor",
+            "Description": "The built-in Windows text editor",
             "Browser": false,
-            "ArgumentCount": 1,
-            "ArgumentList": [
-                "C:\\Windows\\WindowsUpdate.log"
-            ]
+            "ArgumentCount": 0,
+            "ArgumentList": []
         }
     ]
 }
