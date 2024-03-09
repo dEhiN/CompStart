@@ -38,7 +38,7 @@ Next, read through the following sections:
 
 Then, read through the README in the <code>feature_addons</code> folder to get an understanding of the current branches being worked on.
 
-Finally, check out the project board <a url="https://github.com/users/dEhiN/projects/4">here</a> and familiarize yourself with the open issues and work.
+Finally, check out the project board at https://github.com/users/dEhiN/projects/4, and familiarize yourself with the open issues and work.
 
 All work I've contributed is well documented and my commits are pretty detailed. However, if there's something you're not sure about, you can always connect with me.
 
@@ -79,7 +79,7 @@ There is a feature branch for creating a command-line tool that will allow for t
 
 - _extra_info.txt_ - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
 - _json_schema_update_ideas.txt_ - A text file with ideas to implement in the JSON schema
-- _robswc_suggestions.txt_ - A text file with some project changes and enhancements from Reddit user <a href="https://www.reddit.com/u/robswc">u/robswc<a>
+- _robswc_suggestions.txt_ - A text file with some project changes and enhancements from Reddit user <a href="https://www.reddit.com/u/robswc">u/robswc</a>
 - _md_examples.md_ - Examples of Markdown language
 
 ##### within folder: _data/old_data_
