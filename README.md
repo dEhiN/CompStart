@@ -6,7 +6,7 @@ Demord is a tool that allows you to have programs open automatically when your c
 
 Demord will also allow you to quickly and easily* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so Demord will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
 
-_*See below for more details, but the functionality to modify the list of startup programs isn't ready yet._
+_*The functionality to modify the list of startup programs isn't ready yet, see below for more details..._
 <br>
 <br>
 
@@ -22,7 +22,7 @@ The installation instructions are essentially the same as above if you just want
 
 1. If you want to contribute to this program, read the <strong>How to help</strong> section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
 
-2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the <strong>How to help</strong> section as the information will probably help you as well. I also ask that if you publish anything you create based on this project, please give credit. It would also be nice if you let me know.
+2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the <strong>How to help</strong> section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
 <br>
 
 ## How to help
