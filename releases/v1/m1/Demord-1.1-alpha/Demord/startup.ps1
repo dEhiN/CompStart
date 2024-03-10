@@ -56,9 +56,13 @@ function Get-StarupItem {
 
 # Loop until user answers prompt
 $LoopTrue = $True
+
+# Show welcome message
+Write-Host "Welcome to Demord!`n"
 do {
     # Confirm if user wants to run script
-    $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
+    Write-Host "Would you like to run this script (Y/N)? " -NoNewLine
+    $UserPrompt = $Host.UI.ReadLine()
 
     if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
 
@@ -97,6 +101,6 @@ do {
         Write-Host "Quitting script..."
 
     } else {
-        Write-Host "Please make a valid choice!"
+        Write-Host "Please make a valid choice!`n"
     }
 } while ($LoopTrue -eq $True)
