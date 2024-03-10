@@ -4,9 +4,9 @@
 
 Demord is a tool that allows you to have programs open automatically when your computer starts. But doesn't Windows already allow that through Task Manager and the startup folders, you ask? Well, here's how Demord is different: you can open up specific tabs and browser windows alongside the installed programs. For example, you could open up a specific Word document, a Chrome window with 3 tabs, and the Google Chat Chrome app, all instantaneously after you log in.
 
-Demord will also allow you to quickly and easily* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so Demord will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
+Demord will also allow you to quickly and easily\* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so Demord will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
 
-_*The functionality to modify the list of startup programs isn't ready yet, see below for more details..._
+_\*The functionality to modify the list of startup programs isn't ready yet, see below for more details..._
 <br>
 <br>
 
@@ -14,7 +14,7 @@ _*The functionality to modify the list of startup programs isn't ready yet, see 
 
 ### For non-devs
 
-Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the releases section (coming soon) to find the files to download. There will be setup instructions included. Follow them and you can start using Demord yourself!
+Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/Demord/releases) section to find the files to download. There will be setup instructions included. Follow them and you can start using Demord yourself!
 
 ### For devs
 
@@ -23,7 +23,7 @@ The installation instructions are essentially the same as above if you just want
 1. If you want to contribute to this program, read the <strong>How to help</strong> section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
 
 2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the <strong>How to help</strong> section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
-<br>
+   <br>
 
 ## How to help
 
@@ -53,6 +53,7 @@ There is a feature branch for creating a command-line tool that will allow for t
 ### Listing of Directories (Folders) and Files
 
 ##### Legend
+
 - D = Directory (Folder)
 - F = File
 
@@ -65,12 +66,14 @@ There is a feature branch for creating a command-line tool that will allow for t
 - F _.gitignore_ - The gitignore file for this project
 
 #### Folder: /devenv
+
 - D _data_ - Main data folder consisting of subfolders and data files
 - D _feature_addons_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
 - F _startup.ps1_ - Main PowerShell script that sets up all the programs, browser windows, and tabs
 - F _startup.bat_ - A batch file that is run on Windows startup and calls _startup.ps1_
 
 #### Folder: /devenv/data
+
 - D _data/json_data_ - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
 - D _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
 - D _data/old_data_ - Holds any old or original code files that I want to keep for posterity or just in case
@@ -104,7 +107,7 @@ There is a feature branch for creating a command-line tool that will allow for t
 
 #### Folder: /packages/v\<num>
 
-- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to  version 1.1 packages
+- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to version 1.1 packages
 
 #### Folder: /releases
 
