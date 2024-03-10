@@ -72,15 +72,13 @@ $IsProdEnv = $True
 
 # Loop until user answers prompt
 $LoopTrue = $True
+
+# Show welcome message
+Write-Host "Welcome to Demord!`n"
 do {
     # Confirm if user wants to run script
-    $UserPrompt = ""
-    if ($IsProdEnv) {
-        $UserPrompt = Read-Host -Prompt "Would you like to run this script [Y/N]"
-    }
-    else {
-        $UserPrompt = "Y"
-    }
+    Write-Host "Would you like to run this script (Y/N)? " -NoNewLine
+    $UserPrompt = $Host.UI.ReadLine()
 
     if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
 
@@ -107,8 +105,7 @@ do {
         foreach ($StartupItem in $StartupData) {
             Get-StarupItem $StartupItem
         }
-    }
-    elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
+    } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
         # Tell loop to quit
         $LoopTrue = $False
@@ -116,5 +113,7 @@ do {
         # Inform user of quitting script
         Write-Host "Quitting script..."
 
+    } else {
+        Write-Host "Please make a valid choice!`n"
     }
 } while ($LoopTrue -eq $True)

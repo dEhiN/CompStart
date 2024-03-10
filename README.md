@@ -50,39 +50,64 @@ Currently, as of 2023-10-27, the Powershell script and Batch file both work and 
 
 There is a feature branch for creating a command-line tool that will allow for the creation, viewing, and updating of the JSON file. The tool is being written in Python. There is another feature branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README contains detailed information on present and past feature branches.
 
-### Listing of Files and Folders
+### Listing of Directories (Folders) and Files
 
-#### Folders
+##### Legend
+- D = Directory (Folder)
+- F = File
 
-- _data_ - The main data folder consisting of subfolders and data files.
-- _data/json_data_ - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
-- _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
-- _data/old_data_ - Holds any old or original code files that I want to keep for posterity or just in case
-- _feature_addons_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
+#### Folder: root (/)
 
-#### Files
+- D _devenv_: All files related to development
+- D _packages_ Package files for each release, as either ZIP or MSI files
+- D _releases_ Files related to each official release; this will NOT be the package files but all content that needs to go into a package file
+- F _README.md_ - This README
+- F _.gitignore_ - The gitignore file for this project
 
-##### within folder: _/_
+#### Folder: /devenv
+- D _data_ - Main data folder consisting of subfolders and data files
+- D _feature_addons_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
+- F _startup.ps1_ - Main PowerShell script that sets up all the programs, browser windows, and tabs
+- F _startup.bat_ - A batch file that is run on Windows startup and calls _startup.ps1_
 
-- _startup.ps1_ - The main PowerShell script that sets up all the programs, browser windows, and tabs
-- _startup.bat_ - A batch file that is run on Windows start and calls _startup.ps1_
-- _README.md_ - This README
-- _.gitignore_ - The gitignore file for this project
+#### Folder: /devenv/data
+- D _data/json_data_ - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
+- D _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
+- D _data/old_data_ - Holds any old or original code files that I want to keep for posterity or just in case
 
-##### within folder: _data/json_data_
+#### Folder: /devenv/data/json_data
 
-- _startup_data.json_ - The startup data that _startup.ps1_ reads and will store all the programs and websites to open along with any parameters to pass in, etc
-- _startup_data.schema.json_ - A JSON Schema file for _startup_data.json_
-- _test_data.json_ - A simple startup data file that only opens Notepad and was used in testing the _startup.ps1_ script to make sure it worked
+- F _startup_data.json_ - The startup data that _startup.ps1_ reads and will store all the programs and websites to open along with any parameters to pass in, etc
+- F _startup_data.schema.json_ - A JSON Schema file for _startup_data.json_
+- F _test_data.json_ - A simple startup data file that only opens Notepad and was used in testing the _startup.ps1_ script to make sure it worked
 
-##### within folder: _data/misc_data_
+#### Folder: /devenv/data/misc_data
 
-- _extra_info.txt_ - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
-- _json_schema_update_ideas.txt_ - A text file with ideas to implement in the JSON schema
-- _robswc_suggestions.txt_ - A text file with some project changes and enhancements from Reddit user <a href="https://www.reddit.com/u/robswc">u/robswc</a>
-- _md_examples.md_ - Examples of Markdown language
+- F _extra_info.txt_ - A text file with some relevant links including questions on Stack Overflow pertinent to this project, JSON Schema validation attempts, and online articles that have relevance
+- F _json_schema_update_ideas.txt_ - A text file with ideas to implement in the JSON schema
+- F _robswc_suggestions.txt_ - A text file with some project changes and enhancements from Reddit user <a href="https://www.reddit.com/u/robswc">u/robswc</a>
+- F _md_examples.md_ - Examples of Markdown language
 
-##### within folder: _data/old_data_
+#### Folder: /devenv/data/old_data
 
-- _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
-- _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+- F _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
+- F _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+
+#### Folder: /devenv/feature_addons
+
+- F _README.md_ The README for all feature branches containing specific information about past and current branches
+- D _\<feature-branch-name>_ One or more folders for each current feature branch
+
+#### Folder: /packages
+
+- D _v\<num>_ A folder for each major version number; for example _v1_ will hold all content related to all version 1 packages
+
+#### Folder: /packages/v\<num>
+
+- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to  version 1.1 packages
+
+#### Folder: /releases
+
+- D _v\<num>_ A folder for each major version number; for example _v1_ will hold all content related to all version 1 releases
+- F _instructions.txt_ Text instructions on how to manually install Demord; will be used and copied to each release until an automated install method is created
+- F _README.md_ The README for release information, how it works, etc.
