@@ -20,9 +20,9 @@ Currently, the installation process is manual. If you want to use this tool for 
 
 The installation instructions are essentially the same as above if you just want to use the tool. However, if you want to install Demord to work on it, depending on what you want to do, you have 2 options:
 
-1. If you want to contribute to this program, read the <strong>How to help</strong> section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
+1. If you want to contribute to this program, read the **How to help** section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
 
-2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the <strong>How to help</strong> section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
+2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the **How to help** section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
    <br>
 
 ## How to help
@@ -33,8 +33,8 @@ If you'd like to contribute to this program, please get in touch! On my GitHub p
 
 Next, read through the following sections:
 
-1. <strong>Technical Details</strong>
-2. <strong>Listing of Files and Folders</strong>
+1. **Technical Details**
+2. **Listing of Files and Folders**
 
 Then, read through the README in the <code>feature_addons</code> folder to get an understanding of the current branches being worked on.
 
