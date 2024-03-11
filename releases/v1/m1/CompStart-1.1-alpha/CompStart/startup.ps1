@@ -1,4 +1,4 @@
-# Script to automatically open the apps I want when the computer starts
+# Main PowerShell script for CompStart
 
 # Function to run a specific startup item
 # Input: 1. A String representing the full file path + program name with
@@ -81,7 +81,7 @@ function Get-StarupItem {
 $LoopTrue = $True
 
 # Show welcome message
-Write-Host "Welcome to Demord!`n"
+Write-Host "Welcome to CompStart!`n"
 do {
     # Confirm if user wants to run script
     Write-Host "Would you like to run this script (Y/N)? " -NoNewLine
@@ -92,18 +92,22 @@ do {
         # Tell loop to quit
         $LoopTrue = $False
 
-        # Name and location of JSON file
+        # Set the location of current working directory
         $CurrentLocation = $PSScriptRoot
+
         # Set the location for production by default
         $DataFileLocation = "\config\"
-        # Check if this script is being run in production - as a release
-        # or if this script is being run in development
+
+        # Check if this script is being run in production - as a release...
+        # ...or if this script is being run in development
         if (-not (Test-Path ($CurrentLocation + $DataFileLocation))) {
             # Development environment, so change the location
             $DataFileLocation = "\data\json_data\"
         }
+
         # Set the name of the JSON file
         $DataFileName = "startup_data.json"
+        
         # Concatenate all 3 variables to get the full script path
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
@@ -115,7 +119,8 @@ do {
         foreach ($StartupItem in $StartupData) {
             Get-StarupItem $StartupItem
         }
-    } elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
+    }
+    elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
         # Tell loop to quit
         $LoopTrue = $False
@@ -123,7 +128,8 @@ do {
         # Inform user of quitting script
         Write-Host "Quitting script..."
 
-    } else {
+    }
+    else {
         Write-Host "Please make a valid choice!`n"
     }
 } while ($LoopTrue -eq $True)
