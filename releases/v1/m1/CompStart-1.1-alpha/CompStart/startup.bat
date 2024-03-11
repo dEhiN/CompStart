@@ -1,3 +1,4 @@
+:: Main Batch script for CompStart
 echo off
 set mypath=%~dp0
 set scriptname=startup.ps1
