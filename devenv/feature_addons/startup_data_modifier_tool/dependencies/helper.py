@@ -48,7 +48,7 @@ DEFAULT_JSON = {
 def set_start_dir():
     dirs_list = os.getcwd().split(os.sep)
     len_dirs_list = len(dirs_list) - 1
-    start_dir = "Demord"
+    start_dir = "CompStart"
 
     if start_dir in dirs_list:
         idx_start_dir = dirs_list.index(start_dir)
@@ -65,14 +65,14 @@ def set_start_dir():
 def program_info():
     """Function to explain what this program is and how it works"""
     program_information = (
-        "\nWhat is Demord?\n"
-        "Demord is a computer startup tool designed to make your life easier.\n\n"
+        "\nWhat is CompStart?\n"
+        "CompStart is a computer startup tool designed to make your life easier.\n\n"
         "What does that mean?\n"
         "Have you ever wished to be able to log into your laptop at work and\n"
         "have all of your programs automatically start up? Or, maybe you are\n"
         "working on some personal project at home and don't want to be reopening\n"
         "the file or program you're using every time you turn on your desktop\n"
-        "computer. With Demord, you you can have any program automatically open\n"
+        "computer. With CompStart, you you can have any program automatically open\n"
         "when you log in, including your favourite browser to any websites you\n"
         "desire as well as any files you want, such as a Word document."
     )

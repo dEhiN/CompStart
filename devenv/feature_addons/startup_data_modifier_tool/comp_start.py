@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     # Print welcome message
     print(
-        "\nWelcome to Demord: The computer startup tool that will make your"
+        "\nWelcome to CompStart: The computer startup tool that will make your"
         " life easier."
     )
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     # Main loop to allow user to navigate program options
     menu_choices = (
-        "[1] What is Demord?\n"
+        "[1] What is CompStart?\n"
         "[2] Create a new startup file\n"
         "[3] View the existing startup file\n"
         "[4] Edit the existing startup file\n"
