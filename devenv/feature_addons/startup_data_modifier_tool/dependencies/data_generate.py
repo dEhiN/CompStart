@@ -6,7 +6,7 @@ import copy
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
-import demord as app_demord
+import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
@@ -30,7 +30,7 @@ def generate_new_json_data(is_default: bool = False):
         dictionary if not
     """
     # Adding override to use default startup file for when not in production
-    if not app_demord.is_production():
+    if not app_cs.is_production():
         print(
             "This functionality hasn't been fully implemented yet. Creating default startup file..."
         )
@@ -299,7 +299,7 @@ def match_scenario(data_validation: dict):
     scenario_number = 0
     validation_results = ""
 
-    if not app_demord.is_production():
+    if not app_cs.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
 
     match data_validation:
