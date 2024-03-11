@@ -1,0 +1,54 @@
+Comments from issue #5 in Project:
+Repo: Demord
+
+Going with option 3 from the comment above:
+
+- Modify the function generate_user_edited_data so a calling function can pass in a single startup item and specify that it needs to be removed from the existing startup data
+- If necessary, update the scenario validation functions data_validation_scenario and match_scenario
+- Call the modified generate_user_edited_data function from json_pruner
+ - Test that it works
+
+The above are the steps to take to resolve this issue and close the branch dEhiN/issue5.
+
+Relevant commit information:
+commit 4537f8ac67508c4b86c258698c8808b5d7e61c60
+Author: David <hiranwatson@gmail.com>
+Date:   Tue Mar 5 23:32:49 2024 -0500
+
+    Added call to function generate_user_edited_data
+    from json_pruner in module jsonfn
+    
+    Updated function json_pruner to print out the
+    item requested to be deleted as well as the rest
+    of the items data. Also added a call to the
+    function generate_user_edited_data.
+    
+    However, passing in just the Items array causes
+    the JSON data validation to fail. Will need to
+    figure out a solution. Possible options are:
+    
+    1. Modify the generate_user_edited_data
+    function to allow for an Items array to be passed
+    in.
+    
+    2. Modify the json_pruner function to pass in
+    updated JSON data.
+    
+    3. Modify a mix of both functions
+    to allow for a single startup item to be passed in
+    but specified to be removed.
+    
+    4. Create a new function to take the Items array
+    and make a fully formed startup JSON object from
+    it.
+    
+    Most likely, will go with option 3 since the
+    generate_user_edited_data is meant to be used for
+    all scenarios where the user is editing existing
+    startup data. There is already the ability to
+    pass in just a single startup item and also to
+    specify if that startup item is to be added to the
+    existing full startup data or replace an existing
+    item. It shouldn't be hard to modify the function
+    to allow the startup item to be removed and
+    specify that.

@@ -1,0 +1,55 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Single startup item for CompStart",
+    "description": "This is a schema for a single startup item used by the program Demord. A single startup item represents a specific program, with optional parameters, that Demord will open up on user login. The data will be all contained in a base object. That base object will have contain the following keys: ItemNumber, Name, FilePath, Description, Browser, ArgumentCount, ArgumentList. The ItemNumber is so the objects can be numbered in the array. For example, if the user wants to open both Notepad and Calculator upon computer startup, there would have to be two startup item objects created, and the first one would have ItemNumber '1' while the second would have ItemNumber '2'. The Name key is whatever identifying name the user wants to give the entry, such as 'Notepad' or 'Text editor', etc. The FilePath will be the full path to the executable file. Currently this program only runs on Windows, so the path should start with a drive letter and will most likely be 'C:\\'. Since this key take a string as its value, backslashes will have to be escaped. The Description key is similar to Name in that it's whatever identifying description the user wants to give that entry. The Browser key is a Boolean true/false indicating whether the entry is for a browser window. The next two keys, ArgumentCount and ArgumentList, indicate if there are arguments that need to be passed to the program, such as for a browser window, a specific set of pages to open as tabs. ArgumentCount will reflect how many arguments there are to pass and will be set to '0' if there aren't any arguments. If ArgumentCount is 0, it is assumed ArgumentList is blank and not checked. The ArgumentList could be in the form of a single string if there's one argument or an array of strings if there are multiple arguments. Finally, all the keys are mandatory although they can be blank strings or arrays, or the number '0', if there's no real value to specify.",
+    "type": "object",
+    "properties": {
+        "ItemNumber": {
+            "type": "integer"
+        },
+        "Name": {
+            "type": "string"
+        },
+        "FilePath": {
+            "type": "string"
+        },
+        "Description": {
+            "type": "string",
+            "default": ""
+        },
+        "Browser": {
+            "type": "boolean",
+            "default": false
+        },
+        "ArgumentCount": {
+            "type": "integer",
+            "default": 0
+        },
+        "ArgumentList": {
+            "type": "array",
+            "default": []
+        }
+    },
+    "required": [
+        "ItemNumber",
+        "Name",
+        "FilePath",
+        "Description",
+        "Browser",
+        "ArgumentCount",
+        "ArgumentList"
+    ],
+    "uniqueItems": true,
+    "additionalProperties": false,
+    "examples": [
+        {
+            "ItemNumber": 1,
+            "Name": "Notepad",
+            "FilePath": "notepad",
+            "Description": "A text editor",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        }
+    ]
+}
