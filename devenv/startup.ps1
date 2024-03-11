@@ -38,37 +38,21 @@ function Get-StarupItem {
 
     # Grab each item's properties
     $ItemNumber = $StartupItem.ItemNumber
-    $ItemName = $StartupItem.Name
     $ItemPath = $StartupItem.FilePath
-    $ItemDescription = $StartupItem.Description
-    $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
 
     # Process startup arguments
-    $LoopCounter = 0
     $AllArgs = ""
 
     if ($ItemArgCount -gt 0) {
         foreach ($ItemArg in $ItemArgList) {
-            $LoopCounter += 1
-    
-            if ($ItemIsBrowser -and ($LoopCounter -eq $ItemArgCount)) {
-                $AllArgs += $ItemArg
-            }
-            else {
-                $AllArgs += [string]$ItemArg
-            }
-
-            $AllArgs += " "
+            $AllArgs += [string]$ItemArg + " "
         }
     }
 
     Start-StartupItem -StartItemNumber $ItemNumber -ProgramPath $ItemPath -ArgumentsList $AllArgs
 }
-
-# Setting to switch between testing and production - affects 2 spots in the do loop
-$IsProdEnv = $True
 
 # Loop until user answers prompt
 $LoopTrue = $True
@@ -87,14 +71,17 @@ do {
 
         # Name and location of JSON file
         $CurrentLocation = $PSScriptRoot
-        $DataFileLocation = "\data\json_data\"
-        $DataFileName = ""
-        if ($IsProdEnv) {
-            $DataFileName = "startup_data.json"
+        # Set the location for production by default
+        $DataFileLocation = "\config\"
+        # Check if this script is being run in production - as a release
+        # or if this script is being run in development
+        if (-not (Test-Path ($CurrentLocation + $DataFileLocation))) {
+            # Development environment, so change the location
+            $DataFileLocation = "\data\json_data\"
         }
-        else {
-            $DataFileName = "test_data.json"
-        }
+        # Set the name of the JSON file
+        $DataFileName = "startup_data.json"
+        # Concatenate all 3 variables to get the full script path
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
         # Load JSON data
