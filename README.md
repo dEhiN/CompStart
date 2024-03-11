@@ -14,7 +14,7 @@ _\*The functionality to modify the list of startup programs isn't ready yet, see
 
 ### For non-devs
 
-Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/CompStart/releases) section (coming soon...) to find the files to download. There will be setup instructions included. Follow them and you can start using CompStart for yourself!
+Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/CompStart/releases) section to find the files to download. There will be setup instructions included. Follow them and you can start using CompStart for yourself!
 
 ### For devs
 
