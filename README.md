@@ -1,10 +1,10 @@
-# Demord
+# CompStart
 
 ## Purpose
 
-Demord is a tool that allows you to have programs open automatically when your computer starts. But doesn't Windows already allow that through Task Manager and the startup folders, you ask? Well, here's how Demord is different: you can open up specific tabs and browser windows alongside the installed programs. For example, you could open up a specific Word document, a Chrome window with 3 tabs, and the Google Chat Chrome app, all instantaneously after you log in.
+CompStart is a tool that allows you to have programs open automatically when your computer starts. But doesn't Windows already allow that through Task Manager and the startup folders, you ask? Well, here's how CompStart is different: you can open up specific tabs and browser windows alongside the installed programs. For example, you could open up a specific Word document, a Chrome window with 3 tabs, and the Google Chat Chrome app, all instantaneously after you log in.
 
-Demord will also allow you to quickly and easily\* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so Demord will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
+CompStart will also allow you to quickly and easily\* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so CompStart will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
 
 _\*The functionality to modify the list of startup programs isn't ready yet, see below for more details..._
 <br>
@@ -14,16 +14,16 @@ _\*The functionality to modify the list of startup programs isn't ready yet, see
 
 ### For non-devs
 
-Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/Demord/releases) section (coming soon...) to find the files to download. There will be setup instructions included. Follow them and you can start using Demord yourself!
+Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/CompStart/releases) section (coming soon...) to find the files to download. There will be setup instructions included. Follow them and you can start using CompStart for yourself!
 
 ### For devs
 
-The installation instructions are essentially the same as above if you just want to use the tool. However, if you want to install Demord to work on it, depending on what you want to do, you have 2 options:
+The installation instructions are essentially the same as above if you just want to use the tool. However, if you want to install CompStart to work on it, depending on what you want to do, you have 2 options:
 
 1. If you want to contribute to this program, read the **How to help** section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
 
 2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the **How to help** section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
-   <br>
+<br>
 
 ## How to help
 
@@ -44,9 +44,9 @@ All work I've contributed is well documented and my commits are pretty detailed.
 
 ### Technical Details
 
-Demord consists of a Batch file, a PowerShell script, and a JSON config file. The Batch file starts off the whole process. The idea will be to put the Batch file into the Windows Start Menu folder, and it will run the Powershell script. The Batch file is interactive, and first asks the user if they want to run the script. This ensures that a user could start their computer without having all their startup programs run whenever they want.
+CompStart consists of a Batch file, a PowerShell script, and a JSON config file. The Batch file starts off the whole process. A shortcut to the Batch file will be put into the Windows Start Menu folder, and it will run the Powershell script. The Batch file is interactive, and first asks the user if they want to run the script. This ensures that a user could start their computer without having all their startup programs run whenever they want.
 
-Currently, as of 2023-10-27, the Powershell script and Batch file both work and I use them on my work laptop. However, the JSON file has to be manually created or updated. There is a JSON Schema file that can be used to know how the JSON file data should be structured.
+Currently, as of 2023-10-27, the Powershell script and Batch file both work and I use them on my work laptop. However, the JSON file has to be manually created or updated. There is a JSON Schema file that can be used to know how the JSON file data should be structured. Additionally, as of 2024-03-10, the JSON file being used comes with some default data, namely to open up Windows Calculator, Windows Notepad, and Google Chrome with 3 tabs - Google, Facebook, and X (formerly Twitter).
 
 There is a feature branch for creating a command-line tool that will allow for the creation, viewing, and updating of the JSON file. The tool is being written in Python. There is another feature branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README contains detailed information on present and past feature branches.
 
