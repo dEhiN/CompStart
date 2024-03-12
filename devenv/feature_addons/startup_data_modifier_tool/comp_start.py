@@ -29,13 +29,8 @@ if __name__ == "__main__":
     deps_helper.set_start_dir()
 
     # Variables for location and name of JSON file with startup data
-    json_path = ["devenv"]
+    json_path = deps_helper.get_prod_path()
     json_filename = "startup_data.json"
-
-    if is_prod:
-        json_path.extend(["data", "json_data"])
-    else:
-        json_path.extend(["feature_addons", "startup_data_modifier_tool"])
 
     # Print welcome message
     print(

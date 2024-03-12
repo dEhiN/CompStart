@@ -56,15 +56,8 @@ def generate_default_startup_data():
     """
     default_json = {}
 
-    config_path = ["devenv"]
-    if app_cs.is_production():
-        config_path.extend(["data", "json_data", "config"])
-    else:
-        config_path = [
-            "feature_addons",
-            "startup_data_modifier_tool",
-            "config",
-        ]
+    config_path = deps_helper.get_prod_path()
+    config_path.extend(["config"])
 
     file_name = "default_startup.json"
 
