@@ -1,4 +1,4 @@
-# Dependency to store the main JSON related functions used by Demord
+# Dependency to store the main JSON related functions used by CompStart
 
 import json, os, copy
 
@@ -143,8 +143,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write startup data."
-                " Please try again."
+                "Invalid file state! Could not write startup data." " Please try again."
             )
 
     # Write to file if needed
@@ -205,9 +204,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(
-        json_file, file_state, json_data
-    )
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
     return write_json_success, return_message
 
@@ -250,9 +247,7 @@ def json_editor(json_path: list, json_filename: str):
             # to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
-                start_items_menu += (
-                    f"[{item_number}] Edit startup item {item_number}\n"
-                )
+                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
 
             item_add = total_items + 1
             item_delete = total_items + 2
@@ -301,9 +296,7 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_pruner(
-                            copy.deepcopy(items), user_item_choice, total_items
-                        )
+                        json_pruner(copy.deepcopy(items), user_item_choice, total_items)
                 elif user_choice == data_save:
                     status_state, status_message = json_saver(
                         json_data, json_path, json_filename
