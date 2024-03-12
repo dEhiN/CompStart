@@ -1,7 +1,7 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-import copy
+import json, os, copy, os.path
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
@@ -48,14 +48,35 @@ def generate_new_json_data(is_default: bool = False):
 def generate_default_startup_data():
     """Helper function to create default startup data
 
-    The default startup data opens 3 programs at startup - notepad, calculator and
-    Chrome to www.google.com.
+    Reads in the default startup data from the file default_startup.json and
+    returns it
 
     Returns:
         dict: A dictionary of JSON startup data
     """
+    default_json = {}
 
-    return deps_helper.DEFAULT_JSON
+    root_path = os.getcwd()
+    config_dir = "config"
+    file_name = "default_startup.json"
+
+    json_file = root_path + os.sep + config_dir + os.sep + file_name
+
+    if os.path.isfile(json_file):
+        # Read in JSON data
+        try:
+            with open(json_file, "r") as json_file:
+                default_json = json.load(json_file)
+        except Exception as error:
+            print(deps_pretty.prettify_io_error(error, "r"))
+
+    else:
+        deps_pretty.prettify_custom_error(
+            "The default_startup.json file could not be found! Returning an empty JSON object... ",
+            "generate_default_startup_data",
+        )
+
+    return default_json
 
 
 def generate_user_startup_data():

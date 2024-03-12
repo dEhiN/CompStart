@@ -6,44 +6,6 @@ import os, jsonschema
 import dependencies.pretty as deps_pretty
 import dependencies.jsonfn as deps_json
 
-# Default startup data to use
-DEFAULT_JSON = {
-    "TotalItems": 3,
-    "Items": [
-        {
-            "ItemNumber": 1,
-            "Name": "Calculator",
-            "FilePath": "calc",
-            "Description": "A simple calculator",
-            "Browser": False,
-            "ArgumentCount": 0,
-            "ArgumentList": [],
-        },
-        {
-            "ItemNumber": 2,
-            "Name": "Google",
-            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "The Google Homepage",
-            "Browser": True,
-            "ArgumentCount": 3,
-            "ArgumentList": [
-                "--profile-directory=Default",
-                "--new-window",
-                "https://www.google.com/",
-            ],
-        },
-        {
-            "ItemNumber": 3,
-            "Name": "Notepad",
-            "FilePath": "notepad",
-            "Description": "A text editor",
-            "Browser": False,
-            "ArgumentCount": 0,
-            "ArgumentList": [],
-        },
-    ],
-}
-
 
 def set_start_dir():
     dirs_list = os.getcwd().split(os.sep)
