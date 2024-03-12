@@ -1,7 +1,7 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-import json, os, copy, os.path
+import json, copy, os.path
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
@@ -56,11 +56,19 @@ def generate_default_startup_data():
     """
     default_json = {}
 
-    root_path = os.getcwd()
-    config_dir = "config"
+    config_path = ["devenv"]
+    if app_cs.is_production():
+        config_path.extend(["data", "json_data", "config"])
+    else:
+        config_path = [
+            "feature_addons",
+            "startup_data_modifier_tool",
+            "config",
+        ]
+
     file_name = "default_startup.json"
 
-    json_file = root_path + os.sep + config_dir + os.sep + file_name
+    json_file = deps_helper.parse_full_path(config_path, file_name)
 
     if os.path.isfile(json_file):
         # Read in JSON data

@@ -1,6 +1,6 @@
 # This will be a command line tool to create and edit the
 # startup_data.json file
-
+import os
 import dependencies.jsonfn as deps_json
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     deps_helper.set_start_dir()
 
     # Variables for location and name of JSON file with startup data
-    json_path = []
+    json_path = ["devenv"]
     json_filename = "startup_data.json"
 
     if is_prod:
