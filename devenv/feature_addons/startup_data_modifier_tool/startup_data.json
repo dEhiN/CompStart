@@ -12,15 +12,15 @@
         },
         {
             "ItemNumber": 2,
-            "Name": "Chrome",
+            "Name": "Google",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "Some websites for demonstration",
+            "Description": "The Google Homepage",
             "Browser": true,
             "ArgumentCount": 3,
             "ArgumentList": [
-                "https://www.google.com/",
-                "https://www.facebook.com",
-                "http://www.dealer-fx.com"
+                "--profile-directory=Default",
+                "--new-window",
+                "https://www.google.com/"
             ]
         },
         {
@@ -29,10 +29,8 @@
             "FilePath": "notepad",
             "Description": "A text editor",
             "Browser": false,
-            "ArgumentCount": 1,
-            "ArgumentList": [
-                "C:\\Windows\\WindowsUpdate.log"
-            ]
+            "ArgumentCount": 0,
+            "ArgumentList": []
         }
     ]
 }

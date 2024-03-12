@@ -165,6 +165,6 @@ def get_prod_path():
     if app_cs.is_production():
         prod_path.extend(["data", "json_data"])
     else:
-        prod_path = ["feature_addons", "startup_data_modifier_tool"]
+        prod_path.extend(["feature_addons", "startup_data_modifier_tool"])
 
     return prod_path

@@ -22,15 +22,16 @@ def generate_new_json_data(is_default: bool = False):
         2) Create a new startup_data.json file but first have the user specify the data
 
     Args:
-        is_default (bool): Tells this function if, when new_file is True, whether to
-        create a file with default values or user-specified ones; default is False.
+        is_default (bool): Tells this function whether to create a file with
+        default values or user-specified ones; default is False.
 
     Returns:
         dict: The actual JSON data if there is any to return or an empty
         dictionary if not
     """
     # Adding override to use default startup file for when not in production
-    if not app_cs.is_production():
+    # and user wants to supply their own startup data
+    if not app_cs.is_production() and not is_default:
         print(
             "This functionality hasn't been fully implemented yet. Creating default startup file..."
         )
