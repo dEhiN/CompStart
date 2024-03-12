@@ -43,9 +43,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(
-            menu_choices, total_menu_choices
-        )
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
         match user_choice:
             case 1:
@@ -189,12 +187,6 @@ def edit_startup_item_arguments_list(
         including any additions or deletions. If there
         aren't any arguments, an empty list is returned.
     """
-    # For testing purposes, skip this function to make it easier to test other
-    # functionality
-    # if not app_demord.is_production():
-    #    print("Testing environment found: Skipping menu choice for shortcut")
-    #    return testing_shortcut_arguments_list(arg_list.copy(), True)
-
     new_arg_list = arg_list.copy()
     new_argument = ""
 
