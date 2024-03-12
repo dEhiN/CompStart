@@ -56,7 +56,7 @@ def user_menu_chooser(
 
         # Check if user chose to quit the program
         if allow_quit and user_choice == quit_choice:
-            print("\nThank you for using Demord. Have a wonderful day.")
+            print("\nThank you for using CompStart. Have a wonderful day.")
             sys.exit()
 
     return user_choice
