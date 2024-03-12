@@ -1,7 +1,7 @@
 # Dependency to store the helper functions that are used to
 # generate JSON data
 
-import copy
+import json, copy, os.path
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
@@ -22,15 +22,16 @@ def generate_new_json_data(is_default: bool = False):
         2) Create a new startup_data.json file but first have the user specify the data
 
     Args:
-        is_default (bool): Tells this function if, when new_file is True, whether to
-        create a file with default values or user-specified ones; default is False.
+        is_default (bool): Tells this function whether to create a file with
+        default values or user-specified ones; default is False.
 
     Returns:
         dict: The actual JSON data if there is any to return or an empty
         dictionary if not
     """
     # Adding override to use default startup file for when not in production
-    if not app_cs.is_production():
+    # and user wants to supply their own startup data
+    if not app_cs.is_production() and not is_default:
         print(
             "This functionality hasn't been fully implemented yet. Creating default startup file..."
         )
@@ -48,14 +49,36 @@ def generate_new_json_data(is_default: bool = False):
 def generate_default_startup_data():
     """Helper function to create default startup data
 
-    The default startup data opens 3 programs at startup - notepad, calculator and
-    Chrome to www.google.com.
+    Reads in the default startup data from the file default_startup.json and
+    returns it
 
     Returns:
         dict: A dictionary of JSON startup data
     """
+    default_json = {}
 
-    return deps_helper.DEFAULT_JSON
+    config_path = deps_helper.get_prod_path()
+    config_path.extend(["config"])
+
+    file_name = "default_startup.json"
+
+    json_file = deps_helper.parse_full_path(config_path, file_name)
+
+    if os.path.isfile(json_file):
+        # Read in JSON data
+        try:
+            with open(json_file, "r") as json_file:
+                default_json = json.load(json_file)
+        except Exception as error:
+            print(deps_pretty.prettify_io_error(error, "r"))
+
+    else:
+        deps_pretty.prettify_custom_error(
+            "The default_startup.json file could not be found! Returning an empty JSON object... ",
+            "generate_default_startup_data",
+        )
+
+    return default_json
 
 
 def generate_user_startup_data():

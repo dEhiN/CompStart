@@ -5,44 +5,7 @@ import os, jsonschema
 
 import dependencies.pretty as deps_pretty
 import dependencies.jsonfn as deps_json
-
-# Default startup data to use
-DEFAULT_JSON = {
-    "TotalItems": 3,
-    "Items": [
-        {
-            "ItemNumber": 1,
-            "Name": "Calculator",
-            "FilePath": "calc",
-            "Description": "A simple calculator",
-            "Browser": False,
-            "ArgumentCount": 0,
-            "ArgumentList": [],
-        },
-        {
-            "ItemNumber": 2,
-            "Name": "Google",
-            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "The Google Homepage",
-            "Browser": True,
-            "ArgumentCount": 3,
-            "ArgumentList": [
-                "--profile-directory=Default",
-                "--new-window",
-                "https://www.google.com/",
-            ],
-        },
-        {
-            "ItemNumber": 3,
-            "Name": "Notepad",
-            "FilePath": "notepad",
-            "Description": "A text editor",
-            "Browser": False,
-            "ArgumentCount": 0,
-            "ArgumentList": [],
-        },
-    ],
-}
+import comp_start as app_cs
 
 
 def set_start_dir():
@@ -177,3 +140,31 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             deps_pretty.prettify_custom_error(err_param, "helper.json_data_validator")
 
     return valid_json
+
+
+def get_prod_path():
+    """Helper function to get a starting location based on the production
+    environment.
+
+    The purpose of this function is to return a starting location from which
+    to find or open a file. This depends on the environment being used. Since
+    there are currently at least two locations where this functionality is
+    needed, the logic was extrapolated to its own function.
+
+    Currently, the starting location for all calls to this helper function will
+    be derived from /devenv, where / is the CompStart project folder. If this
+    is a production environment, the starting location will include
+    data/json_data. If this is a development environment, the
+    starting location will include feature_addons/startup_data_modifier_tool.
+
+    Returns:
+        list: A list of strings, with each string representing a sub-directory
+        going from left to right. Example: ["grandparent", "parent", "child"]
+    """
+    prod_path = ["devenv"]
+    if app_cs.is_production():
+        prod_path.extend(["data", "json_data"])
+    else:
+        prod_path.extend(["feature_addons", "startup_data_modifier_tool"])
+
+    return prod_path
