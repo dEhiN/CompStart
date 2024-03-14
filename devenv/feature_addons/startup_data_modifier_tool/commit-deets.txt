@@ -1,7 +1,7 @@
 Comments from issue #5 in Project:
 Repo: Demord
 
-Going with option 3 from the comment above:
+Going with option 3:
 
 - Modify the function generate_user_edited_data so a calling function can pass in a single startup item and specify that it needs to be removed from the existing startup data
 - If necessary, update the scenario validation functions data_validation_scenario and match_scenario
