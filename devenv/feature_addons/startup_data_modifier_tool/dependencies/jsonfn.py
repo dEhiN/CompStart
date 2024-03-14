@@ -13,20 +13,16 @@ def json_reader(json_path: list, json_filename: str):
     """Function to read in JSON data from a file
 
     Args:
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
     Returns:
         bool: True if there is JSON data to return, False if not
 
-        string: An error message to display if there's no JSON data to return
-        or blank otherwise
+        string: An error message to display if there's no JSON data to return or blank otherwise
 
-        dict: The actual JSON data if there is any to return or an empty
-        dictionary if not
+        dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
     # Create return values
@@ -72,39 +68,28 @@ def json_reader(json_path: list, json_filename: str):
 def json_writer(json_file: str, file_state: int, json_data: dict):
     """Function to write the actual JSON data to file
 
-    Based on the value of the file_state variable, the file to be written is
-    handled differently:
+    Based on the value of the file_state variable, the file to be written is handled differently:
 
     0 - The file doesn't exist and mode "w" is to be used
     1 - The file exists but mode "w" is to be used so first need to confirm is
         user is alright with overwriting existing file
     2 - The file exists but the JSON data needs to be updated; see note below
 
-    Note: Initially, the plan was to open the file in "append" mode when
-    'file_state' is 2, but this doesn't work. Due to how the 'json.dump'
-    function writes JSON data, it's not possible to just append newer JSON
-    data to an existing file. As a result, existing startup JSON data will
-    need to be read in, any modifications made - such as adding new startup
-    data or editing existing startup data, and then written back to the file
-    by overwriting what exists. However, this function will not be responsible
-    for modifying any JSON data. This function will assume that 'json_data'
-    contains the correct startup JSON data and if a 'file_state' of 2 is passed
-    in, this function will overwrite the existing file data.
+    Note: Initially, the plan was to open the file in "append" mode when 'file_state' is 2, but this doesn't work. Due to how the 'json.dump' function writes JSON data, it's not possible to just append newer JSON data to an existing file. As a result, existing startup JSON data will
+    need to be read in, any modifications made - such as adding new startup data or editing existing startup data, and then written back to the file by overwriting what exists. However, this function will not be responsible for modifying any JSON data. This function will assume that 'json_data'
+    contains the correct startup JSON data and if a 'file_state' of 2 is passed in, this function will overwrite the existing file data.
 
     Args:
-        json_file (str): The full absolute path of the JSON file including
-        filename and extension
+        json_file (str): The full absolute path of the JSON file including filename and extension
 
-        file_state (int): An indicator of how the file to be written should be
-        handled. See extended summary above.
+        file_state (int): An indicator of how the file to be written should be handled. See extended summary above.
 
         json_data (dict): The JSON data to write to file. See note above.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
 
-        string: An error message to display if the JSON data couldn't be
-        written to disk or a message that it was written successfully
+        string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
 
     # Initialize return variables
@@ -125,8 +110,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             else:
                 return_message = "Skipped writing startup file!"
         case 2:
-            # Check to see if the current JSON data in the file is different
-            # from json_data
+            # Check to see if the current JSON data in the file is different from json_data
             try:
                 with open(json_file, "r") as file:
                     existing_data = json.load(file)
@@ -171,20 +155,18 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     The third argument or parameter passed in will tell this function which is the case
 
     Args:
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
-        default_mode (bool): If True, create a new file with default startup data. If False,
-        allow the user to specify their own startup data.
+        default_mode (bool): If True, create a new file with default startup data. If False, allow
+        the user to specify their own startup data.
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
 
-        string: An error message to display if the JSON data couldn't be
-        written to disk or a message that it was written successfully
+        string: An error message to display if the JSON data couldn't be written to disk or a
+        message that it was written successfully
     """
 
     # Initialize variables
@@ -198,8 +180,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     # Create startup JSON data to add to the startup_data.json file
     json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
 
-    # If the file exists, make sure we confirm from the user before overwriting
-    # the file
+    # If the file exists, make sure we confirm from the user before overwriting the file
     if os.path.isfile(json_file):
         file_state = 1
 
@@ -212,14 +193,10 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 def json_editor(json_path: list, json_filename: str):
     """Function to allow the user to edit existing JSON data
 
-    This function will display the existing JSON data and then allow the
-    user to edit each startup item one at a time, including delete startup
-    items and add new ones
+    This function will display the existing JSON data and then allow the user to edit each startup item one at a time, including delete startup items and add new ones
 
     Args:
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
@@ -233,8 +210,7 @@ def json_editor(json_path: list, json_filename: str):
 
     # If the data was read in successfully, display it when the user is ready
     if status_state:
-        # Check to make sure there really are startup items in case TotalItems is
-        # wrong
+        # Check to make sure there really are startup items in case TotalItems is wrong
         if len(json_data["Items"]) > 0:
             # Get the total items
             total_items = json_data["TotalItems"]
@@ -243,8 +219,7 @@ def json_editor(json_path: list, json_filename: str):
             # Print out the total number of items
             print(f"\nNumber of startup items: {total_items}")
 
-            # Loop through to allow the user to edit the JSON data until they are ready
-            # to return to the main menu
+            # Loop through to allow the user to edit the JSON data until they are ready to return to the main menu
             start_items_menu = ""
             for item_number in range(1, total_items + 1):
                 start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
@@ -265,18 +240,14 @@ def json_editor(json_path: list, json_filename: str):
 
             quit_loop = False
             while not quit_loop:
-                user_choice = deps_chooser.user_menu_chooser(
-                    menu_choices, total_menu_choices
-                )
+                user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
                 if user_choice == item_quit:
                     quit_loop = True
                 elif user_choice == item_add:
                     print("\nThat functionality hasn't yet been implemented!")
                 elif user_choice == item_delete:
-                    question_prompt = (
-                        "\nPlease enter the startup item number you want to remove"
-                    )
+                    question_prompt = "\nPlease enter the startup item number you want to remove"
                     if total_items == 1:
                         question_prompt += " [1]: "
                     else:
@@ -298,9 +269,7 @@ def json_editor(json_path: list, json_filename: str):
 
                         json_pruner(copy.deepcopy(items), user_item_choice, total_items)
                 elif user_choice == data_save:
-                    status_state, status_message = json_saver(
-                        json_data, json_path, json_filename
-                    )
+                    status_state, status_message = json_saver(json_data, json_path, json_filename)
 
                     if not status_state:
                         print(status_message)
@@ -315,30 +284,22 @@ def json_editor(json_path: list, json_filename: str):
 def json_saver(json_data: dict, json_path: list, json_filename: str):
     """Function to allow the user to save startup data
 
-    This function takes in startup data in the form of a JSON object / Python
-    dictionary. After calling the generate_user_edited_data function to
-    basically validate it, json_writer will be called to save the actual data.
+    This function takes in startup data in the form of a JSON object / Python dictionary. After calling the generate_user_edited_data function to basically validate it, json_writer will be called to save the actual data.
 
     Args:
-        json_data (dict): A dictionary containing the JSON startup data to save
-        to disk.
+        json_data (dict): A dictionary containing the JSON startup data to save to disk.
 
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
     Returns:
         bool: True if the JSON data was written successfully, False if not
 
-        string: An error message to display if the JSON data couldn't be
-        written to disk or a message that it was written successfully
+        string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
     # Call the generate_user_edited_data function for scenario 2
-    new_json_data = deps_data_gen.generate_user_edited_data(
-        copy.deepcopy(json_data), False
-    )
+    new_json_data = deps_data_gen.generate_user_edited_data(copy.deepcopy(json_data), False)
 
     # Grab the full file path and name
     data_file = deps_helper.parse_full_path(json_path, json_filename)
@@ -355,14 +316,12 @@ def json_pruner(items_data: list, item_number: int, total_items: int):
     This function will remove the item and update the startup data as necessary
 
     Args:
-        items_data (dict): The existing startup data but only as the Items
-        array
+        items_data (dict): The existing startup data but only as the Items array
 
         item_number (int): The number of the startup item to delete
 
-        total_items (int): The total number of startup items. While this can be
-        pulled from json_data, to make the code simpler, any calling function
-        must pass in this value.
+        total_items (int): The total number of startup items. While this can be pulled from
+        json_data, to make the code simpler, any calling function must pass in this value.
     """
     prune_item = items_data[item_number - 1]
     items_data.remove(prune_item)

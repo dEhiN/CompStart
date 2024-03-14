@@ -1,5 +1,4 @@
-# Dependency to store the helper functions that are used when
-# editing a startup item
+# Dependency to store the helper functions that are used when editing a startup item
 
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
@@ -9,15 +8,12 @@ import dependencies.startup_add as deps_item_add
 def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
     """Helper function to edit a single startup item
 
-    This function will take the specific startup item passed in, display it and
-    allow the user to edit any part of that item
+    This function will take the specific startup item passed in, display it and allow the user to edit any part of that item
 
     Args:
         startup_item (dict): A dictionary with the single startup item
 
-        json_path (list): A list containing the relative or absolute path to
-        the JSON file with each list item representing one subfolder from
-        Current Working Directory (CWD)
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
@@ -96,9 +92,7 @@ def edit_startup_item_name(item_name: str):
         str: The new startup item name
     """
     print("\nThe current name for this startup item is:", item_name)
-    new_name = input(
-        "Please enter a new name or press enter to leave the existing name: "
-    )
+    new_name = input("Please enter a new name or press enter to leave the existing name: ")
 
     if not new_name:
         print("\nNo change was made...")
@@ -118,8 +112,7 @@ def edit_startup_item_description(item_description: str):
     """
     print("\nThe current description for this startup item is:", item_description)
     new_description = input(
-        "Please enter a new description or press enter to leave the existing"
-        " description: "
+        "Please enter a new description or press enter to leave the existing" " description: "
     )
 
     if not new_description:
@@ -142,8 +135,7 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     new_path = ""
     print("\nThe current file path for this startup item is:", item_path)
     user_choice = input(
-        "Would you like to use the file chooser window to select the new file"
-        " path [Y/N]? "
+        "Would you like to use the file chooser window to select the new file" " path [Y/N]? "
     )
 
     if user_choice.isalpha():
@@ -163,29 +155,22 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     return new_path
 
 
-def edit_startup_item_arguments_list(
-    args_exist: bool, arg_count: int = 0, arg_list: list = []
-):
-    """Helper function to change the arguments list of a
-    startup item
+def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_list: list = []):
+    """Helper function to change the arguments list of a startup item
 
-    If there are no arguments, this function will ask the
-    user if they want to add arguments. If there are
-    arguments, this function will allow the user to edit,
-    delete, or add arguments. It does so all within this
-    function and only calls add_startup_arguments if there
-    are no arguments and the user wants to add some.
+    If there are no arguments, this function will ask the user if they want to add arguments. If
+    there are arguments, this function will allow the user to edit, delete, or add arguments. It
+    does so all within this function and only calls add_startup_arguments if there are no arguments and the user wants to add some.
 
     Args:
-        args_exist (bool): Required to let the function know if there are
-        arguments.
+        args_exist (bool): Required to let the function know if there are arguments.
+
         arg_count (int, optional): The number of arguments. Defaults to 0.
+
         arg_list (list, optional): A list of the arguments. Defaults to [].
 
     Returns:
-        list: A list containing the edited startup items,
-        including any additions or deletions. If there
-        aren't any arguments, an empty list is returned.
+        list: A list containing the edited startup items, including any additions or deletions. If there aren't any arguments, an empty list is returned.
     """
     new_arg_list = arg_list.copy()
     new_argument = ""
@@ -226,9 +211,7 @@ def edit_startup_item_arguments_list(
             menu_choices = "".join(arg_items_menu) + menu_footer
 
             # Find out what the user wants to do
-            user_choice = deps_chooser.user_menu_chooser(
-                menu_choices, total_menu_choices, False
-            )
+            user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices, False)
 
             # Depending on user choice, perform the next action
             if user_choice == cancel_choice:
@@ -237,9 +220,7 @@ def edit_startup_item_arguments_list(
             elif user_choice == add_choice:
                 pass
                 # User chose to add a new argument
-                new_arg_list = deps_item_add.add_startup_item_arguments_list(
-                    arg_list
-                ).copy()
+                new_arg_list = deps_item_add.add_startup_item_arguments_list(arg_list).copy()
                 arg_count = len(new_arg_list)
             elif user_choice == delete_choice:
                 # User chose to delete an existing argument
@@ -259,9 +240,7 @@ def edit_startup_item_arguments_list(
 
                 # Find out what the user wants to do
                 while user_choice == 0:
-                    user_choice = deps_chooser.user_menu_chooser(
-                        menu_choices, total_menu_choices
-                    )
+                    user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
                 if user_choice < cancel_choice:
                     # User chose a specific argument to delete
@@ -296,8 +275,7 @@ def edit_startup_item_arguments_list(
     else:
         # Check if user wants to add arguments
         user_choice = input(
-            "There are currently no arguments. Would you like to add some"
-            " arguments (Y/[N])? "
+            "There are currently no arguments. Would you like to add some" " arguments (Y/[N])? "
         )
 
         if user_choice.isalpha() and user_choice.upper() == "Y":
@@ -310,19 +288,15 @@ def edit_startup_item_arguments_list(
 
 
 def testing_shortcut_arguments_list(arg_list: list, is_add: bool):
-    """A helper function to automatically add or delete an argument
-    from the arguments list passed in. This is so we can shortcut
-    the steps needed to update an arguments list for testing, such
-    as testing the save function, etc.
+    """A helper function to automatically add or delete an argument from the arguments list passed in. This is so we can shortcut the steps needed to update an arguments list for testing, such as testing the save function, etc.
 
     Args:
         arg_list (list): Required. The list of existing arguments.
-        is_add (bool): Required. Specifies whether to add an argument or delete
-        one.
+
+        is_add (bool): Required. Specifies whether to add an argument or delete one.
 
     Returns:
-        list: A list containing the edited or added
-        startup items.
+        list: A list containing the edited or added startup items.
     """
     new_arg_list = arg_list
 
