@@ -1,27 +1,21 @@
-# Dependency to store the helper functions that display a menu
-# and require the user to make a choice
+# Dependency to store the helper functions that display a menu and require the user to make a choice
 
 import sys
 from tkinter import filedialog as file_chooser
 
 
-def user_menu_chooser(
-    menu_choices: str, total_menu_choices: int, allow_quit: bool = True
-):
+def user_menu_chooser(menu_choices: str, total_menu_choices: int, allow_quit: bool = True):
     """Helper function for displaying a menu with choices for the user
 
-    This function is called by a few other functions that need to display a menu to the
-    user for them to make a choice. The function prints the menu choice string passed
-    in and then loops until the user makes a valid choice. This is then returned.
+    This function is called by a few other functions that need to display a menu to the user for
+    them to make a choice. The function prints the menu choice string passed in and then loops until the user makes a valid choice. This is then returned.
 
     Args:
-        menu_choices (str): A formatted string of how the choices should be
-        displayed
+        menu_choices (str): A formatted string of how the choices should be displayed
 
         total_menu_choices (int): The maximum number of choices there are
 
-        allow_quit (bool, optional): Whether to show the option to quit the whole program
-        in the current menu. Defaults to True.
+        allow_quit (bool, optional): Whether to show the option to quit the whole program in the current menu. Defaults to True.
 
     Returns:
         int: A number representing which choice the user made
@@ -34,8 +28,7 @@ def user_menu_chooser(
     full_menu += menu_choices
 
     if allow_quit:
-        # Create option to quit the whole program and add it to the end of the
-        # passed in menu
+        # Create option to quit the whole program and add it to the end of the passed in menu
         total_menu_choices += 1
         quit_choice = total_menu_choices
         full_menu += f"[{quit_choice}] Quit the program\n"
@@ -43,11 +36,7 @@ def user_menu_chooser(
     print("\n" + full_menu)
     user_input = input("What would you like to do? ")
 
-    if (
-        not user_input.isnumeric()
-        or int(user_input) < 1
-        or int(user_input) > total_menu_choices
-    ):
+    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
         # User didn't choose a valid option
         print("\nThat choice is invalid!")
     else:
@@ -65,24 +54,19 @@ def user_menu_chooser(
 def new_file_chooser():
     """Helper function to have the user choose what type of new file to create
 
-    This function will ask the user to choose whether to create a new startup file with
-    default data or with values the user decides upon.
+    This function will ask the user to choose whether to create a new startup file with default data or with values the user decides upon.
 
     Args:
         None
 
     Returns:
         tuple: Consisting of the following two Boolean variables:
-                bool: True if the startup file should contain default data,
-                False if not. Default is False.
-                bool: True if the user wants to continue without creating a startup
-                file, False if not. Default is True.
+                bool: True if the startup file should contain default data, False if not. Default is False.
+                bool: True if the user wants to continue without creating a startup file, False if not. Default is True.
     """
     # Loop through until user makes a valid choice:
-    # is_default will specify if the user wants to create a startup file with default
-    # values or not
-    # to_continue will specify if the user wants to return to the main menu or proceed
-    # with creating a startup file
+    # is_default will specify if the user wants to create a startup file with default values or not
+    # to_continue will specify if the user wants to return to the main menu or proceed with creating a startup file
     is_default = False
     to_continue = True
     menu_choices = (

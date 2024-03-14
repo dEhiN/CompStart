@@ -1,13 +1,10 @@
-# Dependency to store the helper functions that print out data
-# structures, such as errors or JSON data, in a prettified way
-# to the screen
+# Dependency to store the helper functions that print out data structures, such as errors or JSON data, in a prettified way to the screen
 
 
 def prettify_json(json_data: dict):
     """Helper function to prettify the passed-in JSON data
 
-    This function will go through the JSON data dictionary and format the data
-    to display it in a human readable manner
+    This function will go through the JSON data dictionary and format the data to display it in a human readable manner
 
     Args:
         json_data (dict): The JSON data to prettify
@@ -45,12 +42,10 @@ def prettify_json(json_data: dict):
 def prettify_startup_item(startup_item: dict):
     """Helper function to prettify the passed-in JSON data
 
-    This function will go through the JSON data dictionary and format the data
-    to display it in a human readable manner
+    This function will go through the JSON data dictionary and format the data to display it in a human readable manner
 
     Args:
-        startup_item (dict): A dictionary representing the JSON data for one startup
-        item.
+        startup_item (dict): A dictionary representing the JSON data for one startup item.
 
     Returns:
         str: The startup item JSON data in a nicely formatted manner as a string
@@ -88,15 +83,7 @@ def prettify_startup_item(startup_item: dict):
         for argument in arg_list:
             counter += 1
             startup_data += (
-                line
-                + tab
-                + tab
-                + "Argument "
-                + str(counter)
-                + ": "
-                + '"'
-                + argument
-                + '"'
+                line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
             )
     else:
         startup_data += "No"
@@ -105,22 +92,14 @@ def prettify_startup_item(startup_item: dict):
 
 
 def prettify_io_error(error: Exception, file_mode: str = ""):
-    """Helper function to prettify an error or exception when performing an
-    I/O operation
+    """Helper function to prettify an error or exception when performing an I/O operation
 
-    This function will take an Exception and create a more human-readable
-    output for the error
+    This function will take an Exception and create a more human-readable output for the error
 
     Args:
-        error (Exception): The Exception that was caught (might be most likely
-        through a try-except block).
+        error (Exception): The Exception that was caught (might be most likely through a try-except block).
 
-        file_mode (str, optional): If the Exception was caught while working
-        with files, this parameter will tell which file mode or what action was
-        being taken. Acceptable values are "r" for reading, "w" for writing.
-        Defaults to "". If the default value is used or a non-acceptable value
-        is used, only the Exception will be returned without any extra
-        messaging.
+        file_mode (str, optional): If the Exception was caught while working with files, this parameter will tell which file mode or what action was being taken. Acceptable values are "r" for reading, "w" for writing. Defaults to "". If the default value is used or a non-acceptable value is used, only the Exception will be returned without any extra messaging.
 
     Returns:
         str: The Exception printed out in a way that makes sense
@@ -130,9 +109,7 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
         case "r":
             return_message += "Unable to read startup data. Error information is below:\n"
         case "w":
-            return_message += (
-                "Unable to write startup data. Error information is below:\n"
-            )
+            return_message += "Unable to write startup data. Error information is below:\n"
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)

@@ -1,5 +1,4 @@
-# This will be a command line tool to create and edit the
-# startup_data.json file
+# This will be a command line tool to create and edit the startup_data.json file
 import os
 import dependencies.jsonfn as deps_json
 import dependencies.helper as deps_helper
@@ -11,15 +10,12 @@ is_prod = False
 
 
 def is_production():
-    """Small helper function to return the variable
-    is_prod.
+    """Small helper function to return the variable is_prod.
 
-    This can be used by other modules to skip certain
-    menu choices for testing purposes.
+    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
 
     Returns:
-        bool: The variable is_prod which is False when in testing and True
-        otherwise.
+        bool: The variable is_prod which is False when in testing and True otherwise.
     """
     return is_prod
 
@@ -33,10 +29,7 @@ if __name__ == "__main__":
     json_filename = "startup_data.json"
 
     # Print welcome message
-    print(
-        "\nWelcome to CompStart: The computer startup tool that will make your"
-        " life easier."
-    )
+    print("\nWelcome to CompStart: The computer startup tool that will make your" " life easier.")
 
     # Initialize status variables
     status_state = False
@@ -69,8 +62,7 @@ if __name__ == "__main__":
                     )
                 print(f"\n{status_message}")
             case 3:
-                # Read in existing JSON file and store the return results of the
-                # json_read function, then print out if the read was successful
+                # Read in existing JSON file and store the return results of the json_read function, then print out if the read was successful
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
                 )
