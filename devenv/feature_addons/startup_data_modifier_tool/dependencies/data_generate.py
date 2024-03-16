@@ -159,9 +159,6 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 # TODO# Code this in!!!
                 pass
             case 3:
-                # Data validation passed and modified JSON data passed in is full JSON data. Return the modified_json_data variable.
-                new_json_data = copy.deepcopy(modified_json_data)
-            case 4:
                 # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
                 current_total_items = orig_json_data["TotalItems"]
                 orig_items_list = orig_json_data["Items"]
@@ -180,6 +177,9 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
 
                 new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
                 new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
+            case 4:
+                # Data validation passed and modified JSON data passed in is full JSON data. Return the modified_json_data variable.
+                new_json_data = copy.deepcopy(modified_json_data)
 
     return new_json_data
 
@@ -187,23 +187,22 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
 def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json_data: dict):
     """Helper function for the function generate_user_edited_data to handle the data validation and determining which scenario is applicable based on the following possible valid scenarios:
 
-    1) Need to update a single, existing startup item
+    1) Need to add a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be A
+        - orig_json_data will be full JSON startup data
+    2) Need to remove a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be A
+        - orig_json_data will be full JSON startup data
+    3) Need to replace a single startup item that already exists
         - modified_json_data will be a fully-formed, single startup item
         - item_type will be R
         - orig_json_data will be full JSON startup data
-    2) Need to update the full JSON data
+    4) Need to update the full JSON data
         - modified_json_data will be full JSON startup data
         - item_type will be F
         - orig_json_data will be blank
-    3) Need to add a single startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_type will be A
-        - orig_json_data will be full JSON startup data
-    4) Need to remove a single startup item
-        - modified_json_data will be a fully-formed, single startup item
-        - item_type will be A
-        - orig_json_data will be full JSON startup data
-
 
     This function takes in the same arguments passed to generate_user_edited_data with the exception that the last parameter is required instead of optional.
 
@@ -228,16 +227,17 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
                 1 - Scenario 1 listed above is applicable
                 2 - Scenario 2 listed above is applicable
                 3 - Scenario 3 listed above is applicable
+                4 - Scenario 4 listed above is applicable
     """
     # Dictionary to validate the data before proceeding and track which scenario
     # listed in the docstring above is the case. The keys are as follows:
-    # Item-Add: whether to add an item
+    # Item-Type: whether to add, delete, or replace an item
     # Orig-Exists: whether orig_json_data is blank or not
     # Orig-Valid: if orig_json_data exists, is the data valid
     # Mod-Valid: if modified_json_data is valid
     # Item-Single: if modified_json_data contains a single startup item
     data_validation = {
-        "Item-Add": item_add,
+        "Item-Add": item_type,
         "Orig-Exists": True if len(orig_json_data) > 0 else False,
         "Orig-Valid": False,
         "Mod-Valid": False,
@@ -272,11 +272,31 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
 def match_scenario(data_validation: dict):
     """A small helper function to perform the actual match-case block for the function data_validation_scenario. This function was created to split up the code and make is easier to read, test and maintain.
 
+    The valid scenarios, with the corresponding scenario number, are:
+
+    1) Need to add a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be A
+        - orig_json_data will be full JSON startup data
+    2) Need to remove a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be A
+        - orig_json_data will be full JSON startup data
+    3) Need to replace a single startup item that already exists
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be R
+        - orig_json_data will be full JSON startup data
+    4) Need to update the full JSON data
+        - modified_json_data will be full JSON startup data
+        - item_type will be F
+        - orig_json_data will be blank
+
+
     Args:
         data_validation (dict): A dictionary containing the boolean values needed to validate the
         data for the function data_validation_scenario.
         The keys are as follows:
-        - Item-Add: whether to add an item
+        - Item-Type: whether to add, delete, or replace an item
         - Orig-Exists: whether orig_json_data is blank or not
         - Orig-Valid: if orig_json_data exists, is the data valid
         - Mod-Valid: if modified_json_data is valid
@@ -294,6 +314,7 @@ def match_scenario(data_validation: dict):
 
     if not app_cs.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
+    return (0, "Skipping actual match scenario -- returning scenario 0")
 
     match data_validation:
         case {

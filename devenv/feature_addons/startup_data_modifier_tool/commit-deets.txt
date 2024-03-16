@@ -1,5 +1,25 @@
 Comments from issue #5 in Project:
-Repo: Demord
+Repo: CompStart
+
+Amalgamating the logic and lists from both previous comments, I think I can safely say the next steps for this issue are:
+
+1. Refactor the function data_validation_scenario to utilize the item_type variable
+
+2. Refactor the function data_validation_scenario to screen for all four scenarios, each of the four values of the item_type variable
+
+3. Refactor the function match_scenario to account for the four scenarios
+
+4. Decide if the function generate_user_edited_data will remove a startup item and update the startup JSON data, or if the calling function is responsible for that
+
+5. Update all calls to generate_user_edited_data to pass in the correct parameters, mainly, that the item_type parameter is now a string
+
+While working on step 1, the ordering, or number assigned, to each scenario may need to change to reflect the if-block in generate_user_edited_data.
+
+While working on steps 1-3, testing revealed that, for the existing scenarios, the calls to generate_user_edited_data causes an error because the calls are still based on when the second parameter was a boolean.
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
 
 Going with option 3:
 
