@@ -110,7 +110,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         A = add to the end of orig_json_data
         D = delete from orig_json_data
         R = replace in orig_json_data
-        F = modified_json_data is full startup data, so item_type isn't applicable
+        F = modified_json_data is full startup data
 
         In the case of R, since modified_json_data will be a valid startup item, the property ItemNumber will determine which startup item is to be updated.
 
@@ -132,7 +132,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         )
     else:
         # Item_type is a valid value, so continue
-        scenario_number = data_validation_scenario(modified_json_data, item_add, orig_json_data)
+        scenario_number = data_validation_scenario(modified_json_data, item_type, orig_json_data)
 
         # Check the status of the data validation
         # If the validation failed, then a blank Python dictionary is returned, so no need to code that in
@@ -184,31 +184,42 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
     return new_json_data
 
 
-def data_validation_scenario(modified_json_data: dict, item_add: bool, orig_json_data: dict):
+def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json_data: dict):
     """Helper function for the function generate_user_edited_data to handle the data validation and determining which scenario is applicable based on the following possible valid scenarios:
 
     1) Need to update a single, existing startup item
         - modified_json_data will be a fully-formed, single startup item
-        - item_add will be False
+        - item_type will be R
         - orig_json_data will be full JSON startup data
     2) Need to update the full JSON data
         - modified_json_data will be full JSON startup data
-        - item_add will be False
+        - item_type will be F
         - orig_json_data will be blank
     3) Need to add a single startup item
         - modified_json_data will be a fully-formed, single startup item
-        - item_add will be True
+        - item_type will be A
         - orig_json_data will be full JSON startup data
+    4) Need to remove a single startup item
+        - modified_json_data will be a fully-formed, single startup item
+        - item_type will be A
+        - orig_json_data will be full JSON startup data
+
 
     This function takes in the same arguments passed to generate_user_edited_data with the exception that the last parameter is required instead of optional.
 
     Args:
-        modified_json_data (dict): Required. A dictionary containing new JSON data that needs to be written to disk. It can either be a single startup item or the full JSON startup data.
+        modified_json_data (dict): Required. A dictionary containing JSON data that needs to be written to disk. It can either be a single startup item or the full JSON startup data. If it's a single startup item, depending on item_type, it will either be added to or deleted from the existing startup data, or replace a startup item in the existing startup data. If it's full JSON data, it's validated against the startup data JSON schema and returned if valid.
 
-        item_add (bool): Required. Specify whether the modified_json_data is to be added to orig_json_data or should replace some or all of it.
+        item_type (str): Required. Specify whether the modified_json_data is to be added to orig_json_data, deleted from orig_json_data, or replace a specific startup item in orig_json_data. Since the parameter is an int, invalid values will throw an error. Currently, the only valid values are:
 
-        orig_json_data (dict): Required. A dictionary containing the original JSON data to be
-        replaced or updated. If nothing is passed in, then it's blank by default.
+        A = add to the end of orig_json_data
+        D = delete from orig_json_data
+        R = replace in orig_json_data
+        F = modified_json_data is full startup data
+
+        In the case of R, since modified_json_data will be a valid startup item, the property ItemNumber will determine which startup item is to be updated.
+
+        orig_json_data (dict): Required. A dictionary containing the original JSON data to be replaced or updated. If there is no original JSON data to work with, depending on the scenario, then this parameter will be blank.
 
     Returns:
         int: A scenario number based on the following legend:
