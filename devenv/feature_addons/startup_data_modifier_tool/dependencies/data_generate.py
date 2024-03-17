@@ -123,7 +123,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
     new_json_data = ENUM_JSS.OBJECT.value.copy()
 
     # Check if item_type is a valid value
-    if item_type not in ENUM_ITV:
+    if not deps_helper.check_item_type(item_type):
         # Item_type isn't a valid value, so print an error and skip the rest of this function
         deps_pretty.prettify_custom_error(
             "The item_type parameter passed in is invalid!",
