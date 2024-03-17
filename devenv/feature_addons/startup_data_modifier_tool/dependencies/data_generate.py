@@ -104,7 +104,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
     Because there are only certain possible scenarios, the parameter data must be validated to determine which scenario and throw an error if the data doesn't fit. A helper function called data_validation_scenario is created below to do the actual validation. The docstring for that function lists the possible scenarios and their criteria.
 
     Args:
-        modified_json_data (dict): Required. A dictionary containing JSON data that needs to be written to disk. It can either be a single startup item or the full JSON startup data. If it's a single startup item, depending on item_type, it will either be added to or deleted from the existing startup data, or replace a startup item in the existing startup data. If it's full JSON data, it's validated against the startup data JSON schema and returned if valid.
+        modified_json_data (dict): Required. A dictionary containing JSON data that can either be a single startup item or the full JSON startup data. If it's a single startup item, depending on item_type, it will either be added to or deleted from the existing startup data, or replace a startup item in the existing startup data. If it's full JSON data, it's validated against the startup data JSON schema and returned if valid.
 
         item_type (str): Required. Specify whether the modified_json_data is to be added to orig_json_data, deleted from orig_json_data, or replace a specific startup item in orig_json_data. Since the parameter is an int, invalid values will throw an error. Currently, the only valid values are:
 
@@ -122,10 +122,9 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
     """
     # Initialize function variables
     new_json_data = ENUM_JSS.OBJECT.value.copy()
-    valid_values = ["A", "D", "R", "F"]
 
     # Check if item_type is a valid value
-    if item_type not in valid_values:
+    if item_type not in ENUM_ITV:
         # Item_type isn't a valid value, so print an error and skip the rest of this function
         deps_pretty.prettify_custom_error(
             "The item_type parameter passed in is invalid!",
@@ -140,8 +139,8 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         match scenario_number:
             case 1:
                 # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
-                total_items = orig_json_data["TotalItems"]
-                change_item_number = modified_json_data["ItemNumber"]
+                total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
+                change_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
 
                 # Check to make sure the item number is valid
                 if change_item_number in range(1, total_items + 1):
@@ -161,16 +160,16 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 pass
             case 3:
                 # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
-                current_total_items = orig_json_data["TotalItems"]
-                orig_items_list = orig_json_data["Items"]
+                current_total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
+                orig_items_list = orig_json_data[ENUM_JSK.ITEMS.value]
                 new_total_items = current_total_items + 1
 
                 # Make sure the item number of the new startup item is correct
                 if (
-                    modified_json_data["ItemNumber"]
-                    <= orig_items_list[current_total_items - 1]["ItemNumber"]
+                    modified_json_data[ENUM_JSK.ITEMNUMBER.value]
+                    <= orig_items_list[current_total_items - 1][ENUM_JSK.ITEMNUMBER.value]
                 ):
-                    modified_json_data["ItemNumber"] = new_total_items
+                    modified_json_data[ENUM_JSK.ITEMNUMBER.value] = new_total_items
 
                 # Copy the necessary data including adding the new startup item at the end of the items list
                 new_items_list = copy.deepcopy(orig_items_list)
