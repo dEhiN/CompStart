@@ -9,6 +9,7 @@ import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def generate_new_json_data(is_default: bool = False):

@@ -7,6 +7,9 @@ import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
 import dependencies.startup_edit as deps_start_edit
+import dependencies.enum as deps_enum
+
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def json_reader(json_path: list, json_filename: str):
