@@ -9,7 +9,6 @@ import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
-ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def generate_new_json_data(is_default: bool = False):
@@ -237,7 +236,7 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
     # Mod-Valid: if modified_json_data is valid
     # Item-Single: if modified_json_data contains a single startup item
     data_validation = {
-        "Item-Add": item_type,
+        "Item-Type": item_type,
         "Orig-Exists": True if len(orig_json_data) > 0 else False,
         "Orig-Valid": False,
         "Mod-Valid": False,
