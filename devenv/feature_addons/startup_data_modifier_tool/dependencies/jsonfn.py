@@ -215,10 +215,10 @@ def json_editor(json_path: list, json_filename: str):
     # If the data was read in successfully, display it when the user is ready
     if status_state:
         # Check to make sure there really are startup items in case TotalItems is wrong
-        if len(json_data["Items"]) > 0:
+        if len(json_data[ENUM_JSK.ITEMS.value]) > 0:
             # Get the total items
-            total_items = json_data["TotalItems"]
-            items = json_data["Items"]
+            total_items = json_data[ENUM_JSK.TOTALITEMS.value]
+            items = json_data[ENUM_JSK.ITEMS.value]
 
             # Print out the total number of items
             print(f"\nNumber of startup items: {total_items}")
@@ -324,9 +324,9 @@ def json_pruner(curr_json_data: list, item_number: int):
 
         item_number (int): The number of the startup item to delete
     """
-    items_data = curr_json_data[ENUM_JSK.ITEMS]
+    items_data = curr_json_data[ENUM_JSK.ITEMS.value]
     prune_item = items_data[item_number - 1]
 
     print(prune_item)
 
-    deps_data_gen.generate_user_edited_data(prune_item, ENUM_ITV.DELETE, curr_json_data)
+    deps_data_gen.generate_user_edited_data(prune_item, ENUM_ITV.DELETE.value, curr_json_data)

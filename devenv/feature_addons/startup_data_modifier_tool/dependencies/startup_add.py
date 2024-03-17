@@ -43,7 +43,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
         new_json_data = deps_data_gen.generate_user_edited_data(
             copy.deepcopy(modified_startup_item),
-            ENUM_ITV.REPLACE,
+            ENUM_ITV.REPLACE.value,
             copy.deepcopy(json_data),
         )
 
