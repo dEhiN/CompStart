@@ -9,6 +9,7 @@ import dependencies.data_generate as deps_data_gen
 import dependencies.startup_edit as deps_start_edit
 import dependencies.enum as deps_enum
 
+ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
@@ -270,7 +271,7 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_pruner(copy.deepcopy(items), user_item_choice, total_items)
+                        json_pruner(copy.deepcopy(items), user_item_choice)
                 elif user_choice == data_save:
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
@@ -313,26 +314,19 @@ def json_saver(json_data: dict, json_path: list, json_filename: str):
     return (status_state, status_message)
 
 
-def json_pruner(items_data: list, item_number: int, total_items: int):
+def json_pruner(curr_json_data: list, item_number: int):
     """Function to remove a whole startup item from existing startup data
 
     This function will remove the item and update the startup data as necessary
 
     Args:
-        items_data (dict): The existing startup data but only as the Items array
+        curr_json_data (dict): The existing full startup data
 
         item_number (int): The number of the startup item to delete
-
-        total_items (int): The total number of startup items. While this can be pulled from
-        json_data, to make the code simpler, any calling function must pass in this value.
     """
+    items_data = curr_json_data[ENUM_JSK.ITEMS]
     prune_item = items_data[item_number - 1]
-    items_data.remove(prune_item)
 
-    print(f"You have chosen to delete {item_number} out of {total_items}:")
     print(prune_item)
 
-    print("\nThe remaining startup items are:")
-    print(items_data)
-
-    deps_data_gen.generate_user_edited_data(items_data, False)
+    deps_data_gen.generate_user_edited_data(prune_item, ENUM_ITV.DELETE, curr_json_data)
