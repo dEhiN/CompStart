@@ -114,7 +114,8 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     """
     valid_json = False
     schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
-    schema_path = ["feature_addons", "startup_data_modifier_tool", "config"]
+    schema_path = get_prod_path()
+    schema_path.extend(["config"])
 
     results = deps_json.json_reader(schema_path, schema_file)
     read_status = results[0]
