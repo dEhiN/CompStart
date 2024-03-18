@@ -192,7 +192,7 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
         - orig_json_data will be full JSON startup data
     2) Need to remove a single startup item
         - modified_json_data will be a fully-formed, single startup item
-        - item_type will be A
+        - item_type will be D
         - orig_json_data will be full JSON startup data
     3) Need to replace a single startup item that already exists
         - modified_json_data will be a fully-formed, single startup item
@@ -234,13 +234,13 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
     # Orig-Exists: whether orig_json_data is blank or not
     # Orig-Valid: if orig_json_data exists, is the data valid
     # Mod-Valid: if modified_json_data is valid
-    # Item-Single: if modified_json_data contains a single startup item
+    # Mod-Single: if modified_json_data contains a single startup item
     data_validation = {
         "Item-Type": item_type,
         "Orig-Exists": True if len(orig_json_data) > 0 else False,
         "Orig-Valid": False,
+        "Mod-Single": False,
         "Mod-Valid": False,
-        "Item-Single": False,
     }
 
     # If the orig_json_data dictionary isn't blank, check that it contains properly formed data
@@ -254,7 +254,7 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
         data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data, True)
-        data_validation["Item-Single"] = True
+        data_validation["Mod-Single"] = True
 
     # Check for each of the 3 scenarios listed in the docstring:
     scenario_number, validation_results = match_scenario(data_validation)
@@ -279,7 +279,7 @@ def match_scenario(data_validation: dict):
         - orig_json_data will be full JSON startup data
     2) Need to remove a single startup item
         - modified_json_data will be a fully-formed, single startup item
-        - item_type will be A
+        - item_type will be D
         - orig_json_data will be full JSON startup data
     3) Need to replace a single startup item that already exists
         - modified_json_data will be a fully-formed, single startup item
@@ -298,8 +298,8 @@ def match_scenario(data_validation: dict):
         - Item-Type: whether to add, delete, or replace an item
         - Orig-Exists: whether orig_json_data is blank or not
         - Orig-Valid: if orig_json_data exists, is the data valid
+        - Mod-Single: if modified_json_data contains a single startup item
         - Mod-Valid: if modified_json_data is valid
-        - Item-Single: if modified_json_data contains a single startup item
 
     Returns:
         tuple: Consists of an int and a string defined as follows:
@@ -317,50 +317,50 @@ def match_scenario(data_validation: dict):
 
     match data_validation:
         case {
-            "Item-Add": False,
+            "Item-Type": False,
             "Orig-Exists": True,
             "Orig-Valid": True,
+            "Mod-Single": True,
             "Mod-Valid": True,
-            "Item-Single": True,
         }:
             scenario_number = 1
         case {
-            "Item-Add": False,
+            "Item-Type": False,
             "Orig-Exists": False,
+            "Mod-Single": False,
             "Mod-Valid": True,
-            "Item-Single": False,
         }:
             scenario_number = 2
         case {
-            "Item-Add": True,
+            "Item-Type": True,
             "Orig-Exists": True,
             "Orig-Valid": True,
+            "Mod-Single": True,
             "Mod-Valid": True,
-            "Item-Single": True,
         }:
             scenario_number = 3
         case {
-            "Item-Add": True,
+            "Item-Type": True,
             "Orig-Exists": True,
             "Orig-Valid": True,
+            "Mod-Single": False,
             "Mod-Valid": True,
-            "Item-Single": False,
         } | {
-            "Item-Add": False,
+            "Item-Type": False,
             "Orig-Exists": True,
             "Orig-Valid": True,
+            "Mod-Single": False,
             "Mod-Valid": True,
-            "Item-Single": False,
         }:
             validation_results = (
                 "Expected a single startup item for the modified JSON data "
                 "but didn't receive that. Cannot proceed."
             )
         case {
-            "Item-Add": False,
+            "Item-Type": False,
             "Orig-Exists": False,
+            "Mod-Single": True,
             "Mod-Valid": True,
-            "Item-Single": True,
         }:
             validation_results = (
                 "Expected full startup data for the modified JSON data but "
@@ -368,19 +368,19 @@ def match_scenario(data_validation: dict):
             )
         case (
             {
-                "Item-Add": True,
+                "Item-Type": True,
                 "Orig-Exists": True,
                 "Orig-Valid": True,
                 "Mod-Valid": False,
             }
             | {
-                "Item-Add": False,
+                "Item-Type": False,
                 "Orig-Exists": True,
                 "Orig-Valid": True,
                 "Mod-Valid": False,
             }
             | {
-                "Item-Add": False,
+                "Item-Type": False,
                 "Orig-Exists": False,
                 "Mod-Valid": False,
             }
@@ -389,11 +389,11 @@ def match_scenario(data_validation: dict):
                 "The modified JSON data passed in is not properly formed. " "Cannot proceed."
             )
         case {
-            "Item-Add": True,
+            "Item-Type": True,
             "Orig-Exists": True,
             "Orig-Valid": False,
         } | {
-            "Item-Add": False,
+            "Item-Type": False,
             "Orig-Exists": True,
             "Orig-Valid": False,
         }:
@@ -401,7 +401,7 @@ def match_scenario(data_validation: dict):
                 "Original JSON data passed in is not properly formed. " "Cannot proceed."
             )
         case {
-            "Item-Add": True,
+            "Item-Type": True,
             "Orig-Exists": False,
         }:
             validation_results = (
