@@ -271,7 +271,7 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_pruner(copy.deepcopy(items), user_item_choice)
+                        json_pruner(copy.deepcopy(json_data), user_item_choice)
                 elif user_choice == data_save:
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
@@ -303,7 +303,9 @@ def json_saver(json_data: dict, json_path: list, json_filename: str):
         string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
     # Call the generate_user_edited_data function for scenario 4
-    new_json_data = deps_data_gen.generate_user_edited_data(copy.deepcopy(json_data), "F")
+    new_json_data = deps_data_gen.generate_user_edited_data(
+        copy.deepcopy(json_data), ENUM_ITV.FULL.value
+    )
 
     # Grab the full file path and name
     data_file = deps_helper.parse_full_path(json_path, json_filename)
