@@ -9,6 +9,7 @@ import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def generate_new_json_data(is_default: bool = False):
@@ -230,11 +231,11 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
     """
     # Dictionary to validate the data before proceeding and track which scenario
     # listed in the docstring above is the case. The keys are as follows:
-    # Item-Type: whether to add, delete, or replace an item
+    # Item-Type: whether to add/delete/replace a single startup item or replace the full startup data
     # Orig-Exists: whether orig_json_data is blank or not
     # Orig-Valid: if orig_json_data exists, is the data valid
+    # Mod-Single: if modified_json_data contains a single startup item or full startup data
     # Mod-Valid: if modified_json_data is valid
-    # Mod-Single: if modified_json_data contains a single startup item
     data_validation = {
         "Item-Type": item_type,
         "Orig-Exists": True if len(orig_json_data) > 0 else False,
@@ -253,8 +254,8 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
         data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data)
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data, True)
         data_validation["Mod-Single"] = True
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data, True)
 
     # Check for each of the 3 scenarios listed in the docstring:
     scenario_number, validation_results = match_scenario(data_validation)
@@ -292,14 +293,12 @@ def match_scenario(data_validation: dict):
 
 
     Args:
-        data_validation (dict): A dictionary containing the boolean values needed to validate the
-        data for the function data_validation_scenario.
-        The keys are as follows:
-        - Item-Type: whether to add, delete, or replace an item
-        - Orig-Exists: whether orig_json_data is blank or not
-        - Orig-Valid: if orig_json_data exists, is the data valid
-        - Mod-Single: if modified_json_data contains a single startup item
-        - Mod-Valid: if modified_json_data is valid
+        data_validation (dict): A dictionary containing the boolean values needed to validate the data for the function data_validation_scenario. The keys are as follows:
+            - Item-Type: whether to add/delete/replace a single startup item or replace the full startup data
+            - Orig-Exists: whether orig_json_data is blank or not
+            - Orig-Valid: if orig_json_data exists, is the data valid
+            - Mod-Single: if modified_json_data contains a single startup item or full startup data
+            - Mod-Valid: if modified_json_data is valid
 
     Returns:
         tuple: Consists of an int and a string defined as follows:
@@ -308,106 +307,50 @@ def match_scenario(data_validation: dict):
 
                 string: A message to print out if the validation failed.
     """
+    # Initialize the function variables
     scenario_number = 0
     validation_results = ""
+
+    # Set up the different error scenario texts
+    error_scenarios = [
+        "Expected original JSON data but that cannot be found.",
+        "Original JSON data passed in is not properly formed.",
+        "Expected modified JSON data to be a single startup item but didn't receive that.",
+        "Expected modified JSON data to be a full startup data but didn't receive that.",
+        "The modified JSON data passed in is not properly formed.",
+    ]
+
+    # This will be added to the end of each error scenario text
+    error_ending = "Cannot proceed."
 
     if not app_cs.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
     return (0, "Skipping actual match scenario -- returning scenario 0")
 
-    match data_validation:
-        case {
-            "Item-Type": False,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Single": True,
-            "Mod-Valid": True,
-        }:
-            scenario_number = 1
-        case {
-            "Item-Type": False,
-            "Orig-Exists": False,
-            "Mod-Single": False,
-            "Mod-Valid": True,
-        }:
-            scenario_number = 2
-        case {
-            "Item-Type": True,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Single": True,
-            "Mod-Valid": True,
-        }:
-            scenario_number = 3
-        case {
-            "Item-Type": True,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Single": False,
-            "Mod-Valid": True,
-        } | {
-            "Item-Type": False,
-            "Orig-Exists": True,
-            "Orig-Valid": True,
-            "Mod-Single": False,
-            "Mod-Valid": True,
-        }:
-            validation_results = (
-                "Expected a single startup item for the modified JSON data "
-                "but didn't receive that. Cannot proceed."
-            )
-        case {
-            "Item-Type": False,
-            "Orig-Exists": False,
-            "Mod-Single": True,
-            "Mod-Valid": True,
-        }:
-            validation_results = (
-                "Expected full startup data for the modified JSON data but "
-                "didn't receive that. Cannot proceed."
-            )
-        case (
-            {
-                "Item-Type": True,
-                "Orig-Exists": True,
-                "Orig-Valid": True,
-                "Mod-Valid": False,
-            }
-            | {
-                "Item-Type": False,
-                "Orig-Exists": True,
-                "Orig-Valid": True,
-                "Mod-Valid": False,
-            }
-            | {
-                "Item-Type": False,
-                "Orig-Exists": False,
-                "Mod-Valid": False,
-            }
-        ):
-            validation_results = (
-                "The modified JSON data passed in is not properly formed. " "Cannot proceed."
-            )
-        case {
-            "Item-Type": True,
-            "Orig-Exists": True,
-            "Orig-Valid": False,
-        } | {
-            "Item-Type": False,
-            "Orig-Exists": True,
-            "Orig-Valid": False,
-        }:
-            validation_results = (
-                "Original JSON data passed in is not properly formed. " "Cannot proceed."
-            )
-        case {
-            "Item-Type": True,
-            "Orig-Exists": False,
-        }:
-            validation_results = (
-                "Original JSON data cannot be found. Please provide original "
-                "JSON data when adding a new startup item."
-            )
+    # match data_validation:
+    #        case {
+    #            "Orig-Exists": True,
+    #           "Orig-Valid": True,
+    #            "Mod-Single": True,
+    #            "Mod-Valid": True,
+    #        }:
+    #            # Possible scenarios 1-3
+    #            item_type = data_validation["Item-Type"]
+    #            match item_type:
+    #                case ENUM_ITV.ADD.value:
+    #                    scenario_number = 1
+    #                case ENUM_ITV.DELETE.value:
+    #                    scenario_number = 2
+    #                case ENUM_ITV.REPLACE.value:
+    #                    scenario_number = 3
+    #        case {
+    #            "Item-Type": ENUM_ITV.FULL.value,
+    #            "Orig-Exists": False,
+    #            "Mod-Single": False,
+    #            "Mod-Valid": True,
+    #        }:
+    #           # Scenario 4
+    #            scenario_number = 4
 
     # If the validation failed, print the error message
     if scenario_number == 0:
