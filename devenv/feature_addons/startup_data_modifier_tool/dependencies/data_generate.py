@@ -159,8 +159,41 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
             case 2:
                 # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
 
-                # TODO# Code this in!!!
-                pass
+                total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
+                delete_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
+
+                # Check to make sure the item number is valid
+                if delete_item_number in range(1, total_items + 1):
+                    # Create a copy of the original JSON data
+                    new_json_data = copy.deepcopy(orig_json_data)
+
+                    # Grab a new reference as a list to the JSON data Items array
+                    new_items_data = new_json_data[ENUM_JSK.ITEMS.value]
+
+                    # Remove the startup item to be deleted
+                    new_items_data.pop(delete_item_number - 1)
+
+                    # Update the Total Items property
+                    new_json_data[ENUM_JSK.TOTALITEMS.value] = total_items - 1
+
+                    # Check to see if the Items array needs to be updated:
+                    # 1. If there was only one item in the Items array, then nothing needs to be updated
+                    # 2. If there is more than one item but the deleted startup item was the last in the Items array, then nothing needs to be updated
+                    if total_items > 1:
+                        if delete_item_number == 1:
+                            # The deleted startup item was the first item in the Items array
+                            ## TODO: Code this in!!
+                            pass
+                        elif delete_item_number > 1 and delete_item_number < total_items:
+                            # The deleted startup item was an item in the middle of the Items array
+                            ## TODO: Code this in!!
+                            pass
+                else:
+                    deps_pretty.prettify_custom_error(
+                        "Cannot update the JSON data! The startup item number passed in is invalid!",
+                        "data_generate.generate_user_edited_data",
+                    )
+
             case 3:
                 # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
                 total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
