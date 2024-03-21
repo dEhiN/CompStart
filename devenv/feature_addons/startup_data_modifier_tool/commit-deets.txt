@@ -1,4 +1,137 @@
-Comment on 03/20 from issue #5 in Project:
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Amalgamating both pseudo-code decision branching blocks, we get:
+```
+if Mod-Valid = False: 
+    Error Scenario 5
+else Mod-Valid = True:
+    if Item-Type = "F":
+        if Mod-Single = False: 
+             Valid Scenario 4
+        else Mod-Single = True:
+            Error Scenario 4
+    else Item-Type <> "F":
+        if Mod-Single = True:
+            if Orig-Exists = True:
+                if Orig-Valid = True:
+                    if Item-Type = "A": 
+                        Valid Scenario 1
+                    if Item-Type = "D": 
+                        Valid Scenario 2
+                    if Item-Type = "R": 
+                        Valid Scenario 3
+                else Orig-Valid = False: 
+                    Error Scenario 2
+            else Orig-Exists = False: 
+                Error Scenario 1
+        else Mod-Single = False: 
+            Error Scenario 3
+```
+
+Cleaning that up, we get:
+```
+if Mod-Valid = False: 
+    Error Scenario 5
+else:
+    if Item-Type = "F":
+        if Mod-Single = False: 
+             Valid Scenario 4
+        else:
+            Error Scenario 4
+    else:
+        if Mod-Single = True:
+            if Orig-Exists = True:
+                if Orig-Valid = True:
+                    if Item-Type = "A": 
+                        Valid Scenario 1
+                    else if Item-Type = "D": 
+                        Valid Scenario 2
+                    else: 
+                        Valid Scenario 3
+                else: 
+                    Error Scenario 2
+            else: 
+                Error Scenario 1
+        else: 
+            Error Scenario 3
+```
+
+Revisiting the thoughts from before:
+- Keep the data_validation dictionary as it is
+- Have match_scenario expand the dictionary to 4 variables to maybe make it easier to read the branching block
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Rewriting the 4 valid scenarios in a condensed format, we get:
+VS_1: Item-Type: A / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid: T
+VS_2: Item-Type: D / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid:  T
+VS_3: Item-Type: R / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid:  T
+VS_4: Item-Type: F / Orig-Exists: F / Orig-Valid: F / Mod-Single: F / Mod-Valid: T
+
+Rewriting them for the minimum needed, we get:
+VS_1: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "A"
+VS_2: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "D"
+VS_3: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "R"
+VS_4: (Mod-Single = False && Mod-Valid = True) && Item-Type = "F"*
+
+*Since the Item-Type needs to be F and the modified JSON data needs to be valid and not a single startup item, that's all we need to check for valid scenario 4
+
+Summarizing that, we can write the pseudo-code as the following. After each error scenario, a return will probably be needed to break out of the decision branching
+```
+if Mod-Valid = True:
+-> if Mod-Single = False:
+-> -> if Item-Type = "F": Valid Scenario 4
+-> else:
+-> -> if Orig-Exists = True:
+-> -> -> if Orig-Valid = True:
+-> -> -> -> if Item-Type = "A": Valid Scenario 1
+-> -> -> -> if Item-Type = "D": Valid Scenario 2
+-> -> -> -> if Item-Type = "R": Valid Scenario 3
+```
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Further thoughts to the comment above:
+- Rework data_validation dictionary to only have the 4 Boolean keys
+- Have match_scenario take in the dictionary and the item_type string variable as two parameters
+- Can then create decision-branching based on a mix of the dictionary and string parameters
+
+Rewriting the 5 error scenarios in a condensed format, we get:
+ES_1: Item-Type: A;D;R / Orig-Exists: F / Orig-Valid: ?? / Mod-Single: ?? / Mod-Valid: ??
+ES_2: Item-Type: A;D;R / Orig-Exists: T / Orig-Valid: F / Mod-Single: ?? / Mod-Valid: ??
+ES_3: Item-Type: A;D;R / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: F / Mod-Valid: ??
+ES_4: Item-Type: F / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: T / Mod-Valid:  ??
+ES_5: Item-Type: ?? / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: ?? / Mod-Valid: F
+
+Rewriting them for the minimum needed, we get:
+ES_5: Mod-Valid = False
+ES_4: Mod-Single = True && Item-Type = "F"
+ES_3: Mod-Single = False && (Item-Type = "A" || Item-Type = "D" || Item-Type = "R")*
+ES_1: Orig-Exists = False && (Item-Type = "A" || Item-Type = "D" || Item-Type = "R")*
+ES_2: Orig-Exists = True && Orig-Valid = False**
+
+*Another way to write the bracketed conditions is to say Item-Type <> "F" since Item-Type will already have been validated to only contain A/D/R/F before being passed in
+**It's not actually necessary to check Item-Type for error scenario 2 since the scenario is where the original JSON data passed in is invalid
+
+Summarizing that, we can write the pseudo-code as the following. After each error scenario, a return will probably be needed to break out of the decision branching.
+```
+if Mod-Valid = False: Error Scenario 5
+else:
+-> if Item-Type = "F":
+-> -> if Mod-Single = True: Error Scenario 4
+-> else:
+-> -> if Mod-Single = False: Error Scenario 3
+-> -> if Orig-Exists = False: Error Scenario 1
+-> -> else:
+-> -> -> if Orig-Valid = False: Error Scenario 2
+```
+
+Comments from issue #5 in Project:
 Repo: CompStart
 
 Need to plan out for match_scenario the different situations or scenarios. There are 4 scenarios and 5 error scenarios:
