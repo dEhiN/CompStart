@@ -216,14 +216,17 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
         R = replace in orig_json_data
         F = modified_json_data is full startup data
 
-        In the case of R, since modified_json_data will be a valid startup item, the property ItemNumber will determine which startup item is to be updated.
+        In the case of R, since modified_json_data will be a valid startup item, the property
+        ItemNumber will determine which startup item is to be updated.
 
-        orig_json_data (dict): Required. A dictionary containing the original JSON data to be replaced or updated. If there is no original JSON data to work with, depending on the scenario, then this parameter will be blank.
+        orig_json_data (dict): Required. A dictionary containing the original JSON data to be
+        replaced or updated. If there is no original JSON data to work with, depending on the
+        scenario, then this parameter will be blank.
 
     Returns:
         int: A scenario number based on the following legend:
-                0 - The validation failed and the function
-                generate_user_edited_data shouldn't proceed
+                0 - The validation failed and the function generate_user_edited_data shouldn't
+                proceed
                 1 - Scenario 1 listed above is applicable
                 2 - Scenario 2 listed above is applicable
                 3 - Scenario 3 listed above is applicable
@@ -308,11 +311,15 @@ def match_scenario(data_validation: dict):
                 string: A message to print out if the validation failed.
     """
     # Initialize the function variables
-    scenario_number = 0
+    valid_scenario_number = 0
+    error_scenario_number = 0
     validation_results = ""
 
+    # Expand the data_validation dictionary keys to separate variables for the conditional block
+    item_type, orig_exists, orig_valid, mod_single, mod_valid = data_validation.values()
+
     # Set up the different error scenario texts
-    error_scenarios = [
+    error_scenario_numbers = [
         "Expected original JSON data but that cannot be found.",
         "Original JSON data passed in is not properly formed.",
         "Expected modified JSON data to be a single startup item but didn't receive that.",
@@ -323,37 +330,53 @@ def match_scenario(data_validation: dict):
     # This will be added to the end of each error scenario text
     error_ending = "Cannot proceed."
 
-    if not app_cs.is_production():
-        print("\nThe dictionary passed to match_scenario:", data_validation)
-    return (0, "Skipping actual match scenario -- returning scenario 0")
-
-    # match data_validation:
-    #        case {
-    #            "Orig-Exists": True,
-    #           "Orig-Valid": True,
-    #            "Mod-Single": True,
-    #            "Mod-Valid": True,
-    #        }:
-    #            # Possible scenarios 1-3
-    #            item_type = data_validation["Item-Type"]
-    #            match item_type:
-    #                case ENUM_ITV.ADD.value:
-    #                    scenario_number = 1
-    #                case ENUM_ITV.DELETE.value:
-    #                    scenario_number = 2
-    #                case ENUM_ITV.REPLACE.value:
-    #                    scenario_number = 3
-    #        case {
-    #            "Item-Type": ENUM_ITV.FULL.value,
-    #            "Orig-Exists": False,
-    #            "Mod-Single": False,
-    #            "Mod-Valid": True,
-    #        }:
-    #           # Scenario 4
-    #            scenario_number = 4
+    # Check for a possible valid or error scenario
+    if not mod_valid:
+        error_scenario_number = 5
+    else:
+        if item_type == "F":
+            if not mod_single:
+                valid_scenario_number = 4
+            else:
+                error_scenario_number = 4
+        else:
+            if mod_single:
+                if orig_exists:
+                    if orig_valid:
+                        if item_type == "A":
+                            valid_scenario_number = 1
+                        elif item_type == "D":
+                            valid_scenario_number = 2
+                        else:
+                            valid_scenario_number = 3
+                    else:
+                        error_scenario_number = 2
+                else:
+                    error_scenario_number = 1
+            else:
+                error_scenario_number = 3
 
     # If the validation failed, print the error message
-    if scenario_number == 0:
+    if valid_scenario_number == 0:
+        if error_scenario_number == 0:
+            validation_results = "Error validating scenario! Both the valid_scenario_number and error_scenario_number variables have a value of 0!"
+        else:
+
+            validation_results = (
+                error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
+            )
         deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
-    return (scenario_number, validation_results)
+    if not app_cs.is_production():
+        print("\nThe dictionary passed to match_scenario:", data_validation)
+        print(
+            "Scenario:",
+            str(valid_scenario_number),
+            "--",
+            "Error:",
+            str(error_scenario_number),
+            "Validation Results:",
+            validation_results,
+        )
+
+    return (valid_scenario_number, validation_results)
