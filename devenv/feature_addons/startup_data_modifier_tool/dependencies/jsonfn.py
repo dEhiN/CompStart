@@ -278,7 +278,8 @@ def json_editor(json_path: list, json_filename: str):
                     if not status_state:
                         print(status_message)
                 elif user_choice > 0:
-                    deps_start_edit.edit_startup_item(
+                    # Edit and then update the specific startup item the user chose
+                    items[user_choice - 1] = deps_start_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:

@@ -1,25 +1,30 @@
 # Dependency to store the helper functions that are used when editing a startup item
 
+import copy
+
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
 
 
-def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
+def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to edit a single startup item
 
-    This function will take the specific startup item passed in, display it and allow the user to edit any part of that item
+    This function will take the specific startup item passed in, display it and allow the user to edit any part of that item. A copy of the startup item dictionary is created to work with and that copy is what's returned.
 
     Args:
-        startup_item (dict): A dictionary with the single startup item
+        orig_startup_item (dict): A dictionary with the single startup item
 
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
 
     Returns:
-        list: A list containing the updated startup items.
+        dict: The modified and updated startup item dictionary passed in.
     """
+    # Create a copy of the orig_startup_item dictionary
+    startup_item = copy.deepcopy(orig_startup_item)
+
     # Show startup item selected
     prettified_item = deps_pretty.prettify_startup_item(startup_item)
     print(prettified_item)
@@ -79,7 +84,7 @@ def edit_startup_item(startup_item: dict, json_path: list, json_filename: str):
             case 7:
                 quit_loop = True
 
-    return startup_item
+    return copy.deepcopy(startup_item)
 
 
 def edit_startup_item_name(item_name: str):
