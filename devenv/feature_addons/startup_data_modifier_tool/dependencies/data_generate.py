@@ -179,15 +179,13 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                     # Check to see if the Items array needs to be updated:
                     # 1. If there was only one item in the Items array, then nothing needs to be updated
                     # 2. If there is more than one item but the deleted startup item was the last in the Items array, then nothing needs to be updated
-                    if total_items > 1:
-                        if delete_item_number == 1:
-                            # The deleted startup item was the first item in the Items array
-                            ## TODO: Code this in!!
-                            pass
-                        elif delete_item_number > 1 and delete_item_number < total_items:
-                            # The deleted startup item was an item in the middle of the Items array
-                            ## TODO: Code this in!!
-                            pass
+                    if total_items > 1 and delete_item_number < total_items:
+                        # The deleted startup item was an item in the middle of the Items array
+                        ## TODO: Code this in!!
+                        item_count = 0
+                        for item in new_items_data:
+                            item[ENUM_JSK.ITEMNUMBER.value] = item_count
+                            item_count += 1
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
