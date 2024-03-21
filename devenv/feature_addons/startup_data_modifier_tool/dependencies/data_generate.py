@@ -138,27 +138,6 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         # If the validation failed, then a blank Python dictionary is returned, so no need to code that in
         match scenario_number:
             case 1:
-                # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
-                total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
-                change_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
-
-                # Check to make sure the item number is valid
-                if change_item_number in range(1, total_items + 1):
-                    new_json_data = copy.deepcopy(orig_json_data)
-                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
-                        modified_json_data
-                    )
-                else:
-                    deps_pretty.prettify_custom_error(
-                        "Cannot update the JSON data! The startup item number passed in is invalid!",
-                        "data_generate.generate_user_edited_data",
-                    )
-            case 2:
-                # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
-
-                # TODO# Code this in!!!
-                pass
-            case 3:
                 # Data validation passed and modified JSON data passed in is a single startup item that has to be added to the end. Return the original JSON data but updated with the new startup item added to the end.
                 current_total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
                 orig_items_list = orig_json_data[ENUM_JSK.ITEMS.value]
@@ -177,6 +156,27 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
 
                 new_json_data[ENUM_JSK.TOTALITEMS.value] = new_total_items
                 new_json_data[ENUM_JSK.ITEMS.value] = new_items_list
+            case 2:
+                # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
+
+                # TODO# Code this in!!!
+                pass
+            case 3:
+                # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
+                total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
+                change_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
+
+                # Check to make sure the item number is valid
+                if change_item_number in range(1, total_items + 1):
+                    new_json_data = copy.deepcopy(orig_json_data)
+                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
+                        modified_json_data
+                    )
+                else:
+                    deps_pretty.prettify_custom_error(
+                        "Cannot update the JSON data! The startup item number passed in is invalid!",
+                        "data_generate.generate_user_edited_data",
+                    )
             case 4:
                 # Data validation passed and modified JSON data passed in is full JSON data. Return the modified_json_data variable.
                 new_json_data = copy.deepcopy(modified_json_data)
