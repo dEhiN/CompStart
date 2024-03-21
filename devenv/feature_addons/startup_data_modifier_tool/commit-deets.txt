@@ -1,3 +1,107 @@
+Comment on 03/20 from issue #5 in Project:
+Repo: CompStart
+
+Need to plan out for match_scenario the different situations or scenarios. There are 4 scenarios and 5 error scenarios:
+
+Valid Scenarios:
+1. Need to add a single startup item
+2. Need to remove a single startup item
+3. Need to replace a single startup item that already exists
+4. Need to update the full JSON data
+
+Error Scenarios:
+1. Expected original JSON data but that cannot be found
+2. Original JSON data passed in is not properly formed
+3. Expected modified JSON data to be a single startup item but didn't receive that
+4. Expected modified JSON data to be a full startup data but didn't receive that
+5. The modified JSON data passed in is not properly formed
+
+The 5 keys in the dictionary data_validation used by match_scenario to determine each scenario are: Item-Type, Orig-Exists, Orig-Valid, Mod-Single, and Mod-Valid
+
+Their descriptions are as follows:
+1. Item-Type -> Used to determine whether to add/delete/replace a single startup item or replace the full startup data
+2. Orig-Exists -> For the scenarios where a single startup item is being worked on, was the original JSON data given or not
+3. Orig-Valid -> If the original JSON data was given, is it valid
+4. Mod-Single -> Does the parameter with the new JSON data have a single startup item or full JSON data
+5. Mod-Valid -> Is the new JSON data valid or not
+
+Although key 1 can be used to determine which type of new JSON data was passed in, key 4 needs to also be checked in case key 1 and what was actually given as new JSON data don't match. The same is the case with key 5; depending on what key 4 contains, the new JSON data will be validated against the JSON schemas for either a single startup item or the full startup data.
+
+Accepted values for each key are:
+1. Item-Type: A, D, R, F
+2. Orig-Exists: True, False
+3. Orig-Valid: True, False*
+4. Mod-Single: True, False
+5. Mod-Valid: True, False
+
+*If key 2 if False, then key 3 will also be False. This is because keys 2 to 5 are set to False as defaults. 
+
+Amalgamating all the above information together, each valid and error scenario will constitute the following combination of key values. Note, a value of '??' means the key doesn't need to be checked for that scenario:
+
+VS_1:
+Item-Type: A
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid: T
+
+VS_2:
+Item-Type: D
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid:  T
+
+VS_3:
+Item-Type: R
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid:  T
+
+VS_4:
+Item-Type: F
+Orig-Exists: F
+Orig-Valid: F
+Mod-Single: F
+Mod-Valid: T
+
+ES_1:
+Item-Type: A/D/R
+Orig-Exists: F
+Orig-Valid: ??
+Mod-Single: ??
+Mod-Valid: ??
+
+ES_2:
+Item-Type: A/D/R
+Orig-Exists: T
+Orig-Valid: F
+Mod-Single: ??
+Mod-Valid: ??
+
+ES_3:
+Item-Type: A/D/R
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: F
+Mod-Valid: ??
+
+ES_4:
+Item-Type: F
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: T
+Mod-Valid:  ??
+
+ES_5:
+Item-Type: ??
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: ??
+Mod-Valid: F
+
+
 Comments from issue #5 in Project:
 Repo: CompStart
 
