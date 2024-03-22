@@ -1,0 +1,28 @@
+{
+    "TotalItems": 2,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "Google Chrome",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "Demonstrating how to open the Chrome browser to a specific webpage.",
+            "Browser": true,
+            "ArgumentCount": 2,
+            "ArgumentList": [
+                "--new-window",
+                "https://www.google.com/"
+            ]
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Default JSON Startup Data",
+            "FilePath": "notepad",
+            "Description": "Opening the default JSON startup data file in Notepad.",
+            "Browser": false,
+            "ArgumentCount": 1,
+            "ArgumentList": [
+                ".\\config\\default_startup.json"
+            ]
+        }
+    ]
+}
