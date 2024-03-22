@@ -182,7 +182,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                     if total_items > 1 and delete_item_number < total_items:
                         # The deleted startup item was an item in the middle of the Items array
                         ## TODO: Code this in!!
-                        item_count = 0
+                        item_count = 1
                         for item in new_items_data:
                             item[ENUM_JSK.ITEMNUMBER.value] = item_count
                             item_count += 1
