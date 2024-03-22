@@ -271,7 +271,7 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_pruner(copy.deepcopy(json_data), user_item_choice)
+                        json_pruner(json_data, user_item_choice)
                 elif user_choice == data_save:
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
@@ -317,7 +317,7 @@ def json_saver(json_data: dict, json_path: list, json_filename: str):
     return (status_state, status_message)
 
 
-def json_pruner(curr_json_data: list, item_number: int):
+def json_pruner(curr_json_data: dict, item_number: int):
     """Function to remove a whole startup item from existing startup data
 
     This function will remove the item and update the startup data as necessary
@@ -332,4 +332,6 @@ def json_pruner(curr_json_data: list, item_number: int):
 
     print(prune_item)
 
-    deps_data_gen.generate_user_edited_data(prune_item, ENUM_ITV.DELETE.value, curr_json_data)
+    updated_json_data = deps_data_gen.generate_user_edited_data(
+        prune_item, ENUM_ITV.DELETE.value, curr_json_data
+    )
