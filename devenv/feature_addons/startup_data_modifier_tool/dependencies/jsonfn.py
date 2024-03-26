@@ -7,6 +7,10 @@ import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
 import dependencies.startup_edit as deps_start_edit
+import dependencies.enum as deps_enum
+
+ENUM_JSK = deps_enum.JsonSchemaKeys
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def json_reader(json_path: list, json_filename: str):
@@ -211,49 +215,67 @@ def json_editor(json_path: list, json_filename: str):
     # If the data was read in successfully, display it when the user is ready
     if status_state:
         # Check to make sure there really are startup items in case TotalItems is wrong
-        if len(json_data["Items"]) > 0:
-            # Get the total items
-            total_items = json_data["TotalItems"]
-            items = json_data["Items"]
-
-            # Print out the total number of items
-            print(f"\nNumber of startup items: {total_items}")
-
-            # Loop through to allow the user to edit the JSON data until they are ready to return to the main menu
-            start_items_menu = ""
-            for item_number in range(1, total_items + 1):
-                start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
-
-            item_add = total_items + 1
-            item_delete = total_items + 2
-            data_save = total_items + 3
-            item_quit = total_items + 4
-            total_menu_choices = item_quit
-
-            menu_choices = (
-                start_items_menu
-                + f"[{item_add}] Add a new startup item\n"
-                + f"[{item_delete}] Delete an existing startup item\n"
-                + f"[{data_save}] Save full startup data to disk\n"
-                + f"[{item_quit}] Return to the main menu\n"
-            )
-
+        if len(json_data[ENUM_JSK.ITEMS.value]) > 0:
+            # Initialize the loop variables
+            total_items = 0
+            items = []
+            new_menu = True
             quit_loop = False
+
+            # Loop through to allow the user to edit the JSON data until they are ready to return
+            # to the main menu
             while not quit_loop:
+                # Generate the menu from scratch because if it's the first time the menu is being
+                # displayed or the menu has changed
+                if new_menu:
+                    # Make sure the menu is regenerated only when necessary
+                    new_menu = False
+
+                    # Get the total items
+                    total_items = json_data[ENUM_JSK.TOTALITEMS.value]
+                    items = json_data[ENUM_JSK.ITEMS.value]
+
+                    # Print out the total number of items
+                    print(f"\nNumber of startup items: {total_items}")
+
+                    # Create the actual menu
+                    start_items_menu = ""
+                    for item_number in range(1, total_items + 1):
+                        start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+
+                    item_add = total_items + 1
+                    item_delete = total_items + 2
+                    data_save = total_items + 3
+                    item_quit = total_items + 4
+                    total_menu_choices = item_quit
+
+                    menu_choices = (
+                        start_items_menu
+                        + f"[{item_add}] Add a new startup item\n"
+                        + f"[{item_delete}] Delete an existing startup item\n"
+                        + f"[{data_save}] Save full startup data to disk\n"
+                        + f"[{item_quit}] Return to the main menu\n"
+                    )
+
+                # Ask the user what they want to do
                 user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
 
                 if user_choice == item_quit:
+                    # User chose to return to the main menu
                     quit_loop = True
                 elif user_choice == item_add:
+                    # User chose to add a new startup item
                     print("\nThat functionality hasn't yet been implemented!")
+                    # new_menu = True
                 elif user_choice == item_delete:
+                    # User chose to delete an existing startup item
+                    new_menu = True
+
                     question_prompt = "\nPlease enter the startup item number you want to remove"
                     if total_items == 1:
                         question_prompt += " [1]: "
                     else:
                         question_prompt += f" [1-{total_items}]: "
-
-                    user_item_choice = ""
                     user_input = input(question_prompt)
 
                     if (
@@ -267,14 +289,16 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose a valid option, process accordingly
                         user_item_choice = int(user_input)
 
-                        json_pruner(copy.deepcopy(items), user_item_choice, total_items)
+                        json_data = json_pruner(json_data, user_item_choice)
                 elif user_choice == data_save:
+                    # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
                     if not status_state:
                         print(status_message)
                 elif user_choice > 0:
-                    deps_start_edit.edit_startup_item(
+                    # User chose to edit a specific startup item
+                    items[user_choice - 1] = deps_start_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:
@@ -298,8 +322,10 @@ def json_saver(json_data: dict, json_path: list, json_filename: str):
 
         string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
-    # Call the generate_user_edited_data function for scenario 2
-    new_json_data = deps_data_gen.generate_user_edited_data(copy.deepcopy(json_data), False)
+    # Call the generate_user_edited_data function for scenario 4
+    new_json_data = deps_data_gen.generate_user_edited_data(
+        copy.deepcopy(json_data), ENUM_ITV.FULL.value
+    )
 
     # Grab the full file path and name
     data_file = deps_helper.parse_full_path(json_path, json_filename)
@@ -310,26 +336,24 @@ def json_saver(json_data: dict, json_path: list, json_filename: str):
     return (status_state, status_message)
 
 
-def json_pruner(items_data: list, item_number: int, total_items: int):
+def json_pruner(curr_json_data: dict, item_number: int):
     """Function to remove a whole startup item from existing startup data
 
     This function will remove the item and update the startup data as necessary
 
     Args:
-        items_data (dict): The existing startup data but only as the Items array
+        curr_json_data (dict): The existing full startup data
 
         item_number (int): The number of the startup item to delete
 
-        total_items (int): The total number of startup items. While this can be pulled from
-        json_data, to make the code simpler, any calling function must pass in this value.
+    Returns:
+        dict: A dictionary containing the updated startup data
     """
-    prune_item = items_data[item_number - 1]
-    items_data.remove(prune_item)
+    temp_json_data = copy.deepcopy(curr_json_data)
+    prune_item = temp_json_data[ENUM_JSK.ITEMS.value][item_number - 1]
 
-    print(f"You have chosen to delete {item_number} out of {total_items}:")
-    print(prune_item)
+    updated_json_data = deps_data_gen.generate_user_edited_data(
+        prune_item, ENUM_ITV.DELETE.value, temp_json_data
+    )
 
-    print("\nThe remaining startup items are:")
-    print(items_data)
-
-    deps_data_gen.generate_user_edited_data(items_data, False)
+    return updated_json_data

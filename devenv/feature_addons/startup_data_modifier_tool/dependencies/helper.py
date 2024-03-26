@@ -4,7 +4,10 @@ import os, jsonschema
 
 import dependencies.pretty as deps_pretty
 import dependencies.jsonfn as deps_json
+import dependencies.enum as deps_enum
 import comp_start as app_cs
+
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def set_start_dir():
@@ -111,7 +114,8 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     """
     valid_json = False
     schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
-    schema_path = ["feature_addons", "startup_data_modifier_tool", "config"]
+    schema_path = get_prod_path()
+    schema_path.extend(["config"])
 
     results = deps_json.json_reader(schema_path, schema_file)
     read_status = results[0]
@@ -147,3 +151,28 @@ def get_prod_path():
         prod_path.extend(["feature_addons", "startup_data_modifier_tool"])
 
     return prod_path
+
+
+def check_item_type(item_type: str):
+    """Helper function to check the passed in item_type parameter against the valid values allowed for that argument
+
+    The Enum class ItemTypeVals in the enum module contains all the valid values that this parameter can hold as members. This function will compare against each member and return True if the passed in parameter has a valid value, or False if not.
+
+    Args:
+        item_type (str): This variable is a parameter used by the function generate_user_edited_data in the module data_generate. It currently only accepts certain values, which are:
+
+        A = add to the end of orig_json_data
+        D = delete from orig_json_data
+        R = replace in orig_json_data
+        F = modified_json_data is full startup data
+
+    Returns:
+        bool: True if the value of item_type is valid, False if not.
+    """
+    ret_value = False
+    for enum_member in ENUM_ITV:
+        if enum_member.value == item_type:
+            ret_value = True
+            break
+
+    return ret_value

@@ -5,6 +5,10 @@ import copy
 import dependencies.data_generate as deps_data_gen
 import dependencies.helper as deps_helper
 import dependencies.jsonfn as deps_json
+import dependencies.enum as deps_enum
+
+ENUM_JSK = deps_enum.JsonSchemaKeys
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
@@ -28,8 +32,8 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
     if status_state:
         # Get the item number of the startup item being worked with and then the original version of that startup item
-        modified_item_number = modified_startup_item["ItemNumber"]
-        original_startup_item = json_data["Items"][modified_item_number - 1]
+        modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
 
         # Check to see if the data was actually changed
         if modified_startup_item == original_startup_item:
@@ -40,7 +44,7 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
         new_json_data = deps_data_gen.generate_user_edited_data(
             copy.deepcopy(modified_startup_item),
-            False,
+            ENUM_ITV.REPLACE.value,
             copy.deepcopy(json_data),
         )
 

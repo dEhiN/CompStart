@@ -1,0 +1,339 @@
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Fixed match_scenario through commit 8690bae but discovered another issue. While testing, noted that the option to save a modified startup item to disk doesn't work properly. It saves the data but as a new item. The good news is that the Total Items JSON property is updated correctly. However, the option to save the startup data to disk does work correctly.
+
+Specifically, the menu options are as follows:
+
+1. Main menu > 4: Edit the existing startup file > 6: Save full startup data to disk
+2. Main menu > 4: Edit the existing startup file > 1: Edit startup item 1 > 6: Save startup item data to disk
+
+In both situations, the data needs to be modified. Additionally, any startup item could be edited. For example, with the following steps:
+
+1. Select to edit startup item 1
+2. Change the name of the startup item
+3. Select to save the startup item data to disk
+
+The modified startup item 1 will be saved but as a new startup item and the Total Items property updated. So, if using the default startup data which has 3 items, the above steps would create a 4th item. This fourth item will be item 1 with the changed name.
+
+With the following steps, the results are what is expected:
+
+1. Select to edit startup item 1
+2. Change the name of the startup item
+3. Select to return to the previous menu
+4. Select to save the startup data to disk
+
+In this case, the full startup data will be saved with the correctly modified item. So, if using the default startup data which has 3 items, 3 items will be saved and item 1 will have the updated name.
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Amalgamating both pseudo-code decision branching blocks, we get:
+```
+if Mod-Valid = False: 
+    Error Scenario 5
+else Mod-Valid = True:
+    if Item-Type = "F":
+        if Mod-Single = False: 
+             Valid Scenario 4
+        else Mod-Single = True:
+            Error Scenario 4
+    else Item-Type <> "F":
+        if Mod-Single = True:
+            if Orig-Exists = True:
+                if Orig-Valid = True:
+                    if Item-Type = "A": 
+                        Valid Scenario 1
+                    if Item-Type = "D": 
+                        Valid Scenario 2
+                    if Item-Type = "R": 
+                        Valid Scenario 3
+                else Orig-Valid = False: 
+                    Error Scenario 2
+            else Orig-Exists = False: 
+                Error Scenario 1
+        else Mod-Single = False: 
+            Error Scenario 3
+```
+
+Cleaning that up, we get:
+```
+if Mod-Valid = False: 
+    Error Scenario 5
+else:
+    if Item-Type = "F":
+        if Mod-Single = False: 
+             Valid Scenario 4
+        else:
+            Error Scenario 4
+    else:
+        if Mod-Single = True:
+            if Orig-Exists = True:
+                if Orig-Valid = True:
+                    if Item-Type = "A": 
+                        Valid Scenario 1
+                    else if Item-Type = "D": 
+                        Valid Scenario 2
+                    else: 
+                        Valid Scenario 3
+                else: 
+                    Error Scenario 2
+            else: 
+                Error Scenario 1
+        else: 
+            Error Scenario 3
+```
+
+Revisiting the thoughts from before:
+- Keep the data_validation dictionary as it is
+- Have match_scenario expand the dictionary to 4 variables to maybe make it easier to read the branching block
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Rewriting the 4 valid scenarios in a condensed format, we get:
+VS_1: Item-Type: A / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid: T
+VS_2: Item-Type: D / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid:  T
+VS_3: Item-Type: R / Orig-Exists: T / Orig-Valid: T / Mod-Single: T / Mod-Valid:  T
+VS_4: Item-Type: F / Orig-Exists: F / Orig-Valid: F / Mod-Single: F / Mod-Valid: T
+
+Rewriting them for the minimum needed, we get:
+VS_1: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "A"
+VS_2: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "D"
+VS_3: (Orig-Exists = True && Orig-Valid = True && Mod-Single = True && Mod-Valid = True) && Item-Type = "R"
+VS_4: (Mod-Single = False && Mod-Valid = True) && Item-Type = "F"*
+
+*Since the Item-Type needs to be F and the modified JSON data needs to be valid and not a single startup item, that's all we need to check for valid scenario 4
+
+Summarizing that, we can write the pseudo-code as the following. After each error scenario, a return will probably be needed to break out of the decision branching
+```
+if Mod-Valid = True:
+-> if Mod-Single = False:
+-> -> if Item-Type = "F": Valid Scenario 4
+-> else:
+-> -> if Orig-Exists = True:
+-> -> -> if Orig-Valid = True:
+-> -> -> -> if Item-Type = "A": Valid Scenario 1
+-> -> -> -> if Item-Type = "D": Valid Scenario 2
+-> -> -> -> if Item-Type = "R": Valid Scenario 3
+```
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Further thoughts to the comment above:
+- Rework data_validation dictionary to only have the 4 Boolean keys
+- Have match_scenario take in the dictionary and the item_type string variable as two parameters
+- Can then create decision-branching based on a mix of the dictionary and string parameters
+
+Rewriting the 5 error scenarios in a condensed format, we get:
+ES_1: Item-Type: A;D;R / Orig-Exists: F / Orig-Valid: ?? / Mod-Single: ?? / Mod-Valid: ??
+ES_2: Item-Type: A;D;R / Orig-Exists: T / Orig-Valid: F / Mod-Single: ?? / Mod-Valid: ??
+ES_3: Item-Type: A;D;R / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: F / Mod-Valid: ??
+ES_4: Item-Type: F / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: T / Mod-Valid:  ??
+ES_5: Item-Type: ?? / Orig-Exists: ?? / Orig-Valid: ?? / Mod-Single: ?? / Mod-Valid: F
+
+Rewriting them for the minimum needed, we get:
+ES_5: Mod-Valid = False
+ES_4: Mod-Single = True && Item-Type = "F"
+ES_3: Mod-Single = False && (Item-Type = "A" || Item-Type = "D" || Item-Type = "R")*
+ES_1: Orig-Exists = False && (Item-Type = "A" || Item-Type = "D" || Item-Type = "R")*
+ES_2: Orig-Exists = True && Orig-Valid = False**
+
+*Another way to write the bracketed conditions is to say Item-Type <> "F" since Item-Type will already have been validated to only contain A/D/R/F before being passed in
+**It's not actually necessary to check Item-Type for error scenario 2 since the scenario is where the original JSON data passed in is invalid
+
+Summarizing that, we can write the pseudo-code as the following. After each error scenario, a return will probably be needed to break out of the decision branching.
+```
+if Mod-Valid = False: Error Scenario 5
+else:
+-> if Item-Type = "F":
+-> -> if Mod-Single = True: Error Scenario 4
+-> else:
+-> -> if Mod-Single = False: Error Scenario 3
+-> -> if Orig-Exists = False: Error Scenario 1
+-> -> else:
+-> -> -> if Orig-Valid = False: Error Scenario 2
+```
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Need to plan out for match_scenario the different situations or scenarios. There are 4 scenarios and 5 error scenarios:
+
+Valid Scenarios:
+1. Need to add a single startup item
+2. Need to remove a single startup item
+3. Need to replace a single startup item that already exists
+4. Need to update the full JSON data
+
+Error Scenarios:
+1. Expected original JSON data but that cannot be found
+2. Original JSON data passed in is not properly formed
+3. Expected modified JSON data to be a single startup item but didn't receive that
+4. Expected modified JSON data to be a full startup data but didn't receive that
+5. The modified JSON data passed in is not properly formed
+
+The 5 keys in the dictionary data_validation used by match_scenario to determine each scenario are: Item-Type, Orig-Exists, Orig-Valid, Mod-Single, and Mod-Valid
+
+Their descriptions are as follows:
+1. Item-Type -> Used to determine whether to add/delete/replace a single startup item or replace the full startup data
+2. Orig-Exists -> For the scenarios where a single startup item is being worked on, was the original JSON data given or not
+3. Orig-Valid -> If the original JSON data was given, is it valid
+4. Mod-Single -> Does the parameter with the new JSON data have a single startup item or full JSON data
+5. Mod-Valid -> Is the new JSON data valid or not
+
+Although key 1 can be used to determine which type of new JSON data was passed in, key 4 needs to also be checked in case key 1 and what was actually given as new JSON data don't match. The same is the case with key 5; depending on what key 4 contains, the new JSON data will be validated against the JSON schemas for either a single startup item or the full startup data.
+
+Accepted values for each key are:
+1. Item-Type: A, D, R, F
+2. Orig-Exists: True, False
+3. Orig-Valid: True, False*
+4. Mod-Single: True, False
+5. Mod-Valid: True, False
+
+*If key 2 if False, then key 3 will also be False. This is because keys 2 to 5 are set to False as defaults. 
+
+Amalgamating all the above information together, each valid and error scenario will constitute the following combination of key values. Note, a value of '??' means the key doesn't need to be checked for that scenario:
+
+VS_1:
+Item-Type: A
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid: T
+
+VS_2:
+Item-Type: D
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid:  T
+
+VS_3:
+Item-Type: R
+Orig-Exists: T
+Orig-Valid: T
+Mod-Single: T
+Mod-Valid:  T
+
+VS_4:
+Item-Type: F
+Orig-Exists: F
+Orig-Valid: F
+Mod-Single: F
+Mod-Valid: T
+
+ES_1:
+Item-Type: A/D/R
+Orig-Exists: F
+Orig-Valid: ??
+Mod-Single: ??
+Mod-Valid: ??
+
+ES_2:
+Item-Type: A/D/R
+Orig-Exists: T
+Orig-Valid: F
+Mod-Single: ??
+Mod-Valid: ??
+
+ES_3:
+Item-Type: A/D/R
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: F
+Mod-Valid: ??
+
+ES_4:
+Item-Type: F
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: T
+Mod-Valid:  ??
+
+ES_5:
+Item-Type: ??
+Orig-Exists: ??
+Orig-Valid: ??
+Mod-Single: ??
+Mod-Valid: F
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Amalgamating the logic and lists from both previous comments, I think I can safely say the next steps for this issue are:
+
+1. Refactor the function data_validation_scenario to utilize the item_type variable
+
+2. Refactor the function data_validation_scenario to screen for all four scenarios, each of the four values of the item_type variable
+
+3. Refactor the function match_scenario to account for the four scenarios
+
+4. Decide if the function generate_user_edited_data will remove a startup item and update the startup JSON data, or if the calling function is responsible for that
+
+5. Update all calls to generate_user_edited_data to pass in the correct parameters, mainly, that the item_type parameter is now a string
+
+While working on step 1, the ordering, or number assigned, to each scenario may need to change to reflect the if-block in generate_user_edited_data.
+
+While working on steps 1-3, testing revealed that, for the existing scenarios, the calls to generate_user_edited_data causes an error because the calls are still based on when the second parameter was a boolean.
+
+
+Comments from issue #5 in Project:
+Repo: CompStart
+
+Going with option 3:
+
+- Modify the function generate_user_edited_data so a calling function can pass in a single startup item and specify that it needs to be removed from the existing startup data
+- If necessary, update the scenario validation functions data_validation_scenario and match_scenario
+- Call the modified generate_user_edited_data function from json_pruner
+ - Test that it works
+
+The above are the steps to take to resolve this issue and close the branch dEhiN/issue5.
+
+Relevant commit information:
+commit 4537f8ac67508c4b86c258698c8808b5d7e61c60
+Author: David <hiranwatson@gmail.com>
+Date:   Tue Mar 5 23:32:49 2024 -0500
+
+    Added call to function generate_user_edited_data
+    from json_pruner in module jsonfn
+    
+    Updated function json_pruner to print out the
+    item requested to be deleted as well as the rest
+    of the items data. Also added a call to the
+    function generate_user_edited_data.
+    
+    However, passing in just the Items array causes
+    the JSON data validation to fail. Will need to
+    figure out a solution. Possible options are:
+    
+    1. Modify the generate_user_edited_data
+    function to allow for an Items array to be passed
+    in.
+    
+    2. Modify the json_pruner function to pass in
+    updated JSON data.
+    
+    3. Modify a mix of both functions
+    to allow for a single startup item to be passed in
+    but specified to be removed.
+    
+    4. Create a new function to take the Items array
+    and make a fully formed startup JSON object from
+    it.
+    
+    Most likely, will go with option 3 since the
+    generate_user_edited_data is meant to be used for
+    all scenarios where the user is editing existing
+    startup data. There is already the ability to
+    pass in just a single startup item and also to
+    specify if that startup item is to be added to the
+    existing full startup data or replace an existing
+    item. It shouldn't be hard to modify the function
+    to allow the startup item to be removed and
+    specify that.
