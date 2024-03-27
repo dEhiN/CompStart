@@ -100,6 +100,52 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
+def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
+    """Helper function to save a modified startup item
+
+    Args:
+        modified_startup_item (dict): A dictionary with the single startup item, which will be saved to disk
+
+        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
+
+        json_filename (str): The filename of the JSON file
+
+    Returns:
+        bool: True if the JSON data was written successfully. False is the JSON data wasn't written successfully or if the existing data couldn't be read in successfully
+
+        string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
+    """
+    # Read in existing JSON file and store the return results of the json_read function
+    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
+    print("\n" + status_message)
+
+    if status_state:
+        # Get the item number of the startup item being worked with and then the original version of that startup item
+        modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
+
+        # Check to see if the data was actually changed
+        if modified_startup_item == original_startup_item:
+            return (
+                False,
+                "\nThe startup data hasn't changed. There was nothing to save!",
+            )
+
+        new_json_data = deps_data_gen.generate_user_edited_data(
+            copy.deepcopy(modified_startup_item),
+            ENUM_ITV.REPLACE.value,
+            copy.deepcopy(json_data),
+        )
+
+        data_file = deps_helper.parse_full_path(json_path, json_filename)
+        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+
+    else:
+        pass
+
+    return (status_state, status_message)
+
+
 """
 The below copy-pasted function definitions and doc strings from the startup_edit module are to be 
 the template for creating the new functions in this module, startup_add.
