@@ -11,50 +11,33 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
-    """Helper function to save a modified startup item
+def add_startup_item_name():
+    """Helper function to set the name of a startup item
 
     Args:
-        modified_startup_item (dict): A dictionary with the single startup item, which will be saved to disk
-
-        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
-
-        json_filename (str): The filename of the JSON file
+        None
 
     Returns:
-        bool: True if the JSON data was written successfully. False is the JSON data wasn't written successfully or if the existing data couldn't be read in successfully
-
-        string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
+        str: The new startup item name.
     """
-    # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
-    print("\n" + status_message)
+    # Initialize function variables
+    new_name = ""
+    loop_quit = False
 
-    if status_state:
-        # Get the item number of the startup item being worked with and then the original version of that startup item
-        modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
+    # Loop until user enters a name
+    while not loop_quit:
+        new_name = input("Please enter an identifying name for this new startup item: ")
 
-        # Check to see if the data was actually changed
-        if modified_startup_item == original_startup_item:
-            return (
-                False,
-                "\nThe startup data hasn't changed. There was nothing to save!",
-            )
+        if not new_name:
+            print("You didn't provide a valid value!")
+        else:
+            # Confirm name user entered in case it was a mistake
+            print(f'\nYou entered "{new_name}"', end=" ... ")
+            user_confirm = input("Is this the name you want to go with [Y/N]: ")
+            print(user_confirm)
+            loop_quit = True
 
-        new_json_data = deps_data_gen.generate_user_edited_data(
-            copy.deepcopy(modified_startup_item),
-            ENUM_ITV.REPLACE.value,
-            copy.deepcopy(json_data),
-        )
-
-        data_file = deps_helper.parse_full_path(json_path, json_filename)
-        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
-
-    else:
-        pass
-
-    return (status_state, status_message)
+    return new_name
 
 
 def add_startup_item_arguments_list(arg_list: list = []):
