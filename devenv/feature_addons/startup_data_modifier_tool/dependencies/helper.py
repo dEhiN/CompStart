@@ -1,4 +1,4 @@
-# Dependency to store miscellaneous helper functions that don't fit anywhere else as well as the default JSON data
+# Dependency to store miscellaneous helper functions that don't fit anywhere else
 
 import os, jsonschema
 
