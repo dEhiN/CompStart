@@ -145,9 +145,9 @@ the template for creating the new functions in this module, startup_add.
 
 Specifically the functions need to be redone as follows:
 
-1. They each need to be renamed according to the following naming scheme:
+1. They each need to be renamed according to the following naming scheme (C = completed):
     edit_startup_item > add_startup_item
-    edit_startup_item_name > add_startup_item_name
+    edit_startup_item_name > add_startup_item_name (C)
     edit_startup_item_description > add_startup_item_description
     edit_startup_item_program_path > add_startup_item_program_path
 
@@ -165,14 +165,6 @@ return variable (if need be)
 #        json_filename (str): The filename of the JSON file
 #    Returns:
 #        dict: The modified and updated startup item dictionary passed in.
-#    """
-
-# def edit_startup_item_name(item_name: str):
-#    """Helper function to change the name of a startup item
-#    Args:
-#        item_name (str): The existing startup item name
-#    Returns:
-#        str: The new startup item name
 #    """
 
 # def edit_startup_item_description(item_description: str):
