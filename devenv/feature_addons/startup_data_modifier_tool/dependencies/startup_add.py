@@ -181,7 +181,7 @@ Specifically the functions need to be redone as follows:
 1. They each need to be renamed according to the following naming scheme (C = completed):
     edit_startup_item > add_startup_item
     edit_startup_item_name > add_startup_item_name (C)
-    edit_startup_item_description > add_startup_item_description
+    edit_startup_item_description > add_startup_item_description (C)
     edit_startup_item_program_path > add_startup_item_program_path
 
 2. The function definition needs to be refactored namely for the parameters list but also for the 
@@ -200,13 +200,6 @@ return variable (if need be)
 #        dict: The modified and updated startup item dictionary passed in.
 #    """
 
-# def edit_startup_item_description(item_description: str):
-#    """Helper function to change the description of a startup item
-#    Args:
-#        item_description (str): The existing startup item description
-#    Returns:
-#        str: The new startup item description
-#    """
 
 # def edit_startup_item_program_path(item_name: str, item_path: str):
 #    """Helper function to change the path of a startup item
