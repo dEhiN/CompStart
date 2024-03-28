@@ -239,26 +239,28 @@ def json_editor(json_path: list, json_filename: str):
                     print(f"\nNumber of startup items: {total_items}")
 
                     # Create the actual menu
-                    start_items_menu = ""
-                    for item_number in range(1, total_items + 1):
-                        start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                    menu_choices = []
 
+                    for item_number in range(1, total_items + 1):
+                        menu_choices.append(f"Edit startup item {item_number}\n")
+
+                    menu_choices.extend(
+                        [
+                            "Add a new startup item",
+                            "Delete an existing startup item",
+                            "Save the full startup data to disk",
+                            "Return to the main menu",
+                        ]
+                    )
+
+                    # Store the values necessary to determine each choice the user could make
                     item_add = total_items + 1
                     item_delete = total_items + 2
                     data_save = total_items + 3
                     item_quit = total_items + 4
-                    total_menu_choices = item_quit
-
-                    menu_choices = (
-                        start_items_menu
-                        + f"[{item_add}] Add a new startup item\n"
-                        + f"[{item_delete}] Delete an existing startup item\n"
-                        + f"[{data_save}] Save full startup data to disk\n"
-                        + f"[{item_quit}] Return to the main menu\n"
-                    )
 
                 # Ask the user what they want to do
-                user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+                user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
                 if user_choice == item_quit:
                     # User chose to return to the main menu

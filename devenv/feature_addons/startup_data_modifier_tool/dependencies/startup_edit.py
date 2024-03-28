@@ -31,20 +31,18 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
     input("\nPress enter when ready to continue...")
 
     # Loop through to and ask the user what they want to do
-    menu_choices = (
-        "[1] Edit item name\n"
-        "[2] Edit item description\n"
-        "[3] Edit item program path\n"
-        "[4] Edit or add item arguments\n"
-        "[5] View startup item\n"
-        "[6] Save startup item data to disk\n"
-        "[7] Return to the previous menu\n"
-    )
-    total_menu_choices = 7
+    menu_choices = [
+        "Edit item name" "Edit item description",
+        "Edit item program path",
+        "Edit or add item arguments",
+        "View startup item",
+        "Save startup item data to disk",
+        "Return to the previous menu",
+    ]
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
         match user_choice:
             case 1:
@@ -140,7 +138,7 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     new_path = ""
     print("\nThe current file path for this startup item is:", item_path)
     user_choice = input(
-        "Would you like to use the file chooser window to select the new file" " path [Y/N]? "
+        "Would you like to use the file chooser window to select the new file path [Y/N]? "
     )
 
     if user_choice.isalpha():
