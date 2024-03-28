@@ -5,7 +5,6 @@ import json, copy, os.path
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
-import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
@@ -27,7 +26,7 @@ def generate_new_json_data(is_default: bool = False):
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
     # Adding override to use default startup file for when not in production and user wants to supply their own startup data
-    if not app_cs.is_production() and not is_default:
+    if not deps_helper.is_production() and not is_default:
         print(
             "This functionality hasn't been fully implemented yet. Creating default startup file..."
         )
@@ -398,7 +397,7 @@ def match_scenario(data_validation: dict):
             )
         deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
-    if not app_cs.is_production():
+    if not deps_helper.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
         print(
             "Scenario:",

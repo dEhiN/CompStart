@@ -8,18 +8,6 @@ import dependencies.pretty as deps_pretty
 # Global variable to specify is in testing or production environment
 is_prod = False
 
-
-def is_production():
-    """Small helper function to return the variable is_prod.
-
-    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
-
-    Returns:
-        bool: The variable is_prod which is False when in testing and True otherwise.
-    """
-    return is_prod
-
-
 if __name__ == "__main__":
     # Set the starting directory
     deps_helper.set_start_dir()
