@@ -42,6 +42,39 @@ def add_startup_item_name():
     return new_name
 
 
+def add_startup_item_description():
+    """Helper function to set the description for a startup item
+
+    Args:
+        None
+
+    Returns:
+        str: The new startup item description.
+    """
+    # Initialize function variables
+    new_name = ""
+    loop_quit = False
+
+    # Loop until user enters a name
+    while not loop_quit:
+        new_description = input(
+            "\nPlease enter the description you would like to use: "
+        )
+
+        user_menu = (
+            "[1] Keep the following as the description for this startup item and return to the previous menu: "
+            + f"'{new_description}'\n"
+            + "[2] Reenter the description\n"
+        )
+
+        user_choice = deps_chooser.user_menu_chooser(user_menu, 2, False)
+
+        if user_choice == 1:
+            loop_quit = True
+
+    return new_description
+
+
 def add_startup_item_arguments_list(arg_list: list = []):
     """Helper function to allow the user to add arguments for a startup item
 
