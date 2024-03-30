@@ -149,7 +149,7 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
 
     if user_choice.isalpha():
         if user_choice.upper() == "Y":
-            new_path = deps_chooser.edit_file_chooser(item_name)
+            new_path = deps_chooser.existing_file_chooser(item_name)
         elif user_choice.upper() == "N":
             input_msg = (
                 "Please enter the new path to the program executable in full"
