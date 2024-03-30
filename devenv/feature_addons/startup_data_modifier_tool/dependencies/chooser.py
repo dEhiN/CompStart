@@ -113,4 +113,8 @@ def existing_file_chooser(item_name: str):
         initialdir="C:\\Program Files\\",
         title="Choose the program executable for {}".format(item_name),
     )
-    return file_name
+
+    # Converting Unix path separators
+    win_file_name = file_name.replace("/", "\\")
+
+    return win_file_name
