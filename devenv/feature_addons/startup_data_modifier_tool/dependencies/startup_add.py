@@ -75,6 +75,55 @@ def add_startup_item_description():
     return new_description
 
 
+def add_startup_item_program_path(item_name: str = "Startup Item"):
+    """Helper function to set the path of a startup item
+
+    Note: While the add functions for name and description allow the user to change what they initially entered via a loop, this add function doesn't. At present, it makes sense to only check for if the user didn't enter anything or make a choice, and loop in that case. However, there is argument for a scenario where a user chooses the wrong file by accident or enters the wrong path. For now, this function won't worry about that, which means the calling function will need to validate the user input.
+
+    Args:
+        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the default will be "Startup Item".
+
+    Returns:
+        str: The new startup item absolute path
+    """
+    # Initialize function variables
+    new_path = ""
+    loop_quit = False
+    check_blank = False
+
+    # Loop until user chooses or enters a path
+    while not loop_quit:
+        user_menu = (
+            f"[1] Use the file chooser window to select the program executable path for {item_name}\n"
+            + f"[2] Enter the full path manually for {item_name}\n"
+            + f"[3] Return to the previous menu without setting a path for {item_name}\n"
+        )
+
+        user_choice = deps_chooser.user_menu_chooser(user_menu, 3, False)
+
+        match user_choice:
+            case 1:
+                new_path = deps_chooser.edit_file_chooser(item_name)
+                check_blank = True
+            case 2:
+                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
+                new_path = input(input_msg)
+                check_blank = True
+            case 3:
+                loop_quit = True
+
+        if check_blank:
+            if new_path:
+                loop_quit = True
+            else:
+                print(
+                    "\nPath cannot be blank! If you don't want to select a path, please choose menu option 3..."
+                )
+                check_blank = False
+
+    return new_path
+
+
 def add_startup_item_arguments_list(arg_list: list = []):
     """Helper function to allow the user to add arguments for a startup item
 
@@ -198,14 +247,4 @@ return variable (if need be)
 #        json_filename (str): The filename of the JSON file
 #    Returns:
 #        dict: The modified and updated startup item dictionary passed in.
-#    """
-
-
-# def edit_startup_item_program_path(item_name: str, item_path: str):
-#    """Helper function to change the path of a startup item
-#    Args:
-#        item_name (str): The existing startup item name
-#        item_path (str): The existing startup item absolute path
-#    Returns:
-#        str: The new startup item absolute path
 #    """
