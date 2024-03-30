@@ -5,6 +5,9 @@ import copy
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
+import dependencies.enum as deps_enum
+
+ENUM_JSK = deps_enum.JsonSchemaKeys
 
 
 def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: str):
@@ -47,30 +50,32 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
 
         match user_choice:
             case 1:
-                startup_item["Name"] = edit_startup_item_name(startup_item["Name"])
+                startup_item[ENUM_JSK.NAME.value] = edit_startup_item_name(
+                    startup_item[ENUM_JSK.NAME.value]
+                )
             case 2:
-                startup_item["Description"] = edit_startup_item_description(
-                    startup_item["Description"]
+                startup_item[ENUM_JSK.DESCRIPTION.value] = edit_startup_item_description(
+                    startup_item[ENUM_JSK.DESCRIPTION.value]
                 )
             case 3:
-                startup_item["FilePath"] = edit_startup_item_program_path(
-                    startup_item["Name"], startup_item["FilePath"]
+                startup_item[ENUM_JSK.FILEPATH.value] = edit_startup_item_program_path(
+                    startup_item[ENUM_JSK.NAME.value], startup_item[ENUM_JSK.FILEPATH.value]
                 )
             case 4:
-                arg_count = startup_item["ArgumentCount"]
+                arg_count = startup_item[ENUM_JSK.ARGUMENTCOUNT.value]
                 temp_arg_list = []
 
                 # Check if startup item has arguments
                 if arg_count > 0:
                     temp_arg_list = edit_startup_item_arguments_list(
-                        True, arg_count, startup_item["ArgumentList"]
+                        True, arg_count, startup_item[ENUM_JSK.ARGUMENTLIST.value]
                     ).copy()
                 else:
                     temp_arg_list = edit_startup_item_arguments_list(False)
 
                 # Update the startup_item dictionary
-                startup_item["ArgumentCount"] = len(temp_arg_list)
-                startup_item["ArgumentList"] = temp_arg_list.copy()
+                startup_item[ENUM_JSK.ARGUMENTCOUNT.value] = len(temp_arg_list)
+                startup_item[ENUM_JSK.ARGUMENTLIST.value] = temp_arg_list.copy()
             case 5:
                 print(deps_pretty.prettify_startup_item(startup_item))
             case 6:
