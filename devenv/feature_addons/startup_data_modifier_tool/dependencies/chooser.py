@@ -19,28 +19,35 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
     Returns:
         int: A number representing which choice the user made
     """
+    # Create a copy of the menu_choices list
+    local_menu_choices = menu_choices.copy()
+
     # First, check if the option to quit the whole program should be added to the menu
     if allow_quit:
-        quit_choice = len(menu_choices) + 1
-        menu_choices.append("Quit the program")
+        quit_choice = len(local_menu_choices) + 1
+        local_menu_choices.append("Quit the program")
 
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
     # Create full menu and count the total number of menu options
-    total_menu_choices = len(menu_choices)
+    total_menu_choices = len(local_menu_choices)
     full_menu = "Please choose one of the following:\n"
 
     # Cycle through the menu choices list and add build the menu
     choice_count = 1
-    for menu_item in menu_choices:
+    for menu_item in local_menu_choices:
         full_menu += f"[{choice_count}] " + menu_item + "\n"
         choice_count += 1
 
     print("\n" + full_menu)
     user_input = input("What would you like to do? ")
 
-    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
+    if (
+        not user_input.isnumeric()
+        or int(user_input) < 1
+        or int(user_input) > total_menu_choices
+    ):
         # User didn't choose a valid option
         print("\nThat choice is invalid!")
     else:
@@ -74,8 +81,8 @@ def new_file_chooser():
     is_default = False
     to_continue = True
     menu_choices = [
-        "Create a new startup file with some default values",
-        "Create a new startup file with programs that you choose",
+        "Create a new startup file with using the defaults",
+        "Create a new startup file with programs of your choice",
         "Return to the main menu",
     ]
     total_menu_choices = len(menu_choices)
