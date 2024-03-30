@@ -57,7 +57,7 @@ def prettify_startup_item(startup_item: dict):
     startup_data = ""
 
     # Add the startup item number
-    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    startup_data += line + "Startup item #" + str(startup_item["ItemNumber"])
 
     # Add the startup item name
     startup_data += line + tab + "Item name: " + startup_item["Name"]

@@ -26,8 +26,8 @@ if __name__ == "__main__":
     # Main loop to allow user to navigate program options
     menu_choices = [
         "What is CompStart?",
-        "Create a new startup file"
-        "View the existing startup file"
+        "Create a new startup file",
+        "View the existing startup file",
         "Edit the existing startup file",
     ]
     quit_loop = False

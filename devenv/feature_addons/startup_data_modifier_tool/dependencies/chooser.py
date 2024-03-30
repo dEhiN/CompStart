@@ -19,18 +19,23 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
     Returns:
         int: A number representing which choice the user made
     """
+    # First, check if the option to quit the whole program should be added to the menu
+    if allow_quit:
+        quit_choice = len(menu_choices) + 1
+        menu_choices.append("Quit the program")
+
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
-    # Create full menu
+    # Create full menu and count the total number of menu options
+    total_menu_choices = len(menu_choices)
     full_menu = "Please choose one of the following:\n"
-    full_menu += menu_choices
 
-    if allow_quit:
-        # Create option to quit the whole program and add it to the end of the passed in menu
-        total_menu_choices += 1
-        quit_choice = total_menu_choices
-        full_menu += f"[{quit_choice}] Quit the program\n"
+    # Cycle through the menu choices list and add build the menu
+    choice_count = 1
+    for menu_item in menu_choices:
+        full_menu += f"[{choice_count}] " + menu_item + "\n"
+        choice_count += 1
 
     print("\n" + full_menu)
     user_input = input("What would you like to do? ")

@@ -32,7 +32,8 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
 
     # Loop through to and ask the user what they want to do
     menu_choices = [
-        "Edit item name" "Edit item description",
+        "Edit item name",
+        "Edit item description",
         "Edit item program path",
         "Edit or add item arguments",
         "View startup item",
