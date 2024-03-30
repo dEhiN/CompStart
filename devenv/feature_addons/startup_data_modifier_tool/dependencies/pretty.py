@@ -22,7 +22,7 @@ def prettify_json(json_data: dict):
         total_items = 0
 
     # Start populating pretty_data
-    pretty_data += "Number of startup items: " + str(total_items)
+    pretty_data += "Number of startup items: " + str(total_items) + "\n"
 
     # Go through all the startup items
     for i in range(total_items):
@@ -30,7 +30,7 @@ def prettify_json(json_data: dict):
         item = items_list[i]
 
         # Prettify the startup item data
-        pretty_data += prettify_startup_item(item)
+        pretty_data += prettify_startup_item(item) + "\n"
 
     # If there are no startup items, display a different message
     if total_items == 0:
@@ -75,7 +75,9 @@ def prettify_startup_item(startup_item: dict):
         startup_data += "Yes"
 
         # Get the total number of arguments
-        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
+        startup_data += (
+            line + tab + "Total number of arguments used: " + str(arg_count)
+        )
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
@@ -83,7 +85,15 @@ def prettify_startup_item(startup_item: dict):
         for argument in arg_list:
             counter += 1
             startup_data += (
-                line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                line
+                + tab
+                + tab
+                + "Argument "
+                + str(counter)
+                + ": "
+                + '"'
+                + argument
+                + '"'
             )
     else:
         startup_data += "No"
@@ -107,9 +117,13 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += (
+                "Unable to read startup data. Error information is below:\n"
+            )
         case "w":
-            return_message += "Unable to write startup data. Error information is below:\n"
+            return_message += (
+                "Unable to write startup data. Error information is below:\n"
+            )
         case _:
             pass
     return_message += str(type(error).__name__) + " - " + str(error)
