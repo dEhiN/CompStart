@@ -24,17 +24,16 @@ if __name__ == "__main__":
     status_message = "No action taken..."
 
     # Main loop to allow user to navigate program options
-    menu_choices = (
-        "[1] What is CompStart?\n"
-        "[2] Create a new startup file\n"
-        "[3] View the existing startup file\n"
-        "[4] Edit the existing startup file\n"
-    )
-    total_menu_choices = 4
+    menu_choices = [
+        "What is CompStart?",
+        "Create a new startup file",
+        "View the existing startup file",
+        "Edit the existing startup file",
+    ]
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
         match user_choice:
             case 1:

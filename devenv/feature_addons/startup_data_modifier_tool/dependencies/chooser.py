@@ -4,34 +4,41 @@ import sys
 from tkinter import filedialog as file_chooser
 
 
-def user_menu_chooser(menu_choices: str, total_menu_choices: int, allow_quit: bool = True):
+def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
     """Helper function for displaying a menu with choices for the user
 
     This function is called by a few other functions that need to display a menu to the user for
-    them to make a choice. The function prints the menu choice string passed in and then loops until the user makes a valid choice. This is then returned.
+    them to make a choice. The function creates a menu from the list passed in and then loops until
+    the user makes a valid choice. This is then returned.
 
     Args:
-        menu_choices (str): A formatted string of how the choices should be displayed
-
-        total_menu_choices (int): The maximum number of choices there are
+        menu_choices (list): A list of strings that will be used to generate the menu. There will be no data validation, so if a list item isn't of type string, it will be ignored when generating the menu.
 
         allow_quit (bool, optional): Whether to show the option to quit the whole program in the current menu. Defaults to True.
 
     Returns:
         int: A number representing which choice the user made
     """
+    # Create a copy of the menu_choices list
+    local_menu_choices = menu_choices.copy()
+
+    # First, check if the option to quit the whole program should be added to the menu
+    if allow_quit:
+        quit_choice = len(local_menu_choices) + 1
+        local_menu_choices.append("Quit the program")
+
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
-    # Create full menu
+    # Create full menu and count the total number of menu options
+    total_menu_choices = len(local_menu_choices)
     full_menu = "Please choose one of the following:\n"
-    full_menu += menu_choices
 
-    if allow_quit:
-        # Create option to quit the whole program and add it to the end of the passed in menu
-        total_menu_choices += 1
-        quit_choice = total_menu_choices
-        full_menu += f"[{quit_choice}] Quit the program\n"
+    # Cycle through the menu choices list and add build the menu
+    choice_count = 1
+    for menu_item in local_menu_choices:
+        full_menu += f"[{choice_count}] " + menu_item + "\n"
+        choice_count += 1
 
     print("\n" + full_menu)
     user_input = input("What would you like to do? ")
@@ -69,17 +76,17 @@ def new_file_chooser():
     # to_continue will specify if the user wants to return to the main menu or proceed with creating a startup file
     is_default = False
     to_continue = True
-    menu_choices = (
-        "[1] Create a new startup file with some default values\n"
-        "[2] Create a new startup file with programs that you choose\n"
-        "[3] Return to the main menu\n"
-    )
-    total_menu_choices = 3
+    menu_choices = [
+        "Create a new startup file with using the defaults",
+        "Create a new startup file with programs of your choice",
+        "Return to the main menu",
+    ]
+    total_menu_choices = len(menu_choices)
     quit_loop = False
 
     while not quit_loop:
         # Ask user what type of new file they want
-        user_choice = user_menu_chooser(menu_choices, total_menu_choices, False)
+        user_choice = user_menu_chooser(menu_choices, False)
 
         if user_choice in range(1, total_menu_choices + 1):
             quit_loop = True
@@ -91,7 +98,7 @@ def new_file_chooser():
     return (is_default, to_continue)
 
 
-def edit_file_chooser(item_name: str):
+def existing_file_chooser(item_name: str):
     """Helper function to show a file dialog box
 
     Args:
@@ -100,8 +107,14 @@ def edit_file_chooser(item_name: str):
     Returns:
         str: The full path of the file that was selected
     """
+    # Using tkinter's askopenfilename function to get the file and path using a standard file dialog
+    # window
     file_name = file_chooser.askopenfilename(
-        initialdir="C:/Program Files/",
+        initialdir="C:\\Program Files\\",
         title="Choose the program executable for {}".format(item_name),
     )
-    return file_name
+
+    # Converting Unix path separators
+    win_file_name = file_name.replace("/", "\\")
+
+    return win_file_name

@@ -239,35 +239,37 @@ def json_editor(json_path: list, json_filename: str):
                     print(f"\nNumber of startup items: {total_items}")
 
                     # Create the actual menu
-                    start_items_menu = ""
+                    menu_choices = []
+
                     for item_number in range(1, total_items + 1):
-                        start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                        menu_choices.append(f"Edit startup item {item_number}")
 
-                    item_add = total_items + 1
-                    item_delete = total_items + 2
-                    data_save = total_items + 3
-                    item_quit = total_items + 4
-                    total_menu_choices = item_quit
-
-                    menu_choices = (
-                        start_items_menu
-                        + f"[{item_add}] Add a new startup item\n"
-                        + f"[{item_delete}] Delete an existing startup item\n"
-                        + f"[{data_save}] Save full startup data to disk\n"
-                        + f"[{item_quit}] Return to the main menu\n"
+                    menu_choices.extend(
+                        [
+                            "Add a new startup item",
+                            "Delete an existing startup item",
+                            "Save the full startup data to disk",
+                            "Return to the main menu",
+                        ]
                     )
 
-                # Ask the user what they want to do
-                user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+                    # Store the values necessary to determine each choice the user could make
+                    menu_add = total_items + 1
+                    menu_delete = total_items + 2
+                    menu_save = total_items + 3
+                    menu_quit = total_items + 4
 
-                if user_choice == item_quit:
+                # Ask the user what they want to do
+                user_choice = deps_chooser.user_menu_chooser(menu_choices)
+
+                if user_choice == menu_quit:
                     # User chose to return to the main menu
                     quit_loop = True
-                elif user_choice == item_add:
+                elif user_choice == menu_add:
                     # User chose to add a new startup item
                     print("\nThat functionality hasn't yet been implemented!")
                     # new_menu = True
-                elif user_choice == item_delete:
+                elif user_choice == menu_delete:
                     # User chose to delete an existing startup item
                     new_menu = True
 
@@ -290,7 +292,7 @@ def json_editor(json_path: list, json_filename: str):
                         user_item_choice = int(user_input)
 
                         json_data = json_pruner(json_data, user_item_choice)
-                elif user_choice == data_save:
+                elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 

@@ -29,12 +29,12 @@ def add_startup_item_name():
     while not loop_quit:
         new_name = input("\nPlease enter the name you would like to use: ")
 
-        user_menu = (
-            f"[1] Keep '{new_name}' as the name for this startup item and return to the previous menu\n"
-            + "[2] Restart the naming process\n"
-        )
+        user_menu = [
+            f"Keep '{new_name}' as the name for this startup item and return to the previous menu",
+            "Restart the naming process",
+        ]
 
-        user_choice = deps_chooser.user_menu_chooser(user_menu, 2, False)
+        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
 
         if user_choice == 1:
             loop_quit = True
@@ -57,17 +57,14 @@ def add_startup_item_description():
 
     # Loop until user enters a name
     while not loop_quit:
-        new_description = input(
-            "\nPlease enter the description you would like to use: "
-        )
+        new_description = input("\nPlease enter the description you would like to use: ")
 
-        user_menu = (
-            "[1] Keep the following as the description for this startup item and return to the previous menu: "
-            + f"'{new_description}'\n"
-            + "[2] Reenter the description\n"
-        )
+        user_menu = [
+            f"Keep the following as the description for this startup item and return to the previous menu: '{new_description}'",
+            "Reenter the description",
+        ]
 
-        user_choice = deps_chooser.user_menu_chooser(user_menu, 2, False)
+        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
 
         if user_choice == 1:
             loop_quit = True
@@ -167,9 +164,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
-def save_startup_item(
-    modified_startup_item: dict, json_path: list, json_filename: str
-):
+def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to save a modified startup item
 
     Args:
@@ -185,17 +180,13 @@ def save_startup_item(
         string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = deps_json.json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
     print("\n" + status_message)
 
     if status_state:
         # Get the item number of the startup item being worked with and then the original version of that startup item
         modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][
-            modified_item_number - 1
-        ]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
 
         # Check to see if the data was actually changed
         if modified_startup_item == original_startup_item:
@@ -211,9 +202,7 @@ def save_startup_item(
         )
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
-        status_state, status_message = deps_json.json_writer(
-            data_file, 2, new_json_data
-        )
+        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
 
     else:
         pass
