@@ -12,6 +12,18 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
+def add_startup_item():
+    """Helper function to add, or create, a new startup item
+
+    Args:
+        None
+
+    Returns:
+        dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
+    """
+    pass
+
+
 def add_startup_item_name():
     """Helper function to set the name of a startup item
 
@@ -103,7 +115,9 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
                 new_path = deps_chooser.edit_file_chooser(item_name)
                 check_blank = True
             case 2:
-                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
+                input_msg = (
+                    "\nPlease enter the new path to the program executable as an absolute path: "
+                )
                 new_path = input(input_msg)
                 check_blank = True
             case 3:
@@ -220,20 +234,10 @@ Specifically the functions need to be redone as follows:
     edit_startup_item > add_startup_item
     edit_startup_item_name > add_startup_item_name (C)
     edit_startup_item_description > add_startup_item_description (C)
-    edit_startup_item_program_path > add_startup_item_program_path
+    edit_startup_item_program_path > add_startup_item_program_path (C)
 
 2. The function definition needs to be refactored namely for the parameters list but also for the 
 return variable (if need be)
 
 3. The doc string for each function will need to be updated
 """
-# def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: str):
-#    """Helper function to edit a single startup item
-#    This function will take the specific startup item passed in, display it and allow the user to edit any part of that item. A copy of the startup item dictionary is created to work with and that copy is what's returned.
-#    Args:
-#        orig_startup_item (dict): A dictionary with the single startup item
-#        json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
-#        json_filename (str): The filename of the JSON file
-#    Returns:
-#        dict: The modified and updated startup item dictionary passed in.
-#    """
