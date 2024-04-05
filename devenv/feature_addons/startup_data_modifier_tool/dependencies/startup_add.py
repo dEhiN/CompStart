@@ -21,6 +21,18 @@ def add_startup_item():
     Returns:
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
     """
+    print(
+        "\nWelcome to the add a startup item section. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word on.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm whatever you enter before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded. However, even if you decide you want to make changes afterward, you can always do so from the main menu by selecting the option to edit an existing startup item."
+    )
+    input("\nPress any key to continue...")
+    menu_choices = [
+        "Set the startup item name",
+        "Set the startup item description",
+        "Choose the startup item full program path",
+        "Set any arguments for the startup item",
+    ]
+    user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
+    print(user_choice)
     pass
 
 
