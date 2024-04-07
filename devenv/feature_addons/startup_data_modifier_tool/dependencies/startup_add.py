@@ -8,6 +8,7 @@ import dependencies.chooser as deps_chooser
 import dependencies.jsonfn as deps_json
 import dependencies.enum as deps_enum
 
+ENUM_JSS = deps_enum.JsonSchemaStructure
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
@@ -21,19 +22,67 @@ def add_startup_item():
     Returns:
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
     """
+    # Print out introduction to this section for creating a startup item
     print(
         "\nWelcome to the add a startup item section. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word on.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm whatever you enter before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded. However, even if you decide you want to make changes afterward, you can always do so from the main menu by selecting the option to edit an existing startup item."
     )
     input("\nPress any key to continue...")
+
+    # Create blank JSON object / Python dictionary
+    new_item = ENUM_JSS.OBJECT.value.copy()
+
+    # Create keys for a startup item
+    values = [
+        ENUM_JSK.ITEMNUMBER.value,
+        ENUM_JSK.NAME.value,
+        ENUM_JSK.FILEPATH.value,
+        ENUM_JSK.DESCRIPTION.value,
+        ENUM_JSK.BROWSER.value,
+        ENUM_JSK.ARGUMENTCOUNT.value,
+        ENUM_JSK.ARGUMENTLIST.value,
+    ]
+
+    for member in ENUM_JSK:
+        key_name = member.value
+        if key_name in values:
+            new_item.setdefault(key_name)
+
+    # Build the menu
     menu_choices = [
         "Set the startup item name",
         "Set the startup item description",
         "Choose the startup item full program path",
         "Set any arguments for the startup item",
+        "Save the startup item",
+        "Return to the previous menu without creating a startup item",
     ]
-    user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
-    print(user_choice)
-    pass
+
+    # Loop through to allow the user to create the startup item
+    quit_loop = False
+    while not quit_loop:
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
+
+        match user_choice:
+            case 1:
+                new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+            case 2:
+                new_item[ENUM_JSK.DESCRIPTION.value] = (
+                    add_startup_item_description()
+                )
+            case 3:
+                new_item[ENUM_JSK.FILEPATH.value] = (
+                    add_startup_item_program_path()
+                )
+            case 4:
+                new_item[ENUM_JSK.ARGUMENTLIST.value] = (
+                    add_startup_item_arguments_list()
+                )
+            case 5:
+                pass
+            case 6:
+                quit_loop = True
+
+    return new_item
 
 
 def add_startup_item_name():
@@ -81,7 +130,9 @@ def add_startup_item_description():
 
     # Loop until user enters a name
     while not loop_quit:
-        new_description = input("\nPlease enter the description you would like to use: ")
+        new_description = input(
+            "\nPlease enter the description you would like to use: "
+        )
 
         user_menu = [
             f"Keep the following as the description for this startup item and return to the previous menu: '{new_description}'",
@@ -114,22 +165,20 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
 
     # Loop until user chooses or enters a path
     while not loop_quit:
-        user_menu = (
-            f"[1] Use the file chooser window to select the program executable path for {item_name}\n"
-            + f"[2] Enter the full path manually for {item_name}\n"
-            + f"[3] Return to the previous menu without setting a path for {item_name}\n"
-        )
+        user_menu = [
+            f"Use the file chooser window to select the program executable path for {item_name}",
+            f"Enter the full path manually for {item_name}",
+            f"Return to the previous menu without setting a path for {item_name}",
+        ]
 
-        user_choice = deps_chooser.user_menu_chooser(user_menu, 3, False)
+        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
 
         match user_choice:
             case 1:
-                new_path = deps_chooser.edit_file_chooser(item_name)
+                new_path = deps_chooser.existing_file_chooser(item_name)
                 check_blank = True
             case 2:
-                input_msg = (
-                    "\nPlease enter the new path to the program executable as an absolute path: "
-                )
+                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
                 new_path = input(input_msg)
                 check_blank = True
             case 3:
@@ -163,7 +212,9 @@ def add_startup_item_arguments_list(arg_list: list = []):
     # Ask user how many arguments they want to add and loop until the user enters a valid integer
     while True:
         try:
-            num_args = int(input("\nHow many arguments would you like to add? "))
+            num_args = int(
+                input("\nHow many arguments would you like to add? ")
+            )
         except ValueError:
             print("Please enter a valid number...")
             continue
@@ -190,7 +241,9 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
+def save_startup_item(
+    modified_startup_item: dict, json_path: list, json_filename: str
+):
     """Helper function to save a modified startup item
 
     Args:
@@ -206,13 +259,17 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
+    status_state, status_message, json_data = deps_json.json_reader(
+        json_path, json_filename
+    )
     print("\n" + status_message)
 
     if status_state:
         # Get the item number of the startup item being worked with and then the original version of that startup item
         modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][
+            modified_item_number - 1
+        ]
 
         # Check to see if the data was actually changed
         if modified_startup_item == original_startup_item:
@@ -228,28 +285,11 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         )
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
-        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+        status_state, status_message = deps_json.json_writer(
+            data_file, 2, new_json_data
+        )
 
     else:
         pass
 
     return (status_state, status_message)
-
-
-"""
-The below copy-pasted function definitions and doc strings from the startup_edit module are to be 
-the template for creating the new functions in this module, startup_add.
-
-Specifically the functions need to be redone as follows:
-
-1. They each need to be renamed according to the following naming scheme (C = completed):
-    edit_startup_item > add_startup_item
-    edit_startup_item_name > add_startup_item_name (C)
-    edit_startup_item_description > add_startup_item_description (C)
-    edit_startup_item_program_path > add_startup_item_program_path (C)
-
-2. The function definition needs to be refactored namely for the parameters list but also for the 
-return variable (if need be)
-
-3. The doc string for each function will need to be updated
-"""
