@@ -6,8 +6,8 @@ import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
-import dependencies.startup_edit as deps_start_edit
-import dependencies.startup_add as deps_start_add
+import dependencies.startup_edit as deps_item_edit
+import dependencies.startup_add as deps_item_add
 import dependencies.enum as deps_enum
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
@@ -132,8 +132,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 )
         case _:
             return_message = (
-                "Invalid file state! Could not write startup data."
-                " Please try again."
+                "Invalid file state! Could not write startup data." " Please try again."
             )
 
     # Write to file if needed
@@ -191,9 +190,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         file_state = 1
 
     # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(
-        json_file, file_state, json_data
-    )
+    write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
     return write_json_success, return_message
 
@@ -212,9 +209,7 @@ def json_editor(json_path: list, json_filename: str):
         ##TODO##
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
 
     print(f"\n{status_message}")
 
@@ -273,7 +268,7 @@ def json_editor(json_path: list, json_filename: str):
                     quit_loop = True
                 elif user_choice == menu_add:
                     # User chose to add a new startup item
-                    print(deps_start_add.add_startup_item())
+                    print(deps_item_add.add_startup_item())
                     # new_menu = True
                 elif user_choice == menu_delete:
                     # User chose to delete an existing startup item
@@ -300,15 +295,13 @@ def json_editor(json_path: list, json_filename: str):
                         json_data = json_pruner(json_data, user_item_choice)
                 elif user_choice == menu_save:
                     # User chose to save the current JSON data
-                    status_state, status_message = json_saver(
-                        json_data, json_path, json_filename
-                    )
+                    status_state, status_message = json_saver(json_data, json_path, json_filename)
 
                     if not status_state:
                         print(status_message)
                 elif user_choice > 0:
                     # User chose to edit a specific startup item
-                    items[user_choice - 1] = deps_start_edit.edit_startup_item(
+                    items[user_choice - 1] = deps_item_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:
