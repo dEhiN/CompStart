@@ -108,24 +108,7 @@ def add_startup_item_name():
     Returns:
         str: The new startup item name.
     """
-    # Initialize function variables
-    new_name = ""
-    loop_quit = False
-
-    # Loop until user enters a name
-    while not loop_quit:
-        new_name = input("\nPlease enter the name you would like to use: ")
-
-        user_menu = [
-            f"Keep '{new_name}' as the name for this startup item and return to the previous menu",
-            "Restart the naming process",
-        ]
-
-        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
-
-        if user_choice == 1:
-            loop_quit = True
-
+    new_name = input("\nPlease enter the name you would like to use: ")
     return new_name
 
 
@@ -138,24 +121,7 @@ def add_startup_item_description():
     Returns:
         str: The new startup item description.
     """
-    # Initialize function variables
-    new_name = ""
-    loop_quit = False
-
-    # Loop until user enters a name
-    while not loop_quit:
-        new_description = input("\nPlease enter the description you would like to use: ")
-
-        user_menu = [
-            f"Keep the following as the description for this startup item and return to the previous menu: '{new_description}'",
-            "Reenter the description",
-        ]
-
-        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
-
-        if user_choice == 1:
-            loop_quit = True
-
+    new_description = input("\nPlease enter the description you would like to use: ")
     return new_description
 
 
@@ -180,7 +146,6 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
         user_menu = [
             f"Use the file chooser window to select the program executable path for {item_name}",
             f"Enter the full path manually for {item_name}",
-            f"Return to the previous menu without setting a path for {item_name}",
         ]
 
         user_choice = deps_chooser.user_menu_chooser(user_menu, False)
@@ -195,17 +160,9 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
                 )
                 new_path = input(input_msg)
                 check_blank = True
-            case 3:
-                loop_quit = True
 
         if check_blank:
-            if new_path:
-                loop_quit = True
-            else:
-                print(
-                    "\nPath cannot be blank! If you don't want to select a path, please choose menu option 3..."
-                )
-                check_blank = False
+            loop_quit = True
 
     return new_path
 
@@ -238,7 +195,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
         quit_loop = False
 
         while not quit_loop:
-            new_argument = input("\nPlease type in the new argument: ")
+            new_argument = input(f"\nPlease type in argument {arg_num + 1}: ")
 
             # Check if the input exists
             if new_argument:
