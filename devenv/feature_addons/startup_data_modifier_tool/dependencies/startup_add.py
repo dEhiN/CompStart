@@ -83,6 +83,22 @@ def add_startup_item():
     return new_item
 
 
+def startup_item_setup(startup_item: dict):
+    """Helper function to set a startup item's parameters
+
+    Since Python passes by reference, the calling function can just pass in the dictionary it's working with and this function will directly update the values or, the startup item's parameters
+
+    Args:
+        startup_item (dict): The blank startup item to set up.
+    """
+    startup_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+    startup_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
+    startup_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
+        startup_item[ENUM_JSK.NAME.value]
+    )
+    startup_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
+
+
 def add_startup_item_name():
     """Helper function to set the name of a startup item
 
