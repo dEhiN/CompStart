@@ -6,6 +6,7 @@ import dependencies.data_generate as deps_data_gen
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.jsonfn as deps_json
+import dependencies.startup_edit as deps_item_edit
 import dependencies.enum as deps_enum
 
 ENUM_JSS = deps_enum.JsonSchemaStructure
