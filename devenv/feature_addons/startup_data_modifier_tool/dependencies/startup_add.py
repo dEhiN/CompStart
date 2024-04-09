@@ -31,30 +31,28 @@ def add_startup_item():
     # Create blank JSON object / Python dictionary
     new_item = ENUM_JSS.OBJECT.value.copy()
 
-    # Create keys for a startup item
-    values = [
-        ENUM_JSK.ITEMNUMBER.value,
-        ENUM_JSK.NAME.value,
-        ENUM_JSK.FILEPATH.value,
-        ENUM_JSK.DESCRIPTION.value,
-        ENUM_JSK.BROWSER.value,
-        ENUM_JSK.ARGUMENTCOUNT.value,
-        ENUM_JSK.ARGUMENTLIST.value,
-    ]
+    # Create keys with default values for a startup item
+    new_item.update(
+        {
+            ENUM_JSK.ITEMNUMBER.value: 0,
+            ENUM_JSK.NAME.value: "",
+            ENUM_JSK.FILEPATH.value: "",
+            ENUM_JSK.DESCRIPTION.value: "",
+            ENUM_JSK.BROWSER.value: False,
+            ENUM_JSK.ARGUMENTCOUNT.value: 0,
+            ENUM_JSK.ARGUMENTLIST.value: ENUM_JSS.ARRAY.value,
+        }
+    )
 
-    for member in ENUM_JSK:
-        key_name = member.value
-        if key_name in values:
-            new_item.setdefault(key_name)
-
-    # Build the menu
     menu_choices = [
-        "Set the startup item name",
-        "Set the startup item description",
-        "Choose the startup item full program path",
-        "Set any arguments for the startup item",
+        "Create the startup item",
+        "Adjust the item name",
+        "Adjust the item description",
+        "Pick a new item program path",
+        "Edit or add item arguments",
+        "View the startup item",
         "Save the startup item",
-        "Return to the previous menu without creating a startup item",
+        "Return to the previous menu",
     ]
 
     # Loop through to allow the user to create the startup item
@@ -64,22 +62,14 @@ def add_startup_item():
 
         match user_choice:
             case 1:
-                new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
-            case 2:
-                new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
-            case 3:
-                new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path()
-            case 4:
-                new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
-            case 5:
-                # Before saving, fill in startup item parameter ItemNumber
-                new_item[ENUM_JSK.ITEMNUMBER.value] = 0
+                # Add the Name, Description, FilePath, and ArgumentList parameters
+                startup_item_setup(new_item)
 
-                # Before saving, fill in startup item parameters ArgumentCount
-                arg_count = new_item[ENUM_JSK.ARGUMENTLIST.value]
+                # Set the ArgumentCount parameter
+                arg_count = len(new_item[ENUM_JSK.ARGUMENTLIST.value])
                 new_item[ENUM_JSK.ARGUMENTCOUNT.value] = arg_count
 
-                # Before saving, fill in startup item parameter Browser
+                # Adjust the Browser parameter, if need be
                 split_path = new_item[ENUM_JSK.FILEPATH.value].split("\\")
                 program_name = split_path[len(split_path) - 1].split(".")
                 browser_list = ["chrome", "msedge", "firefox"]
@@ -87,7 +77,7 @@ def add_startup_item():
                     new_item[ENUM_JSK.BROWSER.value] = True
                 else:
                     new_item[ENUM_JSK.BROWSER.value] = False
-            case 6:
+            case 8:
                 quit_loop = True
 
     return new_item
