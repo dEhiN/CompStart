@@ -107,10 +107,14 @@ There is a feature branch for creating a command-line tool that will allow for t
 
 #### Folder: /packages/v\<num>
 
-- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to version 1.1 packages
+- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to the package for version 1.1
 
 #### Folder: /releases
 
 - D _v\<num>_ A folder for each major version number; for example _v1_ will hold all content related to all version 1 releases
 - F _instructions.txt_ Text instructions on how to manually install Demord; will be used and copied to each release until an automated install method is created
 - F _README.md_ The README for release information, how it works, etc.
+
+#### Folder: /releases/v\<num>
+
+- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to the release of version 1.1
