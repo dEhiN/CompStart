@@ -72,6 +72,8 @@ do {
         # Set the location of current working directory
         $CurrentLocation = $PSScriptRoot
 
+        Write-Host $PSScriptRoot
+
         # Set the location for production by default
         $DataFileLocation = "\config\"
 
