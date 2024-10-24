@@ -1,4 +1,4 @@
-# Dependency to store miscellaneous helper functions that don't fit anywhere else as well as the default JSON data
+# Dependency to store miscellaneous helper functions that don't fit anywhere else
 
 import os, jsonschema
 
@@ -25,6 +25,17 @@ def set_start_dir():
             while num_dirs_diff > 0:
                 os.chdir("..")
                 num_dirs_diff -= 1
+
+
+def is_production():
+    """Small helper function to return the variable is_prod.
+
+    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
+
+    Returns:
+        bool: The variable is_prod from the comp_start module. This variable will be False when in testing and True otherwise.
+    """
+    return app_cs.is_prod
 
 
 def program_info():
@@ -145,7 +156,7 @@ def get_prod_path():
         list: A list of strings, with each string representing a sub-directory going from left to right. Example: ["grandparent", "parent", "child"]
     """
     prod_path = ["devenv"]
-    if app_cs.is_production():
+    if is_production():
         prod_path.extend(["data", "json_data"])
     else:
         prod_path.extend(["feature_addons", "startup_data_modifier_tool"])

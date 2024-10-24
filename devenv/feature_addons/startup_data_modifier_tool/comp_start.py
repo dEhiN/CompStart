@@ -8,18 +8,6 @@ import dependencies.pretty as deps_pretty
 # Global variable to specify is in testing or production environment
 is_prod = False
 
-
-def is_production():
-    """Small helper function to return the variable is_prod.
-
-    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
-
-    Returns:
-        bool: The variable is_prod which is False when in testing and True otherwise.
-    """
-    return is_prod
-
-
 if __name__ == "__main__":
     # Set the starting directory
     deps_helper.set_start_dir()
@@ -36,17 +24,16 @@ if __name__ == "__main__":
     status_message = "No action taken..."
 
     # Main loop to allow user to navigate program options
-    menu_choices = (
-        "[1] What is CompStart?\n"
-        "[2] Create a new startup file\n"
-        "[3] View the existing startup file\n"
-        "[4] Edit the existing startup file\n"
-    )
-    total_menu_choices = 4
+    menu_choices = [
+        "What is CompStart?",
+        "Create a new startup file",
+        "View the existing startup file",
+        "Edit the existing startup file",
+    ]
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
         match user_choice:
             case 1:
