@@ -38,28 +38,15 @@ function Get-StarupItem {
 
     # Grab each item's properties
     $ItemNumber = $StartupItem.ItemNumber
-    #    $ItemName = $StartupItem.Name
     $ItemPath = $StartupItem.FilePath
-    #    $ItemDescription = $StartupItem.Description
-    #    $ItemIsBrowser = $StartupItem.Browser
     $ItemArgCount = $StartupItem.ArgumentCount
     $ItemArgList = $StartupItem.ArgumentList
 
     # Process startup arguments
-    #$LoopCounter = 0
     $AllArgs = ""
 
     if ($ItemArgCount -gt 0) {
         foreach ($ItemArg in $ItemArgList) {
-            #$LoopCounter += 1
-    
-            #if ($ItemIsBrowser -and ($LoopCounter -eq $ItemArgCount)) {
-            #    $AllArgs += $ItemArg
-            #}
-            #else {
-            #    $AllArgs += [string]$ItemArg
-            #}
-
             $AllArgs += [string]$ItemArg + " "
         }
     }
@@ -88,7 +75,12 @@ do {
         # Set the location for production by default
         $DataFileLocation = "\config\"
 
-        Write-Host $DataFileLocation
+        # Check if this script is being run in production - as a release...
+        # ...or if this script is being run in development
+        if (-not (Test-Path ($CurrentLocation + $DataFileLocation))) {
+            # Development environment, so change the location
+            $DataFileLocation = "\data\json_data\"
+        }
 
         # Set the name of the JSON file
         $DataFileName = "startup_data.json"
