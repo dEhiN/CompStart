@@ -76,11 +76,26 @@ do {
 
         Write-Host $CurrentLocation
 
+        # Set the location for production by default
+        $DataFileLocation = "\config\"
+
+        Write-Host $DataFileLocation
+
+        # Check if this script is being run in production, as a release, or in development
+        #        if (-not (Test-Path ($CurrentLocation + $DataFileLocation))) {
+        #            # Development environment, so change the location
+        #            $DataFileLocation = "\data\json_data\"
+        #        }
+
         # Set the name of the JSON file
         $DataFileName = "startup_data.json"
+
+        Write-Host $DataFileName
         
         # Concatenate all 3 variables to get the full script path
-        $JSONFile = [string]$CurrentLocation + "\" + $DataFileName
+        $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
+
+        Write-Host $JSONFile
 
         # Load JSON data
         $JSONData = Get-Content -Path $JSONFile | ConvertFrom-Json
@@ -88,7 +103,8 @@ do {
 
         # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
-            Get-StarupItem $StartupItem
+            # Get-StarupItem $StartupItem
+            Write-Host $StartupItem
         }
     }
     elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
