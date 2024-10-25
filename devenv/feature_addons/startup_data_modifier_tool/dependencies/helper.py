@@ -126,7 +126,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     valid_json = False
     schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
     schema_path = get_prod_path()
-    schema_path.extend(["config"])
+    schema_path.extend(["schema"])
 
     results = deps_json.json_reader(schema_path, schema_file)
     read_status = results[0]
@@ -155,11 +155,7 @@ def get_prod_path():
     Returns:
         list: A list of strings, with each string representing a sub-directory going from left to right. Example: ["grandparent", "parent", "child"]
     """
-    prod_path = ["devenv"]
-    if is_production():
-        prod_path.extend(["data", "json_data"])
-    else:
-        prod_path.extend(["feature_addons", "startup_data_modifier_tool"])
+    prod_path = ["config"]
 
     return prod_path
 
