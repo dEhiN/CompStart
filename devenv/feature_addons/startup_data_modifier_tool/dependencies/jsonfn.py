@@ -13,13 +13,15 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def json_reader(json_path: list, json_filename: str):
+def json_reader(json_path: list, json_filename: str, is_json_schema: bool = False):
     """Function to read in JSON data from a file
 
     Args:
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
+
+        is_json_schema (bool): A variable specifying if the JSON file that will be read is going to be one of the JSON schema files. This was added because in order to confirm when the JSON startup data is read in, it's valid, the function json_data_validator from the helper module is called. However, that function then calls this function, which creates a loop. This variable will be used specifically to avoid that situation. The default is False, so most existing calls to this function will still work. The call in the json_data_validator function will pass in a value of True for this variable.
 
     Returns:
         bool: True if there is JSON data to return, False if not
@@ -67,7 +69,7 @@ def json_reader(json_path: list, json_filename: str):
                 if len(json_data) == 0:
                     deps_pretty.prettify_custom_error("JSON data is blank", "json_reader")
                 # Check to see if the JSON data is valid (ex., no blank JSON object)
-                elif not deps_helper.json_data_validator(json_data):
+                elif not is_json_schema and not deps_helper.json_data_validator(json_data):
                     deps_pretty.prettify_custom_error(
                         "JSON data isn't valid startup data", "json_reader"
                     )

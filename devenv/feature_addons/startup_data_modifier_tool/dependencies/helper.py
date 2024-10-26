@@ -117,7 +117,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     schema_path = get_prod_path()
     schema_path.extend(["config"])
 
-    results = deps_json.json_reader(schema_path, schema_file)
+    results = deps_json.json_reader(schema_path, schema_file, True)
     read_status = results[0]
 
     if read_status:
