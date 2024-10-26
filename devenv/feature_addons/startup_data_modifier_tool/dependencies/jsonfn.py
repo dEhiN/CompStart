@@ -21,7 +21,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
         json_filename (str): The filename of the JSON file
 
-        is_json_schema (bool): A variable specifying if the JSON file that will be read is going to be one of the JSON schema files. This was added because in order to confirm when the JSON startup data is read in, it's valid, the function json_data_validator from the helper module is called. However, that function then calls this function, which creates a loop. This variable will be used specifically to avoid that situation. The default is False, so most existing calls to this function will still work. The call in the json_data_validator function will pass in a value of True for this variable.
+        is_json_schema (bool): A variable specifying if the JSON file that will be read is going to be one of the JSON schema files. This was added because in order to confirm that read in JSON startup data is valid, the function json_data_validator from the helper module is called. However, that function then calls this function, which creates a loop. This variable will be used specifically to avoid that situation. The default is False, so most existing calls to this function will still work. The call in the json_data_validator function will pass in a value of True for this variable.
 
     Returns:
         bool: True if there is JSON data to return, False if not
