@@ -29,9 +29,11 @@ def json_reader(json_path: list, json_filename: str):
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
-    # Create return values
+    # Create return variables with default values
     read_json_success = False
-    return_message = "Startup data read in successfully!"
+    return_message = (
+        "There was a problem reading in the startup data!\nPlease see the error details above."
+    )
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -61,8 +63,18 @@ def json_reader(json_path: list, json_filename: str):
                 with open(json_file, "r") as json_file:
                     json_data = json.load(json_file)
 
+                # Check to see if the JSON data file is blank
+                if len(json_data) == 0:
+                    deps_pretty.prettify_custom_error("JSON data is blank", "json_reader")
+                # Check to see if the JSON data is valid (ex., no blank JSON object)
+                elif not deps_helper.json_data_validator(json_data):
+                    deps_pretty.prettify_custom_error(
+                        "JSON data isn't valid startup data", "json_reader"
+                    )
                 # Read was successful
-                read_json_success = True
+                else:
+                    read_json_success = True
+                    return_message = "Startup data read in successfully!"
             except Exception as error:
                 return_message = deps_pretty.prettify_io_error(error, "r")
 
