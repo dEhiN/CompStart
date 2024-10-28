@@ -25,8 +25,13 @@ def generate_new_json_data(is_default: bool = False):
         is_default (bool): Tells this function whether to create a file with default values or user-specified ones; default is False.
 
     Returns:
+        bool: True if there is JSON data to return, False if not
+
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
+    exists_data = False
+    json_data = {}
+
     # Adding override to use default startup file for when not in production and user wants to supply their own startup data
     if not app_cs.is_production() and not is_default:
         print(
@@ -36,11 +41,12 @@ def generate_new_json_data(is_default: bool = False):
 
     # Determine what type of JSON data to create
     if is_default:
-        json_data = generate_default_startup_data()
+        exists_data, json_data = generate_default_startup_data()
     else:
         json_data = generate_user_startup_data()
+        exists_data = True
 
-    return json_data
+    return (exists_data, json_data)
 
 
 def generate_default_startup_data():
@@ -49,8 +55,11 @@ def generate_default_startup_data():
     Reads in the default startup data from the file default_startup.json and returns it
 
     Returns:
+        bool: True if there is JSON data to return, False if not
+
         dict: A dictionary of JSON startup data
     """
+    exists_data = False
     default_json = {}
 
     config_path = deps_helper.get_prod_path()
@@ -63,17 +72,17 @@ def generate_default_startup_data():
     if os.path.isfile(json_file):
         # Read in JSON data
         read_success, return_message, default_json = deps_json.json_reader(config_path, file_name)
-        if not read_success:
-            print(
-                deps_pretty.prettify_custom_error(return_message, "generate_default_startup_data")
-            )
+        if read_success:
+            exists_data = True
+        else:
+            deps_pretty.prettify_custom_error(return_message, "generate_default_startup_data")
     else:
         deps_pretty.prettify_custom_error(
-            "The default_startup.json file could not be found! Returning an empty JSON object... ",
+            "The default startup data JSON file could not be found!",
             "generate_default_startup_data",
         )
 
-    return default_json
+    return (exists_data, default_json)
 
 
 def generate_user_startup_data():

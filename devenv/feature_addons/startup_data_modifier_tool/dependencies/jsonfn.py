@@ -84,7 +84,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
 
 def json_writer(json_file: str, file_state: int, json_data: dict):
-    """Function to write the actual JSON data to file
+    """Function to write the actual JSON data to file for a new startup file
 
     Based on the value of the file_state variable, the file to be written is handled differently:
 
@@ -189,21 +189,26 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
     # Initialize variables
     write_json_success = False
-    return_message = ""
+    exists_data = False
+    return_message = (
+        "There was a problem generating the startup data!\nPlease see the error details above."
+    )
     file_state = 0
 
     # Get the full path to the file in string format
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create startup JSON data to add to the startup_data.json file
-    json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
+    exists_data, json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
 
-    # If the file exists, make sure we confirm from the user before overwriting the file
-    if os.path.isfile(json_file):
-        file_state = 1
+    # Check to see if any data was actually generated
+    if exists_data:
+        # If the file exists, make sure we confirm from the user before overwriting the file
+        if os.path.isfile(json_file):
+            file_state = 1
 
-    # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+        # Write the file to disk and get the return values
+        write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
     return write_json_success, return_message
 
