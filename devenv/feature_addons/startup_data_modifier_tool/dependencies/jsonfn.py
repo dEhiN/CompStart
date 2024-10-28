@@ -282,28 +282,36 @@ def json_editor(json_path: list, json_filename: str):
                     print("\nThat functionality hasn't yet been implemented!")
                     # new_menu = True
                 elif user_choice == item_delete:
-                    # User chose to delete an existing startup item
-                    new_menu = True
+                    # First check to see if there are any items to delete
+                    if total_items > 0:
+                        # User chose to delete an existing startup item
+                        new_menu = True
 
-                    question_prompt = "\nPlease enter the startup item number you want to remove"
-                    if total_items == 1:
-                        question_prompt += " [1]: "
+                        question_prompt = (
+                            "\nPlease enter the startup item number you want to remove"
+                        )
+                        if total_items == 1:
+                            question_prompt += " [1]: "
+                        else:
+                            question_prompt += f" [1-{total_items}]: "
+                        user_input = input(question_prompt)
+
+                        if (
+                            not user_input.isnumeric()
+                            or int(user_input) < 1
+                            or int(user_input) > total_items
+                        ):
+                            # User didn't choose a valid option
+                            print("\nThat choice is invalid!")
+                        else:
+                            # User chose a valid option, process accordingly
+                            user_item_choice = int(user_input)
+
+                            json_data = json_pruner(json_data, user_item_choice)
                     else:
-                        question_prompt += f" [1-{total_items}]: "
-                    user_input = input(question_prompt)
-
-                    if (
-                        not user_input.isnumeric()
-                        or int(user_input) < 1
-                        or int(user_input) > total_items
-                    ):
-                        # User didn't choose a valid option
-                        print("\nThat choice is invalid!")
-                    else:
-                        # User chose a valid option, process accordingly
-                        user_item_choice = int(user_input)
-
-                        json_data = json_pruner(json_data, user_item_choice)
+                        print(
+                            "There are no items to delete! Please add a new startup item first..."
+                        )
                 elif user_choice == data_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
