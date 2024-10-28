@@ -66,7 +66,7 @@ if __name__ == "__main__":
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
                 )
-                print(f"\n{status_message}\n")
+                print(f"\n{status_message}")
 
                 # If there was data read in, print it out in a prettified way
                 if status_state:
