@@ -1,10 +1,11 @@
 # Dependency to store the helper functions that are used to generate JSON data
 
-import json, copy, os.path
+import copy, os.path
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
+import dependencies.jsonfn as deps_json
 import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
@@ -61,12 +62,11 @@ def generate_default_startup_data():
 
     if os.path.isfile(json_file):
         # Read in JSON data
-        try:
-            with open(json_file, "r") as json_file:
-                default_json = json.load(json_file)
-        except Exception as error:
-            print(deps_pretty.prettify_io_error(error, "r"))
-
+        read_success, return_message, default_json = deps_json.json_reader(config_path, file_name)
+        if not read_success:
+            print(
+                deps_pretty.prettify_custom_error(return_message, "generate_default_startup_data")
+            )
     else:
         deps_pretty.prettify_custom_error(
             "The default_startup.json file could not be found! Returning an empty JSON object... ",
