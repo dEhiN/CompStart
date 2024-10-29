@@ -75,10 +75,13 @@ def generate_default_startup_data():
         if read_success:
             exists_data = True
         else:
-            deps_pretty.prettify_custom_error(return_message, "generate_default_startup_data")
+            deps_pretty.prettify_custom_error(
+                "Could not generate default startup data",
+                "generate_default_startup_data",
+            )
     else:
         deps_pretty.prettify_custom_error(
-            "The default startup data JSON file could not be found!",
+            "The default startup data JSON file could not be found",
             "generate_default_startup_data",
         )
 

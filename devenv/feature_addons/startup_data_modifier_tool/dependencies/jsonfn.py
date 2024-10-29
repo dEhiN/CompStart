@@ -33,9 +33,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
     # Create return variables with default values
     read_json_success = False
-    return_message = (
-        "There was a problem reading in the startup data!\nPlease see the error details above."
-    )
+    return_message = ""
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -67,18 +65,20 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
                 # Check to see if the JSON data file is blank
                 if len(json_data) == 0:
-                    deps_pretty.prettify_custom_error("JSON data is blank", "json_reader")
+                    return_message = "JSON data is blank"
                 # Check to see if the JSON data is valid (ex., no blank JSON object)
                 elif not is_json_schema and not deps_helper.json_data_validator(json_data):
-                    deps_pretty.prettify_custom_error(
-                        "JSON data isn't valid startup data", "json_reader"
-                    )
+                    return_message = "JSON data isn't valid startup data"
                 # Read was successful
                 else:
                     read_json_success = True
-                    return_message = "Startup data read in successfully!"
+                    return_message = "Startup data read in successfully"
             except Exception as error:
                 return_message = deps_pretty.prettify_io_error(error, "r")
+
+    # If there were any errors or exceptions, print them out
+    if not read_json_success:
+        deps_pretty.prettify_custom_error(return_message, "json_reader")
 
     return read_json_success, return_message, json_data
 
@@ -112,7 +112,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
     # Initialize return variables
     write_json_success = False
-    return_message = "Startup file written successfully!"
+    return_message = ""
     file_mode = ""
 
     # Check for valid file_state value
@@ -126,7 +126,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 # Write JSON data to file
                 file_mode = "w"
             else:
-                return_message = "Skipped writing startup file!"
+                return_message = "Skipped writing startup file"
         case 2:
             # Check to see if the current JSON data in the file is different from json_data
             try:
@@ -141,12 +141,10 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             else:
                 return_message = (
                     "Existing startup data and new startup data are the same. Not"
-                    + f" updating {json_file} because there is no point."
+                    + f" updating {json_file} because there are no changes."
                 )
         case _:
-            return_message = (
-                "Invalid file state! Could not write startup data." " Please try again."
-            )
+            return_message = "Invalid file state. Could not write startup data."
 
     # Write to file if needed
     if not file_mode == "":
@@ -156,14 +154,19 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
             # Created file successfully
             write_json_success = True
+            return_message = "Startup file written successfully!"
         except Exception as error:
             return_message = deps_pretty.prettify_io_error(error, file_mode)
+
+    # If there were any errors or exceptions, print them out
+    if not write_json_success:
+        deps_pretty.prettify_custom_error(return_message, "json_writer")
 
     return write_json_success, return_message
 
 
 def json_creator(json_path: list, json_filename: str, default_mode: bool):
-    """Function to create a new JSON file
+    """Function to create a new startup data JSON file
 
     There are two possibilities here:
 
@@ -190,9 +193,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     # Initialize variables
     write_json_success = False
     exists_data = False
-    return_message = (
-        "There was a problem generating the startup data!\nPlease see the error details above."
-    )
+    return_message = ""
     file_state = 0
 
     # Get the full path to the file in string format
@@ -209,6 +210,16 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
         # Write the file to disk and get the return values
         write_json_success, return_message = json_writer(json_file, file_state, json_data)
+
+    else:
+        # There's no data to use, so let the user know
+        deps_pretty.prettify_custom_error(
+            "Could not create a new startup data JSON file",
+            "json_creator",
+        )
+        return_message = (
+            "Please see the error message(s) above and report the issue to the development team"
+        )
 
     return write_json_success, return_message
 
