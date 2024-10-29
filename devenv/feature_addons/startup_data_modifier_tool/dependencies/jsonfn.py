@@ -13,13 +13,15 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def json_reader(json_path: list, json_filename: str):
+def json_reader(json_path: list, json_filename: str, is_json_schema: bool = False):
     """Function to read in JSON data from a file
 
     Args:
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
         json_filename (str): The filename of the JSON file
+
+        is_json_schema (bool): A variable specifying if the JSON file that will be read is going to be one of the JSON schema files. This was added because in order to confirm that read in JSON startup data is valid, the function json_data_validator from the helper module is called. However, that function then calls this function, which creates a loop. This variable will be used specifically to avoid that situation. The default is False, so most existing calls to this function will still work. The call in the json_data_validator function will pass in a value of True for this variable.
 
     Returns:
         bool: True if there is JSON data to return, False if not
@@ -29,9 +31,11 @@ def json_reader(json_path: list, json_filename: str):
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
-    # Create return values
+    # Create return variables with default values
     read_json_success = False
-    return_message = "Startup data read in successfully!"
+    return_message = (
+        "There was a problem reading in the startup data!\nPlease see the error details above."
+    )
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -61,10 +65,21 @@ def json_reader(json_path: list, json_filename: str):
                 with open(json_file, "r") as json_file:
                     json_data = json.load(json_file)
 
+                # Check to see if the JSON data file is blank
+                if len(json_data) == 0:
+                    deps_pretty.prettify_custom_error("JSON data is blank", "json_reader")
+                # Check to see if the JSON data is valid (ex., no blank JSON object)
+                elif not is_json_schema and not deps_helper.json_data_validator(json_data):
+                    deps_pretty.prettify_custom_error(
+                        "JSON data isn't valid startup data", "json_reader"
+                    )
                 # Read was successful
-                read_json_success = True
+                else:
+                    read_json_success = True
+                    return_message = "Startup data read in successfully!"
             except Exception as error:
-                return_message = deps_pretty.prettify_io_error(error, "r")
+                io_error = deps_pretty.prettify_io_error(error, "r")
+                deps_pretty.prettify_custom_error(io_error, "json_reader")
 
     return read_json_success, return_message, json_data
 
@@ -268,28 +283,36 @@ def json_editor(json_path: list, json_filename: str):
                     print("\nThat functionality hasn't yet been implemented!")
                     # new_menu = True
                 elif user_choice == item_delete:
-                    # User chose to delete an existing startup item
-                    new_menu = True
+                    # First check to see if there are any items to delete
+                    if total_items > 0:
+                        # User chose to delete an existing startup item
+                        new_menu = True
 
-                    question_prompt = "\nPlease enter the startup item number you want to remove"
-                    if total_items == 1:
-                        question_prompt += " [1]: "
+                        question_prompt = (
+                            "\nPlease enter the startup item number you want to remove"
+                        )
+                        if total_items == 1:
+                            question_prompt += " [1]: "
+                        else:
+                            question_prompt += f" [1-{total_items}]: "
+                        user_input = input(question_prompt)
+
+                        if (
+                            not user_input.isnumeric()
+                            or int(user_input) < 1
+                            or int(user_input) > total_items
+                        ):
+                            # User didn't choose a valid option
+                            print("\nThat choice is invalid!")
+                        else:
+                            # User chose a valid option, process accordingly
+                            user_item_choice = int(user_input)
+
+                            json_data = json_pruner(json_data, user_item_choice)
                     else:
-                        question_prompt += f" [1-{total_items}]: "
-                    user_input = input(question_prompt)
-
-                    if (
-                        not user_input.isnumeric()
-                        or int(user_input) < 1
-                        or int(user_input) > total_items
-                    ):
-                        # User didn't choose a valid option
-                        print("\nThat choice is invalid!")
-                    else:
-                        # User chose a valid option, process accordingly
-                        user_item_choice = int(user_input)
-
-                        json_data = json_pruner(json_data, user_item_choice)
+                        print(
+                            "There are no items to delete! Please add a new startup item first..."
+                        )
                 elif user_choice == data_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
