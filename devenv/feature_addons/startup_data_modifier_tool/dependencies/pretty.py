@@ -107,12 +107,17 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data. Error information is below:\n"
+            return_message += "Unable to read startup data. "
         case "w":
-            return_message += "Unable to write startup data. Error information is below:\n"
+            return_message += "Unable to write startup data. "
         case _:
             pass
-    return_message += str(type(error).__name__) + " - " + str(error)
+    return_message += (
+        "The following Python system error was occurred: "
+        + str(type(error).__name__)
+        + " - "
+        + str(error)
+    )
     return return_message
 
 
