@@ -158,8 +158,8 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         except Exception as error:
             return_message = deps_pretty.prettify_io_error(error, file_mode)
 
-    # If there were any errors or exceptions, print them out
-    if not write_json_success:
+    # If there were any errors or exceptions, print them out unless there's a return message that's not an Exception
+    if not write_json_success and not file_mode == "":
         deps_pretty.prettify_custom_error(return_message, "json_writer")
 
     return write_json_success, return_message
