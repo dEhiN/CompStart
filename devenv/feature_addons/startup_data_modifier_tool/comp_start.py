@@ -49,7 +49,6 @@ if __name__ == "__main__":
                     )
                 print(f"\n{status_message}")
             case 3:
-                print(os.getcwd())
                 # Read in existing JSON file and store the return results of the json_read function, then print out if the read was successful
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
