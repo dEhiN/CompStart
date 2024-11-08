@@ -75,9 +75,7 @@ def prettify_startup_item(startup_item: dict):
         startup_data += "Yes"
 
         # Get the total number of arguments
-        startup_data += (
-            line + tab + "Total number of arguments used: " + str(arg_count)
-        )
+        startup_data += line + tab + "Total number of arguments used: " + str(arg_count)
         arg_list = startup_item["ArgumentList"]
 
         # Go through each argument
@@ -85,15 +83,7 @@ def prettify_startup_item(startup_item: dict):
         for argument in arg_list:
             counter += 1
             startup_data += (
-                line
-                + tab
-                + tab
-                + "Argument "
-                + str(counter)
-                + ": "
-                + '"'
-                + argument
-                + '"'
+                line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
             )
     else:
         startup_data += "No"
@@ -117,16 +107,17 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += (
-                "Unable to read startup data. Error information is below:\n"
-            )
+            return_message += "Unable to read startup data"
         case "w":
-            return_message += (
-                "Unable to write startup data. Error information is below:\n"
-            )
+            return_message += "Unable to write startup data"
         case _:
             pass
-    return_message += str(type(error).__name__) + " - " + str(error)
+    return_message += (
+        "\nThe following Python system error occurred: "
+        + str(type(error).__name__)
+        + " - "
+        + str(error)
+    )
     return return_message
 
 

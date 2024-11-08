@@ -40,9 +40,9 @@ if __name__ == "__main__":
                 deps_helper.program_info()
             case 2:
                 # Find out which type of new file the user wants
-                is_default, to_continue = deps_chooser.new_file_chooser()
+                is_default, create_file = deps_chooser.new_file_chooser()
 
-                if to_continue:
+                if create_file:
                     # Create a new JSON file
                     status_state, status_message = deps_json.json_creator(
                         json_path, json_filename, is_default
@@ -53,7 +53,7 @@ if __name__ == "__main__":
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
                 )
-                print(f"\n{status_message}\n")
+                print(f"\n{status_message}")
 
                 # If there was data read in, print it out in a prettified way
                 if status_state:

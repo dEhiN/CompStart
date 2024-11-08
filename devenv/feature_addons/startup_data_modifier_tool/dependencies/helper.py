@@ -128,7 +128,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     schema_path = get_prod_path()
     schema_path.extend(["schema"])
 
-    results = deps_json.json_reader(schema_path, schema_file)
+    results = deps_json.json_reader(schema_path, schema_file, True)
     read_status = results[0]
 
     if read_status:
@@ -138,8 +138,8 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             jsonschema.validate(json_data, json_schema)
             valid_json = True
         except Exception as error:
-            err_param = str(type(error).__name__) + " - " + (error.__dict__["message"])
-            deps_pretty.prettify_custom_error(err_param, "helper.json_data_validator")
+            err_msg = deps_pretty.prettify_io_error(error)
+            deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
 
     return valid_json
 

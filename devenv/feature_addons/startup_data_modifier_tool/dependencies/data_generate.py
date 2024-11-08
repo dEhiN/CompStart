@@ -1,10 +1,12 @@
 # Dependency to store the helper functions that are used to generate JSON data
 
-import json, copy, os.path
+import copy, os.path
 
 import dependencies.enum as deps_enum
 import dependencies.helper as deps_helper
 import dependencies.pretty as deps_pretty
+import dependencies.jsonfn as deps_json
+import comp_start as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_JSS = deps_enum.JsonSchemaStructure
@@ -23,8 +25,13 @@ def generate_new_json_data(is_default: bool = False):
         is_default (bool): Tells this function whether to create a file with default values or user-specified ones; default is False.
 
     Returns:
+        bool: True if there is JSON data to return, False if not
+
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
+    exists_data = False
+    json_data = {}
+
     # Adding override to use default startup file for when not in production and user wants to supply their own startup data
     if not deps_helper.is_production() and not is_default:
         print(
@@ -34,11 +41,12 @@ def generate_new_json_data(is_default: bool = False):
 
     # Determine what type of JSON data to create
     if is_default:
-        json_data = generate_default_startup_data()
+        exists_data, json_data = generate_default_startup_data()
     else:
         json_data = generate_user_startup_data()
+        exists_data = True
 
-    return json_data
+    return (exists_data, json_data)
 
 
 def generate_default_startup_data():
@@ -47,10 +55,12 @@ def generate_default_startup_data():
     Reads in the default startup data from the file default_startup.json and returns it
 
     Returns:
+        bool: True if there is JSON data to return, False if not
+
         dict: A dictionary of JSON startup data
     """
-    # Create empty JSON object / Python dictionary
-    default_json = ENUM_JSS.OBJECT.value.copy()
+    exists_data = False
+    default_json = {}
 
     config_path = deps_helper.get_prod_path()
     config_path.extend(["config"])
@@ -61,19 +71,21 @@ def generate_default_startup_data():
 
     if os.path.isfile(json_file):
         # Read in JSON data
-        try:
-            with open(json_file, "r") as json_file:
-                default_json = json.load(json_file)
-        except Exception as error:
-            print(deps_pretty.prettify_io_error(error, "r"))
-
+        read_success, return_message, default_json = deps_json.json_reader(config_path, file_name)
+        if read_success:
+            exists_data = True
+        else:
+            deps_pretty.prettify_custom_error(
+                "Could not generate default startup data",
+                "generate_default_startup_data",
+            )
     else:
         deps_pretty.prettify_custom_error(
-            "The default_startup.json file could not be found! Returning an empty JSON object... ",
+            "The default startup data JSON file could not be found",
             "generate_default_startup_data",
         )
 
-    return default_json
+    return (exists_data, default_json)
 
 
 def generate_user_startup_data():
@@ -89,17 +101,12 @@ def generate_user_startup_data():
     json_data[ENUM_JSK.TOTALITEMS.value] = 0
     json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
 
-    print(
-        "This functionality hasn't been fully implemented yet. Creating blank"
-        " startup file..."
-    )
+    print("This functionality hasn't been fully implemented yet. Creating blank" " startup file...")
 
     return json_data
 
 
-def generate_user_edited_data(
-    modified_json_data: dict, item_type: str, orig_json_data: dict = {}
-):
+def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_json_data: dict = {}):
     """Helper function to create JSON data from edited startup data
 
     Creates a dictionary with the new JSON data added in, removed or updated. Uses the Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys. Uses the Enum class JsonSchemaStructure through the variable ENUM_JSS to create a Python dictionary for a JSON
@@ -137,9 +144,7 @@ def generate_user_edited_data(
         )
     else:
         # Item_type is a valid value, so continue
-        scenario_number = data_validation_scenario(
-            modified_json_data, item_type, orig_json_data
-        )
+        scenario_number = data_validation_scenario(modified_json_data, item_type, orig_json_data)
 
         # Check the status of the data validation
         # If the validation failed, then a blank Python dictionary is returned, so no need to code that in
@@ -153,13 +158,9 @@ def generate_user_edited_data(
                 # Make sure the item number of the new startup item is correct
                 if (
                     modified_json_data[ENUM_JSK.ITEMNUMBER.value]
-                    <= orig_items_list[current_total_items - 1][
-                        ENUM_JSK.ITEMNUMBER.value
-                    ]
+                    <= orig_items_list[current_total_items - 1][ENUM_JSK.ITEMNUMBER.value]
                 ):
-                    modified_json_data[ENUM_JSK.ITEMNUMBER.value] = (
-                        new_total_items
-                    )
+                    modified_json_data[ENUM_JSK.ITEMNUMBER.value] = new_total_items
 
                 # Copy the necessary data including adding the new startup item at the end of the items list
                 new_items_list = copy.deepcopy(orig_items_list)
@@ -171,9 +172,7 @@ def generate_user_edited_data(
                 # Data validation passed and modified JSON data passed in is a single startup item that needs to be deleted from the startup data. Remove the item and update the TotalItems property of the startup data as well as the ItemNumber for all startup items that originally came after the deleted startup item. Return the original JSON data but with the changes.
 
                 total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
-                delete_item_number = modified_json_data[
-                    ENUM_JSK.ITEMNUMBER.value
-                ]
+                delete_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
 
                 # Check to make sure the item number is valid
                 if delete_item_number in range(1, total_items + 1):
@@ -208,16 +207,14 @@ def generate_user_edited_data(
             case 3:
                 # Data validation passed and modified JSON data passed in is a single startup item that is meant to update an existing startup item. Return the original JSON data but with the changed, existing startup item.
                 total_items = orig_json_data[ENUM_JSK.TOTALITEMS.value]
-                change_item_number = modified_json_data[
-                    ENUM_JSK.ITEMNUMBER.value
-                ]
+                change_item_number = modified_json_data[ENUM_JSK.ITEMNUMBER.value]
 
                 # Check to make sure the item number is valid
                 if change_item_number in range(1, total_items + 1):
                     new_json_data = copy.deepcopy(orig_json_data)
-                    new_json_data[ENUM_JSK.ITEMS.value][
-                        change_item_number - 1
-                    ] = copy.deepcopy(modified_json_data)
+                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
+                        modified_json_data
+                    )
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
@@ -230,9 +227,7 @@ def generate_user_edited_data(
     return new_json_data
 
 
-def data_validation_scenario(
-    modified_json_data: dict, item_type: str, orig_json_data: dict
-):
+def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json_data: dict):
     """Helper function for the function generate_user_edited_data to handle the data validation and determining which scenario is applicable based on the following possible valid scenarios:
 
     1) Need to add a single startup item
@@ -297,22 +292,16 @@ def data_validation_scenario(
 
     # If the orig_json_data dictionary isn't blank, check that it contains properly formed data
     if data_validation["Orig-Exists"]:
-        data_validation["Orig-Valid"] = deps_helper.json_data_validator(
-            orig_json_data
-        )
+        data_validation["Orig-Valid"] = deps_helper.json_data_validator(orig_json_data)
 
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
-            modified_json_data
-        )
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data)
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
         data_validation["Mod-Single"] = True
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
-            modified_json_data, True
-        )
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data, True)
 
     # Check for each of the 3 scenarios listed in the docstring:
     scenario_number, validation_results = match_scenario(data_validation)
@@ -370,9 +359,7 @@ def match_scenario(data_validation: dict):
     validation_results = ""
 
     # Expand the data_validation dictionary keys to separate variables for the conditional block
-    item_type, orig_exists, orig_valid, mod_single, mod_valid = (
-        data_validation.values()
-    )
+    item_type, orig_exists, orig_valid, mod_single, mod_valid = data_validation.values()
 
     # Set up the different error scenario texts
     error_scenario_numbers = [
@@ -419,13 +406,9 @@ def match_scenario(data_validation: dict):
         else:
 
             validation_results = (
-                error_scenario_numbers[error_scenario_number - 1]
-                + " "
-                + error_ending
+                error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
             )
-        deps_pretty.prettify_custom_error(
-            validation_results, "data_generate.match_scenario"
-        )
+        deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
     if not deps_helper.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
