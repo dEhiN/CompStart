@@ -1,0 +1,38 @@
+{
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "7-Zip",
+            "FilePath": "C:\\Program Files\\7-Zip\\7zFM.exe",
+            "Description": "The 7-zip archiver program",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Websites",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "A bunch of websites",
+            "Browser": true,
+            "ArgumentCount": 3,
+            "ArgumentList": [
+                "--new-window",
+                "www.cbc.ca",
+                "www.facebook.com"
+            ]
+        },
+        {
+            "ItemNumber": 3,
+            "Name": "Notepad",
+            "FilePath": "notepad",
+            "Description": "A text editor",
+            "Browser": false,
+            "ArgumentCount": 1,
+            "ArgumentList": [
+                "C:\\Windows\\lsasetup.log"
+            ]
+        }
+    ]
+}

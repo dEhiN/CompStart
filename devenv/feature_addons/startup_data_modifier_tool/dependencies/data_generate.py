@@ -33,7 +33,7 @@ def generate_new_json_data(is_default: bool = False):
     json_data = {}
 
     # Adding override to use default startup file for when not in production and user wants to supply their own startup data
-    if not app_cs.is_production() and not is_default:
+    if not deps_helper.is_production() and not is_default:
         print(
             "This functionality hasn't been fully implemented yet. Creating default startup file..."
         )
@@ -132,7 +132,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
     Returns:
         dict: A dictionary with the updated JSON data
     """
-    # Initialize function variables
+    # Create empty JSON object / Python dictionary
     new_json_data = ENUM_JSS.OBJECT.value.copy()
 
     # Check if item_type is a valid value
@@ -410,7 +410,7 @@ def match_scenario(data_validation: dict):
             )
         deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
-    if not app_cs.is_production():
+    if not deps_helper.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)
         print(
             "Scenario:",

@@ -4,11 +4,211 @@ import copy
 
 import dependencies.data_generate as deps_data_gen
 import dependencies.helper as deps_helper
+import dependencies.chooser as deps_chooser
 import dependencies.jsonfn as deps_json
+import dependencies.startup_edit as deps_item_edit
 import dependencies.enum as deps_enum
 
+ENUM_JSS = deps_enum.JsonSchemaStructure
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
+
+
+def add_startup_item():
+    """Helper function to add, or create, a new startup item
+
+    Args:
+        None
+
+    Returns:
+        dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
+    """
+    # Print out introduction to this section for creating a startup item
+    print(
+        "\nWelcome to the add a startup item section. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word on.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm whatever you enter before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded. However, even if you decide you want to make changes afterward, you can always do so from the main menu by selecting the option to edit an existing startup item."
+    )
+    input("\nPress any key to continue...")
+
+    # Create blank JSON object / Python dictionary
+    new_item = ENUM_JSS.OBJECT.value.copy()
+
+    # Create keys with default values for a startup item
+    new_item.update(
+        {
+            ENUM_JSK.ITEMNUMBER.value: 0,
+            ENUM_JSK.NAME.value: "",
+            ENUM_JSK.FILEPATH.value: "",
+            ENUM_JSK.DESCRIPTION.value: "",
+            ENUM_JSK.BROWSER.value: False,
+            ENUM_JSK.ARGUMENTCOUNT.value: 0,
+            ENUM_JSK.ARGUMENTLIST.value: ENUM_JSS.ARRAY.value,
+        }
+    )
+
+    menu_choices = [
+        "Create the startup item",
+        "Adjust the item name",
+        "Adjust the item description",
+        "Pick a new item program path",
+        "Edit or add item arguments",
+        "View the startup item",
+        "Save the startup item",
+        "Return to the previous menu",
+    ]
+
+    # Loop through to allow the user to create the startup item
+    quit_loop = False
+    while not quit_loop:
+        user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
+
+        match user_choice:
+            case 1:
+                # Add the Name, Description, FilePath, and ArgumentList parameters
+                startup_item_setup(new_item)
+
+                # Set the ArgumentCount parameter
+                arg_count = len(new_item[ENUM_JSK.ARGUMENTLIST.value])
+                new_item[ENUM_JSK.ARGUMENTCOUNT.value] = arg_count
+
+                # Adjust the Browser parameter, if need be
+                split_path = new_item[ENUM_JSK.FILEPATH.value].split("\\")
+                program_name = split_path[len(split_path) - 1].split(".")
+                browser_list = ["chrome", "msedge", "firefox"]
+                if program_name[0].lower() in browser_list:
+                    new_item[ENUM_JSK.BROWSER.value] = True
+                else:
+                    new_item[ENUM_JSK.BROWSER.value] = False
+            case 8:
+                quit_loop = True
+
+    return new_item
+
+
+def startup_item_setup(startup_item: dict):
+    """Helper function to set a startup item's parameters
+
+    Since Python passes by reference, the calling function can just pass in the dictionary it's working with and this function will directly update the values or, the startup item's parameters
+
+    Args:
+        startup_item (dict): The blank startup item to set up.
+    """
+    startup_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+    startup_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
+    startup_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
+        startup_item[ENUM_JSK.NAME.value]
+    )
+    startup_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
+
+
+def add_startup_item_name():
+    """Helper function to set the name of a startup item
+
+    Args:
+        None
+
+    Returns:
+        str: The new startup item name.
+    """
+    new_name = input("\nPlease enter the name you would like to use: ")
+    return new_name
+
+
+def add_startup_item_description():
+    """Helper function to set the description for a startup item
+
+    Args:
+        None
+
+    Returns:
+        str: The new startup item description.
+    """
+    new_description = input("\nPlease enter the description you would like to use: ")
+    return new_description
+
+
+def add_startup_item_program_path(item_name: str = "Startup Item"):
+    """Helper function to set the path of a startup item
+
+    Note: While the add functions for name and description allow the user to change what they initially entered via a loop, this add function doesn't. At present, it makes sense to only check for if the user didn't enter anything or make a choice, and loop in that case. However, there is argument for a scenario where a user chooses the wrong file by accident or enters the wrong path. For now, this function won't worry about that, which means the calling function will need to validate the user input.
+
+    Args:
+        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the default will be "Startup Item".
+
+    Returns:
+        str: The new startup item absolute path
+    """
+    # Initialize function variables
+    new_path = ""
+    loop_quit = False
+    check_blank = False
+
+    # Loop until user chooses or enters a path
+    while not loop_quit:
+        user_menu = [
+            f"Use the file chooser window to select the program executable path for {item_name}",
+            f"Enter the full path manually for {item_name}",
+        ]
+
+        user_choice = deps_chooser.user_menu_chooser(user_menu, False)
+
+        match user_choice:
+            case 1:
+                new_path = deps_chooser.existing_file_chooser(item_name)
+                check_blank = True
+            case 2:
+                input_msg = (
+                    "\nPlease enter the new path to the program executable as an absolute path: "
+                )
+                new_path = input(input_msg)
+                check_blank = True
+
+        if check_blank:
+            loop_quit = True
+
+    return new_path
+
+
+def add_startup_item_arguments_list(arg_list: list = []):
+    """Helper function to allow the user to add arguments for a startup item
+
+    Args:
+        arg_list (list, optional): A list of the existing arguments. Defaults to [].
+
+    Returns:
+        list: A new list containing the arguments the user added appended to the existing list, if passed in.
+    """
+
+    new_arg_list = arg_list.copy()
+    num_args = 0
+
+    # Ask user how many arguments they want to add and loop until the user enters a valid integer
+    while True:
+        try:
+            num_args = int(input("\nHow many arguments would you like to add? "))
+        except ValueError:
+            print("Please enter a valid number...")
+            continue
+        else:
+            break
+
+    for arg_num in range(num_args):
+        # Loop until the user enters an actual argument
+        quit_loop = False
+
+        while not quit_loop:
+            new_argument = input(f"\nPlease type in argument {arg_num + 1}: ")
+
+            # Check if the input exists
+            if new_argument:
+                quit_loop = True
+
+                # Add the new argument to the argument list
+                new_arg_list.append(new_argument)
+                print('\nSuccessfully added "' + new_argument + '"!')
+            else:
+                print("Argument cannot be blank!")
+
+    return new_arg_list
 
 
 def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
@@ -55,46 +255,3 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         pass
 
     return (status_state, status_message)
-
-
-def add_startup_item_arguments_list(arg_list: list = []):
-    """Helper function to allow the user to add arguments for a startup item
-
-    Args:
-        arg_list (list, optional): A list of the existing arguments. Defaults to [].
-
-    Returns:
-        list: A new list containing the arguments the user added appended to the existing list, if passed in.
-    """
-
-    new_arg_list = arg_list.copy()
-    num_args = 0
-
-    # Ask user how many arguments they want to add and loop until the user enters a valid integer
-    while True:
-        try:
-            num_args = int(input("\nHow many arguments would you like to add? "))
-        except ValueError:
-            print("Please enter a valid number...")
-            continue
-        else:
-            break
-
-    for arg_num in range(num_args):
-        # Loop until the user enters an actual argument
-        quit_loop = False
-
-        while not quit_loop:
-            new_argument = input("\nPlease type in the new argument: ")
-
-            # Check if the input exists
-            if new_argument:
-                quit_loop = True
-
-                # Add the new argument to the argument list
-                new_arg_list.append(new_argument)
-                print('\nSuccessfully added "' + new_argument + '"!')
-            else:
-                print("Argument cannot be blank!")
-
-    return new_arg_list

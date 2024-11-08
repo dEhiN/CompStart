@@ -5,6 +5,9 @@ import copy
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
+import dependencies.enum as deps_enum
+
+ENUM_JSK = deps_enum.JsonSchemaKeys
 
 
 def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: str):
@@ -31,47 +34,48 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
     input("\nPress enter when ready to continue...")
 
     # Loop through to and ask the user what they want to do
-    menu_choices = (
-        "[1] Edit item name\n"
-        "[2] Edit item description\n"
-        "[3] Edit item program path\n"
-        "[4] Edit or add item arguments\n"
-        "[5] View startup item\n"
-        "[6] Save startup item data to disk\n"
-        "[7] Return to the previous menu\n"
-    )
-    total_menu_choices = 7
+    menu_choices = [
+        "Edit item name",
+        "Edit item description",
+        "Edit item program path",
+        "Edit or add item arguments",
+        "View startup item",
+        "Save startup item data to disk",
+        "Return to the previous menu",
+    ]
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
         match user_choice:
             case 1:
-                startup_item["Name"] = edit_startup_item_name(startup_item["Name"])
+                startup_item[ENUM_JSK.NAME.value] = edit_startup_item_name(
+                    startup_item[ENUM_JSK.NAME.value]
+                )
             case 2:
-                startup_item["Description"] = edit_startup_item_description(
-                    startup_item["Description"]
+                startup_item[ENUM_JSK.DESCRIPTION.value] = edit_startup_item_description(
+                    startup_item[ENUM_JSK.DESCRIPTION.value]
                 )
             case 3:
-                startup_item["FilePath"] = edit_startup_item_program_path(
-                    startup_item["Name"], startup_item["FilePath"]
+                startup_item[ENUM_JSK.FILEPATH.value] = edit_startup_item_program_path(
+                    startup_item[ENUM_JSK.NAME.value], startup_item[ENUM_JSK.FILEPATH.value]
                 )
             case 4:
-                arg_count = startup_item["ArgumentCount"]
+                arg_count = startup_item[ENUM_JSK.ARGUMENTCOUNT.value]
                 temp_arg_list = []
 
                 # Check if startup item has arguments
                 if arg_count > 0:
                     temp_arg_list = edit_startup_item_arguments_list(
-                        True, arg_count, startup_item["ArgumentList"]
+                        True, startup_item[ENUM_JSK.ARGUMENTLIST.value]
                     ).copy()
                 else:
                     temp_arg_list = edit_startup_item_arguments_list(False)
 
                 # Update the startup_item dictionary
-                startup_item["ArgumentCount"] = len(temp_arg_list)
-                startup_item["ArgumentList"] = temp_arg_list.copy()
+                startup_item[ENUM_JSK.ARGUMENTCOUNT.value] = len(temp_arg_list)
+                startup_item[ENUM_JSK.ARGUMENTLIST.value] = temp_arg_list.copy()
             case 5:
                 print(deps_pretty.prettify_startup_item(startup_item))
             case 6:
@@ -140,12 +144,12 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     new_path = ""
     print("\nThe current file path for this startup item is:", item_path)
     user_choice = input(
-        "Would you like to use the file chooser window to select the new file" " path [Y/N]? "
+        "Would you like to use the file chooser window to select the new file path [Y/N]? "
     )
 
     if user_choice.isalpha():
         if user_choice.upper() == "Y":
-            new_path = deps_chooser.edit_file_chooser(item_name)
+            new_path = deps_chooser.existing_file_chooser(item_name)
         elif user_choice.upper() == "N":
             input_msg = (
                 "Please enter the new path to the program executable in full"
@@ -160,7 +164,7 @@ def edit_startup_item_program_path(item_name: str, item_path: str):
     return new_path
 
 
-def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_list: list = []):
+def edit_startup_item_arguments_list(args_exist: bool, arg_list: list = []):
     """Helper function to change the arguments list of a startup item
 
     If there are no arguments, this function will ask the user if they want to add arguments. If
@@ -170,8 +174,6 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
     Args:
         args_exist (bool): Required to let the function know if there are arguments.
 
-        arg_count (int, optional): The number of arguments. Defaults to 0.
-
         arg_list (list, optional): A list of the arguments. Defaults to [].
 
     Returns:
@@ -179,77 +181,55 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_count: int = 0, arg_l
     """
     new_arg_list = arg_list.copy()
     new_argument = ""
+    arg_count = len(arg_list)
 
     # Check if there are existing arguments
     if args_exist and arg_count > 0:
-        # Initialize all the variables pertaining to the full user menu
-        menu_header = ""
-        menu_footer = ""
-        menu_choices = "[0] Return to previous menu"
-        add_choice, delete_choice, cancel_choice, total_menu_choices = (
-            0,
-            0,
-            0,
-            0,
-        )
-
         # Loop through the menu until the user cancels
         quit_loop = False
         while not quit_loop:
             # Create a menu listing all the arguments
-            arg_items_menu = []
+            item_menu = []
             for index in range(0, arg_count):
-                arg_items_menu.append(
-                    f"[{index + 1}] Edit argument {index + 1}: {new_arg_list[index]}\n"
-                )
+                item_menu.append(f"Edit argument {index + 1}: {new_arg_list[index]}")
 
             # Generate the full menu
             add_choice = arg_count + 1
             delete_choice = arg_count + 2
             cancel_choice = arg_count + 3
-            total_menu_choices = cancel_choice
-            menu_footer = (
-                f"[{add_choice}] Add a new argument\n"
-                + f"[{delete_choice}] Delete an argument\n"
-                + f"[{cancel_choice}] Return to the previous menu\n"
-            )
-            menu_choices = "".join(arg_items_menu) + menu_footer
+            menu_footer = [
+                "Add a new argument",
+                "Delete an argument",
+                "Return to the previous menu",
+            ]
+            item_menu.extend(menu_footer)
 
             # Find out what the user wants to do
-            user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices, False)
+            user_choice = deps_chooser.user_menu_chooser(item_menu, False)
 
             # Depending on user choice, perform the next action
             if user_choice == cancel_choice:
                 # User chose to cancel out of this menu
                 quit_loop = True
             elif user_choice == add_choice:
-                pass
                 # User chose to add a new argument
-                new_arg_list = deps_item_add.add_startup_item_arguments_list(arg_list).copy()
+                new_arg_list = deps_item_add.add_startup_item_arguments_list(new_arg_list).copy()
                 arg_count = len(new_arg_list)
             elif user_choice == delete_choice:
                 # User chose to delete an existing argument
 
                 # Generate delete menu listing all the arguments
-                menu_header = "Please specify which argument you want to delete:\n"
-                arg_delete_menu = []
+                delete_menu = []
                 for index in range(0, arg_count):
-                    arg_delete_menu.append(
-                        f"[{index + 1}] Argument {index + 1}: {new_arg_list[index]}\n"
-                    )
+                    delete_menu.append(f"Remove argument {index + 1}: {new_arg_list[index]}")
                 cancel_choice = arg_count + 1
-                menu_footer = f"[{cancel_choice}] Cancel deletion\n"
-                menu_choices = menu_header + "".join(arg_delete_menu) + menu_footer
-                total_menu_choices = cancel_choice
-                user_choice = 0
+                delete_menu.append("Cancel deletion")
 
                 # Find out what the user wants to do
-                while user_choice == 0:
-                    user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+                user_choice = deps_chooser.user_menu_chooser(delete_menu, False)
 
                 if user_choice < cancel_choice:
                     # User chose a specific argument to delete
-
                     # Calculate which list index we're working with
                     changed_argument_index = user_choice - 1
                     try:

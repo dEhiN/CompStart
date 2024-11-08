@@ -22,7 +22,7 @@ def prettify_json(json_data: dict):
         total_items = 0
 
     # Start populating pretty_data
-    pretty_data += "Number of startup items: " + str(total_items)
+    pretty_data += "Number of startup items: " + str(total_items) + "\n"
 
     # Go through all the startup items
     for i in range(total_items):
@@ -30,7 +30,7 @@ def prettify_json(json_data: dict):
         item = items_list[i]
 
         # Prettify the startup item data
-        pretty_data += prettify_startup_item(item)
+        pretty_data += prettify_startup_item(item) + "\n"
 
     # If there are no startup items, display a different message
     if total_items == 0:
@@ -57,7 +57,7 @@ def prettify_startup_item(startup_item: dict):
     startup_data = ""
 
     # Add the startup item number
-    startup_data += line + line + "Startup item #" + str(startup_item["ItemNumber"])
+    startup_data += line + "Startup item #" + str(startup_item["ItemNumber"])
 
     # Add the startup item name
     startup_data += line + tab + "Item name: " + startup_item["Name"]
@@ -107,9 +107,9 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data "
+            return_message += "Unable to read startup data"
         case "w":
-            return_message += "Unable to write startup data "
+            return_message += "Unable to write startup data"
         case _:
             pass
     return_message += (
