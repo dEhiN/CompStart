@@ -301,7 +301,7 @@ def json_editor(json_path: list, json_filename: str):
                     # User chose to add a new startup item
                     print(deps_item_add.add_startup_item())
                     # new_menu = True
-                elif user_choice == item_delete:
+                elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
                     if total_items > 0:
                         # User chose to delete an existing startup item
@@ -332,7 +332,7 @@ def json_editor(json_path: list, json_filename: str):
                         print(
                             "There are no items to delete! Please add a new startup item first..."
                         )
-                elif user_choice == data_save:
+                elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
