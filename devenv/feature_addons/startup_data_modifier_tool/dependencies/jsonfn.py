@@ -75,8 +75,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
                     read_json_success = True
                     return_message = "Startup data read in successfully"
             except Exception as error:
-                io_error = deps_pretty.prettify_io_error(error, "r")
-                deps_pretty.prettify_custom_error(io_error, "json_reader")
+                return_message = deps_pretty.prettify_io_error(error, "r")
 
     # If there were any errors or exceptions, print them out
     if not read_json_success:
