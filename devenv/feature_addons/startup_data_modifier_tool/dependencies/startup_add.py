@@ -78,6 +78,18 @@ def add_startup_item():
                     new_item[ENUM_JSK.BROWSER.value] = True
                 else:
                     new_item[ENUM_JSK.BROWSER.value] = False
+            case 2:
+                new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+            case 3:
+                new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
+            case 4:
+                new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
+                    new_item[ENUM_JSK.NAME.value]
+                )
+            case 5:
+                new_item[ENUM_JSK.ARGUMENTLIST.value] = (
+                    add_startup_item_arguments_list()
+                )
             case 8:
                 quit_loop = True
 
