@@ -28,15 +28,15 @@ if __name__ == "__main__":
     # Initialize status variables
     status_state = False
     status_message = "No action taken..."
+    quit_loop = False
 
-    # Main loop to allow user to navigate program options
+    # Menu choices to present to user during main loop
     menu_choices = [
         "What is CompStart?",
         "Create a new startup file",
         "View the existing startup file",
         "Edit the existing startup file",
     ]
-    quit_loop = False
 
     # Main loop to allow user to navigate program options
     while not quit_loop:

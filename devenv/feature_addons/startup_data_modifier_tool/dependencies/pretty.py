@@ -107,7 +107,7 @@ def prettify_io_error(error: Exception, file_mode: str = ""):
     return_message = ""
     match file_mode:
         case "r":
-            return_message += "Unable to read startup data"
+            return_message += "Unable to read startup data (or startup schema)"
         case "w":
             return_message += "Unable to write startup data"
         case _:
