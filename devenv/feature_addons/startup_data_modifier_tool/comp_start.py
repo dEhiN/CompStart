@@ -5,9 +5,15 @@ import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 
-# Global variable to specify use while testing the tool
+# Global Variables
+
+# Specifies whether the tool is in production or testing
 is_prod = False
 
+# If there are any errors, print this out at the end
+final_err_msg = "Please see the error message(s) above and report them to the development team"
+
+# Program starting point
 if __name__ == "__main__":
     # Set the starting directory
     deps_helper.set_start_dir()
@@ -32,6 +38,7 @@ if __name__ == "__main__":
     ]
     quit_loop = False
 
+    # Main loop to allow user to navigate program options
     while not quit_loop:
         user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
@@ -47,12 +54,20 @@ if __name__ == "__main__":
                     status_state, status_message = deps_json.json_creator(
                         json_path, json_filename, is_default
                     )
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the json_read function, then print out if the read was successful
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
                 )
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
                 print(f"\n{status_message}")
 
                 # If there was data read in, print it out in a prettified way

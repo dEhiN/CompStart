@@ -140,6 +140,11 @@ def json_data_validator(json_data: dict, single_item: bool = False):
         except Exception as error:
             err_msg = deps_pretty.prettify_io_error(error)
             deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
+    else:
+        custom_err = (
+            "Unable to attempt JSON data validation. Please see previous error for details."
+        )
+        deps_pretty.prettify_custom_error(custom_err, "json_data_validator")
 
     return valid_json
 

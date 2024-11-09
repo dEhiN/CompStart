@@ -69,7 +69,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
                     return_message = "JSON data is blank"
                 # Check to see if the JSON data is valid (ex., no blank JSON object)
                 elif not is_json_schema and not deps_helper.json_data_validator(json_data):
-                    return_message = "JSON data isn't valid startup data"
+                    return_message = "Validation failed while reading in JSON data"
                 # Read was successful
                 else:
                     read_json_success = True
@@ -217,9 +217,6 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         deps_pretty.prettify_custom_error(
             "Could not create a new startup data JSON file",
             "json_creator",
-        )
-        return_message = (
-            "Please see the error message(s) above and report the issue to the development team"
         )
 
     return write_json_success, return_message
