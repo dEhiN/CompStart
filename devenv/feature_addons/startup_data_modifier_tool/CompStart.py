@@ -1,5 +1,4 @@
 # This will be a command line tool to create and edit the startup_data.json file
-import os
 import dependencies.jsonfn as deps_json
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
@@ -11,7 +10,9 @@ import dependencies.pretty as deps_pretty
 is_prod = False
 
 # If there are any errors, print this out at the end
-final_err_msg = "Please see the error message(s) above and report them to the development team"
+final_err_msg = (
+    "Please see the error message(s) above and report them to the development team"
+)
 
 # Program starting point
 if __name__ == "__main__":
@@ -23,7 +24,10 @@ if __name__ == "__main__":
     json_filename = "startup_data.json"
 
     # Print welcome message
-    print("\nWelcome to CompStart: The computer startup tool that will make your" " life easier.")
+    print(
+        "\nWelcome to CompStart: The computer startup tool that will make your"
+        " life easier."
+    )
 
     # Initialize status variables
     status_state = False
@@ -74,6 +78,8 @@ if __name__ == "__main__":
                 if status_state:
                     input("Press enter when ready to view the startup data...")
                     print(deps_pretty.prettify_json(json_data))
-                    input("\nPress enter when ready to return to the previous menu...")
+                    input(
+                        "\nPress enter when ready to return to the previous menu..."
+                    )
             case 4:
                 deps_json.json_editor(json_path, json_filename)

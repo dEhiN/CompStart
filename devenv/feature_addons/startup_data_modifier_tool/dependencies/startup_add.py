@@ -25,7 +25,7 @@ def add_startup_item():
     """
     # Print out introduction to this section for creating a startup item
     print(
-        "\nWelcome to the add a startup item section. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word on.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm whatever you enter before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded. However, even if you decide you want to make changes afterward, you can always do so from the main menu by selecting the option to edit an existing startup item."
+        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm what you entered before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded."
     )
     input("\nPress any key to continue...")
 
@@ -156,9 +156,7 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
                 new_path = deps_chooser.existing_file_chooser(item_name)
                 check_blank = True
             case 2:
-                input_msg = (
-                    "\nPlease enter the new path to the program executable as an absolute path: "
-                )
+                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
                 new_path = input(input_msg)
                 check_blank = True
 
@@ -211,7 +209,9 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
+def save_startup_item(
+    modified_startup_item: dict, json_path: list, json_filename: str
+):
     """Helper function to save a modified startup item
 
     Args:
@@ -227,13 +227,17 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
+    status_state, status_message, json_data = deps_json.json_reader(
+        json_path, json_filename
+    )
     print("\n" + status_message)
 
     if status_state:
         # Get the item number of the startup item being worked with and then the original version of that startup item
         modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][
+            modified_item_number - 1
+        ]
 
         # Check to see if the data was actually changed
         if modified_startup_item == original_startup_item:
@@ -249,7 +253,9 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
         )
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
-        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+        status_state, status_message = deps_json.json_writer(
+            data_file, 2, new_json_data
+        )
 
     else:
         pass
