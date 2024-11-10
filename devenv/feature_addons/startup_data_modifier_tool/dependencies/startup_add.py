@@ -46,11 +46,11 @@ def add_startup_item():
     )
 
     menu_choices = [
-        "Create the startup item",
-        "Adjust the item name",
-        "Adjust the item description",
-        "Pick a new item program path",
-        "Edit or add item arguments",
+        "Create a startup item",
+        "Change the item name",
+        "Change the item description",
+        "Pick a new program path to the item",
+        "Edit or add arguments for the item",
         "View the startup item",
         "Save the startup item",
         "Return to the previous menu",
@@ -109,7 +109,9 @@ def add_startup_item():
                 case 7:
                     file_path = deps_helper.get_prod_path()
                     file_name = deps_helper.get_startup_filename(default_json=False)
-                    save_status, save_message = save_startup_item(new_item, file_path, file_name)
+                    save_status, save_message = save_new_startup_item(
+                        new_item, file_path, file_name
+                    )
                     print(save_status)
                     print(save_message)
     return new_item
@@ -242,11 +244,11 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
-def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
-    """Helper function to save a modified startup item
+def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename: str):
+    """Helper function to save a new startup item
 
     Args:
-        modified_startup_item (dict): A dictionary with the single startup item, which will be saved to disk
+        new_startup_item (dict): A dictionary with the single startup item, which will be saved to disk
 
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
@@ -262,20 +264,9 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
     print("\n" + status_message)
 
     if status_state:
-        # Get the item number of the startup item being worked with and then the original version of that startup item
-        modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
-
-        # Check to see if the data was actually changed
-        if modified_startup_item == original_startup_item:
-            return (
-                False,
-                "\nThe startup data hasn't changed. There was nothing to save!",
-            )
-
         new_json_data = deps_data_gen.generate_user_edited_data(
-            copy.deepcopy(modified_startup_item),
-            ENUM_ITV.REPLACE.value,
+            copy.deepcopy(new_startup_item),
+            ENUM_ITV.ADD.value,
             copy.deepcopy(json_data),
         )
 
