@@ -57,6 +57,8 @@ if __name__ == "__main__":
                 # If there were any errors, let the user know to check the error messages
                 if not status_state:
                     status_message = final_err_msg
+
+                # Print out the status message
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the json_read function, then print out if the read was successful
@@ -67,6 +69,8 @@ if __name__ == "__main__":
                 # If there were any errors, let the user know to check the error messages
                 if not status_state:
                     status_message = final_err_msg
+
+                # Print out the status message
                 print(f"\n{status_message}")
 
                 # If there was data read in, print it out in a prettified way

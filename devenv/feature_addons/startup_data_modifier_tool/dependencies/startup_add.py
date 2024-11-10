@@ -7,6 +7,7 @@ import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.jsonfn as deps_json
 import dependencies.enum as deps_enum
+import dependencies.pretty as deps_pretty
 
 ENUM_JSS = deps_enum.JsonSchemaStructure
 ENUM_JSK = deps_enum.JsonSchemaKeys
@@ -83,7 +84,7 @@ def add_startup_item():
                     new_item[ENUM_JSK.BROWSER.value] = True
                 else:
                     new_item[ENUM_JSK.BROWSER.value] = False
-            case 2 | 3 | 4 | 5:
+            case 2 | 3 | 4 | 5 | 6:
                 # Check for the existence of a startup item
                 if new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
                     print("Please create a startup item first")
@@ -96,9 +97,12 @@ def add_startup_item():
                         new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
                             new_item[ENUM_JSK.NAME.value]
                         )
-                    else:
+                    elif user_choice == 5:
                         new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
-            case 6 | 7:
+                    else:
+                        startup_item = deps_pretty.prettify_startup_item(new_item)
+                        print(startup_item)
+            case 7:
                 print("This functionality hasn't been implemented yet...")
             case 8:
                 quit_loop = True
