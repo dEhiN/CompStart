@@ -2,12 +2,16 @@
 
 import copy
 
+import dependencies.data_generate as deps_data_gen
+import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
+import dependencies.jsonfn as deps_json
+import dependencies.enum as deps_enum
 import dependencies.pretty as deps_pretty
 import dependencies.startup_add as deps_item_add
-import dependencies.enum as deps_enum
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
+ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: str):
