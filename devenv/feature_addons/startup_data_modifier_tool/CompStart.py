@@ -1,71 +1,76 @@
 # This will be a command line tool to create and edit the startup_data.json file
-import os
 import dependencies.jsonfn as deps_json
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 
-# Global variable to specify is in testing or production environment
+# Global Variables
+
+# Specifies whether the tool is in production or testing
 is_prod = False
 
+# If there are any errors, print this out at the end
+final_err_msg = "Please see the error message(s) above and report them to the development team"
 
-def is_production():
-    """Small helper function to return the variable is_prod.
-
-    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
-
-    Returns:
-        bool: The variable is_prod which is False when in testing and True otherwise.
-    """
-    return is_prod
-
-
+# Program starting point
 if __name__ == "__main__":
     # Set the starting directory
     deps_helper.set_start_dir()
 
     # Variables for location and name of JSON file with startup data
     json_path = deps_helper.get_prod_path()
-    json_filename = "startup_data.json"
+    json_filename = deps_helper.get_startup_filename(default_json=False)
 
     # Print welcome message
-    print("\nWelcome to CompStart: The computer startup tool that will make your" " life easier.")
+    print("\nWelcome to CompStart: The computer startup tool that will make your life easier.")
 
     # Initialize status variables
     status_state = False
     status_message = "No action taken..."
-
-    # Main loop to allow user to navigate program options
-    menu_choices = (
-        "[1] What is CompStart?\n"
-        "[2] Create a new startup file\n"
-        "[3] View the existing startup file\n"
-        "[4] Edit the existing startup file\n"
-    )
-    total_menu_choices = 4
     quit_loop = False
 
+    # Menu choices to present to user during main loop
+    menu_choices = [
+        "What is CompStart?",
+        "Create a new startup file",
+        "View the existing startup file",
+        "Edit the existing startup file",
+    ]
+
+    # Main loop to allow user to navigate program options
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices)
 
         match user_choice:
             case 1:
                 deps_helper.program_info()
             case 2:
                 # Find out which type of new file the user wants
-                is_default, to_continue = deps_chooser.new_file_chooser()
+                is_default, create_file = deps_chooser.new_file_chooser()
 
-                if to_continue:
+                if create_file:
                     # Create a new JSON file
                     status_state, status_message = deps_json.json_creator(
                         json_path, json_filename, is_default
                     )
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
+
+                # Print out the status message
                 print(f"\n{status_message}")
             case 3:
                 # Read in existing JSON file and store the return results of the json_read function, then print out if the read was successful
                 status_state, status_message, json_data = deps_json.json_reader(
                     json_path, json_filename
                 )
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
+
+                # Print out the status message
                 print(f"\n{status_message}")
 
                 # If there was data read in, print it out in a prettified way
@@ -75,3 +80,8 @@ if __name__ == "__main__":
                     input("\nPress enter when ready to return to the previous menu...")
             case 4:
                 deps_json.json_editor(json_path, json_filename)
+            case 5:
+                # This case will never really be addressed since the function user_menu_chooser adds an option by default to quit the program
+                # If the user picks that option, the function calls sys.exit so execution should never return to this loop
+                # However, just in case execution does return (i.e., some bug that gets introduced), this will prevent an infinite loop
+                quit_loop = True

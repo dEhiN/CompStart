@@ -6,7 +6,8 @@ import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.pretty as deps_pretty
 import dependencies.data_generate as deps_data_gen
-import dependencies.startup_edit as deps_start_edit
+import dependencies.startup_edit as deps_item_edit
+import dependencies.startup_add as deps_item_add
 import dependencies.enum as deps_enum
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
@@ -33,9 +34,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
     # Create return variables with default values
     read_json_success = False
-    return_message = (
-        "There was a problem reading in the startup data!\nPlease see the error details above."
-    )
+    return_message = ""
     json_data = {}
 
     # Split the filename into its components of name and extension
@@ -67,19 +66,20 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
                 # Check to see if the JSON data file is blank
                 if len(json_data) == 0:
-                    deps_pretty.prettify_custom_error("JSON data is blank", "json_reader")
+                    return_message = "JSON data is blank"
                 # Check to see if the JSON data is valid (ex., no blank JSON object)
                 elif not is_json_schema and not deps_helper.json_data_validator(json_data):
-                    deps_pretty.prettify_custom_error(
-                        "JSON data isn't valid startup data", "json_reader"
-                    )
+                    return_message = "Validation failed while reading in JSON data"
                 # Read was successful
                 else:
                     read_json_success = True
-                    return_message = "Startup data read in successfully!"
+                    return_message = "Startup data read in successfully"
             except Exception as error:
-                io_error = deps_pretty.prettify_io_error(error, "r")
-                deps_pretty.prettify_custom_error(io_error, "json_reader")
+                return_message = deps_pretty.prettify_io_error(error, "r")
+
+    # If there were any errors or exceptions, print them out
+    if not read_json_success:
+        deps_pretty.prettify_custom_error(return_message, "json_reader")
 
     return read_json_success, return_message, json_data
 
@@ -113,7 +113,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
     # Initialize return variables
     write_json_success = False
-    return_message = "Startup file written successfully!"
+    return_message = ""
     file_mode = ""
 
     # Check for valid file_state value
@@ -127,7 +127,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
                 # Write JSON data to file
                 file_mode = "w"
             else:
-                return_message = "Skipped writing startup file!"
+                return_message = "Skipped writing startup file"
         case 2:
             # Check to see if the current JSON data in the file is different from json_data
             try:
@@ -142,12 +142,10 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
             else:
                 return_message = (
                     "Existing startup data and new startup data are the same. Not"
-                    + f" updating {json_file} because there is no point."
+                    + f" updating {json_file} because there are no changes."
                 )
         case _:
-            return_message = (
-                "Invalid file state! Could not write startup data." " Please try again."
-            )
+            return_message = "Invalid file state. Could not write startup data."
 
     # Write to file if needed
     if not file_mode == "":
@@ -157,14 +155,19 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
 
             # Created file successfully
             write_json_success = True
+            return_message = "Startup file written successfully!"
         except Exception as error:
             return_message = deps_pretty.prettify_io_error(error, file_mode)
+
+    # If there were any errors or exceptions, print them out unless there's a return message that's not an Exception
+    if not write_json_success and not file_mode == "":
+        deps_pretty.prettify_custom_error(return_message, "json_writer")
 
     return write_json_success, return_message
 
 
 def json_creator(json_path: list, json_filename: str, default_mode: bool):
-    """Function to create a new JSON file
+    """Function to create a new startup data JSON file
 
     There are two possibilities here:
 
@@ -190,6 +193,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
     # Initialize variables
     write_json_success = False
+    exists_data = False
     return_message = ""
     file_state = 0
 
@@ -197,14 +201,23 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create startup JSON data to add to the startup_data.json file
-    json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
+    exists_data, json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
 
-    # If the file exists, make sure we confirm from the user before overwriting the file
-    if os.path.isfile(json_file):
-        file_state = 1
+    # Check to see if any data was actually generated
+    if exists_data:
+        # If the file exists, make sure we confirm from the user before overwriting the file
+        if os.path.isfile(json_file):
+            file_state = 1
 
-    # Write the file to disk and get the return values
-    write_json_success, return_message = json_writer(json_file, file_state, json_data)
+        # Write the file to disk and get the return values
+        write_json_success, return_message = json_writer(json_file, file_state, json_data)
+
+    else:
+        # There's no data to use, so let the user know
+        deps_pretty.prettify_custom_error(
+            "Could not create a new startup data JSON file",
+            "json_creator",
+        )
 
     return write_json_success, return_message
 
@@ -254,35 +267,37 @@ def json_editor(json_path: list, json_filename: str):
                     print(f"\nNumber of startup items: {total_items}")
 
                     # Create the actual menu
-                    start_items_menu = ""
+                    menu_choices = []
+
                     for item_number in range(1, total_items + 1):
-                        start_items_menu += f"[{item_number}] Edit startup item {item_number}\n"
+                        menu_choices.append(f"Edit startup item {item_number}")
 
-                    item_add = total_items + 1
-                    item_delete = total_items + 2
-                    data_save = total_items + 3
-                    item_quit = total_items + 4
-                    total_menu_choices = item_quit
-
-                    menu_choices = (
-                        start_items_menu
-                        + f"[{item_add}] Add a new startup item\n"
-                        + f"[{item_delete}] Delete an existing startup item\n"
-                        + f"[{data_save}] Save full startup data to disk\n"
-                        + f"[{item_quit}] Return to the main menu\n"
+                    menu_choices.extend(
+                        [
+                            "Add a new startup item",
+                            "Delete an existing startup item",
+                            "Save the full startup data to disk",
+                            "Return to the main menu",
+                        ]
                     )
 
-                # Ask the user what they want to do
-                user_choice = deps_chooser.user_menu_chooser(menu_choices, total_menu_choices)
+                    # Store the values necessary to determine each choice the user could make
+                    menu_add = total_items + 1
+                    menu_delete = total_items + 2
+                    menu_save = total_items + 3
+                    menu_quit = total_items + 4
 
-                if user_choice == item_quit:
+                # Ask the user what they want to do
+                user_choice = deps_chooser.user_menu_chooser(menu_choices)
+
+                if user_choice == menu_quit:
                     # User chose to return to the main menu
                     quit_loop = True
-                elif user_choice == item_add:
+                elif user_choice == menu_add:
                     # User chose to add a new startup item
-                    print("\nThat functionality hasn't yet been implemented!")
+                    print(deps_item_add.add_startup_item())
                     # new_menu = True
-                elif user_choice == item_delete:
+                elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
                     if total_items > 0:
                         # User chose to delete an existing startup item
@@ -313,7 +328,7 @@ def json_editor(json_path: list, json_filename: str):
                         print(
                             "There are no items to delete! Please add a new startup item first..."
                         )
-                elif user_choice == data_save:
+                elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
 
@@ -321,7 +336,7 @@ def json_editor(json_path: list, json_filename: str):
                         print(status_message)
                 elif user_choice > 0:
                     # User chose to edit a specific startup item
-                    items[user_choice - 1] = deps_start_edit.edit_startup_item(
+                    items[user_choice - 1] = deps_item_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:

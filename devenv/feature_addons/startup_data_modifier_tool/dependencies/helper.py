@@ -1,11 +1,11 @@
-# Dependency to store miscellaneous helper functions that don't fit anywhere else as well as the default JSON data
+# Dependency to store miscellaneous helper functions that don't fit anywhere else
 
 import os, jsonschema
 
 import dependencies.pretty as deps_pretty
 import dependencies.jsonfn as deps_json
 import dependencies.enum as deps_enum
-import comp_start as app_cs
+import CompStart as app_cs
 
 ENUM_ITV = deps_enum.ItemTypeVals
 
@@ -25,6 +25,17 @@ def set_start_dir():
             while num_dirs_diff > 0:
                 os.chdir("..")
                 num_dirs_diff -= 1
+
+
+def is_production():
+    """Small helper function to return the variable is_prod.
+
+    This can be used by other modules to skip certain menu choices for testing purposes, or to determine things like which file and path to use, etc.
+
+    Returns:
+        bool: The variable is_prod from the comp_start module. This variable will be False when in testing and True otherwise.
+    """
+    return app_cs.is_prod
 
 
 def program_info():
@@ -115,7 +126,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
     valid_json = False
     schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
     schema_path = get_prod_path()
-    schema_path.extend(["config"])
+    schema_path.extend(["schema"])
 
     results = deps_json.json_reader(schema_path, schema_file, True)
     read_status = results[0]
@@ -127,8 +138,13 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             jsonschema.validate(json_data, json_schema)
             valid_json = True
         except Exception as error:
-            err_param = str(type(error).__name__) + " - " + (error.__dict__["message"])
-            deps_pretty.prettify_custom_error(err_param, "helper.json_data_validator")
+            err_msg = deps_pretty.prettify_io_error(error)
+            deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
+    else:
+        custom_err = (
+            "Unable to attempt JSON data validation. Please see previous error for details."
+        )
+        deps_pretty.prettify_custom_error(custom_err, "json_data_validator")
 
     return valid_json
 
@@ -144,11 +160,17 @@ def get_prod_path():
     Returns:
         list: A list of strings, with each string representing a sub-directory going from left to right. Example: ["grandparent", "parent", "child"]
     """
-    prod_path = ["devenv"]
-    if app_cs.is_production():
-        prod_path.extend(["data", "json_data"])
-    else:
-        prod_path.extend(["feature_addons", "startup_data_modifier_tool"])
+    prod_path = ["config"]
+
+    # Check if we're in a production or testing/development environment
+    if not is_production():
+        # Add the subdirectories under the CompStart project folder needed to get to the correct config location
+        prod_path = [
+            "devenv",
+            "feature_addons",
+            "startup_data_modifier_tool",
+            "config",
+        ]
 
     return prod_path
 
@@ -176,3 +198,48 @@ def check_item_type(item_type: str):
             break
 
     return ret_value
+
+
+def get_count_total_items():
+    """Helper function to get the current number of startup items in the startup JSON data file
+
+    This function can be useful for other functions when trying to figure out the total number of existing startup items
+
+    Returns:
+        int: The total number of startup items
+    """
+    # Initialize variables
+    total_items = 0
+    startup_data = {}
+
+    # Grab the existing startup data
+    file_path = get_prod_path()
+    file_name = get_startup_filename(default_json=False)
+    return_data = deps_json.json_reader(file_path, file_name)
+
+    startup_data = return_data[2]
+    total_items = startup_data["TotalItems"]
+
+    return total_items
+
+
+def get_startup_filename(default_json: bool):
+    """Helper function to get the name of a JSON file
+
+    This function will return the name of the JSON file requested depending on the value of the argument passed in.
+
+    Args:
+        default_json (bool): Indicates which filename is requested. If True, then the JSON file with the default startup data will be returned. If False, then the JSON file with the currently-used startup data will be returned.
+
+    Returns:
+        str: The name of the JSON file including extension
+    """
+    # Initialize variables
+    file_name = ""
+
+    if default_json:
+        file_name = "default_startup.json"
+    else:
+        file_name = "startup_data.json"
+
+    return file_name
