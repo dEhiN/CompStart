@@ -88,12 +88,16 @@ def add_startup_item():
                 if new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
                     print("Please create a startup item first")
                 else:
-                    new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
-                    new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
-                    new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
-                        new_item[ENUM_JSK.NAME.value]
-                    )
-                    new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
+                    if user_choice == 2:
+                        new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+                    elif user_choice == 3:
+                        new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
+                    elif user_choice == 4:
+                        new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
+                            new_item[ENUM_JSK.NAME.value]
+                        )
+                    else:
+                        new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
             case 6 | 7:
                 print("This functionality hasn't been implemented yet...")
             case 8:
