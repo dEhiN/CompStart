@@ -6,7 +6,6 @@ import dependencies.data_generate as deps_data_gen
 import dependencies.helper as deps_helper
 import dependencies.chooser as deps_chooser
 import dependencies.jsonfn as deps_json
-import dependencies.startup_edit as deps_item_edit
 import dependencies.enum as deps_enum
 
 ENUM_JSS = deps_enum.JsonSchemaStructure
@@ -87,9 +86,7 @@ def add_startup_item():
                     new_item[ENUM_JSK.NAME.value]
                 )
             case 5:
-                new_item[ENUM_JSK.ARGUMENTLIST.value] = (
-                    add_startup_item_arguments_list()
-                )
+                new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
             case 8:
                 quit_loop = True
 
@@ -168,7 +165,9 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
                 new_path = deps_chooser.existing_file_chooser(item_name)
                 check_blank = True
             case 2:
-                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
+                input_msg = (
+                    "\nPlease enter the new path to the program executable as an absolute path: "
+                )
                 new_path = input(input_msg)
                 check_blank = True
 
@@ -221,9 +220,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
     return new_arg_list
 
 
-def save_startup_item(
-    modified_startup_item: dict, json_path: list, json_filename: str
-):
+def save_startup_item(modified_startup_item: dict, json_path: list, json_filename: str):
     """Helper function to save a modified startup item
 
     Args:
@@ -239,17 +236,13 @@ def save_startup_item(
         string: An error message to display if the JSON data couldn't be written to disk or the existing data couldn't be read in, or a message that it was written successfully
     """
     # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = deps_json.json_reader(
-        json_path, json_filename
-    )
+    status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
     print("\n" + status_message)
 
     if status_state:
         # Get the item number of the startup item being worked with and then the original version of that startup item
         modified_item_number = modified_startup_item[ENUM_JSK.ITEMNUMBER.value]
-        original_startup_item = json_data[ENUM_JSK.ITEMS.value][
-            modified_item_number - 1
-        ]
+        original_startup_item = json_data[ENUM_JSK.ITEMS.value][modified_item_number - 1]
 
         # Check to see if the data was actually changed
         if modified_startup_item == original_startup_item:
@@ -265,9 +258,7 @@ def save_startup_item(
         )
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
-        status_state, status_message = deps_json.json_writer(
-            data_file, 2, new_json_data
-        )
+        status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
 
     else:
         pass
