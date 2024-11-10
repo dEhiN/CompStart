@@ -124,9 +124,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
         bool: True if the validation was successful, False otherwise
     """
     valid_json = False
-    schema_file = (
-        "startup_item.schema.json" if single_item else "startup_data.schema.json"
-    )
+    schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
     schema_path = get_prod_path()
     schema_path.extend(["schema"])
 
@@ -143,7 +141,9 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             err_msg = deps_pretty.prettify_io_error(error)
             deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
     else:
-        custom_err = "Unable to attempt JSON data validation. Please see previous error for details."
+        custom_err = (
+            "Unable to attempt JSON data validation. Please see previous error for details."
+        )
         deps_pretty.prettify_custom_error(custom_err, "json_data_validator")
 
     return valid_json
@@ -198,3 +198,48 @@ def check_item_type(item_type: str):
             break
 
     return ret_value
+
+
+def get_count_total_items():
+    """Helper function to get the current number of startup items in the startup JSON data file
+
+    This function can be useful for other functions when trying to figure out the total number of existing startup items
+
+    Returns:
+        int: The total number of startup items
+    """
+    # Initialize variables
+    total_items = 0
+    startup_data = {}
+
+    # Grab the existing startup data
+    file_path = get_prod_path()
+    file_name = get_startup_filename(default_json=False)
+    return_data = deps_json.json_reader(file_path, file_name)
+
+    startup_data = return_data[2]
+    total_items = startup_data["TotalItems"]
+
+    return total_items
+
+
+def get_startup_filename(default_json: bool):
+    """Helper function to get the name of a JSON file
+
+    This function will return the name of the JSON file requested depending on the value of the argument passed in.
+
+    Args:
+        default_json (bool): Indicates which filename is requested. If True, then the JSON file with the default startup data will be returned. If False, then the JSON file with the currently-used startup data will be returned.
+
+    Returns:
+        str: The name of the JSON file including extension
+    """
+    # Initialize variables
+    file_name = ""
+
+    if default_json:
+        file_name = "default_startup.json"
+    else:
+        file_name = "startup_data.json"
+
+    return file_name

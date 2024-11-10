@@ -62,14 +62,20 @@ def add_startup_item():
 
         match user_choice:
             case 1:
+                # Determine the next item number for this item
+                curr_total_items = deps_helper.get_count_total_items()
+
                 # Add the Name, Description, FilePath, and ArgumentList parameters
                 startup_item_setup(new_item)
 
-                # Set the ArgumentCount parameter
+                # Update the ItemNumber property
+                new_item[ENUM_JSK.ITEMNUMBER.value] = curr_total_items + 1
+
+                # Set the ArgumentCount property
                 arg_count = len(new_item[ENUM_JSK.ARGUMENTLIST.value])
                 new_item[ENUM_JSK.ARGUMENTCOUNT.value] = arg_count
 
-                # Adjust the Browser parameter, if need be
+                # Adjust the Browser property, if need be
                 split_path = new_item[ENUM_JSK.FILEPATH.value].split("\\")
                 program_name = split_path[len(split_path) - 1].split(".")
                 browser_list = ["chrome", "msedge", "firefox"]
