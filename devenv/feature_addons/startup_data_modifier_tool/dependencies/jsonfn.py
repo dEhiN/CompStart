@@ -85,7 +85,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
 
 
 def json_writer(json_file: str, file_state: int, json_data: dict):
-    """Function to write the actual JSON data to file for a new startup file
+    """Function to write the actual JSON data to file
 
     Based on the value of the file_state variable, the file to be written is handled differently:
 

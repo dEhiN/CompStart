@@ -103,10 +103,7 @@ def generate_user_startup_data():
     json_data[ENUM_JSK.TOTALITEMS.value] = 0
     json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
 
-    print(
-        "This functionality hasn't been fully implemented yet. Creating blank"
-        " startup file..."
-    )
+    print("This functionality hasn't been fully implemented yet. Creating blank startup file...")
 
     return json_data
 
@@ -127,10 +124,10 @@ def generate_user_edited_data(
 
         item_type (str): Required. Specify whether the modified_json_data is to be added to orig_json_data, deleted from orig_json_data, or replace a specific startup item in orig_json_data. Since the parameter is an int, invalid values will throw an error. Currently, the only valid values are:
 
-        A = add to the end of orig_json_data
-        D = delete from orig_json_data
-        R = replace in orig_json_data
-        F = modified_json_data is full startup data
+        1 = add to the end of orig_json_data
+        2 = delete from orig_json_data
+        3 = replace in orig_json_data
+        4 = modified_json_data is full startup data
 
         In the case of R, since modified_json_data will be a valid startup item, the property ItemNumber will determine which startup item is to be updated.
 
