@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     # Variables for location and name of JSON file with startup data
     json_path = deps_helper.get_prod_path()
-    json_filename = "startup_data.json"
+    json_filename = deps_helper.get_startup_filename(default_json=False)
 
     # Print welcome message
     print("\nWelcome to CompStart: The computer startup tool that will make your life easier.")
