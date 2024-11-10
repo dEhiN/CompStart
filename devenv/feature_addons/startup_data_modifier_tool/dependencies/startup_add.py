@@ -107,7 +107,11 @@ def add_startup_item():
                     startup_item = deps_pretty.prettify_startup_item(new_item)
                     print(startup_item)
                 case 7:
-                    print("This functionality hasn't been implemented yet...")
+                    file_path = deps_helper.get_prod_path()
+                    file_name = deps_helper.get_startup_filename(default_json=False)
+                    save_status, save_message = save_startup_item(new_item, file_path, file_name)
+                    print(save_status)
+                    print(save_message)
     return new_item
 
 
@@ -277,8 +281,5 @@ def save_startup_item(modified_startup_item: dict, json_path: list, json_filenam
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
         status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
-
-    else:
-        pass
 
     return (status_state, status_message)
