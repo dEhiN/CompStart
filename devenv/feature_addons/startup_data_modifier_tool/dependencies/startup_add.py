@@ -61,52 +61,53 @@ def add_startup_item():
     while not quit_loop:
         user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
 
-        match user_choice:
-            case 1:
-                # Determine the next item number for this item
-                curr_total_items = deps_helper.get_count_total_items()
+        # Check to see if the user chose another option besides 1 but hasn't yet created a startup item
+        if user_choice == len(menu_choices):
+            # User has chosen to return to the previous menu
+            quit_loop = True
+        elif user_choice > 1 and new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
+            # Alert the user to create a startup item first
+            print("\nPlease create a startup item first")
+        else:
+            # Continue on with regular execution
+            match user_choice:
+                case 1:
+                    # Determine the next item number for this item
+                    curr_total_items = deps_helper.get_count_total_items()
 
-                # Add the Name, Description, FilePath, and ArgumentList parameters
-                startup_item_setup(new_item)
+                    # Add the Name, Description, FilePath, and ArgumentList parameters
+                    startup_item_setup(new_item)
 
-                # Update the ItemNumber property
-                new_item[ENUM_JSK.ITEMNUMBER.value] = curr_total_items + 1
+                    # Update the ItemNumber property
+                    new_item[ENUM_JSK.ITEMNUMBER.value] = curr_total_items + 1
 
-                # Set the ArgumentCount property
-                arg_count = len(new_item[ENUM_JSK.ARGUMENTLIST.value])
-                new_item[ENUM_JSK.ARGUMENTCOUNT.value] = arg_count
+                    # Set the ArgumentCount property
+                    arg_count = len(new_item[ENUM_JSK.ARGUMENTLIST.value])
+                    new_item[ENUM_JSK.ARGUMENTCOUNT.value] = arg_count
 
-                # Adjust the Browser property, if need be
-                split_path = new_item[ENUM_JSK.FILEPATH.value].split("\\")
-                program_name = split_path[len(split_path) - 1].split(".")
-                browser_list = ["chrome", "msedge", "firefox"]
-                if program_name[0].lower() in browser_list:
-                    new_item[ENUM_JSK.BROWSER.value] = True
-                else:
-                    new_item[ENUM_JSK.BROWSER.value] = False
-            case 2 | 3 | 4 | 5 | 6:
-                # Check for the existence of a startup item
-                if new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
-                    print("Please create a startup item first")
-                else:
-                    if user_choice == 2:
-                        new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
-                    elif user_choice == 3:
-                        new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
-                    elif user_choice == 4:
-                        new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
-                            new_item[ENUM_JSK.NAME.value]
-                        )
-                    elif user_choice == 5:
-                        new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
+                    # Adjust the Browser property, if need be
+                    split_path = new_item[ENUM_JSK.FILEPATH.value].split("\\")
+                    program_name = split_path[len(split_path) - 1].split(".")
+                    browser_list = ["chrome", "msedge", "firefox"]
+                    if program_name[0].lower() in browser_list:
+                        new_item[ENUM_JSK.BROWSER.value] = True
                     else:
-                        startup_item = deps_pretty.prettify_startup_item(new_item)
-                        print(startup_item)
-            case 7:
-                print("This functionality hasn't been implemented yet...")
-            case 8:
-                quit_loop = True
-
+                        new_item[ENUM_JSK.BROWSER.value] = False
+                case 2:
+                    new_item[ENUM_JSK.NAME.value] = add_startup_item_name()
+                case 3:
+                    new_item[ENUM_JSK.DESCRIPTION.value] = add_startup_item_description()
+                case 4:
+                    new_item[ENUM_JSK.FILEPATH.value] = add_startup_item_program_path(
+                        new_item[ENUM_JSK.NAME.value]
+                    )
+                case 5:
+                    new_item[ENUM_JSK.ARGUMENTLIST.value] = add_startup_item_arguments_list()
+                case 6:
+                    startup_item = deps_pretty.prettify_startup_item(new_item)
+                    print(startup_item)
+                case 7:
+                    print("This functionality hasn't been implemented yet...")
     return new_item
 
 
