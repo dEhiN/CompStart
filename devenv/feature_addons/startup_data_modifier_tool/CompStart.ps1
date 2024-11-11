@@ -75,12 +75,7 @@ do {
         # Set the location for production by default
         $DataFileLocation = "\config\"
 
-        # Check if this script is being run in production - as a release...
-        # ...or if this script is being run in development
-        if (-not (Test-Path ($CurrentLocation + $DataFileLocation))) {
-            # Development environment, so change the location
-            $DataFileLocation = "\data\json_data\"
-        }
+        Write-Host $DataFileLocation
 
         # Set the name of the JSON file
         $DataFileName = "startup_data.json"
