@@ -12,23 +12,21 @@
         },
         {
             "ItemNumber": 2,
-            "Name": "Chrome",
+            "Name": "Google Chrome",
             "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Description": "Some websites for demonstration - Google, Facebook, and Twitter",
+            "Description": "Demonstrating how to open Google Chrome to a specific webpage",
             "Browser": true,
-            "ArgumentCount": 4,
+            "ArgumentCount": 2,
             "ArgumentList": [
                 "--new-window",
-                "https://www.google.com/",
-                "https://www.facebook.com",
-                "https://www.twitter.com/"
+                "https://www.google.com/"
             ]
         },
         {
             "ItemNumber": 3,
             "Name": "Notepad",
-            "FilePath": "C:\\Windows\\system32\\notepad.exe",
-            "Description": "The built-in Windows text editor",
+            "FilePath": "notepad",
+            "Description": "A text editor",
             "Browser": false,
             "ArgumentCount": 0,
             "ArgumentList": []

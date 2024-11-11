@@ -1,4 +1,6 @@
 # Main PowerShell script for CompStart
+# This version is a copy being used while working on the feature branch:
+# features/startup_data_modifier_tool
 
 # Function to run a specific startup item
 # Input: 1. A String representing the full file path + program name with
