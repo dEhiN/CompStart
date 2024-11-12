@@ -1,0 +1,11 @@
+File to store to all local import statements for copy-paste as needed.
+
+import dependencies.cs_enum as deps_enum
+import dependencies.cs_helper as deps_helper
+import dependencies.cs_chooser as deps_chooser
+import dependencies.cs_pretty as deps_pretty
+import dependencies.cs_data_generate as deps_data_gen
+import dependencies.cs_startup_add as deps_item_add
+import dependencies.cs_startup_edit as deps_item_edit
+import dependencies.cs_jsonfn as deps_json
+import CompStart as app_cs
