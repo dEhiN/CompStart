@@ -6,18 +6,16 @@ While playing around with the Python library _Tkinter_, originally a feature bra
 
 Each subfolder should represent experimentation with a specific thing and branches should be created off main to track changes. Each subfolder, or thing being experimented with, should be self-contained and not have any link or bearing on existing project content. That is, while a library, etc. might be experimented with for possible future use and inclusion in a feature branch, until that is decided for sure, any code should exist only here.
 
-## Directory Structure
+## Directories
 
-##### Legend
+### tkinter
 
-- D = Directory (Folder)
-- F = File
+Folder containing examples demonstrating the usage of the Python library _Tkinter_
 
-#### Folder: tkinter
+### powershell_installer
 
-- D _tkinter_examples_ - Folder containing examples demonstrating the usage of the Python library _Tkinter_
+Folder containing the beginnings of a PowerShell installer script as well as copies of the CompStart batch and PowerShell scripts
 
-#### Folder: tkinter/tkinter_examples
+### pyinstaller
 
-- F _hello_world.py_ - An example demonstrating the use of Tkinter dialog boxes
-- F _pack_method_ex.py_ - An example of using Tkinter widgets and the pack method to organize them within a dialog box
+Folder containing all the files and directory structure needed to experiment with the Python library _PyInstaller_
