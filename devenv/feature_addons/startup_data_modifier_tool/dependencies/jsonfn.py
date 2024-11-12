@@ -32,28 +32,26 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
-    # Create return variables with default values
+    # Initialize the variables
     read_json_success = False
     return_message = ""
     json_data = {}
+    required_ext = ".json"
 
-    # Split the filename into its components of name and extension
-    split_filename = json_filename.split(".")
+    # Grab the file extension
+    file_ext = os.path.splitext(json_filename)[1]
 
-    # Validate if correct JSON file
-    if len(split_filename) == 1:
-        # The filename has no extension component
-        return_message = "Please specify a valid startup file name"
+    # Validate if filename passed in is a JSON file
+    if not file_ext:
+        # The filename has no extension
+        return_message = "Argument 'json_filename' is not a valid file as it has no extension"
     else:
-        # Grab the extension
-        last_item = split_filename[len(split_filename) - 1]
-
         # Check the extension is "json"
-        if last_item != "json":
+        if not file_ext == required_ext:
             return_message = (
                 "Invalid startup file name.\n"
-                f"Received extension of: .{last_item}\n"
-                "Expected extension of: .json"
+                f"Received extension of: {file_ext}\n"
+                f"Expected extension of: {required_ext}"
             )
         else:
             # Get the full path to the file in string format
