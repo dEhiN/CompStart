@@ -2,9 +2,9 @@
 
 import os, jsonschema
 
-import dependencies.pretty as deps_pretty
-import dependencies.jsonfn as deps_json
-import dependencies.enum as deps_enum
+import dependencies.cs_pretty as deps_pretty
+import dependencies.cs_jsonfn as deps_json
+import dependencies.cs_enum as deps_enum
 import CompStart as app_cs
 
 ENUM_ITV = deps_enum.ItemTypeVals

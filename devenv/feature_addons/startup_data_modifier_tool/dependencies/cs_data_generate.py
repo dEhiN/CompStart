@@ -2,10 +2,10 @@
 
 import copy, os.path
 
-import dependencies.enum as deps_enum
-import dependencies.helper as deps_helper
-import dependencies.pretty as deps_pretty
-import dependencies.jsonfn as deps_json
+import dependencies.cs_enum as deps_enum
+import dependencies.cs_helper as deps_helper
+import dependencies.cs_pretty as deps_pretty
+import dependencies.cs_jsonfn as deps_json
 import CompStart as app_cs
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
@@ -71,9 +71,7 @@ def generate_default_startup_data():
 
     if os.path.isfile(json_file):
         # Read in JSON data
-        read_success, return_message, default_json = deps_json.json_reader(
-            config_path, file_name
-        )
+        read_success, return_message, default_json = deps_json.json_reader(config_path, file_name)
         if read_success:
             exists_data = True
         else:
@@ -108,9 +106,7 @@ def generate_user_startup_data():
     return json_data
 
 
-def generate_user_edited_data(
-    modified_json_data: dict, item_type: str, orig_json_data: dict = {}
-):
+def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_json_data: dict = {}):
     """Helper function to create JSON data from edited startup data
 
     Creates a dictionary with the new JSON data added in, removed or updated. Uses the Enum class JsonSchemaKey through the variable ENUM_JSK to populate the keys. Uses the Enum class JsonSchemaStructure through the variable ENUM_JSS to create a Python dictionary for a JSON
@@ -148,9 +144,7 @@ def generate_user_edited_data(
         )
     else:
         # Item_type is a valid value, so continue
-        scenario_number = data_validation_scenario(
-            modified_json_data, item_type, orig_json_data
-        )
+        scenario_number = data_validation_scenario(modified_json_data, item_type, orig_json_data)
 
         # Check the status of the data validation
         # If the validation failed, then a blank Python dictionary is returned, so no need to code that in
@@ -164,9 +158,7 @@ def generate_user_edited_data(
                 # Make sure the item number of the new startup item is correct
                 if (
                     modified_json_data[ENUM_JSK.ITEMNUMBER.value]
-                    <= orig_items_list[current_total_items - 1][
-                        ENUM_JSK.ITEMNUMBER.value
-                    ]
+                    <= orig_items_list[current_total_items - 1][ENUM_JSK.ITEMNUMBER.value]
                 ):
                     modified_json_data[ENUM_JSK.ITEMNUMBER.value] = new_total_items
 
@@ -220,8 +212,8 @@ def generate_user_edited_data(
                 # Check to make sure the item number is valid
                 if change_item_number in range(1, total_items + 1):
                     new_json_data = copy.deepcopy(orig_json_data)
-                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = (
-                        copy.deepcopy(modified_json_data)
+                    new_json_data[ENUM_JSK.ITEMS.value][change_item_number - 1] = copy.deepcopy(
+                        modified_json_data
                     )
                 else:
                     deps_pretty.prettify_custom_error(
@@ -235,9 +227,7 @@ def generate_user_edited_data(
     return new_json_data
 
 
-def data_validation_scenario(
-    modified_json_data: dict, item_type: str, orig_json_data: dict
-):
+def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json_data: dict):
     """Helper function for the function generate_user_edited_data to handle the data validation and determining which scenario is applicable based on the following possible valid scenarios:
 
     1) Need to add a single startup item
@@ -302,22 +292,16 @@ def data_validation_scenario(
 
     # If the orig_json_data dictionary isn't blank, check that it contains properly formed data
     if data_validation["Orig-Exists"]:
-        data_validation["Orig-Valid"] = deps_helper.json_data_validator(
-            orig_json_data
-        )
+        data_validation["Orig-Valid"] = deps_helper.json_data_validator(orig_json_data)
 
     # Check if modified_json_data contains properly formed data
     if ENUM_JSK.TOTALITEMS.value in modified_json_data:
         # Full startup data
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
-            modified_json_data
-        )
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data)
     elif ENUM_JSK.ITEMNUMBER.value in modified_json_data:
         # Single startup item
         data_validation["Mod-Single"] = True
-        data_validation["Mod-Valid"] = deps_helper.json_data_validator(
-            modified_json_data, True
-        )
+        data_validation["Mod-Valid"] = deps_helper.json_data_validator(modified_json_data, True)
 
     # Check for each of the 3 scenarios listed in the docstring:
     scenario_number, validation_results = match_scenario(data_validation)
@@ -375,9 +359,7 @@ def match_scenario(data_validation: dict):
     validation_results = ""
 
     # Expand the data_validation dictionary keys to separate variables for the conditional block
-    item_type, orig_exists, orig_valid, mod_single, mod_valid = (
-        data_validation.values()
-    )
+    item_type, orig_exists, orig_valid, mod_single, mod_valid = data_validation.values()
 
     # Set up the different error scenario texts
     error_scenario_numbers = [
@@ -424,13 +406,9 @@ def match_scenario(data_validation: dict):
         else:
 
             validation_results = (
-                error_scenario_numbers[error_scenario_number - 1]
-                + " "
-                + error_ending
+                error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
             )
-        deps_pretty.prettify_custom_error(
-            validation_results, "data_generate.match_scenario"
-        )
+        deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
     if not deps_helper.is_production():
         print("\nThe dictionary passed to match_scenario:", data_validation)

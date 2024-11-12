@@ -2,12 +2,12 @@
 
 import copy
 
-import dependencies.data_generate as deps_data_gen
-import dependencies.helper as deps_helper
-import dependencies.chooser as deps_chooser
-import dependencies.jsonfn as deps_json
-import dependencies.enum as deps_enum
-import dependencies.pretty as deps_pretty
+import dependencies.cs_data_generate as deps_data_gen
+import dependencies.cs_helper as deps_helper
+import dependencies.cs_chooser as deps_chooser
+import dependencies.cs_jsonfn as deps_json
+import dependencies.cs_enum as deps_enum
+import dependencies.cs_pretty as deps_pretty
 
 ENUM_JSS = deps_enum.JsonSchemaStructure
 ENUM_JSK = deps_enum.JsonSchemaKeys

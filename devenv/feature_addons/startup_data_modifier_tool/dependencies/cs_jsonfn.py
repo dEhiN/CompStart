@@ -2,13 +2,13 @@
 
 import json, os, copy
 
-import dependencies.helper as deps_helper
-import dependencies.chooser as deps_chooser
-import dependencies.pretty as deps_pretty
-import dependencies.data_generate as deps_data_gen
-import dependencies.startup_edit as deps_item_edit
-import dependencies.startup_add as deps_item_add
-import dependencies.enum as deps_enum
+import dependencies.cs_helper as deps_helper
+import dependencies.cs_chooser as deps_chooser
+import dependencies.cs_pretty as deps_pretty
+import dependencies.cs_data_generate as deps_data_gen
+import dependencies.cs_startup_edit as deps_item_edit
+import dependencies.cs_startup_add as deps_item_add
+import dependencies.cs_enum as deps_enum
 
 ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals

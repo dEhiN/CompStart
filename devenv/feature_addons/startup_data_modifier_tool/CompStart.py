@@ -1,8 +1,8 @@
 # This will be a command line tool to create and edit the startup_data.json file
-import dependencies.jsonfn as deps_json
-import dependencies.helper as deps_helper
-import dependencies.chooser as deps_chooser
-import dependencies.pretty as deps_pretty
+import dependencies.cs_jsonfn as deps_json
+import dependencies.cs_helper as deps_helper
+import dependencies.cs_chooser as deps_chooser
+import dependencies.cs_pretty as deps_pretty
 
 # Global Variables
 
