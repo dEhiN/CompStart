@@ -409,16 +409,4 @@ def match_scenario(data_validation: dict):
             )
         deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
 
-    if not deps_helper.is_production():
-        print("\nThe dictionary passed to match_scenario:", data_validation)
-        print(
-            "Scenario:",
-            str(valid_scenario_number),
-            "--",
-            "Error:",
-            str(error_scenario_number),
-            "Validation Results:",
-            validation_results,
-        )
-
     return (valid_scenario_number, validation_results)

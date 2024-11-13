@@ -112,7 +112,6 @@ def add_startup_item():
                     save_status, save_message = save_new_startup_item(
                         new_item, file_path, file_name
                     )
-                    print(save_status)
                     print(save_message)
     return new_item
 
