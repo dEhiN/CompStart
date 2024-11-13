@@ -63,7 +63,6 @@ def generate_default_startup_data():
     default_json = {}
 
     config_path = deps_helper.get_prod_path()
-    config_path.extend(["config"])
 
     file_name = deps_helper.get_startup_filename(default_json=True)
 
@@ -409,17 +408,5 @@ def match_scenario(data_validation: dict):
                 error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
             )
         deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
-
-    if not deps_helper.is_production():
-        print("\nThe dictionary passed to match_scenario:", data_validation)
-        print(
-            "Scenario:",
-            str(valid_scenario_number),
-            "--",
-            "Error:",
-            str(error_scenario_number),
-            "Validation Results:",
-            validation_results,
-        )
 
     return (valid_scenario_number, validation_results)
