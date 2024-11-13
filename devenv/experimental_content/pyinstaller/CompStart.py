@@ -7,7 +7,7 @@ import dependencies.cs_pretty as deps_pretty
 # Global Variables
 
 # Specifies whether the tool is in production or testing
-is_prod = True
+is_prod = False
 
 # If there are any errors, print this out at the end
 final_err_msg = "Please see the error message(s) above and report them to the development team"
