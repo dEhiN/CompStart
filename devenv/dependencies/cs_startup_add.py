@@ -25,7 +25,7 @@ def add_startup_item():
     """
     # Print out introduction to this section for creating a startup item
     print(
-        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word.\n\nWhen you choose from the menu below to set each section of the startup item, you will get an opportunity to confirm what you entered before it is saved. That means, for example, if you enter a name for the startup item and you don't like it, or you misspelled something, you will be able to correct it before the name is recorded."
+        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details."
     )
     input("\nPress any key to continue...")
 
