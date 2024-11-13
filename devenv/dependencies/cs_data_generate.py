@@ -63,7 +63,6 @@ def generate_default_startup_data():
     default_json = {}
 
     config_path = deps_helper.get_prod_path()
-    config_path.extend(["config"])
 
     file_name = deps_helper.get_startup_filename(default_json=True)
 
