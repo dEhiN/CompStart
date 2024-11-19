@@ -1,16 +1,16 @@
-# CompStart/features
+# CompStart/feature_addons
 
-Parent folder to store all feature branches while being worked on. Each feature branch will have its own child folder. The folder itself is called _feature_addons_.
+Parent folder to store all feature branches while being worked on. The folder itself is called _feature_addons_.
+
+## Directory Structure
+
+Each feature branch currently active will have its own subfolder within this parent folder. In the case of past branches, depending on when the branch was worked on, this parent folder may have had a different name.
+
+Due to that, the branch name will be listed with what the parent folder was called at the time. Additionally, to keep consistency, the current branches will also include the parent folder.
 
 ## Current Branches
 
-### 1. features/powershell_installer
-
-Branch created for the PowerShell installer. As written in **features/bat_install**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
-
-### 2. features/startup_data_modifier_tool
-
-Branch created to work on a user tool to create and modify the _startup_data.json_. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.
+There are currently no active feature branches
 
 ## Past Branches (oldest > newest)
 
@@ -45,3 +45,11 @@ Continued working on the _startup_data.json_ schema file, _startup_data.schema.j
 ### 8. features/python_tkinter_test
 
 Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of _startup_data.json_. This branch got merged into the two current features branches because for now, the focus is to create a command-line Python tool for creating and updated _startup_data.json_.
+
+### 9. feature_addons/powershell_installer
+
+Branch created for the PowerShell installer. As written in **features/bat_installer**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
+
+### 10. feature_addons/startup_data_modifier_tool
+
+Branch created to work on a user tool to create and modify the _startup_data.json_. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.

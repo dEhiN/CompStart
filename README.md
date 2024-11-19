@@ -2,7 +2,7 @@
 
 ## Purpose
 
-CompStart is a tool that allows you to have programs open automatically when your computer starts. But doesn't Windows already allow that through Task Manager and the startup folders, you ask? Well, here's how CompStart is different: you can open up specific tabs and browser windows alongside the installed programs. For example, you could open up a specific Word document, a Chrome window with 3 tabs, and the Google Chat Chrome app, all instantaneously after you log in.
+CompStart is a tool that allows you to have programs open automatically when your computer starts. It currently only works on Windows. But doesn't Windows already allow that through Task Manager and the startup folders, you ask? Well, here's how CompStart is different: you can open up specific tabs and browser windows alongside the installed programs. For example, you could open up a specific Word document, a Chrome window with 3 tabs, and the Google Chat Chrome app, all instantaneously after you log in.
 
 CompStart will also allow you to quickly and easily\* change the programs and sites you want to open. Using the previous example, let's say you finished working on the Word document. You can easily remove that from the startup list, so CompStart will only open the Chrome window with 3 tabs and the Google Chat Chrome app.
 
@@ -23,7 +23,7 @@ The installation instructions are essentially the same as above if you just want
 1. If you want to contribute to this program, read the **How to help** section first. Once you get in touch with me, let me know what you want to do, and I can add you as a contributor to the repository.
 
 2. If you want to play around with what I've created on your own, you can fork this repository. I encourage you to read the **How to help** section. I also ask that if you publish anything you create based on this project, please credit me as applicable. Finally, it would be nice if you let me know.
-<br>
+   <br>
 
 ## How to help
 
@@ -50,7 +50,7 @@ Currently, as of 2023-10-27, the Powershell script and Batch file both work and 
 
 There is a feature branch for creating a command-line tool that will allow for the creation, viewing, and updating of the JSON file. The tool is being written in Python. There is another feature branch to create an installer in Powershell. There are 2 README files, this one, and one in the <code>feature_addons folder</code>, which is where all the feature branches are held. That README contains detailed information on present and past feature branches.
 
-### Listing of Directories (Folders) and Files
+### Directory Structure
 
 ##### Legend
 
@@ -67,22 +67,28 @@ There is a feature branch for creating a command-line tool that will allow for t
 
 #### Folder: /devenv
 
-- D _data_ - Main data folder consisting of subfolders and data files
+- D _config_ - Main configuration folder for the JSON files
+- D _data_ - Data folder for either old or miscellaneous data
+- D _experimental_content_ - Parent folder to hold all child folders for any experimentation done with, for example, a library to possibly use in the future
 - D _feature_addons_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
-- F _startup.ps1_ - Main PowerShell script that sets up all the programs, browser windows, and tabs
-- F _startup.bat_ - A batch file that is run on Windows startup and calls _startup.ps1_
+- F _CompStart.ps1_ - Main PowerShell script that sets up all the programs, browser windows, and tabs
+- F _CompStart.bat_ - A batch file that is run on Windows startup and calls _startup.ps1_
+
+### Folder: /devenv/config
+
+- D _schema_ - A folder to hold the JSON schema files
+- F _default_startup.json_ The data file that holds the default startup data used when first created a startup data file
+- F _startup_data.json_ The main data file that holds all the up-to-date startup data used by the _CompStart_ PowerShell script
+
+### Folder: /devenv/config/schema
+
+- F _startup_data.schema.json_ The schema file for the _startup_data_ JSON file that's used for validation
+- F _startup_item.schema.json_ The schema file for a specific startup item that's used for validation
 
 #### Folder: /devenv/data
 
-- D _data/json_data_ - Holds all the various JSON files for configuration, startup data, etc. including JSON files used for testing
 - D _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
 - D _data/old_data_ - Holds any old or original code files that I want to keep for posterity or just in case
-
-#### Folder: /devenv/data/json_data
-
-- F _startup_data.json_ - The startup data that _startup.ps1_ reads and will store all the programs and websites to open along with any parameters to pass in, etc
-- F _startup_data.schema.json_ - A JSON Schema file for _startup_data.json_
-- F _test_data.json_ - A simple startup data file that only opens Notepad and was used in testing the _startup.ps1_ script to make sure it worked
 
 #### Folder: /devenv/data/misc_data
 
@@ -93,24 +99,22 @@ There is a feature branch for creating a command-line tool that will allow for t
 
 #### Folder: /devenv/data/old_data
 
+- D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
 - F _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
 - F _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
 
-#### Folder: /devenv/feature_addons
+#### Folder: /devenv/experimental_content
 
-- F _README.md_ The README for all feature branches containing specific information about past and current branches
-- D _\<feature-branch-name>_ One or more folders for each current feature branch
+- See the _Readme_ in this folder for further details
+
+#### Folder: /devenv/features
+
+- See the _Readme_ in this folder for further details
 
 #### Folder: /packages
 
-- D _v\<num>_ A folder for each major version number; for example _v1_ will hold all content related to all version 1 packages
-
-#### Folder: /packages/v\<num>
-
-- D _m\<num>_ A folder for each minor version number; for example _v1/m1_ will all hold all content related to version 1.1 packages
+- See the _Readme_ in this folder for further details
 
 #### Folder: /releases
 
-- D _v\<num>_ A folder for each major version number; for example _v1_ will hold all content related to all version 1 releases
-- F _instructions.txt_ Text instructions on how to manually install Demord; will be used and copied to each release until an automated install method is created
-- F _README.md_ The README for release information, how it works, etc.
+- See the _Readme_ in this folder for further details
