@@ -293,7 +293,7 @@ def json_editor(json_path: list, json_filename: str):
                     quit_loop = True
                 elif user_choice == menu_add:
                     # User chose to add a new startup item
-                    print(deps_item_add.add_startup_item())
+                    deps_item_add.add_startup_item()
                     # new_menu = True
                 elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
