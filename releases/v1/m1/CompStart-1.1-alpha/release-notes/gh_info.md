@@ -1,18 +1,18 @@
 ## Release Title
 
-Second Official Release (with the Python tool): CompStart-1.1-beta
+First Official Release: CompStart-1.1-alpha
 
 ## Release Version
 
-1.1.-beta
+1.1.-alpha
 
 ## Release Tag
 
-CompStart-1.1-beta
+CompStart-1.1-alpha
 
 ## Description
 
-This is the second official release of **CompStart**. It includes the completed Python CLI tool to allow users to modify the startup file, including creating a new one. This version will be known as:
+This is the first official release of **CompStart**! There are some features that are still in development. As a result, this version will be known as:
 
 [CompStart-1.1-alpha.zip]()
 
