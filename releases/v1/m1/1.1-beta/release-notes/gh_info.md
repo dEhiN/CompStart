@@ -8,7 +8,7 @@ Second Official Release (with the Python tool): CompStart-1.1-beta
 
 ## Release Tag
 
-[CompStart-1.1-beta](https://github.com/dEhiN/CompStart/releases)
+[CompStart-1.1-beta](https://github.com/dEhiN/CompStart/releases/tag/CompStart-1.1-beta)
 
 ## Description
 
