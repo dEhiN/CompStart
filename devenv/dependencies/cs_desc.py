@@ -1,7 +1,6 @@
 # File to store the description of the CompStart program for use when the user selects option 1 from the main menu
 
- CS_DESCRIPTION =
-"""
+CS_DESCRIPTION = """
 What is CompStart?
 
 CompStart is a computer startup tool designed to make your life easier.
