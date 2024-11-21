@@ -12,6 +12,10 @@ Major versions will have a directory that starts with _v_ followed by the versio
 
 Minor versions will have a directory that starts with _m_ followed by the version number. For example, _v1/m1_ would be for all content related to version 1.1.
 
+### Artifacts
+
+Each minor version folder will have one or more archive files that will have the full release version name. For example, the package for release version 1.1 will be named _CompStart-1.1.zip_. If a release has a tag associated with it, that will also be included in the name, such as _CompStart-1.1-alpha.zip_. See the next two sections for more details.
+
 
 ## Released Packages
 
