@@ -28,7 +28,7 @@ How to modify the startup data file:
 
 This release includes a command-line tool that can be used to modify the startup data file: CompStart.exe
 
-Since this is a command-line tool, when you double-click the executable file, a window will open up with text and a black background. You will need to read the text, which is a menu, choose an option and continue from there. A better tool that will be fully graphical is planned.
+Since this is a command-line tool, when you double-click the executable file, a window will open up with a text menu. You will need to read the menu, choose an option, and continue from there. A fully graphical tool is planned.
 
 
 Note: The default startup data that comes pre-added opens Windows Calculator, Chrome, and Windows Notepad. For Chrome, the sites Google, Facebook, and X (formerly known as Twitter) are opened in a new window. This can all be changed using the instructions for "How to modify the startup data file".
