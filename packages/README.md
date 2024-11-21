@@ -19,6 +19,9 @@ Each minor version folder will have one or more archive files that will have the
 
 ## Released Packages
 
+- _CompStart-1.1-beta.zip_
+<br>The second release of CompStart and requires manual installation as it only contains the Batch script, the Powershell script, and the JSON config file. This release does include the new Python CLI tool - converted to an executable - that will make it easier to modify the startup data.
+
 - _CompStart-1.1-alpha.zip_
 <br>The first ever release of CompStart and requires manual installation as it only contains the Batch script, the Powershell script, and the JSON config file.
 
