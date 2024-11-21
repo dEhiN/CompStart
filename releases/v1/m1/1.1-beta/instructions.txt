@@ -3,9 +3,14 @@ Congratulations on downloading and unzipping the latest release of CompStart! Yo
 -> instructions.txt *THIS FILE*
 -> CompStart *FOLDER*
 -> CompStart\config *FOLDER*
--> CompStart\startup.ps1
--> CompStart\startup.bat
+-> CompStart\config\schema *FOLDER*
+-> CompStart\CompStart.bat
+-> CompStart\CompStart.exe
+-> CompStart\CompStart.ps1
+-> CompStart\config\default_startup.json
 -> CompStart\config\startup_data.json
+-> CompStart\config\schema\startup_data.schema.json
+-> CompStart\config\schema\startup_item.schema.json
 
 Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
 
@@ -21,28 +26,12 @@ How to install CompStart:
 
 How to modify the startup data file:
 
-You will need to know what a JSON file is, how JSON data is structured, and have an editor that you can use. For the last point, Notepad is sufficient, so it's more important that you understand about JSON data. While I could explain it, this is beyond the scope of these instructions, so if you're not familiar with JSON, please familiarize yourself.
+This release includes a command-line tool that can be used to modify the startup data file: CompStart.exe
 
-The basic structure of the startup JSON data, found in the config/startup_data.json file, is a JSON object that has 2 properties, an integer, and an array. The first property is called TotalItems and is a number specifying how many startup items - programs, websites, browser apps, etc. - you have. The second property is an array that contains all the startup items, with each startup item being a JSON object itself.
-
-Within each startup item object, there are 7 properties named ItemNumber, Name, FilePath, Description, Browser, ArgumentCount, and ArgumentList, with each property taking the following values:
-
--> The first and sixth properties are integers
--> The seventh property is another array
--> The fifth property only uses the values "true" or "false", without quotes
--> The second to fourth properties are all strings
-
-The startup items are numbered sequentially, using ItemNumber, so make sure if you rearrange the item order, you renumber them. The ArgumentList array will contain any arguments needing to be passed to the program being opened. See item 2 in the default startup data provided for an example. The ArgumentCount property should reflect this, so if there are no arguments to pass, this property should be 0 and the array should be blank. See item 1 in the default startup data provided for an example. Think of the Browser property as a flag; if the startup item is a browser, then this property should say "true", or "false" otherwise.
-
-For the string properties, the Name and Description are whatever you want to put in. While they currently aren't used, they will be used in the future. Finally, the last property, FilePath, has to either be the full path to the program file, or a program name that can be entered from Windows CMD. See items 1 and 2 in the default startup data for examples.
-
-The default startup data that comes pre-added to the startup_data.json file opens Windows Calculator, Chrome, and Windows Notepad. For Chrome, the sites Google, Facebook, and X (formerly known as Twitter) are opened in a new window.
+Since this is a command-line tool, when you double-click the executable file, a window will open up with text and a black background. You will need to read the text, which is a menu, choose an option and continue from there. A better tool that will be fully graphical is planned.
 
 
-**IMPORTANT**:
-1. Make sure the number of entries in the ArgumentList array and the property of ArgumentCount match up!
-2. When entering a full path, please add an extra \ as seen in item 2
-
+Note: The default startup data that comes pre-added opens Windows Calculator, Chrome, and Windows Notepad. For Chrome, the sites Google, Facebook, and X (formerly known as Twitter) are opened in a new window. This can all be changed using the instructions for "How to modify the startup data file".
 
 If you have any difficulty with all of this, get in touch with me and I can assist you.
 
