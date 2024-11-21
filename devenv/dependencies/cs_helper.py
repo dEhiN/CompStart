@@ -5,6 +5,7 @@ import os, jsonschema
 import dependencies.cs_pretty as deps_pretty
 import dependencies.cs_jsonfn as deps_json
 import dependencies.cs_enum as deps_enum
+import dependencies.cs_desc as deps_desc
 import CompStart as app_cs
 
 ENUM_ITV = deps_enum.ItemTypeVals
@@ -40,18 +41,7 @@ def is_production():
 
 def program_info():
     """Function to explain what this program is and how it works"""
-    program_information = (
-        "\nWhat is CompStart?\n"
-        "CompStart is a computer startup tool designed to make your life easier.\n\n"
-        "What does that mean?\n"
-        "Have you ever wished to be able to log into your laptop at work and\n"
-        "have all of your programs automatically start up? Or, maybe you are\n"
-        "working on some personal project at home and don't want to be reopening\n"
-        "the file or program you're using every time you turn on your desktop\n"
-        "computer. With CompStart, you you can have any program automatically open\n"
-        "when you log in, including your favourite browser to any websites you\n"
-        "desire as well as any files you want, such as a Word document."
-    )
+    program_information = deps_desc.CS_DESCRIPTION
     print(program_information)
     print("\nThis menu option is still under construction...come back later...")
     input("\nPress any key to return to the main menu... ")
