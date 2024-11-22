@@ -22,7 +22,7 @@ if __name__ == "__main__":
     json_filename = deps_helper.get_startup_filename(default_json=False)
 
     # Print welcome message
-    print("\nWelcome to CompStart: The computer startup tool that will make your life easier.")
+    print("\nWelcome to CompStart: The computer startup tool that will make your life easier")
 
     # Initialize status variables
     status_state = False
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     # Menu choices to present to user during main loop
     menu_choices = [
-        "What is CompStart?",
+        "Program description",
         "Create a new startup file",
         "View the existing startup file",
         "Edit the existing startup file",
