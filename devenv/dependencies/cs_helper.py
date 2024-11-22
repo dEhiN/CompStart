@@ -41,10 +41,19 @@ def is_production():
 
 def program_info():
     """Function to explain what this program is and how it works"""
-    program_information = deps_desc.CS_DESCRIPTION
-    print(program_information)
-    print("\nThis menu option is still under construction...come back later...")
-    input("\nPress any key to return to the main menu... ")
+    program_description = deps_desc.CS_DESCRIPTION
+    desc_parts = program_description.split("--")
+    total_parts = len(desc_parts)
+    part_counter = 0
+
+    for part in desc_parts:
+        print(part)
+        print("Page {} of {}".format(part_counter + 1, total_parts))
+        part_counter += 1
+        if part_counter < total_parts:
+            input("Press enter to continue to the next page... ")
+        else:
+            input("Press enter to return to the main menu...")
 
 
 def parse_full_path(json_path: list, json_filename: str):
