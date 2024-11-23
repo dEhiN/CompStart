@@ -163,13 +163,13 @@ def add_startup_item_description():
     return new_description
 
 
-def add_startup_item_program_path(item_name: str = "Startup Item"):
+def add_startup_item_program_path(item_name: str):
     """Helper function to set the path of a startup item
 
     Note: While the add functions for name and description allow the user to change what they initially entered via a loop, this add function doesn't. At present, it makes sense to only check for if the user didn't enter anything or make a choice, and loop in that case. However, there is argument for a scenario where a user chooses the wrong file by accident or enters the wrong path. For now, this function won't worry about that, which means the calling function will need to validate the user input.
 
     Args:
-        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the default will be "Startup Item".
+        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the name will be set to "Startup Item".
 
     Returns:
         str: The new startup item absolute path
@@ -184,8 +184,8 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
     # Loop until user chooses or enters a path
     while not loop_quit:
         user_menu = [
-            f"Use the file chooser window to select the program executable path for {item_name}",
-            f"Enter the full path manually for {item_name}",
+            f"Use the file chooser window to select the program path for {item_name}",
+            f"Manually enter the program path for {item_name}",
         ]
 
         user_choice = deps_chooser.user_menu_chooser(user_menu, False)
