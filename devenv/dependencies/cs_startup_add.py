@@ -141,7 +141,12 @@ def add_startup_item_name():
     Returns:
         str: The new startup item name.
     """
-    new_name = input("\nPlease enter the name you would like to use: ")
+    new_name = ""
+    while new_name == "":
+        new_name = input("\nPlease enter the name you would like to use: ")
+        if new_name == "":
+            print("That is not a valid response")
+
     return new_name
 
 
