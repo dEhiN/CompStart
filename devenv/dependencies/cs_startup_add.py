@@ -177,7 +177,9 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
     # Initialize function variables
     new_path = ""
     loop_quit = False
-    check_blank = False
+
+    if item_name == "":
+        item_name = "Startup Item"
 
     # Loop until user chooses or enters a path
     while not loop_quit:
@@ -191,15 +193,13 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
         match user_choice:
             case 1:
                 new_path = deps_chooser.existing_file_chooser(item_name)
-                check_blank = True
             case 2:
-                input_msg = (
-                    "\nPlease enter the new path to the program executable as an absolute path: "
-                )
+                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
                 new_path = input(input_msg)
-                check_blank = True
 
-        if check_blank:
+        if new_path == "":
+            print("The value cannot be blank")
+        else:
             loop_quit = True
 
     return new_path
