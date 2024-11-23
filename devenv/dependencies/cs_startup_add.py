@@ -243,7 +243,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
                 new_arg_list.append(new_argument)
                 print('\nSuccessfully added "' + new_argument + '"!')
             else:
-                print("Argument cannot be blank!")
+                print("The value cannot be blank")
 
     return new_arg_list
 
