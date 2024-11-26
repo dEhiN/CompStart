@@ -113,6 +113,7 @@ def add_startup_item():
                         new_item, file_path, file_name
                     )
                     print(save_message)
+
     return new_item
 
 
@@ -145,7 +146,7 @@ def add_startup_item_name():
     while new_name == "":
         new_name = input("\nPlease enter the name you would like to use: ")
         if new_name == "":
-            print("That is not a valid response")
+            print("The item name cannot be blank")
 
     return new_name
 
@@ -159,7 +160,12 @@ def add_startup_item_description():
     Returns:
         str: The new startup item description.
     """
-    new_description = input("\nPlease enter the description you would like to use: ")
+    new_description = ""
+    while new_description == "":
+        new_description = input("\nPlease enter the description you would like to use: ")
+        if new_description == "":
+            print("The item description cannot be blank")
+
     return new_description
 
 
@@ -194,11 +200,13 @@ def add_startup_item_program_path(item_name: str):
             case 1:
                 new_path = deps_chooser.existing_file_chooser(item_name)
             case 2:
-                input_msg = "\nPlease enter the new path to the program executable as an absolute path: "
+                input_msg = (
+                    "\nPlease enter the new path to the program executable as an absolute path: "
+                )
                 new_path = input(input_msg)
 
         if new_path == "":
-            print("The value cannot be blank")
+            print("The program path cannot be blank")
         else:
             loop_quit = True
 
@@ -243,7 +251,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
                 new_arg_list.append(new_argument)
                 print('\nSuccessfully added "' + new_argument + '"!')
             else:
-                print("The value cannot be blank")
+                print("The argument cannot be blank")
 
     return new_arg_list
 
