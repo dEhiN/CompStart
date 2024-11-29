@@ -83,17 +83,15 @@ def generate_default_startup_data():
 def generate_user_startup_data():
     """Helper function to create startup data that the user chooses
 
-    Currently, this function just returns a JSON object with no startup data
+    This function just returns a JSON object with no startup items. This gets passed back to the function json_creator in the module cs_jsonfn to be written to disk. After that, the function json_creator will perform the work necessary to create startup data that the user chooses
 
     Returns:
-        dict: A dictionary of JSON startup data
+        dict: A dictionary of valid JSON startup data with no startup items and the property TotalItems set to 0
     """
     # Create empty JSON object / Python dictionary
     json_data = ENUM_JSS.OBJECT.value.copy()
     json_data[ENUM_JSK.TOTALITEMS.value] = 0
     json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
-
-    print("This functionality hasn't been fully implemented yet. Creating blank startup file...")
 
     return json_data
 
