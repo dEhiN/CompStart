@@ -113,6 +113,7 @@ def add_startup_item():
                         new_item, file_path, file_name
                     )
                     print(save_message)
+
     return new_item
 
 
@@ -141,7 +142,12 @@ def add_startup_item_name():
     Returns:
         str: The new startup item name.
     """
-    new_name = input("\nPlease enter the name you would like to use: ")
+    new_name = ""
+    while new_name == "":
+        new_name = input("\nPlease enter the name you would like to use: ")
+        if new_name == "":
+            print("The item name cannot be blank")
+
     return new_name
 
 
@@ -154,17 +160,22 @@ def add_startup_item_description():
     Returns:
         str: The new startup item description.
     """
-    new_description = input("\nPlease enter the description you would like to use: ")
+    new_description = ""
+    while new_description == "":
+        new_description = input("\nPlease enter the description you would like to use: ")
+        if new_description == "":
+            print("The item description cannot be blank")
+
     return new_description
 
 
-def add_startup_item_program_path(item_name: str = "Startup Item"):
+def add_startup_item_program_path(item_name: str):
     """Helper function to set the path of a startup item
 
     Note: While the add functions for name and description allow the user to change what they initially entered via a loop, this add function doesn't. At present, it makes sense to only check for if the user didn't enter anything or make a choice, and loop in that case. However, there is argument for a scenario where a user chooses the wrong file by accident or enters the wrong path. For now, this function won't worry about that, which means the calling function will need to validate the user input.
 
     Args:
-        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the default will be "Startup Item".
+        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the name will be set to "Startup Item".
 
     Returns:
         str: The new startup item absolute path
@@ -172,13 +183,15 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
     # Initialize function variables
     new_path = ""
     loop_quit = False
-    check_blank = False
+
+    if item_name == "":
+        item_name = "Startup Item"
 
     # Loop until user chooses or enters a path
     while not loop_quit:
         user_menu = [
-            f"Use the file chooser window to select the program executable path for {item_name}",
-            f"Enter the full path manually for {item_name}",
+            f"Use the file chooser window to select the program path for {item_name}",
+            f"Manually enter the program path for {item_name}",
         ]
 
         user_choice = deps_chooser.user_menu_chooser(user_menu, False)
@@ -186,15 +199,15 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
         match user_choice:
             case 1:
                 new_path = deps_chooser.existing_file_chooser(item_name)
-                check_blank = True
             case 2:
                 input_msg = (
                     "\nPlease enter the new path to the program executable as an absolute path: "
                 )
                 new_path = input(input_msg)
-                check_blank = True
 
-        if check_blank:
+        if new_path == "":
+            print("The program path cannot be blank")
+        else:
             loop_quit = True
 
     return new_path
@@ -238,7 +251,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
                 new_arg_list.append(new_argument)
                 print('\nSuccessfully added "' + new_argument + '"!')
             else:
-                print("Argument cannot be blank!")
+                print("The argument cannot be blank")
 
     return new_arg_list
 

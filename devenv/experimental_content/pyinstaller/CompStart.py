@@ -7,7 +7,7 @@ import dependencies.cs_pretty as deps_pretty
 # Global Variables
 
 # Specifies whether the tool is in production or testing
-is_prod = False
+is_prod = True
 
 # If there are any errors, print this out at the end
 final_err_msg = "Please see the error message(s) above and report them to the development team"
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     json_filename = deps_helper.get_startup_filename(default_json=False)
 
     # Print welcome message
-    print("\nWelcome to CompStart: The computer startup tool that will make your life easier.")
+    print("\nWelcome to CompStart: The computer startup tool that will make your life easier")
 
     # Initialize status variables
     status_state = False
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     # Menu choices to present to user during main loop
     menu_choices = [
-        "What is CompStart?",
+        "Program description",
         "Create a new startup file",
         "View the existing startup file",
         "Edit the existing startup file",
