@@ -103,10 +103,9 @@ def check_overwrite(json_file: str):
         user_choice = input(input_message)
 
         if user_choice.upper() == "Y" or user_choice.upper() == "N":
+            quit_loop = True
             if user_choice.upper() == "Y":
                 overwrite_file = True
-
-            quit_loop = True
 
     return overwrite_file
 
