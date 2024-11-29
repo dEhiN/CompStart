@@ -55,7 +55,7 @@ if __name__ == "__main__":
                     )
 
                 # If there were any errors, let the user know to check the error messages
-                if not status_state:
+                if not status_state and not status_message.startswith("Skipped"):
                     status_message = final_err_msg
 
                 # Print out the status message
