@@ -217,6 +217,22 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
             "json_creator",
         )
 
+    # Need to check if the user chose to create their own startup items and also was ok with overwriting any existing startup file
+    if not default_mode and write_json_success:
+        print("\nCreating blank startup file...")
+
+        # Ask user how many startup items they want to add and loop until the user enters a valid integer
+        while True:
+            try:
+                num_startup_items = int(input("\nHow many startup items would you like to add? "))
+            except ValueError:
+                print("Please enter a valid number...")
+                continue
+            else:
+                break
+
+        print(num_startup_items)
+
     return write_json_success, return_message
 
 
