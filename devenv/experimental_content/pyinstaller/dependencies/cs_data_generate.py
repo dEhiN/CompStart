@@ -32,13 +32,6 @@ def generate_new_json_data(is_default: bool = False):
     exists_data = False
     json_data = {}
 
-    # Adding override to use default startup file for when not in production and user wants to supply their own startup data
-    if not deps_helper.is_production() and not is_default:
-        print(
-            "This functionality hasn't been fully implemented yet. Creating default startup file..."
-        )
-        is_default = True
-
     # Determine what type of JSON data to create
     if is_default:
         exists_data, json_data = generate_default_startup_data()
