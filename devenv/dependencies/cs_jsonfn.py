@@ -240,7 +240,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
                 return_message = ""
                 return write_json_success, return_message
 
-        # If the file exists, make sure we confirm from the user before overwriting the file
+        # If the file exists, make sure we will confirm from the user before overwriting the file
         if os.path.isfile(json_file):
             file_state = 1
 
