@@ -209,6 +209,37 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
     # Check to see if any data was actually generated
     if exists_data:
+        # Check to see if the user chose to create their own startup items
+        if not default_mode:
+            # print("\nCreating blank startup file...")
+
+            # Ask user how many startup items they want to add and loop until the user enters a valid integer
+            while True:
+                try:
+                    num_startup_items = int(
+                        input("\nHow many startup items would you like to add? ")
+                    )
+                except ValueError:
+                    print("Please enter a valid number...")
+                    continue
+                else:
+                    break
+
+            print(num_startup_items)
+
+            # If the user entered 0 or a negative number
+            if num_startup_items < 1:
+                # Print out an error message
+                err_msg = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
+                    num_startup_items
+                )
+                deps_pretty.prettify_custom_error(err_msg, "json_creator")
+
+                # Go back to the main loop
+                write_json_success = False
+                return_message = ""
+                return write_json_success, return_message
+
         # If the file exists, make sure we confirm from the user before overwriting the file
         if os.path.isfile(json_file):
             file_state = 1
@@ -224,39 +255,6 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
             "Could not create a new startup data JSON file",
             "json_creator",
         )
-
-    # Need to check if the user chose to create their own startup items and also was ok with overwriting any existing startup file
-    if not default_mode and write_json_success:
-        print("\nCreating blank startup file...")
-
-        # Ask user how many startup items they want to add and loop until the user enters a valid integer
-        while True:
-            try:
-                num_startup_items = int(
-                    input("\nHow many startup items would you like to add? ")
-                )
-            except ValueError:
-                print("Please enter a valid number...")
-                continue
-            else:
-                break
-
-        print(num_startup_items)
-
-        # If the user entered 0 or a negative number
-        if num_startup_items < 1:
-            # Print out an error message
-            err_msg = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
-                num_startup_items
-            )
-            deps_pretty.prettify_custom_error(err_msg, "json_creator")
-            print(
-                "\nImportant note: The previous startup data file was overwritten with blank startup data"
-            )
-
-            # Modify the return variables
-            write_json_success = False
-            return_message = ""
 
     return write_json_success, return_message
 
