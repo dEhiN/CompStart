@@ -424,52 +424,50 @@ def json_pruner(curr_json_data: dict, item_number: int):
     return updated_json_data
 
 
-def json_adder(json_path: list, json_filename: str):
+def json_adder(curr_json_data: dict):
     """Function to add one or more startup items to the existing startup file
 
     This function will allow the user to choose how many startup items they want to add, and then loop through so they can add each item one by one
 
     Args:
-    json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
-
-    json_filename (str): The filename of the JSON file
+        curr_json_data (dict): The existing full startup data
 
     Returns:
-        bool: True if adding startup items was successful, False if there were any issues encountered
-
-        string: An error message to display if the boolean return variable is False, blank otherwise
+        dict: A dictionary containing the updated startup data
     """
-
     # Initialize function variables
-    status_state = True
-    status_message = ""
+    num_startup_items = 0
 
-    # Read in existing JSON file and store the return results of the json_read function
-    status_state, status_message, json_data = json_reader(json_path, json_filename)
+    # Get a temp copy of the passed in startup data
+    new_json_data = copy.deepcopy(curr_json_data)
 
     # Ask user how many startup items they want to add and loop until the user enters a valid integer
-    while True:
+    quit_loop = False
+    while not quit_loop:
         try:
             num_startup_items = int(input("\nHow many startup items would you like to add? "))
+
+            # Check if the user entered 0 or a negative number
+            if num_startup_items < 1:
+                # Print out an error message
+                print(
+                    "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
+                        num_startup_items
+                    )
+                )
+            else:
+                quit_loop = True
         except ValueError:
             print("Please enter a valid number...")
-            continue
-        else:
-            break
 
-    # If the user entered 0 or a negative number
-    if num_startup_items < 1:
-        # Print out an error message
-        status_message = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
-            num_startup_items
+    # Loop through and get each startup item from the user
+    for item in range(num_startup_items):
+        startup_item = deps_item_add.add_startup_item()
+
+        new_json_data = deps_data_gen.generate_user_edited_data(
+            startup_item, ENUM_ITV.ADD.value, new_json_data
         )
-        status_state = False
-    else:
-        # Loop through and get each startup item from the user
-        for item in range(num_startup_items):
-            startup_item = deps_item_add.add_startup_item()
 
-    if not status_state:
-        deps_pretty.prettify_custom_error(status_message, "json_adder")
+        print("\nStartup item {} was successfully created".format(startup_item["ItemNumber"]))
 
-    return status_state, status_message
+    return new_json_data
