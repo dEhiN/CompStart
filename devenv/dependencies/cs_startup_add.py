@@ -47,10 +47,10 @@ def add_startup_item():
 
     menu_choices = [
         "Create a startup item",
-        "Change the item name",
-        "Change the item description",
-        "Pick a new program path to the item",
-        "Edit or add arguments for the item",
+        "Edit the item name",
+        "Edit the item description",
+        "Edit the program path to the item",
+        "Edit or add arguments to the item",
         "View the startup item",
         "Save the startup item",
         "Return to the previous menu",
