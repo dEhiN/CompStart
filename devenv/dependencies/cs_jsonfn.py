@@ -371,6 +371,7 @@ def json_editor(json_path: list, json_filename: str):
                             "There are no items to delete! Please add a new startup item first..."
                         )
                         status_state = False
+                        quit_loop = True
                 elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
@@ -441,5 +442,7 @@ def json_pruner(curr_json_data: dict, item_number: int):
     updated_json_data = deps_data_gen.generate_user_edited_data(
         prune_item, ENUM_ITV.DELETE.value, temp_json_data
     )
+
+    print("\nItem was successfully deleted!")
 
     return updated_json_data
