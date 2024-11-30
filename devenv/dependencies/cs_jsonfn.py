@@ -44,9 +44,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
     # Validate if filename passed in is a JSON file
     if not file_ext:
         # The filename has no extension
-        return_message = (
-            "Argument 'json_filename' is not a valid file as it has no extension"
-        )
+        return_message = "Argument 'json_filename' is not a valid file as it has no extension"
     else:
         # Check the extension is "json"
         if not file_ext == required_ext:
@@ -68,9 +66,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
                 if len(json_data) == 0:
                     return_message = "JSON data is blank"
                 # Check to see if the JSON data is valid (ex., no blank JSON object)
-                elif not is_json_schema and not deps_helper.json_data_validator(
-                    json_data
-                ):
+                elif not is_json_schema and not deps_helper.json_data_validator(json_data):
                     return_message = "Validation failed while reading in JSON data"
                 # Read was successful
                 else:
@@ -203,16 +199,16 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
     json_file = deps_helper.parse_full_path(json_path, json_filename)
 
     # Create startup JSON data to add to the startup_data.json file
-    exists_data, json_data = deps_data_gen.generate_new_json_data(
-        is_default=default_mode
-    )
+    exists_data, json_data = deps_data_gen.generate_new_json_data(is_default=default_mode)
 
     # Check to see if any data was actually generated
     if exists_data:
+        # If the file exists, make sure we will confirm from the user before overwriting the file
+        if os.path.isfile(json_file):
+            file_state = 1
+
         # Check to see if the user chose to create their own startup items
         if not default_mode:
-            # print("\nCreating blank startup file...")
-
             # Ask user how many startup items they want to add and loop until the user enters a valid integer
             while True:
                 try:
@@ -238,20 +234,17 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
                 return_message = ""
                 return write_json_success, return_message
 
-            # Loop through and get each startup item from the user
-            for item in range(1, num_startup_items):
-                startup_item = deps_item_add.add_startup_item()
-                print("Startup Item {}:\n{}".format(item, startup_item))
-
-        # If the file exists, make sure we will confirm from the user before overwriting the file
-        if os.path.isfile(json_file):
-            file_state = 1
+            # Alert the user that a blank startup file is being created
+            print("\nCreating blank startup file...")
 
         # Write the file to disk and get the return values
-        write_json_success, return_message = json_writer(
-            json_file, file_state, json_data
-        )
+        write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
+        # If the user wanted to create their own startup items, loop through and get each startup item from the user
+        if not default_mode:
+            for item in range(num_startup_items):
+                startup_item = deps_item_add.add_startup_item()
+                print("Startup Item {}:\n{}".format(item, startup_item))
     else:
         # There's no data to use, so let the user know
         deps_pretty.prettify_custom_error(
@@ -343,7 +336,9 @@ def json_editor(json_path: list, json_filename: str):
                         # User chose to delete an existing startup item
                         new_menu = True
 
-                        question_prompt = "\nPlease enter the startup item number you want to remove"
+                        question_prompt = (
+                            "\nPlease enter the startup item number you want to remove"
+                        )
                         if total_items == 1:
                             question_prompt += " [1]: "
                         else:
@@ -368,9 +363,7 @@ def json_editor(json_path: list, json_filename: str):
                         )
                 elif user_choice == menu_save:
                     # User chose to save the current JSON data
-                    status_state, status_message = json_saver(
-                        json_data, json_path, json_filename
-                    )
+                    status_state, status_message = json_saver(json_data, json_path, json_filename)
 
                     if not status_state:
                         print(status_message)
