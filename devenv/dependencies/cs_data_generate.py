@@ -36,7 +36,7 @@ def generate_new_json_data(is_default: bool = False):
     if is_default:
         exists_data, json_data = generate_default_startup_data()
     else:
-        json_data = generate_user_startup_data()
+        json_data = generate_blank_startup_data()
         exists_data = True
 
     return (exists_data, json_data)
@@ -80,8 +80,8 @@ def generate_default_startup_data():
     return (exists_data, default_json)
 
 
-def generate_user_startup_data():
-    """Helper function to create startup data that the user chooses
+def generate_blank_startup_data():
+    """Helper function to create blank startup data for when the user wants to add their own programs
 
     This function just returns a JSON object with no startup items. This gets passed back to the function json_creator in the module cs_jsonfn to be written to disk. After that, the function json_creator will perform the work necessary to create startup data that the user chooses
 
