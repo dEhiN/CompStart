@@ -225,8 +225,6 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
                 else:
                     break
 
-            print(num_startup_items)
-
             # If the user entered 0 or a negative number
             if num_startup_items < 1:
                 # Print out an error message
@@ -239,6 +237,11 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
                 write_json_success = False
                 return_message = ""
                 return write_json_success, return_message
+
+            # Loop through and get each startup item from the user
+            for item in range(1, num_startup_items):
+                startup_item = deps_item_add.add_startup_item()
+                print("Startup Item {}:\n{}".format(item, startup_item))
 
         # If the file exists, make sure we will confirm from the user before overwriting the file
         if os.path.isfile(json_file):
