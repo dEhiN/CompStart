@@ -207,44 +207,26 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         if os.path.isfile(json_file):
             file_state = 1
 
-        # Check to see if the user chose to create their own startup items
+        # If the user chose to add their own startup programs, alert the user that a blank startup file is being created
         if not default_mode:
-            # Ask user how many startup items they want to add and loop until the user enters a valid integer
-            while True:
-                try:
-                    num_startup_items = int(
-                        input("\nHow many startup items would you like to add? ")
-                    )
-                except ValueError:
-                    print("Please enter a valid number...")
-                    continue
-                else:
-                    break
-
-            # If the user entered 0 or a negative number
-            if num_startup_items < 1:
-                # Print out an error message
-                err_msg = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
-                    num_startup_items
-                )
-                deps_pretty.prettify_custom_error(err_msg, "json_creator")
-
-                # Go back to the main loop
-                write_json_success = False
-                return_message = ""
-                return write_json_success, return_message
-
-            # Alert the user that a blank startup file is being created
             print("\nCreating blank startup file...")
 
         # Write the file to disk and get the return values
         write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
-        # If the user wanted to create their own startup items, loop through and get each startup item from the user
+        # If the user chose to add their own startup programs
         if not default_mode:
-            for item in range(num_startup_items):
-                startup_item = deps_item_add.add_startup_item()
-                print("Startup Item {}:\n{}".format(item, startup_item))
+            # Call the function to handle adding the startup items
+            write_json_success, return_message = json_adder(json_path, json_filename)
+
+            # If there was a problem adding the startup items, let the user know and return back to the main menu
+            if not write_json_success:
+                deps_pretty.prettify_custom_error(
+                    "Could not add any startup items. Only a blank startup file was created.",
+                    "json_creator",
+                )
+
+                return write_json_success, return_message
     else:
         # There's no data to use, so let the user know
         deps_pretty.prettify_custom_error(
@@ -451,7 +433,17 @@ def json_adder(json_path: list, json_filename: str):
     json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
 
     json_filename (str): The filename of the JSON file
+
+    Returns:
+        bool: True if adding startup items was successful, False if there were any issues encountered
+
+        string: An error message to display if the boolean return variable is False, blank otherwise
     """
+
+    # Initialize function variables
+    status_state = True
+    status_message = ""
+
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
@@ -468,10 +460,17 @@ def json_adder(json_path: list, json_filename: str):
     # If the user entered 0 or a negative number
     if num_startup_items < 1:
         # Print out an error message
-        err_msg = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
+        status_message = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
             num_startup_items
         )
-        deps_pretty.prettify_custom_error(err_msg, "json_creator")
+        status_state = False
+    else:
+        # Loop through and get each startup item from the user
+        for item in range(num_startup_items):
+            startup_item = deps_item_add.add_startup_item()
+            print("Startup Item {}:\n{}".format(item, startup_item))
 
-    # User chose to add a new startup item
-    # deps_item_add.add_startup_item()
+    if not status_state:
+        deps_pretty.prettify_custom_error(status_message, "json_adder")
+
+    return status_state, status_message
