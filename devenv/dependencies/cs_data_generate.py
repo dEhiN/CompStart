@@ -130,7 +130,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         # Item_type isn't a valid value, so print an error and skip the rest of this function
         deps_pretty.prettify_custom_error(
             "The item_type parameter passed in is invalid!",
-            "data_generate.generate_user_edited_data",
+            "generate_user_edited_data",
         )
     else:
         # Item_type is a valid value, so continue
@@ -191,7 +191,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
-                        "data_generate.generate_user_edited_data",
+                        "generate_user_edited_data",
                     )
 
             case 3:
@@ -208,7 +208,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
-                        "data_generate.generate_user_edited_data",
+                        "generate_user_edited_data",
                     )
             case 4:
                 # Data validation passed and modified JSON data passed in is full JSON data. Return the modified_json_data variable.
@@ -298,9 +298,7 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
 
     # If the validation failed, print the error message
     if scenario_number == 0:
-        deps_pretty.prettify_custom_error(
-            validation_results, "data_generate.data_validation_scenario"
-        )
+        deps_pretty.prettify_custom_error(validation_results, "data_validation_scenario")
 
     return scenario_number
 
@@ -398,6 +396,6 @@ def match_scenario(data_validation: dict):
             validation_results = (
                 error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
             )
-        deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
+        deps_pretty.prettify_custom_error(validation_results, "match_scenario")
 
     return (valid_scenario_number, validation_results)
