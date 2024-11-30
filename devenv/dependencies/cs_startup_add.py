@@ -271,7 +271,6 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
     """
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
-    print("\n" + status_message)
 
     if status_state:
         new_json_data = deps_data_gen.generate_user_edited_data(
@@ -282,5 +281,9 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
         status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+
+    if not status_state:
+        status_message = "Could not save the startup item"
+        deps_pretty.prettify_custom_error(status_message, "save_new_startup_item")
 
     return (status_state, status_message)
