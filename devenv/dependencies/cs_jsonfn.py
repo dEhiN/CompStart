@@ -298,16 +298,18 @@ def json_editor(json_path: list, json_filename: str):
 
                     menu_choices.extend(
                         [
+                            "Add new startup items",
                             "Delete an existing startup item",
-                            "Save full startup data to disk",
+                            "Save the full startup data to disk",
                             "Return to the main menu",
                         ]
                     )
 
                     # Store the values necessary to determine each choice the user could make
-                    menu_delete = total_items + 1
-                    menu_save = total_items + 2
-                    menu_quit = total_items + 3
+                    menu_add = total_items + 1
+                    menu_delete = total_items + 2
+                    menu_save = total_items + 3
+                    menu_quit = total_items + 4
 
                 # Ask the user what they want to do
                 user_choice = deps_chooser.user_menu_chooser(menu_choices)
@@ -315,6 +317,10 @@ def json_editor(json_path: list, json_filename: str):
                 if user_choice == menu_quit:
                     # User chose to return to the main menu
                     quit_loop = True
+                elif user_choice == menu_add:
+                    # User chose to add one or more new startup items
+                    json_data = json_adder(json_data)
+                    new_menu = True
                 elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
                     if total_items > 0:
@@ -342,6 +348,7 @@ def json_editor(json_path: list, json_filename: str):
                             user_item_choice = int(user_input)
 
                             json_data = json_pruner(json_data, user_item_choice)
+                            new_menu = True
                     else:
                         status_message = (
                             "There are no items to delete! Please add a new startup item first..."
