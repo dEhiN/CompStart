@@ -316,7 +316,6 @@ def json_editor(json_path: list, json_filename: str):
 
                     menu_choices.extend(
                         [
-                            "Add a new startup item",
                             "Delete an existing startup item",
                             "Save the full startup data to disk",
                             "Return to the main menu",
@@ -324,10 +323,9 @@ def json_editor(json_path: list, json_filename: str):
                     )
 
                     # Store the values necessary to determine each choice the user could make
-                    menu_add = total_items + 1
-                    menu_delete = total_items + 2
-                    menu_save = total_items + 3
-                    menu_quit = total_items + 4
+                    menu_delete = total_items + 1
+                    menu_save = total_items + 2
+                    menu_quit = total_items + 3
 
                 # Ask the user what they want to do
                 user_choice = deps_chooser.user_menu_chooser(menu_choices)
@@ -335,10 +333,6 @@ def json_editor(json_path: list, json_filename: str):
                 if user_choice == menu_quit:
                     # User chose to return to the main menu
                     quit_loop = True
-                elif user_choice == menu_add:
-                    # User chose to add a new startup item
-                    deps_item_add.add_startup_item()
-                    # new_menu = True
                 elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
                     if total_items > 0:
@@ -446,3 +440,38 @@ def json_pruner(curr_json_data: dict, item_number: int):
     print("\nStartup item {} was successfully deleted".format(item_number))
 
     return updated_json_data
+
+
+def json_adder(json_path: list, json_filename: str):
+    """Function to add one or more startup items to the existing startup file
+
+    This function will allow the user to choose how many startup items they want to add, and then loop through so they can add each item one by one
+
+    Args:
+    json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
+
+    json_filename (str): The filename of the JSON file
+    """
+    # Read in existing JSON file and store the return results of the json_read function
+    status_state, status_message, json_data = json_reader(json_path, json_filename)
+
+    # Ask user how many startup items they want to add and loop until the user enters a valid integer
+    while True:
+        try:
+            num_startup_items = int(input("\nHow many startup items would you like to add? "))
+        except ValueError:
+            print("Please enter a valid number...")
+            continue
+        else:
+            break
+
+    # If the user entered 0 or a negative number
+    if num_startup_items < 1:
+        # Print out an error message
+        err_msg = "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
+            num_startup_items
+        )
+        deps_pretty.prettify_custom_error(err_msg, "json_creator")
+
+    # User chose to add a new startup item
+    # deps_item_add.add_startup_item()
