@@ -299,7 +299,7 @@ def json_editor(json_path: list, json_filename: str):
                     menu_choices.extend(
                         [
                             "Delete an existing startup item",
-                            "Save the full startup data to disk",
+                            "Save full startup data to disk",
                             "Return to the main menu",
                         ]
                     )
@@ -468,7 +468,6 @@ def json_adder(json_path: list, json_filename: str):
         # Loop through and get each startup item from the user
         for item in range(num_startup_items):
             startup_item = deps_item_add.add_startup_item()
-            print("Startup Item {}:\n{}".format(item, startup_item))
 
     if not status_state:
         deps_pretty.prettify_custom_error(status_message, "json_adder")
