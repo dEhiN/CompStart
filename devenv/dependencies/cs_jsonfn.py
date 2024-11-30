@@ -250,7 +250,7 @@ def json_editor(json_path: list, json_filename: str):
     Returns:
         bool: True if the edit operations were successful, False if there were any issues encountered
 
-        string: An error message to display if boolean return variable is False, blank otherwise
+        string: An error message to display if the boolean return variable is False, blank otherwise
     """
 
     # Initialize function variables
