@@ -24,10 +24,8 @@ def add_startup_item():
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
     """
     # Print out introduction to this section for creating a startup item
-    print(
-        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details."
-    )
-    input("\nPress any key to continue...")
+    # print("\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details.")
+    # input("\nPress any key to continue...")
 
     # Create blank JSON object / Python dictionary
     new_item = ENUM_JSS.OBJECT.value.copy()
