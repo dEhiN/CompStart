@@ -32,7 +32,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
-    # Initialize the variables
+    # Initialize function variables
     read_json_success = False
     return_message = ""
     json_data = {}
@@ -109,7 +109,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
 
-    # Initialize return variables
+    # Initialize function variables
     write_json_success = False
     return_message = ""
     file_mode = ""
@@ -189,7 +189,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         message that it was written successfully
     """
 
-    # Initialize variables
+    # Initialize function variables
     write_json_success = False
     exists_data = False
     return_message = ""
