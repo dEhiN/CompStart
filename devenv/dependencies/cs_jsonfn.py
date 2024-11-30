@@ -443,6 +443,6 @@ def json_pruner(curr_json_data: dict, item_number: int):
         prune_item, ENUM_ITV.DELETE.value, temp_json_data
     )
 
-    print("\nItem was successfully deleted!")
+    print("\nStartup item {} was successfully deleted".format(item_number))
 
     return updated_json_data
