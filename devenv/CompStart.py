@@ -79,7 +79,15 @@ if __name__ == "__main__":
                     print(deps_pretty.prettify_json(json_data))
                     input("\nPress enter when ready to return to the previous menu...")
             case 4:
-                deps_json.json_editor(json_path, json_filename)
+                status_state, status_message = deps_json.json_editor(json_path, json_filename)
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
+
+                # Print out the status message
+                print(f"\n{status_message}")
+
             case 5:
                 # This case will never really be addressed since the function user_menu_chooser adds an option by default to quit the program
                 # If the user picks that option, the function calls sys.exit so execution should never return to this loop

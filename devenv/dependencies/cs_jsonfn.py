@@ -258,7 +258,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 def json_editor(json_path: list, json_filename: str):
     """Function to allow the user to edit existing JSON data
 
-    This function will display the existing JSON data and then allow the user to edit each startup item one at a time, including delete startup items and add new ones
+    This function will display the existing JSON data and then allow the user to edit or delete startup items
 
     Args:
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
@@ -266,15 +266,24 @@ def json_editor(json_path: list, json_filename: str):
         json_filename (str): The filename of the JSON file
 
     Returns:
-        ##TODO##
+        bool: True if the edit operations were successful, False if there were any issues encountered
+
+        string: An error message to display if boolean return variable is False, blank otherwise
     """
+
+    # Initialize function variables
+    # Assume status of edit operations was successful as default status
+    status_state = True
+    status_message = ""
+
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
-    print(f"\n{status_message}")
-
-    # If the data was read in successfully, display it when the user is ready
+    # If the data was read in successfully, continue
     if status_state:
+        # Let user know the data was read in successfully
+        print(f"\n{status_message}")
+
         # Check to make sure there really are startup items in case TotalItems is wrong
         if len(json_data[ENUM_JSK.ITEMS.value]) > 0:
             # Initialize the loop variables
@@ -358,22 +367,28 @@ def json_editor(json_path: list, json_filename: str):
 
                             json_data = json_pruner(json_data, user_item_choice)
                     else:
-                        print(
+                        status_message = (
                             "There are no items to delete! Please add a new startup item first..."
                         )
+                        status_state = False
                 elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
-
-                    if not status_state:
-                        print(status_message)
                 elif user_choice > 0:
                     # User chose to edit a specific startup item
                     items[user_choice - 1] = deps_item_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:
-            print("There are no startup items to edit!")
+            status_message = "There are no startup items to edit!"
+            status_state = False
+    else:
+        status_message = "Could not read in the startup data to edit"
+
+    if not status_state:
+        deps_pretty.prettify_custom_error(status_message, "json_editor")
+
+    return status_state, status_message
 
 
 def json_saver(json_data: dict, json_path: list, json_filename: str):
