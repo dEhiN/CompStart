@@ -214,19 +214,15 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         # Write the file to disk and get the return values
         write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
-        # If the user chose to add their own startup programs
-        if not default_mode:
+        # Check if the user was ok to overwrite any existing file and chose to add their own startup programs
+        if write_json_success and not default_mode:
             # Call the function to handle adding the startup items
-            write_json_success, return_message = json_adder(json_path, json_filename)
+            new_json_data = json_adder(json_data)
 
-            # If there was a problem adding the startup items, let the user know and return back to the main menu
-            if not write_json_success:
-                deps_pretty.prettify_custom_error(
-                    "Could not add any startup items. Only a blank startup file was created.",
-                    "json_creator",
-                )
-
-                return write_json_success, return_message
+            # Check if any startup items were actually added
+            if not new_json_data == json_data:
+                # Write the file to disk and get the return values
+                write_json_success, return_message = json_writer(json_file, file_state, json_data)
     else:
         # There's no data to use, so let the user know
         deps_pretty.prettify_custom_error(
