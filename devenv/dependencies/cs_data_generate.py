@@ -145,9 +145,10 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 orig_items_list = orig_json_data[ENUM_JSK.ITEMS.value]
                 new_total_items = current_total_items + 1
 
-                # Make sure the item number of the new startup item is correct
+                # Make sure the item number of the new startup item is correct when there are existing startup items
                 if (
-                    modified_json_data[ENUM_JSK.ITEMNUMBER.value]
+                    current_total_items > 0
+                    and modified_json_data[ENUM_JSK.ITEMNUMBER.value]
                     <= orig_items_list[current_total_items - 1][ENUM_JSK.ITEMNUMBER.value]
                 ):
                     modified_json_data[ENUM_JSK.ITEMNUMBER.value] = new_total_items
