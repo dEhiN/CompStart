@@ -14,11 +14,11 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def add_startup_item():
+def add_startup_item(last_item_num: int = -1):
     """Helper function to add, or create, a new startup item
 
     Args:
-        None
+        last_item_num (int): An integer to use to keep track of the total number of existing startup items. When it's specified, the function will add 1 to this parameter and use that for the new startup item's ItemNumber property. If it's not specified, it will default to -1. This will trigger a call to the function get_count_total_items from the cs_helper module to track the total number of existing startup items. The function will then add 1 to that total. This will allow for a calling function to manipulate the ItemNumber property of the new startup item, if needed, but there is no validation currently done to confirm the value passed in is correct.
 
     Returns:
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
@@ -71,7 +71,10 @@ def add_startup_item():
             match user_choice:
                 case 1:
                     # Determine the next item number for this item
-                    curr_total_items = deps_helper.get_count_total_items()
+                    if last_item_num == -1:
+                        curr_total_items = deps_helper.get_count_total_items()
+                    else:
+                        curr_total_items = last_item_num
 
                     # Add the Name, Description, FilePath, and ArgumentList parameters
                     startup_item_setup(new_item)

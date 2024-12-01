@@ -454,8 +454,8 @@ def json_adder(curr_json_data: dict):
         try:
             num_startup_items = int(input("\nHow many startup items would you like to add? "))
 
-            # Check if the user entered 0 or a negative number
-            if num_startup_items < 1:
+            # Check if the user entered a negative number
+            if num_startup_items < 0:
                 # Print out an error message
                 print(
                     "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
@@ -467,14 +467,21 @@ def json_adder(curr_json_data: dict):
         except ValueError:
             print("Please enter a valid number...")
 
-    # Loop through and get each startup item from the user
-    for item in range(num_startup_items):
-        startup_item = deps_item_add.add_startup_item()
+    # Make sure the user specified a number greater than 0
+    if num_startup_items > 0:
+        # Get the current total items in the startup file
+        curr_total_items = deps_helper.get_count_total_items()
 
-        new_json_data = deps_data_gen.generate_user_edited_data(
-            startup_item, ENUM_ITV.ADD.value, new_json_data
-        )
+        # Loop through and get each startup item from the user
+        for item in range(num_startup_items):
+            startup_item = deps_item_add.add_startup_item(item + curr_total_items)
 
-        print("\nStartup item {} was successfully created".format(startup_item["ItemNumber"]))
+            new_json_data = deps_data_gen.generate_user_edited_data(
+                startup_item, ENUM_ITV.ADD.value, new_json_data
+            )
+
+            print("\nStartup item {} was successfully created".format(startup_item["ItemNumber"]))
+    else:
+        print("\nNo startup items were added...")
 
     return new_json_data
