@@ -484,4 +484,4 @@ def json_adder(curr_json_data: dict):
     else:
         print("\nNo startup items were added...")
 
-    return new_json_data
+    return copy.deepcopy(new_json_data)

@@ -115,7 +115,7 @@ def add_startup_item(last_item_num: int = -1):
                     )
                     print(save_message)
 
-    return new_item
+    return copy.deepcopy(new_item)
 
 
 def startup_item_setup(startup_item: dict):
