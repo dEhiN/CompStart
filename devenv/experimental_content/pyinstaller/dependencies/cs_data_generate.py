@@ -36,7 +36,7 @@ def generate_new_json_data(is_default: bool = False):
     if is_default:
         exists_data, json_data = generate_default_startup_data()
     else:
-        json_data = generate_user_startup_data()
+        json_data = generate_blank_startup_data()
         exists_data = True
 
     return (exists_data, json_data)
@@ -80,8 +80,8 @@ def generate_default_startup_data():
     return (exists_data, default_json)
 
 
-def generate_user_startup_data():
-    """Helper function to create startup data that the user chooses
+def generate_blank_startup_data():
+    """Helper function to create blank startup data for when the user wants to add their own programs
 
     This function just returns a JSON object with no startup items. This gets passed back to the function json_creator in the module cs_jsonfn to be written to disk. After that, the function json_creator will perform the work necessary to create startup data that the user chooses
 
@@ -130,7 +130,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
         # Item_type isn't a valid value, so print an error and skip the rest of this function
         deps_pretty.prettify_custom_error(
             "The item_type parameter passed in is invalid!",
-            "data_generate.generate_user_edited_data",
+            "generate_user_edited_data",
         )
     else:
         # Item_type is a valid value, so continue
@@ -145,9 +145,10 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 orig_items_list = orig_json_data[ENUM_JSK.ITEMS.value]
                 new_total_items = current_total_items + 1
 
-                # Make sure the item number of the new startup item is correct
+                # Make sure the item number of the new startup item is correct when there are existing startup items
                 if (
-                    modified_json_data[ENUM_JSK.ITEMNUMBER.value]
+                    current_total_items > 0
+                    and modified_json_data[ENUM_JSK.ITEMNUMBER.value]
                     <= orig_items_list[current_total_items - 1][ENUM_JSK.ITEMNUMBER.value]
                 ):
                     modified_json_data[ENUM_JSK.ITEMNUMBER.value] = new_total_items
@@ -191,7 +192,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
-                        "data_generate.generate_user_edited_data",
+                        "generate_user_edited_data",
                     )
 
             case 3:
@@ -208,7 +209,7 @@ def generate_user_edited_data(modified_json_data: dict, item_type: str, orig_jso
                 else:
                     deps_pretty.prettify_custom_error(
                         "Cannot update the JSON data! The startup item number passed in is invalid!",
-                        "data_generate.generate_user_edited_data",
+                        "generate_user_edited_data",
                     )
             case 4:
                 # Data validation passed and modified JSON data passed in is full JSON data. Return the modified_json_data variable.
@@ -298,9 +299,7 @@ def data_validation_scenario(modified_json_data: dict, item_type: str, orig_json
 
     # If the validation failed, print the error message
     if scenario_number == 0:
-        deps_pretty.prettify_custom_error(
-            validation_results, "data_generate.data_validation_scenario"
-        )
+        deps_pretty.prettify_custom_error(validation_results, "data_validation_scenario")
 
     return scenario_number
 
@@ -398,6 +397,6 @@ def match_scenario(data_validation: dict):
             validation_results = (
                 error_scenario_numbers[error_scenario_number - 1] + " " + error_ending
             )
-        deps_pretty.prettify_custom_error(validation_results, "data_generate.match_scenario")
+        deps_pretty.prettify_custom_error(validation_results, "match_scenario")
 
     return (valid_scenario_number, validation_results)
