@@ -14,20 +14,18 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def add_startup_item():
+def add_startup_item(last_item_num: int = -1):
     """Helper function to add, or create, a new startup item
 
     Args:
-        None
+        last_item_num (int): An integer to use to keep track of the total number of existing startup items. When it's specified, the function will add 1 to this parameter and use that for the new startup item's ItemNumber property. If it's not specified, it will default to -1. This will trigger a call to the function get_count_total_items from the cs_helper module to track the total number of existing startup items. The function will then add 1 to that total. This will allow for a calling function to manipulate the ItemNumber property of the new startup item, if needed, but there is no validation currently done to confirm the value passed in is correct.
 
     Returns:
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
     """
     # Print out introduction to this section for creating a startup item
-    print(
-        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details."
-    )
-    input("\nPress any key to continue...")
+    # print("\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details.")
+    # input("\nPress any key to continue...")
 
     # Create blank JSON object / Python dictionary
     new_item = ENUM_JSS.OBJECT.value.copy()
@@ -47,10 +45,10 @@ def add_startup_item():
 
     menu_choices = [
         "Create a startup item",
-        "Change the item name",
-        "Change the item description",
-        "Pick a new program path to the item",
-        "Edit or add arguments for the item",
+        "Edit the item name",
+        "Edit the item description",
+        "Edit the program path to the item",
+        "Edit or add arguments to the item",
         "View the startup item",
         "Save the startup item",
         "Return to the previous menu",
@@ -73,7 +71,10 @@ def add_startup_item():
             match user_choice:
                 case 1:
                     # Determine the next item number for this item
-                    curr_total_items = deps_helper.get_count_total_items()
+                    if last_item_num == -1:
+                        curr_total_items = deps_helper.get_count_total_items()
+                    else:
+                        curr_total_items = last_item_num
 
                     # Add the Name, Description, FilePath, and ArgumentList parameters
                     startup_item_setup(new_item)
@@ -114,7 +115,7 @@ def add_startup_item():
                     )
                     print(save_message)
 
-    return new_item
+    return copy.deepcopy(new_item)
 
 
 def startup_item_setup(startup_item: dict):
@@ -273,7 +274,6 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
     """
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
-    print("\n" + status_message)
 
     if status_state:
         new_json_data = deps_data_gen.generate_user_edited_data(
@@ -284,5 +284,9 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
         status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+
+    if not status_state:
+        status_message = "Could not save the startup item"
+        deps_pretty.prettify_custom_error(status_message, "save_new_startup_item")
 
     return (status_state, status_message)

@@ -32,7 +32,7 @@ def json_reader(json_path: list, json_filename: str, is_json_schema: bool = Fals
         dict: The actual JSON data if there is any to return or an empty dictionary if not
     """
 
-    # Initialize the variables
+    # Initialize function variables
     read_json_success = False
     return_message = ""
     json_data = {}
@@ -109,7 +109,7 @@ def json_writer(json_file: str, file_state: int, json_data: dict):
         string: An error message to display if the JSON data couldn't be written to disk or a message that it was written successfully
     """
 
-    # Initialize return variables
+    # Initialize function variables
     write_json_success = False
     return_message = ""
     file_mode = ""
@@ -189,7 +189,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
         message that it was written successfully
     """
 
-    # Initialize variables
+    # Initialize function variables
     write_json_success = False
     exists_data = False
     return_message = ""
@@ -203,13 +203,26 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 
     # Check to see if any data was actually generated
     if exists_data:
-        # If the file exists, make sure we confirm from the user before overwriting the file
+        # If the file exists, make sure we will confirm from the user before overwriting the file
         if os.path.isfile(json_file):
             file_state = 1
+
+        # If the user chose to add their own startup programs, alert the user that a blank startup file is being created
+        if not default_mode:
+            print("\nCreating blank startup file...")
 
         # Write the file to disk and get the return values
         write_json_success, return_message = json_writer(json_file, file_state, json_data)
 
+        # Check if the user was ok to overwrite any existing file and chose to add their own startup programs
+        if write_json_success and not default_mode:
+            # Call the function to handle adding the startup items
+            new_json_data = json_adder(json_data)
+
+            # Check if any startup items were actually added
+            if not new_json_data == json_data:
+                # Write the file to disk and get the return values
+                write_json_success, return_message = json_writer(json_file, file_state, json_data)
     else:
         # There's no data to use, so let the user know
         deps_pretty.prettify_custom_error(
@@ -223,7 +236,7 @@ def json_creator(json_path: list, json_filename: str, default_mode: bool):
 def json_editor(json_path: list, json_filename: str):
     """Function to allow the user to edit existing JSON data
 
-    This function will display the existing JSON data and then allow the user to edit each startup item one at a time, including delete startup items and add new ones
+    This function will display the existing JSON data and then allow the user to edit or delete startup items
 
     Args:
         json_path (list): A list containing the relative or absolute path to the JSON file with each list item representing one subfolder from Current Working Directory (CWD)
@@ -231,15 +244,24 @@ def json_editor(json_path: list, json_filename: str):
         json_filename (str): The filename of the JSON file
 
     Returns:
-        ##TODO##
+        bool: True if the edit operations were successful, False if there were any issues encountered
+
+        string: An error message to display if the boolean return variable is False, blank otherwise
     """
+
+    # Initialize function variables
+    # Assume status of edit operations was successful as default status
+    status_state = True
+    status_message = ""
+
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = json_reader(json_path, json_filename)
 
-    print(f"\n{status_message}")
-
-    # If the data was read in successfully, display it when the user is ready
+    # If the data was read in successfully, continue
     if status_state:
+        # Let user know the data was read in successfully
+        print(f"\n{status_message}")
+
         # Check to make sure there really are startup items in case TotalItems is wrong
         if len(json_data[ENUM_JSK.ITEMS.value]) > 0:
             # Initialize the loop variables
@@ -272,7 +294,7 @@ def json_editor(json_path: list, json_filename: str):
 
                     menu_choices.extend(
                         [
-                            "Add a new startup item",
+                            "Add new startup items",
                             "Delete an existing startup item",
                             "Save the full startup data to disk",
                             "Return to the main menu",
@@ -292,9 +314,9 @@ def json_editor(json_path: list, json_filename: str):
                     # User chose to return to the main menu
                     quit_loop = True
                 elif user_choice == menu_add:
-                    # User chose to add a new startup item
-                    deps_item_add.add_startup_item()
-                    # new_menu = True
+                    # User chose to add one or more new startup items
+                    json_data = json_adder(json_data)
+                    new_menu = True
                 elif user_choice == menu_delete:
                     # First check to see if there are any items to delete
                     if total_items > 0:
@@ -322,23 +344,31 @@ def json_editor(json_path: list, json_filename: str):
                             user_item_choice = int(user_input)
 
                             json_data = json_pruner(json_data, user_item_choice)
+                            new_menu = True
                     else:
-                        print(
+                        status_message = (
                             "There are no items to delete! Please add a new startup item first..."
                         )
+                        status_state = False
+                        quit_loop = True
                 elif user_choice == menu_save:
                     # User chose to save the current JSON data
                     status_state, status_message = json_saver(json_data, json_path, json_filename)
-
-                    if not status_state:
-                        print(status_message)
                 elif user_choice > 0:
                     # User chose to edit a specific startup item
                     items[user_choice - 1] = deps_item_edit.edit_startup_item(
                         items[user_choice - 1], json_path, json_filename
                     )
         else:
-            print("There are no startup items to edit!")
+            status_message = "There are no startup items to edit!"
+            status_state = False
+    else:
+        status_message = "Could not read in the startup data to edit"
+
+    if not status_state:
+        deps_pretty.prettify_custom_error(status_message, "json_editor")
+
+    return status_state, status_message
 
 
 def json_saver(json_data: dict, json_path: list, json_filename: str):
@@ -392,4 +422,62 @@ def json_pruner(curr_json_data: dict, item_number: int):
         prune_item, ENUM_ITV.DELETE.value, temp_json_data
     )
 
+    print("\nStartup item {} was successfully deleted".format(item_number))
+
     return updated_json_data
+
+
+def json_adder(curr_json_data: dict):
+    """Function to add one or more startup items to the existing startup file
+
+    This function will allow the user to choose how many startup items they want to add, and then loop through so they can add each item one by one
+
+    Args:
+        curr_json_data (dict): The existing full startup data
+
+    Returns:
+        dict: A dictionary containing the updated startup data
+    """
+    # Initialize function variables
+    num_startup_items = 0
+
+    # Get a temp copy of the passed in startup data
+    new_json_data = copy.deepcopy(curr_json_data)
+
+    # Ask user how many startup items they want to add and loop until the user enters a valid integer
+    quit_loop = False
+    while not quit_loop:
+        try:
+            num_startup_items = int(input("\nHow many startup items would you like to add? "))
+
+            # Check if the user entered a negative number
+            if num_startup_items < 0:
+                # Print out an error message
+                print(
+                    "The number of startup items chosen to add is invalid. Cannot add {} startup items.".format(
+                        num_startup_items
+                    )
+                )
+            else:
+                quit_loop = True
+        except ValueError:
+            print("Please enter a valid number...")
+
+    # Make sure the user specified a number greater than 0
+    if num_startup_items > 0:
+        # Get the current total items in the startup file
+        curr_total_items = deps_helper.get_count_total_items()
+
+        # Loop through and get each startup item from the user
+        for item in range(num_startup_items):
+            startup_item = deps_item_add.add_startup_item(item + curr_total_items)
+
+            new_json_data = deps_data_gen.generate_user_edited_data(
+                startup_item, ENUM_ITV.ADD.value, new_json_data
+            )
+
+            print("\nStartup item {} was successfully created".format(startup_item["ItemNumber"]))
+    else:
+        print("\nNo startup items were added...")
+
+    return copy.deepcopy(new_json_data)

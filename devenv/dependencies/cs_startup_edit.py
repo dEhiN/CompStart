@@ -44,7 +44,7 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
         "Edit item program path",
         "Edit or add item arguments",
         "View startup item",
-        "Save startup item data to disk",
+        "Save modified startup item to disk",
         "Return to the previous menu",
     ]
     quit_loop = False

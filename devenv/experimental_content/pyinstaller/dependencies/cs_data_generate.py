@@ -32,13 +32,6 @@ def generate_new_json_data(is_default: bool = False):
     exists_data = False
     json_data = {}
 
-    # Adding override to use default startup file for when not in production and user wants to supply their own startup data
-    if not deps_helper.is_production() and not is_default:
-        print(
-            "This functionality hasn't been fully implemented yet. Creating default startup file..."
-        )
-        is_default = True
-
     # Determine what type of JSON data to create
     if is_default:
         exists_data, json_data = generate_default_startup_data()
@@ -90,17 +83,15 @@ def generate_default_startup_data():
 def generate_user_startup_data():
     """Helper function to create startup data that the user chooses
 
-    Currently, this function just returns a JSON object with no startup data
+    This function just returns a JSON object with no startup items. This gets passed back to the function json_creator in the module cs_jsonfn to be written to disk. After that, the function json_creator will perform the work necessary to create startup data that the user chooses
 
     Returns:
-        dict: A dictionary of JSON startup data
+        dict: A dictionary of valid JSON startup data with no startup items and the property TotalItems set to 0
     """
     # Create empty JSON object / Python dictionary
     json_data = ENUM_JSS.OBJECT.value.copy()
     json_data[ENUM_JSK.TOTALITEMS.value] = 0
     json_data[ENUM_JSK.ITEMS.value] = ENUM_JSS.ARRAY.value.copy()
-
-    print("This functionality hasn't been fully implemented yet. Creating blank startup file...")
 
     return json_data
 
