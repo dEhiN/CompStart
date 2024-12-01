@@ -35,7 +35,7 @@ if __name__ == "__main__":
         "Create a new startup file",
         "View the startup file",
         "Edit the startup file",
-        "Add new startup items to the startup file",
+        # "Add new startup items to the startup file",
     ]
 
     # Main loop to allow user to navigate program options
@@ -89,8 +89,8 @@ if __name__ == "__main__":
                 # Print out the status message
                 print(f"\n{status_message}")
 
-            case 5:
-                deps_json.json_adder(json_path, json_filename)
+            # case 5:
+            #    deps_json.json_adder(json_path, json_filename)
             case _:
                 # This case will never really be addressed since the function user_menu_chooser adds an option by default to quit the program
                 # If the user picks that option, the function calls sys.exit so execution should never return to this loop
