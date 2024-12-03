@@ -54,6 +54,8 @@ def add_startup_item(last_item_num: int = -1):
         "Return to the previous menu",
     ]
 
+    menu_return = 8
+
     # Loop through to allow the user to create the startup item
     quit_loop = False
     while not quit_loop:
@@ -62,7 +64,12 @@ def add_startup_item(last_item_num: int = -1):
         )
 
         # Check to see if the user chose another option besides 1 but hasn't yet created a startup item
-        if user_choice == len(menu_choices):
+        if user_choice == menu_return:
+            # Check if user created a startup item
+            if new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
+                # Let the calling function know there's no actual startup item
+                return {}
+
             # User has chosen to return to the previous menu
             quit_loop = True
         elif user_choice > 1 and new_item[ENUM_JSK.ITEMNUMBER.value] == 0:

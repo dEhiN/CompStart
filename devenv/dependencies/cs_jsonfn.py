@@ -470,15 +470,27 @@ def json_adder(curr_json_data: dict):
         # Get the current total items in the startup file
         curr_total_items = deps_helper.get_count_total_items()
 
+        # Create an item counter
+        item_num = 0
+
         # Loop through and get each startup item from the user
         for item in range(num_startup_items):
-            startup_item = deps_item_add.add_startup_item(item + curr_total_items)
+            startup_item = deps_item_add.add_startup_item(item_num + curr_total_items)
 
-            new_json_data = deps_data_gen.generate_user_edited_data(
-                startup_item, ENUM_ITV.ADD.value, new_json_data
-            )
+            # Check if the user actually created a startup item
+            if not len(startup_item) == 0:
+                new_json_data = deps_data_gen.generate_user_edited_data(
+                    startup_item, ENUM_ITV.ADD.value, new_json_data
+                )
 
-            print("\nStartup item {} was successfully created".format(startup_item["ItemNumber"]))
+                print(
+                    "\nStartup item {} was successfully created".format(startup_item["ItemNumber"])
+                )
+
+                # Update the item counter
+                item_num += 1
+            else:
+                print("\nSkipped creating the startup item")
     else:
         print("\nNo startup items were added...")
 
