@@ -4,7 +4,7 @@ import sys
 from tkinter import filedialog as file_chooser
 
 
-def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
+def user_menu_chooser(menu_choices: list, allow_quit: bool = True, include_save: bool = False):
     """Helper function for displaying a menu with choices for the user
 
     This function is called by a few other functions that need to display a menu to the user for
@@ -16,13 +16,15 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
 
         allow_quit (bool, optional): Whether to show the option to quit the whole program in the current menu. Defaults to True.
 
+        include_save (bool, optional): Whether to display a message reminding the user to save any changes prior to returning to the previous menu. Defaults to False.
+
     Returns:
         int: A number representing which choice the user made
     """
     # Create a copy of the menu_choices list
     local_menu_choices = menu_choices.copy()
 
-    # First, check if the option to quit the whole program should be added to the menu
+    # Check if the option to quit the whole program should be added to the menu
     if allow_quit:
         quit_choice = len(local_menu_choices) + 1
         local_menu_choices.append("Quit the program")
@@ -33,6 +35,10 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True):
     # Create full menu and count the total number of menu options
     total_menu_choices = len(local_menu_choices)
     full_menu = "Please choose one of the following:\n"
+
+    # Check to see if the message about saving should be added to the menu
+    if include_save:
+        full_menu += "**Important: There is no autosave. Please save your changes before returning to the previous menu.**\n"
 
     # Cycle through the menu choices list and add build the menu
     choice_count = 1
