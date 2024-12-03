@@ -44,7 +44,7 @@ def add_startup_item(last_item_num: int = -1):
     )
 
     menu_choices = [
-        "Create a startup item",
+        "Create the startup item",
         "Edit the item name",
         "Edit the item description",
         "Edit the program path to the item",
