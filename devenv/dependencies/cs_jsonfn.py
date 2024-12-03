@@ -308,7 +308,9 @@ def json_editor(json_path: list, json_filename: str):
                     menu_quit = total_items + 4
 
                 # Ask the user what they want to do
-                user_choice = deps_chooser.user_menu_chooser(menu_choices)
+                user_choice = deps_chooser.user_menu_chooser(
+                    menu_choices=menu_choices, include_save=True
+                )
 
                 if user_choice == menu_quit:
                     # User chose to return to the main menu

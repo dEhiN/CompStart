@@ -50,7 +50,7 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
     quit_loop = False
 
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices)
+        user_choice = deps_chooser.user_menu_chooser(menu_choices=menu_choices, include_save=True)
 
         match user_choice:
             case 1:
