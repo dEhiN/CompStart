@@ -65,7 +65,7 @@ def add_startup_item(last_item_num: int = -1):
             quit_loop = True
         elif user_choice > 1 and new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
             # Alert the user to create a startup item first
-            print("\nPlease create a startup item first")
+            print("\nPlease create the startup item first")
         else:
             # Continue on with regular execution
             match user_choice:
