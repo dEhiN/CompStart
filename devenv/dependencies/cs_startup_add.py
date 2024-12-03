@@ -57,7 +57,9 @@ def add_startup_item(last_item_num: int = -1):
     # Loop through to allow the user to create the startup item
     quit_loop = False
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
+        user_choice = deps_chooser.user_menu_chooser(
+            menu_choices=menu_choices, allow_quit=True, include_save=True
+        )
 
         # Check to see if the user chose another option besides 1 but hasn't yet created a startup item
         if user_choice == len(menu_choices):
