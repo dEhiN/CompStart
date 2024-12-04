@@ -1,3 +1,9 @@
+# Personal folders and files
+
+# Folder for the extension Out-of-Code Insights
+.out-of-code-insights
+
+
 # Special file just to pipe diff data to help with commit messages
 .dchanges
 

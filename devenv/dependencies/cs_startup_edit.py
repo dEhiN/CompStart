@@ -42,7 +42,7 @@ def edit_startup_item(orig_startup_item: dict, json_path: list, json_filename: s
         "Edit item name",
         "Edit item description",
         "Edit item program path",
-        "Edit or add item arguments",
+        "Edit, add or delete item arguments",
         "View startup item",
         "Save modified startup item to disk",
         "Return to the previous menu",
@@ -224,7 +224,7 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_list: list = []):
 
                 # Generate delete menu listing all the arguments
                 delete_menu = []
-                for index in range(0, arg_count):
+                for index in range(arg_count):
                     delete_menu.append(f"Remove argument {index + 1}: {new_arg_list[index]}")
                 cancel_choice = arg_count + 1
                 delete_menu.append("Cancel deletion")
@@ -232,7 +232,7 @@ def edit_startup_item_arguments_list(args_exist: bool, arg_list: list = []):
                 # Find out what the user wants to do
                 user_choice = deps_chooser.user_menu_chooser(delete_menu, False)
 
-                if user_choice < cancel_choice:
+                if user_choice in range(1, cancel_choice):
                     # User chose a specific argument to delete
                     # Calculate which list index we're working with
                     changed_argument_index = user_choice - 1
