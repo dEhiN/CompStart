@@ -24,11 +24,6 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True, include_save:
     # Create a copy of the menu_choices list
     local_menu_choices = menu_choices.copy()
 
-    # Check if the option to quit the whole program should be added to the menu
-    if allow_quit:
-        quit_choice = len(local_menu_choices) + 1
-        local_menu_choices.append("Quit the program")
-
     # Set the user choice as default to 0 meaning no valid choice was made
     user_choice = 0
 
@@ -46,20 +41,21 @@ def user_menu_chooser(menu_choices: list, allow_quit: bool = True, include_save:
         full_menu += f"[{choice_count}] " + menu_item + "\n"
         choice_count += 1
 
+    # Check if the option to quit the whole program should be added to the menu
+    if allow_quit:
+        quit_choice = "Q"
+        full_menu += f"[{quit_choice}] Quit the program\n"
+
     print("\n" + full_menu)
     user_input = input("What would you like to do? ")
 
-    if not user_input.isnumeric() or int(user_input) < 1 or int(user_input) > total_menu_choices:
-        # User didn't choose a valid option
-        print("\nThat choice is invalid!")
-    else:
-        # User chose a valid option, process accordingly
+    if user_input.isalpha() and user_input.upper() == "Q":
+        print("\nThank you for using CompStart. Have a wonderful day.")
+        sys.exit()
+    elif user_input.isnumeric() and int(user_input) in range(1, total_menu_choices + 1):
         user_choice = int(user_input)
-
-        # Check if user chose to quit the program
-        if allow_quit and user_choice == quit_choice:
-            print("\nThank you for using CompStart. Have a wonderful day.")
-            sys.exit()
+    else:
+        print("\nThat choice is invalid!")
 
     return user_choice
 
