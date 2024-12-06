@@ -12,20 +12,70 @@ ENUM_ITV = deps_enum.ItemTypeVals
 
 
 def set_start_dir():
-    dirs_list = os.getcwd().split(os.sep)
-    len_dirs_list = len(dirs_list) - 1
+    """Small helper function to set the starting directory
+
+    This function will get the path for the current working directory (cwd) and check to see if the folder CompStart is already on it. It will check for four scenarios:
+
+    1. There is no CompStart folder at all
+    2. There is one CompStart folder at the end of the current working directory path
+    3. There is one CompStart folder but not at the end of the current working directory path
+    4. There is more than one CompStart folder but the last one is at the end of the current working directory path
+    5. There is more than one CompStart folder and the last one is not at the end of the current working directory path
+
+    Returns:
+        bool: Value specifying if a CompStart folder was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function os.getcwd() has been set so it will return a path to the CompStart folder that all the relevant files and folders exist in.
+
+    """
+    # Initialize function variables
+    ret_value = False
     start_dir = "CompStart"
+    path_dirs_list = os.getcwd().split(os.sep)
+    adjusted_len_dirs_list = len(path_dirs_list) - 1
 
-    if start_dir in dirs_list:
-        idx_start_dir = dirs_list.index(start_dir)
+    # Get the total of how many CompStart folders are on the cwd path
+    total_start_dirs = path_dirs_list.count(start_dir)
 
-        if len_dirs_list == idx_start_dir:
-            return
+    # Check for each case
+    if total_start_dirs == 0:
+        # Scenario 1
+        ret_value = False
+    else:
+        if total_start_dirs == 1:
+            # Scenarios 2 or 3
+
+            # Get the index of the CompStart folder in the list
+            idx_start_dir = path_dirs_list.index(start_dir)
         else:
-            num_dirs_diff = len_dirs_list - idx_start_dir
+            # Scenario 4 or 5
+
+            # Loop through to get to the last occurrence of the CompStart folder in the list
+            num_start_dirs = 0
+            idx_start_dir = -1
+
+            for curr_dir in path_dirs_list:
+                idx_start_dir += 1
+
+                if curr_dir == start_dir:
+                    num_start_dirs += 1
+
+                if num_start_dirs == total_start_dirs:
+                    break
+
+        # Check if the index is at the end of the list or in the middle
+        if idx_start_dir < adjusted_len_dirs_list:
+            # Scenario 3 or 5
+
+            # Get the difference in folder levels between the last folder and the CompStart folder
+            num_dirs_diff = adjusted_len_dirs_list - idx_start_dir
+
+            # Loop through and move the current working directory one folder level up
             while num_dirs_diff > 0:
                 os.chdir("..")
                 num_dirs_diff -= 1
+
+        ret_value = True
+
+    return ret_value
 
 
 def is_production():

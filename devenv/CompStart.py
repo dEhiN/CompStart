@@ -1,4 +1,5 @@
 # This will be a command line tool to create and edit the startup_data.json file
+import sys
 import dependencies.cs_jsonfn as deps_json
 import dependencies.cs_helper as deps_helper
 import dependencies.cs_chooser as deps_chooser
@@ -15,7 +16,15 @@ final_err_msg = "Please see the error message(s) above and report them to the de
 # Program starting point
 if __name__ == "__main__":
     # Set the starting directory
-    deps_helper.set_start_dir()
+    start_dir_result = deps_helper.set_start_dir()
+    if not start_dir_result:
+        deps_pretty.prettify_custom_error(
+            "No folder called CompStart could be found on the current path\nExiting tool...",
+            "main > set_start_dir",
+        )
+        print(f"\n{final_err_msg}")
+        input("\nPlease press the enter key when ready to close this window...")
+        sys.exit()
 
     # Variables for location and name of JSON file with startup data
     json_path = deps_helper.get_prod_path()
