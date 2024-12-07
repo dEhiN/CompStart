@@ -10,13 +10,13 @@ function Start-StartupItem {
     param (
         [Parameter(Mandatory)]
         [int32]$StartItemNumber,
-        
+
         [Parameter(Mandatory)]
         [string]$ProgramPath,
 
         [string]$ArgumentsList = $null
     )
-    
+
     if ($ArgumentsList) {
         Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList
     }
@@ -29,7 +29,7 @@ function Start-StartupItem {
 # Function to process all the data for a specific startup item
 # Input: 1. A PSCustomObject containing all the JSON data for a single
 #        startup item
-function Get-StarupItem {
+function Get-StartupItem {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -79,7 +79,7 @@ do {
 
         # Set the name of the JSON file
         $DataFileName = "startup_data.json"
-        
+
         # Concatenate all 3 variables to get the full script path
         $JSONFile = [string]$CurrentLocation + $DataFileLocation + $DataFileName
 
@@ -89,7 +89,7 @@ do {
 
         # Loop through startup data array and process each item
         foreach ($StartupItem in $StartupData) {
-            Get-StarupItem $StartupItem
+            Get-StartupItem $StartupItem
         }
     }
     elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
