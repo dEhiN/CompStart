@@ -27,12 +27,43 @@ $ReleaseMajorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "Please enter a subfolder under v$ReleaseMajorVersion\m$ReleaseMinorVersion or leave blank if there is none: " -NoNewline
-$Subfolder = $Host.UI.ReadLine()
+Write-Host "Please enter the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion or leave blank if there is none: " -NoNewline
+$ReleaseTag = $Host.UI.ReadLine()
 
-$FullReleasesPath = "$ReleasesPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion"
+# Determine the full path to the release directory we are working with
+$FullReleasesPath = "$ReleasesPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
 
-if ($Subfolder -ne "") {
-    $FullReleasesPath += "\$Subfolder"
+# Add the release tag if one exists
+if ($ReleaseTag -ne "") {
+    $FullReleasesPath += "-$ReleaseTag"
+}
+
+# Before proceeding, confirm the path exists and if not, try to create it
+if (-Not (Test-Path $FullReleasesPath)) {
+    Write-Host "`nThe path $FullReleasesPath doesn't exist."
+
+    # Loop until user answers prompt
+    $LoopTrue = $True
+    do {
+        # Confirm if user wants to create the release directory
+        Write-Host "Do you want to create this directory (Y/N)? " -NoNewLine
+        $UserPrompt = $Host.UI.ReadLine()
+
+        if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
+            # Tell loop to quit
+            $LoopTrue = $False
+        }
+        elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
+            # Inform user of quitting script
+            Write-Host "`nQuitting script..."
+            Exit
+        }
+        else {
+            Write-Host "Please make a valid choice!`n"
+        }
+    } while ($LoopTrue -eq $True)
+
+    # Since loop ended, user chose to create the release directory
+    New-Item $FullReleasesPath -ItemType Directory
 }
 
