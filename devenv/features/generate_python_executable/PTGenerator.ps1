@@ -74,3 +74,11 @@ if (-Not (Test-Path $FullReleasesPath)) {
 }
 
 Set-Location $PyInstallerPath
+
+# Check to see if there's anything already in the PyInstaller folder and if so, delete it
+if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
+    Write-Host "`nFound items in the py-tools folder. Deleting all items..."
+    Remove-Item -Recurse -Path $PyInstallerPath
+    Write-Host "The folder is now empty."
+}
+
