@@ -3,16 +3,17 @@
 # Get the location of the release folder root
 $CurrentDirectory = Get-Location
 
-# Initialize the relevant folder names to variables
+# Check to make sure we are in the project root
+if (-Not (Select-String -InputObject $CurrentDirectory -Pattern "CompStart" -CaseSensitive)) {
+    # Inform user project root can't be found and the script is ending
+    Write-Host "Unable to find project root. Quitting script..."
+    Exit
+}
+
+# Initialize the relevant folder names
 $ReleasesFolder = "releases"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
-
-# Check to make sure we are in the project root
-if (-Not (Select-String -InputObject $CurrentDirectory -Pattern "CompStart" -CaseSensitive)) {
-    Write-Host "Unable to find project root"
-    Exit
-}
 
 # Create the paths to be used in the script
 $ReleasesPath = "$CurrentDirectory\$ReleasesFolder"
