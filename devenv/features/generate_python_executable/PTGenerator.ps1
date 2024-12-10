@@ -38,6 +38,9 @@ if ($ReleaseTag -ne "") {
     $FullReleasesPath += "-$ReleaseTag"
 }
 
+# Set the folder for the PyInstaller generated content
+$PyInstallerPath = "$FullReleasesPath\py-tool"
+
 # Before proceeding, confirm the path exists and if not, try to create it
 if (-Not (Test-Path $FullReleasesPath)) {
     Write-Host "`nThe path $FullReleasesPath doesn't exist."
@@ -65,5 +68,9 @@ if (-Not (Test-Path $FullReleasesPath)) {
 
     # Since loop ended, user chose to create the release directory
     New-Item $FullReleasesPath -ItemType Directory
+
+    # Create the PyInstaller folder
+    New-Item $PyInstallerPath -ItemType Directory
 }
 
+Set-Location $PyInstallerPath
