@@ -12,17 +12,13 @@ Major versions will have a directory that starts with _v_ followed by the versio
 
 Minor versions will have a directory that starts with _m_ followed by the version number. For example, _v1/m1_ would be for all content related to version 1.1.
 
-### Extra Info
+### Subdirectories
 
-Currently, there is no plan to add a third level of versioning, such as 1.1.1 for patches. Within the minor version folder will be any and all files laid out in the directory structure needed for that particular release. That is, for example, act as if _v1/m1_ is the root folder for all content related to version 1.1.
+Currently, there is no plan to add a third level of versioning, such as 1.1.1 for patches. However, a minor version folder will contain subdirectories for each actual release version. If there's a need to add a tag to the minor version, such as _-alpha_, a new subdirectory will be created for the release. This subdirectory will have the full release version as its name. For example, within _v1/m1_ there is a subdirectory for the release _1.1-alpha_. If there is no tag that's needed, a subdirectory will still be created for the actual release with the same naming structure of the release version.
 
 ### Packaging
 
 For now, a ZIP archive should be created with the content. Until an installer is created, this will serve as the release package. The content should have an instructions file at the release root level since manual installation will need to be done. See the file _instructions.txt_ contained in this parent folder.
-
-### Subdirectories
-
-Within each minor version folder will be subdirectories for each actual release version. Although there is no third level of versioning, if there's a need to add a tag to the minor version, such as _-alpha_, a new subdirectory will be created for the release. This subdirectory will have the full release version as its name. For example, within _v1/m1_ there is a subdirectory for the release _1.1-alpha_. If there is no tag that's needed, a subdirectory will still be created for the actual release with the same naming structure of the release version.
 
 ### Artifacts
 
