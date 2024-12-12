@@ -1,23 +1,25 @@
 # PowerShell script to automate the generation of the Python command line tool CompStart.py to an executable using the Python module PyInstaller. This script is meant to be used for releases and will assume the release folder has been created. As a result, only a "py-tool" folder will be created where everything will be copied and worked on.
 
 # Get the location of the release folder root
-$CurrentDirectory = Get-Location
+$ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
-if (-Not (Select-String -InputObject $CurrentDirectory -Pattern "CompStart" -CaseSensitive)) {
+if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
     # Inform user project root can't be found and the script is ending
     Write-Host "Unable to find project root. Quitting script..."
     Exit
 }
 
-# Initialize the relevant folder names
+# Initialize the relevant folder and file names
 $ReleasesFolder = "releases"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
+$CSScript = "CompStart.ps1"
 
 # Create the paths to be used in the script
-$ReleasesPath = "$CurrentDirectory\$ReleasesFolder"
-$DevPath = "$CurrentDirectory\$DevFolder"
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$DevPath = "$ProjectRootPath\$DevFolder"
+$CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
 
 # Determine which version number we are working with
@@ -82,3 +84,10 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
     Write-Host "The folder is now empty."
 }
 
+# Copy over the files and folder necessary to generate the Python executable
+Copy-Item -Path $CSPath -Destination $PyInstallerPath
+Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
+Copy-Item -Path $DependenciesPath\*.py -Destination $PyInstallerPath\dependencies
+
+# Change the working directory back to the project root
+Set-Location $ProjectRootPath
