@@ -89,22 +89,23 @@ if (-Not (Test-Path $FullReleasesPath)) {
 Set-Location $PyInstallerPath
 
 # Check to see if there's anything already in the PyInstaller folder and if so, delete it
-#if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
-#    Write-Host "`nFound items in the py-tools folder. Deleting all items..."    
-#    # Loop until there's nothing in py-tools
-#    $LoopTrue = $true
-#    do {
-#        Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object { 
-#            if ($_.GetType() -eq [System.IO.FileInfo]) {
-#                Remove-Item $_
-#            }
-#            elseif (($_.GetType() -eq [System.IO.DirectoryInfo]) -and ((Get-ChildItem $_).Length -eq 0)) {
-#                Remove-Item -Path $_
-#            }
-#        }
-#    } while ($LoopTrue -eq $true)
-#    Write-Host "The folder is now empty."
-#}
+if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
+    Write-Host "`nFound items in the py-tools folder. Deleting all items..."    
+    # Loop until there's nothing in py-tools
+    $LoopTrue = $true
+    do {
+        Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object { 
+            if ($_.GetType() -eq [System.IO.FileInfo]) {
+                Remove-Item $_
+            }
+            elseif (($_.GetType() -eq [System.IO.DirectoryInfo]) -and ((Get-ChildItem $_).Length -eq 0)) {
+                $LoopTrue = $false
+                continue
+            }
+        }
+    } while ($LoopTrue -eq $true)
+    Write-Host "The folder is now empty."
+}
 
 # Copy over the files and folder necessary to generate the Python executable
 if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
