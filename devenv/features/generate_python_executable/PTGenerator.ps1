@@ -22,6 +22,13 @@ $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
 
+# Initialize the pyinstaller specific variables
+$PyIFilePath = "pyinstaller"
+$PyIArgumentArray = @(
+    $CSPath,
+    "--onefile"
+)
+
 # Determine which version number we are working with
 Write-Host "What is the release major version number? " -NoNewline
 $ReleaseMajorVersion = $Host.UI.ReadLine()
@@ -92,6 +99,16 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
 Copy-Item -Path $CSPath -Destination $PyInstallerPath
 Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
 Copy-Item -Path $DependenciesPath\*.py -Destination $PyInstallerPath\dependencies
+
+# Let user know the Python executable will be created and count down for 5 seconds
+Write-Host "`nCreating Python executable in..."
+for ($counter = 5; $counter -gt 0; $counter--) {
+    Write-Host "$counter..."
+    Start-Sleep -Seconds 1
+}
+
+# Create the Python executable: pyinstaller .\CompStart.py --onefile
+Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
