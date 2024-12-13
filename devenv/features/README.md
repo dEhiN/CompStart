@@ -10,9 +10,7 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
-### 1. features/generate_python_executable
 
-Branch meant for creating a script to automate the generation of an executable for the Python command-line tool. Currently, this process is all done manually. The script will call the Python module _PyInstaller_ to generate the executable and copy it over to the correct release folder. The script will first check to for the existence any of the files and folders _PyInstaller_ creates during exe generation. If there are any from a previous run, the script will delete them.
 
 ## Past Branches (oldest > newest)
 
@@ -55,3 +53,7 @@ Meant for continuation of the PowerShell installer. As written in **features/bat
 ### 10. feature_addons/startup_data_modifier_tool
 
 Developed fully the command-line Python tool for a user to use to create and modify the _startup_data.json_. While the plan is eventually to create a GUI-based tool, to start with, this command line tool was created.
+
+### 11. features/generate_python_executable
+
+Branch meant for creating a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a `py-tools` folder within the _release_ folder, and copies over `CompStart.py` along with the whole `dependencies` folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check for to see if the `py-tools` folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
