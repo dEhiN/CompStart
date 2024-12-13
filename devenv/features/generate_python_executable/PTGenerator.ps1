@@ -90,11 +90,11 @@ Set-Location $PyInstallerPath
 
 # Check to see if there's anything already in the PyInstaller folder and if so, delete it
 if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
-    Write-Host "`nFound items in the py-tools folder. Deleting all items..."    
+    Write-Host "`nFound items in the py-tools folder. Deleting all items..."
     # Loop until there's nothing in py-tools
     $LoopTrue = $true
     do {
-        Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object { 
+        Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object {
             if ($_.GetType() -eq [System.IO.FileInfo]) {
                 Remove-Item $_
             }
@@ -104,6 +104,8 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
             }
         }
     } while ($LoopTrue -eq $true)
+    # Set-Location $PyInstallerPath
+    # Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
     Write-Host "The folder is now empty."
 }
 
