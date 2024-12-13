@@ -107,8 +107,10 @@ Set-Location $PyInstallerPath
 #}
 
 # Copy over the files and folder necessary to generate the Python executable
+if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
+    Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
+}
 Copy-Item -Path $CSPath -Destination $PyInstallerPath
-Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
 Copy-Item -Path $DependenciesPath\*.py -Destination $PyInstallerPath\dependencies
 
 # Let user know the Python executable will be created and count down for 5 seconds
