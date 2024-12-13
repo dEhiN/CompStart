@@ -29,7 +29,7 @@ $ReleaseMajorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "Please enter the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion or leave blank if there is none: " -NoNewline
+Write-Host "`nWhat is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Determine the full path to the release directory we are working with
@@ -69,10 +69,14 @@ if (-Not (Test-Path $FullReleasesPath)) {
     } while ($LoopTrue -eq $True)
 
     # Since loop ended, user chose to create the release directory
-    New-Item $FullReleasesPath -ItemType Directory
+    Write-Host "`nCreating directory $FullReleasesPath..."
+    Start-Sleep -Seconds 1
+    New-Item $FullReleasesPath -ItemType Directory > $null
 
     # Create the PyInstaller folder
-    New-Item $PyInstallerPath -ItemType Directory
+    Write-Host "Creating directory $PyInstallerPath..."
+    Start-Sleep -Seconds 1
+    New-Item $PyInstallerPath -ItemType Directory > $null
 }
 
 Set-Location $PyInstallerPath
