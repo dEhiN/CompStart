@@ -10,11 +10,11 @@ if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -Case
     Exit
 }
 
-# Initialize the relevant folder and file names
+# Initialize the relevant folder and file variables to be used in the script
 $ReleasesFolder = "releases"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
-$CSScript = "CompStart.ps1"
+$CSScript = "CompStart.py"
 
 # Create the paths to be used in the script
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
