@@ -15,7 +15,3 @@ Folder containing examples demonstrating the usage of the Python library _Tkinte
 ### powershell_installer
 
 Folder containing the beginnings of a PowerShell installer script as well as copies of the CompStart batch and PowerShell scripts
-
-### pyinstaller
-
-Folder containing all the files and directory structure needed to experiment with the Python library _PyInstaller_
