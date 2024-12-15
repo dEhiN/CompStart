@@ -88,15 +88,18 @@ $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Before proceeding, check if the paths exist
 if (-Not (Test-Path $ReleaseMajorPath)) {
-    $ExistsMajorPath = $false
+    Write-Host "`nCannot find a directory for the release major version $ReleaseMajorVersion..."
+    Add-MajorVersion $ReleaseMajorVersion $ReleaseMajorPath
 }
 
 if (-Not (Test-Path $ReleaseMinorPath)) {
-    $ExistsMinorPath = $false
+    Write-Host "`nCannot find a directory for the release minor version $ReleaseMinorVersion..."
+    Add-MinorVersion $ReleaseMinorVersion $ReleaseMinorPath
 }
 
 if (-Not (Test-Path $ReleaseFullPath)) {
-    $ExistsFullPath = $false
+    Write-Host "`nCannot find a directory for the release $ReleaseFullVersion..."
+    Add-ReleaseVersion $ReleaseFullVersion $ReleaseFullPath
 }
 
 # Create a boolean tuple to know which folders need to be created
