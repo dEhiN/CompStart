@@ -25,7 +25,7 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "`nWhat is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-# Determine the release subfolders
+# Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseMajorVersion.$ReleaseMinorVersion"
