@@ -101,36 +101,3 @@ if (-Not (Test-Path $ReleaseFullPath)) {
     Write-Host "`nCannot find a directory for the release $ReleaseFullVersion..."
     Add-ReleaseVersion $ReleaseFullVersion $ReleaseFullPath
 }
-
-# Create a boolean tuple to know which folders need to be created
-$ReleasePathTuple = [System.Tuple]::Create($ExistsMajorPath, $ExistsMinorPath, $ExistsFullPath)
-
-
-
-# Write-Host "`nThe path $ReleaseFullPath doesn't exist."
-
-# Loop until user answers prompt
-#$LoopTrue = $True
-#do {
-# Confirm if user wants to create the release directory
-#    Write-Host "Do you want to create this directory (Y/N)? " -NoNewLine
-#    $UserPrompt = $Host.UI.ReadLine()
-
-#    if ($UserPrompt.ToUpper() -eq "Y") {
-#        # Tell loop to quit
-#        $LoopTrue = $False
-#    }
-#    elseif ($UserPrompt.ToUpper() -eq "N") {
-# Inform user of quitting script
-#        Write-Host "`nQuitting script..."
-#        Exit
-#    }
-#    else {
-#        Write-Host "Please make a valid choice!`n"
-#    }
-#} while ($LoopTrue -eq $True)
-
-# Since loop ended, user chose to create the release directory
-#Write-Host "`nCreating directory $ReleaseFullPath..."
-#Start-Sleep -Seconds 1
-#New-Item $ReleaseFullPath -ItemType Directory > $null
