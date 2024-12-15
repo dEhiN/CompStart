@@ -35,17 +35,30 @@ if ($ReleaseTag -ne "") {
     $ReleaseFullPath += "-$ReleaseTag"
 }
 
-# Before proceeding, confirm the paths exist and if not, try to create them
+# Boolean variables for testing the paths
+$ExistsMajorPath = $true
+$ExistsMinorPath = $true
+$ExistsFullPath = $true
+
+# Before proceeding, check if the paths exist
 if (-Not (Test-Path $ReleaseMajorPath)) {
-    Write-Host "`nThe path $ReleaseMajorPath doesn't exist."
+    $ExistsMajorPath = $false
 }
 
 if (-Not (Test-Path $ReleaseMinorPath)) {
-    Write-Host "`nThe path $ReleaseMinorPath doesn't exist."
+    $ExistsMinorPath = $false
 }
 
 if (-Not (Test-Path $ReleaseFullPath)) {
-    Write-Host "`nThe path $ReleaseFullPath doesn't exist."
+    $ExistsFullPath = $false
+}
+
+# Create a boolean tuple to know which folders need to be created
+$ReleasePathTuple = [System.Tuple]::Create($ExistsMajorPath, $ExistsMinorPath, $ExistsFullPath)
+
+
+
+# Write-Host "`nThe path $ReleaseFullPath doesn't exist."
 
 # Loop until user answers prompt
 #$LoopTrue = $True
