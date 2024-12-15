@@ -1,5 +1,53 @@
 # PowerShell script to create the directory structure for a new release
 
+# Function to create a folder for the major version of a release
+function Add-MajorVersion {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string]$MajorVersion,
+
+        [Parameter(Mandatory, Position = 1)]
+        [string]$MajorPath
+    )
+    Write-Host "`Creating directory for release major version $MajorVersion..."
+    Write-Host "...at $MajorPath"
+    Start-Sleep -Seconds 1
+    New-Item $MajorPath -ItemType Directory > $null
+}
+
+# Function to create a folder for the minor version of a release
+function Add-MinorVersion {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string]$MinorVersion,
+
+        [Parameter(Mandatory, Position = 1)]
+        [string]$MinorPath
+    )
+    Write-Host "`nCreating directory for release minor version $MinorVersion..."
+    Write-Host "...at $MinorPath"
+    Start-Sleep -Seconds 1
+    New-Item $MinorPath -ItemType Directory > $null
+}
+
+# Function to create a folder for a release
+function Add-ReleaseVersion {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string]$ReleaseVersion,
+
+        [Parameter(Mandatory, Position = 1)]
+        [string]$ReleasePath
+    )
+    Write-Host "`nCreating directory for release $ReleaseVersion..."
+    Write-Host "...at $ReleasePath"
+    Start-Sleep -Seconds 1
+    New-Item $ReleasePath -ItemType Directory > $null
+}
+
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
 
