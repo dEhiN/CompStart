@@ -1,0 +1,29 @@
+[
+  {
+    "id": "m4p4zlm6mp7dtq7vtrr",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 71,
+    "message": "Need to test each tuple element in order and create functions to create each folder.  The functions will have to create a major version folder, a minor version folder, and the release folder.",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T05:02:49.529Z",
+    "thread": [
+      {
+        "id": "m4p5520kyj8g7jrb1fi",
+        "message": "Need to test the elements in cascading order. If item1 is false, all 3 functions are called. Else, if item2 is false, only the minor version and release folder functions are called. Else, if item3 is false, only the release folder function is called.",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T05:03:47.828Z"
+      },
+      {
+        "id": "m4p56e07k0htwdvulaf",
+        "message": "What about outputting something for the user? At what point should the user be alerted either that a path doesn't exist or that a folder is being created or both?",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T05:04:50.023Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
