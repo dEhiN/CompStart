@@ -1,0 +1,16 @@
+[
+  {
+    "id": "m4p2yskjpyoqanatoa",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 34,
+    "message": "Need to also validate for the major version and minor version folders",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T04:02:56.419Z",
+    "thread": [],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
