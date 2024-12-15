@@ -22,23 +22,21 @@ $ReleaseMajorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "`nWhat is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
+Write-Host "`What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
+
+# Create the full release version for later
+$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+
+# Add the release tag if one exists
+if ($ReleaseTag -ne "") {
+    $ReleaseFullVersion += "-$ReleaseTag"
+}
 
 # Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseMajorVersion.$ReleaseMinorVersion"
-
-# Add the release tag if one exists
-if ($ReleaseTag -ne "") {
-    $ReleaseFullPath += "-$ReleaseTag"
-}
-
-# Boolean variables for testing the paths
-$ExistsMajorPath = $true
-$ExistsMinorPath = $true
-$ExistsFullPath = $true
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Before proceeding, check if the paths exist
 if (-Not (Test-Path $ReleaseMajorPath)) {
