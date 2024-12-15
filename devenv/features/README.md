@@ -10,7 +10,9 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
+### 1. features/create_new_release
 
+Branch meant for creating a script to automate the process involved in new releases. As shared on GitHub, under issue [#64](https://github.com/dEhiN/CompStart/issues/64) for this project, the purpose will be to have 1 or more scripts that, when run, will create a new release folder (if it doesn't already exist), copy over all relevant data from `/devenv` and `/releases/release-templates`, as well as generate the `CompStart.py` Python executable.
 
 ## Past Branches (oldest > newest)
 
