@@ -1,5 +1,8 @@
 # PowerShell script to create the directory structure for a new release
 
+# Set the sleep time as a global variable
+$Global:SleepTime = 3
+
 # Function to create a folder for the major version of a release
 function Add-MajorVersion {
     [CmdletBinding()]
@@ -12,7 +15,7 @@ function Add-MajorVersion {
     )
     Write-Host "Creating directory for release major version $MajorVersion..."
     Write-Host "...at $MajorPath"
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds $Global:SleepTime
     New-Item $MajorPath -ItemType Directory > $null
 }
 
@@ -28,7 +31,7 @@ function Add-MinorVersion {
     )
     Write-Host "Creating directory for release minor version $MinorVersion..."
     Write-Host "...at $MinorPath"
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds $Global:SleepTime
     New-Item $MinorPath -ItemType Directory > $null
 }
 
@@ -44,7 +47,7 @@ function Add-ReleaseVersion {
     )
     Write-Host "Creating directory for release $ReleaseVersion..."
     Write-Host "...at $ReleasePath"
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds $Global:SleepTime
     New-Item $ReleasePath -ItemType Directory > $null
 }
 
