@@ -1,4 +1,4 @@
-# PowerShell script to automate the generation of the Python command line tool CompStart.py to an executable using the Python module PyInstaller. This script is meant to be used for releases and will assume the release folder has been created. As a result, only a "py-tool" folder will be created where everything will be copied and worked on.
+# PowerShell script to copy over the relevant content for creating a new release. This script will create the release directory structure and copy over all the files that will be needed for the release with two exceptions. The first is that the script will assume the release folder exists. The second is that the py-tools folder will not be created nor will the Python CLI tool executable be dealt with.
 
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
