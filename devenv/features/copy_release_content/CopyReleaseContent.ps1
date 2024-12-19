@@ -51,53 +51,6 @@ if (-Not (Test-Path $FullReleasesPath)) {
     Exit
 }
 
-# Before proceeding, confirm if the py-tools path exists and if not, try to create it
-if (-Not (Test-Path $PyInstallerPath)) {
-    # Create the PyInstaller folder
-    Write-Host "Creating directory $PyInstallerPath..."
-    Start-Sleep -Seconds 1
-    New-Item $PyInstallerPath -ItemType Directory > $null
-}
-
-Set-Location $PyInstallerPath
-
-# Check to see if there's anything already in the PyInstaller folder and if so, delete it
-if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
-    Write-Host "`nFound items in the py-tools folder. Deleting all items..."
-    # Loop until there's nothing in py-tools
-    $LoopTrue = $true
-    do {
-        Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object {
-            if ($_.GetType() -eq [System.IO.FileInfo]) {
-                Remove-Item $_
-            }
-            elseif (($_.GetType() -eq [System.IO.DirectoryInfo]) -and ((Get-ChildItem $_).Length -eq 0)) {
-                $LoopTrue = $false
-                continue
-            }
-        }
-    } while ($LoopTrue -eq $true)
-    # Set-Location $PyInstallerPath
-    # Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
-    Write-Host "The folder is now empty."
-}
-
-# Copy over the files and folder necessary to generate the Python executable
-if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
-    Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
-}
-Copy-Item -Path $CSPath -Destination $PyInstallerPath
-Copy-Item -Path $DependenciesPath\*.py -Destination $PyInstallerPath\dependencies
-
-# Let user know the Python executable will be created and count down for 5 seconds
-Write-Host "`nCreating Python executable in..."
-for ($counter = 5; $counter -gt 0; $counter--) {
-    Write-Host "$counter..."
-    Start-Sleep -Seconds 1
-}
-
-# Create the Python executable: pyinstaller .\CompStart.py --onefile
-Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
