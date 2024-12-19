@@ -1,0 +1,44 @@
+[
+  {
+    "id": "m4p82yq5rzhqyn8rtxr",
+    "file": "releases/release-scripts/CreateRelease.ps1",
+    "line": 57,
+    "message": "Need to flesh this out to do a proper check and consider all possible cases",
+    "author": "David H. Watson",
+    "timestamp": "2024-12-15T06:26:09.101Z",
+    "thread": [
+      {
+        "id": "m4p84gj7aht47jjhruc",
+        "message": "For example, if in the terminal, the path is set to CompStart/releases/release-versions/v1/m1/1.1-alpha and then the script is run, the check for the project root will pass but everything else will fail",
+        "author": "David H. Watson",
+        "timestamp": "2024-12-15T06:38:31.374Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  },
+  {
+    "id": "m4p8bf25e3v8al4fyzm",
+    "file": "releases/release-scripts/CreateRelease.ps1",
+    "line": 2,
+    "message": "May want to flesh the start of this script out a little more",
+    "author": "David H. Watson",
+    "timestamp": "2024-12-15T06:32:43.517Z",
+    "thread": [
+      {
+        "id": "m4p8c8tmvpi1bwmkalr",
+        "message": "For example, share more with the user on what is going on. And perhaps add some output if no new folders were created.",
+        "author": "David H. Watson",
+        "timestamp": "2024-12-15T06:33:22.090Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
