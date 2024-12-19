@@ -10,7 +10,7 @@ function Add-MajorVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$MajorPath
     )
-    Write-Host "`Creating directory for release major version $MajorVersion..."
+    Write-Host "Creating directory for release major version $MajorVersion..."
     Write-Host "...at $MajorPath"
     Start-Sleep -Seconds 1
     New-Item $MajorPath -ItemType Directory > $null
@@ -26,7 +26,7 @@ function Add-MinorVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$MinorPath
     )
-    Write-Host "`nCreating directory for release minor version $MinorVersion..."
+    Write-Host "Creating directory for release minor version $MinorVersion..."
     Write-Host "...at $MinorPath"
     Start-Sleep -Seconds 1
     New-Item $MinorPath -ItemType Directory > $null
@@ -42,7 +42,7 @@ function Add-ReleaseVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$ReleasePath
     )
-    Write-Host "`nCreating directory for release $ReleaseVersion..."
+    Write-Host "Creating directory for release $ReleaseVersion..."
     Write-Host "...at $ReleasePath"
     Start-Sleep -Seconds 1
     New-Item $ReleasePath -ItemType Directory > $null
@@ -54,7 +54,7 @@ $ProjectRootPath = Get-Location
 # Check to make sure we are in the project root
 if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
     # Inform user project root can't be found and the script is ending
-    Write-Host "Unable to find project root. Quitting script..."
+    Write-Host "`nUnable to find project root. Quitting script..."
     Exit
 }
 
@@ -64,13 +64,13 @@ $ReleaseVersionsFolder = "release-versions"
 $ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 
 # Determine which release version to create
-Write-Host "What is the release major version number? " -NoNewline
+Write-Host "`nWhat is the release major version number? " -NoNewline
 $ReleaseMajorVersion = $Host.UI.ReadLine()
 
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "`What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
+Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Create the full release version for later

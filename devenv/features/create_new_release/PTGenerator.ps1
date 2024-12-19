@@ -6,7 +6,7 @@ $ProjectRootPath = Get-Location
 # Check to make sure we are in the project root
 if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
     # Inform user project root can't be found and the script is ending
-    Write-Host "Unable to find project root. Quitting script..."
+    Write-Host "`nUnable to find project root. Quitting script..."
     Exit
 }
 
@@ -30,13 +30,13 @@ $PyIArgumentArray = @(
 )
 
 # Determine which version number we are working with
-Write-Host "What is the release major version number? " -NoNewline
+Write-Host "`nWhat is the release major version number? " -NoNewline
 $ReleaseMajorVersion = $Host.UI.ReadLine()
 
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "`nWhat is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
+Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Determine the full path to the release directory we are working with
