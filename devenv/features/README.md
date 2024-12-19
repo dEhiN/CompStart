@@ -11,7 +11,6 @@ Due to that, the branch name will be listed with what the parent folder was call
 ## Current Branches
 
 
-
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
@@ -56,4 +55,8 @@ Developed fully the command-line Python tool for a user to use to create and mod
 
 ### 11. features/generate_python_executable
 
-Branch meant for creating a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a `py-tools` folder within the _release_ folder, and copies over `CompStart.py` along with the whole `dependencies` folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check for to see if the `py-tools` folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
+Created a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a `py-tools` folder within the _release_ folder, and copies over `CompStart.py` along with the whole `dependencies` folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check to see if the `py-tools` folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
+
+### 12. features/create_new_release
+
+Created a script to automate the creation of a _release_ folder. Note, this feature branch changed scope partway during development. See issue [#64](https://github.com/dEhiN/CompStart/issues/64) for more details. This script asks the user for the _release_ details and then creates the major, minor, and release folder if it doesn't exist. Note also that the PowerShell script created for **features/generate_python_executable** was modified. It doesn't create the _release_ folder anymore. Rather, it checks for the existence of a _release_ folder by still asking the user for the _release_ details. If the folder doesn't exist, the script tells the user to run this new script.

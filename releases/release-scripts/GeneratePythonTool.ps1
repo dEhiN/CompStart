@@ -6,18 +6,19 @@ $ProjectRootPath = Get-Location
 # Check to make sure we are in the project root
 if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
     # Inform user project root can't be found and the script is ending
-    Write-Host "Unable to find project root. Quitting script..."
+    Write-Host "`nUnable to find project root. Quitting script..."
     Exit
 }
 
 # Initialize the relevant folder and file variables to be used in the script
 $ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "release-versions"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $CSScript = "CompStart.py"
 
 # Create the paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
@@ -30,17 +31,17 @@ $PyIArgumentArray = @(
 )
 
 # Determine which version number we are working with
-Write-Host "What is the release major version number? " -NoNewline
+Write-Host "`nWhat is the release major version number? " -NoNewline
 $ReleaseMajorVersion = $Host.UI.ReadLine()
 
 Write-Host "What is the release minor version number? " -NoNewline
 $ReleaseMinorVersion = $Host.UI.ReadLine()
 
-Write-Host "`nWhat is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
+Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Determine the full path to the release directory we are working with
-$FullReleasesPath = "$ReleasesPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
+$FullReleasesPath = "$ReleasePath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
@@ -50,36 +51,14 @@ if ($ReleaseTag -ne "") {
 # Set the folder for the PyInstaller generated content
 $PyInstallerPath = "$FullReleasesPath\py-tool"
 
-# Before proceeding, confirm the path exists and if not, try to create it
+# Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe path $FullReleasesPath doesn't exist."
+    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
+    Exit
+}
 
-    # Loop until user answers prompt
-    $LoopTrue = $True
-    do {
-        # Confirm if user wants to create the release directory
-        Write-Host "Do you want to create this directory (Y/N)? " -NoNewLine
-        $UserPrompt = $Host.UI.ReadLine()
-
-        if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
-            # Tell loop to quit
-            $LoopTrue = $False
-        }
-        elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
-            # Inform user of quitting script
-            Write-Host "`nQuitting script..."
-            Exit
-        }
-        else {
-            Write-Host "Please make a valid choice!`n"
-        }
-    } while ($LoopTrue -eq $True)
-
-    # Since loop ended, user chose to create the release directory
-    Write-Host "`nCreating directory $FullReleasesPath..."
-    Start-Sleep -Seconds 1
-    New-Item $FullReleasesPath -ItemType Directory > $null
-
+# Before proceeding, confirm if the py-tools path exists and if not, try to create it
+if (-Not (Test-Path $PyInstallerPath)) {
     # Create the PyInstaller folder
     Write-Host "Creating directory $PyInstallerPath..."
     Start-Sleep -Seconds 1
@@ -124,7 +103,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 }
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
-Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow
+Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath

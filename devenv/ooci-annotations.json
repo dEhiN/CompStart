@@ -1,0 +1,116 @@
+[
+  {
+    "id": "m4p82yq5rzhqyn8rtxr",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 52,
+    "message": "Need to flesh this out to do a proper check and consider all possible cases",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T06:26:09.101Z",
+    "thread": [
+      {
+        "id": "m4p84gj7aht47jjhruc",
+        "message": "For example, if in the terminal, the path is set to CompStart/releases/release-versions/v1/m1/1.1-alpha and then the script is run, the check for the project root will pass but everything else will fail",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:38:31.374Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  },
+  {
+    "id": "m4p857xz3p3fsghcsb7",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 49,
+    "message": "Need to call the other scripts",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T06:27:54.359Z",
+    "thread": [
+      {
+        "id": "m4p8a4vxccazn6jtg6r",
+        "message": "The 2 other scripts - to copy over content and generate the Python executable - shouldn't probably just be called. The user should maybe be given a choice whether they want to perform each step.",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:31:43.677Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  },
+  {
+    "id": "m4p85r9s4ulounoa89s",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 51,
+    "message": "Need to create the script to copy over relevant content",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T06:30:28.607Z",
+    "thread": [
+      {
+        "id": "m4p86x8k30c790ga6hr",
+        "message": "Copy-pasting the content from GH issue #64:",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:37:32.217Z"
+      },
+      {
+        "id": "m4p882eyxdscqq167b",
+        "message": "Modify PTGenerator.ps1 to only generate the Python executable. Create a new script to copy over the content necessary from /devenv and /releases/release-templates. Create a second new script to create the release folder.",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:30:07.162Z"
+      },
+      {
+        "id": "m4p88d223t5g8tqfe9v",
+        "message": "This file is that second new script",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:30:20.954Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  },
+  {
+    "id": "m4p8bf25e3v8al4fyzm",
+    "file": "devenv/features/create_new_release/CreateRelease.ps1",
+    "line": 50,
+    "message": "May want to flesh the start of this script out a little more",
+    "author": "Anonymous",
+    "timestamp": "2024-12-15T06:32:43.517Z",
+    "thread": [
+      {
+        "id": "m4p8c8tmvpi1bwmkalr",
+        "message": "For example, share more with the user on what is going on. And perhaps add some output if no new folders were created.",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:33:22.090Z"
+      },
+      {
+        "id": "m4p8d14ilk9iyqkv65",
+        "message": "Alternatively, a menu choice could be presented to 1) create a release folder; 2) copy over the content; 3) generate the Python exe",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:33:58.770Z"
+      },
+      {
+        "id": "m4p8eimk6s0a03kdkte",
+        "message": "It almost feels though like if we go that route, then a 4th script should be created just for the menu",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:35:08.108Z"
+      },
+      {
+        "id": "m4p8fhvw3vwu4fmt6yj",
+        "message": "Or, each of the 3 menu options could be scoped to a function (or multiple functions) with just one script that presents the menu and then calls the associated function for each task",
+        "author": "Anonymous",
+        "timestamp": "2024-12-15T06:35:53.804Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
