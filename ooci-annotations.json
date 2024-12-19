@@ -2,7 +2,7 @@
   {
     "id": "m4p82yq5rzhqyn8rtxr",
     "file": "releases/release-scripts/CreateRelease.ps1",
-    "line": 57,
+    "line": 55,
     "message": "Need to flesh this out to do a proper check and consider all possible cases",
     "author": "David H. Watson",
     "timestamp": "2024-12-15T06:26:09.101Z",
@@ -23,7 +23,7 @@
   {
     "id": "m4p8bf25e3v8al4fyzm",
     "file": "releases/release-scripts/CreateRelease.ps1",
-    "line": 2,
+    "line": 1,
     "message": "May want to flesh the start of this script out a little more",
     "author": "David H. Watson",
     "timestamp": "2024-12-15T06:32:43.517Z",
