@@ -12,12 +12,13 @@ if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -Case
 
 # Initialize the relevant folder and file variables to be used in the script
 $ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "release-versions"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $CSScript = "CompStart.py"
 
 # Create the paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
