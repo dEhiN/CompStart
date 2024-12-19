@@ -41,7 +41,7 @@ Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersi
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Determine the full path to the release directory we are working with
-$FullReleasesPath = "$ReleasesPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
+$FullReleasesPath = "$ReleasePath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
@@ -103,7 +103,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 }
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
-Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow
+Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
