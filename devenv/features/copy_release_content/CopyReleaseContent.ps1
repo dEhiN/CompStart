@@ -13,22 +13,19 @@ if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -Case
 # Initialize the relevant folder and file variables to be used in the script
 $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
+$ReleaseTemplatesFolder = "release-templates"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $CSScript = "CompStart.py"
 
 # Create the paths to be used in the script
-$ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
+$ReleasePath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasePath\$ReleaseVersionsFolder"
+$ReleaseTemplatesPath = "$ReleasePath\$ReleaseTemplatesFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
 
-# Initialize the pyinstaller specific variables
-$PyIFilePath = "pyinstaller"
-$PyIArgumentArray = @(
-    $CSPath,
-    "--onefile"
-)
 
 # Determine which version number we are working with
 Write-Host "`nWhat is the release major version number? " -NoNewline
@@ -41,19 +38,16 @@ Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersi
 $ReleaseTag = $Host.UI.ReadLine()
 
 # Determine the full path to the release directory we are working with
-$FullReleasesPath = "$ReleasePath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
+$FullReleasesPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
     $FullReleasesPath += "-$ReleaseTag"
 }
 
-# Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$FullReleasesPath\py-tool"
-
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
+    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
