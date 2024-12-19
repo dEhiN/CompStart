@@ -53,7 +53,7 @@ $PyInstallerPath = "$FullReleasesPath\py-tool"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
+    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
