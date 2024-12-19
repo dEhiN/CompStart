@@ -55,16 +55,9 @@ if (-Not (Test-Path $FullReleasesPath)) {
     Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
     Exit
 }
-        else {
-            Write-Host "Please make a valid choice!`n"
-        }
-    } while ($LoopTrue -eq $True)
 
-    # Since loop ended, user chose to create the release directory
-    Write-Host "`nCreating directory $FullReleasesPath..."
-    Start-Sleep -Seconds 1
-    New-Item $FullReleasesPath -ItemType Directory > $null
-
+# Before proceeding, confirm if the py-tools path exists and if not, try to create it
+if (-Not (Test-Path $PyInstallerPath)) {
     # Create the PyInstaller folder
     Write-Host "Creating directory $PyInstallerPath..."
     Start-Sleep -Seconds 1
