@@ -10,6 +10,10 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
+### 1. features/copy_release_content
+
+Branch for creating the third PowerShell script to automate the process of creating a release. This third script will copy over the relevant content necessary for a release as well as create the directory structure. The only exception to this will be the `py-tools` folder, as that is handled by the script `GeneratePythonTool.ps1`.
+
 
 ## Past Branches (oldest > newest)
 
