@@ -50,26 +50,11 @@ if ($ReleaseTag -ne "") {
 # Set the folder for the PyInstaller generated content
 $PyInstallerPath = "$FullReleasesPath\py-tool"
 
-# Before proceeding, confirm the path exists and if not, try to create it
+# Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe path $FullReleasesPath doesn't exist."
-
-    # Loop until user answers prompt
-    $LoopTrue = $True
-    do {
-        # Confirm if user wants to create the release directory
-        Write-Host "Do you want to create this directory (Y/N)? " -NoNewLine
-        $UserPrompt = $Host.UI.ReadLine()
-
-        if (($UserPrompt -eq "Y") -or ($UserPrompt -eq "y")) {
-            # Tell loop to quit
-            $LoopTrue = $False
-        }
-        elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
-            # Inform user of quitting script
-            Write-Host "`nQuitting script..."
-            Exit
-        }
+    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
+    Exit
+}
         else {
             Write-Host "Please make a valid choice!`n"
         }
