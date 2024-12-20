@@ -79,5 +79,9 @@ Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
 Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
 Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse
 
+# Copy the release notes content and instructions file
+Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
+Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
+
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
