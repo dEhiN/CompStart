@@ -15,6 +15,7 @@ $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
+$PyToolsFolder = "py-tools"
 $CSScript = "CompStart.py"
 
 # Create the paths to be used in the script
@@ -49,7 +50,7 @@ if ($ReleaseTag -ne "") {
 }
 
 # Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$FullReleasesPath\py-tool"
+$PyInstallerPath = "$FullReleasesPath\$PyToolsFolder"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $FullReleasesPath)) {
