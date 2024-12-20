@@ -14,8 +14,10 @@ if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -Case
 $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $ReleaseTemplatesFolder = "release-templates"
+$ReleaseNotesFolder = "release-notes"
 $DevFolder = "devenv"
 $ConfigFolder = "config"
+$CompStartFolder = "CompStart"
 $PowerShellScript = "CompStart.ps1"
 $BatchScript = "CompStart.bat"
 
@@ -23,6 +25,8 @@ $BatchScript = "CompStart.bat"
 $ReleasePath = "$ProjectRootPath\$ReleasesFolder"
 $ReleaseVersionsPath = "$ReleasePath\$ReleaseVersionsFolder"
 $ReleaseTemplatesPath = "$ReleasePath\$ReleaseTemplatesFolder"
+$ReleaseNotesFolderPath = ""
+$CSFolderPath = ""
 $DevPath = "$ProjectRootPath\$DevFolder"
 $ConfigPath = "$DevFolder\$ConfigFolder"
 $CSPowerShellPath = "$DevFolder\$PowerShellScript"
@@ -52,6 +56,21 @@ if (-Not (Test-Path $FullReleasesPath)) {
     Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
+
+Set-Location $FullReleasesPath
+
+# Create the CompStart folder for the release and update the appropriate path variable
+New-Item -ItemType Directory -Name $CompStartFolder
+$CSFolderPath = "$FullReleasesPath\$CompStartFolder"
+
+# Create the release notes folder for the release and update the appropriate path variable
+New-Item -ItemType Directory -Name $ReleaseNotesFolder
+$ReleaseNotesFolderPath = "$FullReleasesPath\$ReleaseNotesFolder"
+
+# Copy the CompStart content
+Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
+Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
+Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
