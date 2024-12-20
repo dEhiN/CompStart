@@ -94,13 +94,25 @@ if (-Not (Test-Path $ReleaseMajorPath)) {
     Write-Host "`nCannot find a directory for the release major version $ReleaseMajorVersion..."
     Add-MajorVersion $ReleaseMajorVersion $ReleaseMajorPath
 }
+else {
+    Write-Host "`nThere already exists a release major version $ReleaseMajorVersion folder...skipping this step..."
+    Start-Sleep $Global:SleepTime
+}
 
 if (-Not (Test-Path $ReleaseMinorPath)) {
     Write-Host "`nCannot find a directory for the release minor version $ReleaseMinorVersion..."
     Add-MinorVersion $ReleaseMinorVersion $ReleaseMinorPath
 }
+else {
+    Write-Host "`nThere already exists a release minor version $ReleaseMinorVersion folder...skipping this step..."
+    Start-Sleep $Global:SleepTime
+}
 
 if (-Not (Test-Path $ReleaseFullPath)) {
     Write-Host "`nCannot find a directory for the release $ReleaseFullVersion..."
     Add-ReleaseVersion $ReleaseFullVersion $ReleaseFullPath
+}
+else {
+    Write-Host "`nThere already exists a release $ReleaseFullVersion folder...skipping this step..."
+    Start-Sleep $Global:SleepTime
 }
