@@ -10,7 +10,6 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
-
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
@@ -60,3 +59,9 @@ Created a script to automate the generation of an executable for the Python comm
 ### 12. features/create_new_release
 
 Created a script to automate the creation of a _release_ folder. Note, this feature branch changed scope partway during development. See issue [#64](https://github.com/dEhiN/CompStart/issues/64) for more details. This script asks the user for the _release_ details and then creates the major, minor, and release folder if it doesn't exist. Note also that the PowerShell script created for **features/generate_python_executable** was modified. It doesn't create the _release_ folder anymore. Rather, it checks for the existence of a _release_ folder by still asking the user for the _release_ details. If the folder doesn't exist, the script tells the user to run this new script.
+
+### 13. features/copy_release_content
+
+Created the third PowerShell script to automate the process of creating a release. This third script creates the directory structure necessary for a release as well as copies over the relevant content. This includes the `CompStart.exe` file in the `py-tools` folder. Because of this, the release automation scripts need to be run in the following order:
+
+_CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_

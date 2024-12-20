@@ -15,7 +15,9 @@ $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
+$PyToolsFolder = "py-tools"
 $CSScript = "CompStart.py"
+$FullReleaseVersion = ""
 
 # Create the paths to be used in the script
 $ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
@@ -40,27 +42,29 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-# Determine the full path to the release directory we are working with
-$FullReleasesPath = "$ReleasePath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
+$FullReleaseVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
-    $FullReleasesPath += "-$ReleaseTag"
+    $FullReleaseVersion += "-$ReleaseTag"
 }
 
+# Determine the full path to the release directory we are working with
+$FullReleasePath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$FullReleaseVersion"
+
 # Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$FullReleasesPath\py-tool"
+$PyInstallerPath = "$FullReleasePath\$PyToolsFolder"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateRelease.ps1' before running this script..."
+if (-Not (Test-Path $FullReleasePath)) {
+    Write-Host "`nThe release folder $FullReleasePath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
 # Before proceeding, confirm if the py-tools path exists and if not, try to create it
 if (-Not (Test-Path $PyInstallerPath)) {
     # Create the PyInstaller folder
-    Write-Host "Creating directory $PyInstallerPath..."
+    Write-Host "`nCreating directory $PyInstallerPath..."
     Start-Sleep -Seconds 1
     New-Item $PyInstallerPath -ItemType Directory > $null
 }
@@ -104,6 +108,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
 Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+Write-Host "`nPython executable successfully created"
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
