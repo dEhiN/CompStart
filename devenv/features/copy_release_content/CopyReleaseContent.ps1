@@ -1,4 +1,4 @@
-# PowerShell script to copy over the relevant content for creating a new release. This script will create the release directory structure and copy over all the files that will be needed for the release with two exceptions. The first is that the script will assume the release folder exists. The second is that the py-tools folder will not be created nor will the Python CLI tool executable be dealt with.
+# PowerShell script to copy over the relevant content for creating a new release. This script will create the release directory structure and copy over all the files that will be needed for the release with two exceptions. The first is that the script will assume the release folder exists. The second is that the Python CLI tool executable will assume to exist and will be copied over as part of the release content.
 
 # Set the sleep time as a global variable
 $Global:SleepTime = 2
@@ -43,6 +43,14 @@ $ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
 $ReleaseNotesFolderPath = ""
 $ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
 $ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
+
+# Create the PyInstaller specific variables to be used in the script
+$PyToolsFolder = "py-tools"
+$PyIDistFolder = "dist"
+$PythonExeFile = "CompStart.exe"
+$PyToolsPath = ""
+$PyIDistPath = ""
+$CSPythonPath = ""
 
 # Determine which version number we are working with
 Write-Host "`nWhat is the release major version number? " -NoNewline
@@ -108,6 +116,19 @@ Write-Host "`nCopying over the instructions and release notes README for release
 Start-Sleep $Global:SleepTime
 Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
 Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
+
+# Deal with the Python executable
+$PyToolsPath = "$FullReleasePath\$PyToolsFolder"
+if (-Not (Test-Path $PyToolsPath)) {
+    Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+    Exit
+}
+$PyIDistPath = "$PyToolsPath\$PyIDistFolder"
+$CSPythonPath = "$PyIDistPath\$PythonExeFile"
+Write-Host "`nCopying over the Python tool executable for release $FullReleaseVersion..."
+Start-Sleep $Global:SleepTime
+Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
+
 
 # Change the working directory back to the project root
 Write-Host "`nAll release content has been copied over successfully to $FullReleasePath"
