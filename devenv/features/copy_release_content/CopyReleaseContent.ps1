@@ -19,10 +19,10 @@ $BatchScriptFile = "CompStart.bat"
 
 # Create the devenv paths to be used in the script
 $DevPath = "$ProjectRootPath\$DevFolder"
-$ConfigPath = "$DevFolder\$ConfigFolder"
+$ConfigPath = "$DevPath\$ConfigFolder"
 $CSFolderPath = ""
-$CSPowerShellPath = "$DevFolder\$PowerShellScriptFile"
-$CSBatchPath = "$DevFolder\$BatchScriptFile"
+$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
+$CSBatchPath = "$DevPath\$BatchScriptFile"
 
 # Initialize the release file and folder names to be used in the script
 $ReleasesFolder = "releases"
@@ -37,8 +37,8 @@ $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
 $ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
 $ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
 $ReleaseNotesFolderPath = ""
-$ReleaseNotesMDPath = "$ReleasesTemplatesPath\$ReleaseNotesMDFile"
-$ReleaseInstructionsPath = "$ReleasesTemplatePath\$ReleaseInstructionsFile"
+$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
+$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
 
 # Determine which version number we are working with
 Write-Host "`nWhat is the release major version number? " -NoNewline
@@ -66,12 +66,16 @@ if (-Not (Test-Path $FullReleasesPath)) {
 
 Set-Location $FullReleasesPath
 
-# Create the CompStart folder for the release and update the appropriate path variable
-New-Item -ItemType Directory -Name $CompStartFolder
+# Create the CompStart folder for the release, if needed, and update the appropriate path variable
+if (-Not (Test-Path $CompStartFolder)) {
+    New-Item -ItemType Directory -Name $CompStartFolder
+}
 $CSFolderPath = "$FullReleasesPath\$CompStartFolder"
 
-# Create the release notes folder for the release and update the appropriate path variable
-New-Item -ItemType Directory -Name $ReleaseNotesFolder
+# Create the release notes folder for the release, if needed, and update the appropriate path variable
+if (-Not (Test-Path $ReleaseNotesFolder)) {
+    New-Item -ItemType Directory -Name $ReleaseNotesFolder
+}
 $ReleaseNotesFolderPath = "$FullReleasesPath\$ReleaseNotesFolder"
 
 # Copy the CompStart content
