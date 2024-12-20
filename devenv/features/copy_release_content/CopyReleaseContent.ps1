@@ -50,21 +50,23 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-# Determine the full path to the release directory we are working with
-$FullReleasesPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$ReleaseMajorVersion.$ReleaseMinorVersion"
+$FullReleaseVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
-    $FullReleasesPath += "-$ReleaseTag"
+    $FullReleaseVersion += "-$ReleaseTag"
 }
 
+# Determine the full path to the release directory we are working with
+$FullReleasePath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$FullReleaseVersion"
+
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $FullReleasesPath)) {
-    Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+if (-Not (Test-Path $FullReleasePath)) {
+    Write-Host "`nThe release folder $FullReleasePath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
-Set-Location $FullReleasesPath
+Set-Location $FullReleasePath
 
 # Create the CompStart folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $CompStartFolder)) {
