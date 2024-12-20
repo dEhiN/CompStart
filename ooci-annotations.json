@@ -1,7 +1,7 @@
 [
   {
     "id": "m4p82yq5rzhqyn8rtxr",
-    "file": "releases/release-scripts/CreateRelease.ps1",
+    "file": "releases/release-scripts/CreateReleaseFolder.ps1",
     "line": 55,
     "message": "Need to flesh this out to do a proper check and consider all possible cases",
     "author": "David H. Watson",
@@ -22,7 +22,7 @@
   },
   {
     "id": "m4p8bf25e3v8al4fyzm",
-    "file": "releases/release-scripts/CreateRelease.ps1",
+    "file": "releases/release-scripts/CreateReleaseFolder.ps1",
     "line": 1,
     "message": "May want to flesh the start of this script out a little more",
     "author": "David H. Watson",
@@ -33,27 +33,6 @@
         "message": "For example, share more with the user on what is going on. And perhaps add some output if no new folders were created.",
         "author": "David H. Watson",
         "timestamp": "2024-12-15T06:33:22.090Z"
-      }
-    ],
-    "tags": [],
-    "pinned": false,
-    "priority": 0,
-    "severity": "info",
-    "resolved": false
-  },
-  {
-    "id": "m4vw363l9p7bjx8pvym",
-    "file": "devenv/features/copy_release_content/CopyReleaseContent.ps1",
-    "line": 1,
-    "message": "Will need to decide how to handle the Python CLI tool exe when it's generated. Right now, GeneratePythonTool.ps1 just creates the exe but doesn't copy it over to the relevant directory within the release folder. Since this script, CopyReleaseContent.ps1, will not be responsible for the py-tools folder, it will also probably not handle copying over the exe. However, one of them will probably need to do that. The problem is that currently both scripts are separate so it's not known which script will be run first.",
-    "author": "David H. Watson",
-    "timestamp": "2024-12-19T22:24:46.497Z",
-    "thread": [
-      {
-        "id": "m4wbkdnp84g4iduypqd",
-        "message": "Decided to have the order of the 3 scripts be:  CreateReleaseFolder.ps1, then GeneratePythonTool.ps1, then CopyReleaseContent.ps1. So CopyReleaseContent.ps1 will have to copy over the Python exe.",
-        "author": "David H. Watson",
-        "timestamp": "2024-12-20T05:38:03.685Z"
       }
     ],
     "tags": [],
