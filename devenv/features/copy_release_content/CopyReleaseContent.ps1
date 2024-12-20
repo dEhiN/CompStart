@@ -1,5 +1,8 @@
 # PowerShell script to copy over the relevant content for creating a new release. This script will create the release directory structure and copy over all the files that will be needed for the release with two exceptions. The first is that the script will assume the release folder exists. The second is that the py-tools folder will not be created nor will the Python CLI tool executable be dealt with.
 
+# Set the sleep time as a global variable
+$Global:SleepTime = 2
+
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
 
@@ -31,6 +34,7 @@ $ReleaseTemplatesFolder = "release-templates"
 $ReleaseNotesFolder = "release-notes"
 $ReleaseNotesMDFile = "release_notes.md"
 $ReleaseInstructionsFile = "instructions.txt"
+$FullReleaseVersion = ""
 
 # Create the release paths to be used in the script
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
@@ -70,24 +74,42 @@ Set-Location $FullReleasePath
 
 # Create the CompStart folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $CompStartFolder)) {
+    Write-Host "`nCreating the CompStart folder for release $FullReleaseVersion..."
+    Start-Sleep $Global:SleepTime
     New-Item -ItemType Directory -Name $CompStartFolder > $null
 }
-$CSFolderPath = "$FullReleasesPath\$CompStartFolder"
+else {
+    Write-Host "`nThere already exists a CompStart folder for release $FullReleaseVersion...skipping this step..."
+    Start-Sleep $Global:SleepTime
+}
+$CSFolderPath = "$FullReleasePath\$CompStartFolder"
 
 # Create the release notes folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $ReleaseNotesFolder)) {
+    Write-Host "`nCreating the release-notes folder for release $FullReleaseVersion..."
+    Start-Sleep $Global:SleepTime
     New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
 }
-$ReleaseNotesFolderPath = "$FullReleasesPath\$ReleaseNotesFolder"
+else {
+    Write-Host "`nThere already exists a release-notes folder for release $FullReleaseVersion...skipping this step..."
+    Start-Sleep $Global:SleepTime
+}
+$ReleaseNotesFolderPath = "$FullReleasePath\$ReleaseNotesFolder"
 
 # Copy the CompStart content
+Write-Host "`nPopulating the CompStart folder for release $FullReleaseVersion..."
+Start-Sleep $Global:SleepTime
 Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
 Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
 Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
 
 # Copy the release notes content and instructions file
+Write-Host "`nCopying over the instructions and release notes README for release $FullReleaseVersion..."
+Start-Sleep $Global:SleepTime
 Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
 Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
 
 # Change the working directory back to the project root
+Write-Host "`nAll release content has been copied over successfully to $FullReleasePath"
+Write-Host "Changing directory back to project root"
 Set-Location $ProjectRootPath
