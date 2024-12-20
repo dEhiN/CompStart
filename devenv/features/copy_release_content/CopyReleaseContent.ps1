@@ -10,28 +10,35 @@ if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -Case
     Exit
 }
 
-# Initialize the relevant folder and file variables to be used in the script
+# Initialize the devenv file and folder names to be used in the script
+$DevFolder = "devenv"
+$ConfigFolder = "config"
+$CompStartFolder = "CompStart"
+$PowerShellScriptFile = "CompStart.ps1"
+$BatchScriptFile = "CompStart.bat"
+
+# Create the devenv paths to be used in the script
+$DevPath = "$ProjectRootPath\$DevFolder"
+$ConfigPath = "$DevFolder\$ConfigFolder"
+$CSFolderPath = ""
+$CSPowerShellPath = "$DevFolder\$PowerShellScriptFile"
+$CSBatchPath = "$DevFolder\$BatchScriptFile"
+
+# Initialize the release file and folder names to be used in the script
 $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $ReleaseTemplatesFolder = "release-templates"
 $ReleaseNotesFolder = "release-notes"
-$DevFolder = "devenv"
-$ConfigFolder = "config"
-$CompStartFolder = "CompStart"
-$PowerShellScript = "CompStart.ps1"
-$BatchScript = "CompStart.bat"
+$ReleaseNotesMDFile = "release_notes.md"
+$ReleaseInstructionsFile = "instructions.txt"
 
-# Create the paths to be used in the script
-$ReleasePath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasePath\$ReleaseVersionsFolder"
-$ReleaseTemplatesPath = "$ReleasePath\$ReleaseTemplatesFolder"
+# Create the release paths to be used in the script
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
+$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
 $ReleaseNotesFolderPath = ""
-$CSFolderPath = ""
-$DevPath = "$ProjectRootPath\$DevFolder"
-$ConfigPath = "$DevFolder\$ConfigFolder"
-$CSPowerShellPath = "$DevFolder\$PowerShellScript"
-$CSBatchPath = "$DevFolder\$BatchScript"
-
+$ReleaseNotesMDPath = "$ReleasesTemplatesPath\$ReleaseNotesMDFile"
+$ReleaseInstructionsPath = "$ReleasesTemplatePath\$ReleaseInstructionsFile"
 
 # Determine which version number we are working with
 Write-Host "`nWhat is the release major version number? " -NoNewline
