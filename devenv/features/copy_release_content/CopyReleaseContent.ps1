@@ -68,20 +68,20 @@ Set-Location $FullReleasesPath
 
 # Create the CompStart folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $CompStartFolder)) {
-    New-Item -ItemType Directory -Name $CompStartFolder
+    New-Item -ItemType Directory -Name $CompStartFolder > $null
 }
 $CSFolderPath = "$FullReleasesPath\$CompStartFolder"
 
 # Create the release notes folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $ReleaseNotesFolder)) {
-    New-Item -ItemType Directory -Name $ReleaseNotesFolder
+    New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
 }
 $ReleaseNotesFolderPath = "$FullReleasesPath\$ReleaseNotesFolder"
 
 # Copy the CompStart content
 Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
 Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
-Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse
+Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
 
 # Copy the release notes content and instructions file
 Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
