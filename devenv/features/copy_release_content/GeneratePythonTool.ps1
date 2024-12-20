@@ -104,6 +104,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
 Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+Write-Host "Python executable successfully created"
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
