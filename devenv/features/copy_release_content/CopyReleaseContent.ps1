@@ -15,16 +15,18 @@ $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $ReleaseTemplatesFolder = "release-templates"
 $DevFolder = "devenv"
-$DependenciesFolder = "dependencies"
-$CSScript = "CompStart.py"
+$ConfigFolder = "config"
+$PowerShellScript = "CompStart.ps1"
+$BatchScript = "CompStart.bat"
 
 # Create the paths to be used in the script
 $ReleasePath = "$ProjectRootPath\$ReleasesFolder"
 $ReleaseVersionsPath = "$ReleasePath\$ReleaseVersionsFolder"
 $ReleaseTemplatesPath = "$ReleasePath\$ReleaseTemplatesFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
-$CSPath = "$DevPath\$CSScript"
-$DependenciesPath = "$DevPath\$DependenciesFolder"
+$ConfigPath = "$DevFolder\$ConfigFolder"
+$CSPowerShellPath = "$DevFolder\$PowerShellScript"
+$CSBatchPath = "$DevFolder\$BatchScript"
 
 
 # Determine which version number we are working with
@@ -50,7 +52,6 @@ if (-Not (Test-Path $FullReleasesPath)) {
     Write-Host "`nThe release folder $FullReleasesPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
-
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
