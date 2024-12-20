@@ -1,7 +1,7 @@
 # PowerShell script to create the directory structure for a new release
 
 # Set the sleep time as a global variable
-$Global:SleepTime = 3
+$Global:SleepTime = 1
 
 # Function to create a folder for the major version of a release
 function Add-MajorVersion {
