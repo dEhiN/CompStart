@@ -61,7 +61,7 @@ if (-Not (Test-Path $FullReleasesPath)) {
 # Before proceeding, confirm if the py-tools path exists and if not, try to create it
 if (-Not (Test-Path $PyInstallerPath)) {
     # Create the PyInstaller folder
-    Write-Host "Creating directory $PyInstallerPath..."
+    Write-Host "`nCreating directory $PyInstallerPath..."
     Start-Sleep -Seconds 1
     New-Item $PyInstallerPath -ItemType Directory > $null
 }
@@ -105,7 +105,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
 Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
-Write-Host "Python executable successfully created"
+Write-Host "`nPython executable successfully created"
 
 # Change the working directory back to the project root
 Set-Location $ProjectRootPath
