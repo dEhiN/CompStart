@@ -14,7 +14,7 @@ ENUM_ITV = deps_enum.ItemTypeVals
 def set_start_dir():
     """Small helper function to set the starting directory
 
-    This function will get the path for the current working directory (cwd) and check to see if the folder CompStart is already on it. It will check for four scenarios:
+    This function will get the path for the current working directory (cwd) and check to see if the folder CompStart is already on it. It will check for five scenarios:
 
     1. There is no CompStart folder at all
     2. There is one CompStart folder at the end of the current working directory path
@@ -172,7 +172,9 @@ def json_data_validator(json_data: dict, single_item: bool = False):
         bool: True if the validation was successful, False otherwise
     """
     valid_json = False
-    schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
+    schema_file = (
+        "startup_item.schema.json" if single_item else "startup_data.schema.json"
+    )
     schema_path = get_prod_path()
     schema_path.extend(["schema"])
 
@@ -189,9 +191,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             err_msg = deps_pretty.prettify_io_error(error)
             deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
     else:
-        custom_err = (
-            "Unable to attempt JSON data validation. Please see previous error for details."
-        )
+        custom_err = "Unable to attempt JSON data validation. Please see previous error for details."
         deps_pretty.prettify_custom_error(custom_err, "json_data_validator")
 
     return valid_json
