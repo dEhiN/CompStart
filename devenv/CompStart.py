@@ -10,13 +10,18 @@ import dependencies.cs_pretty as deps_pretty
 # Specifies whether the tool is in production or testing
 is_prod = False
 
+# Specifies the name of the project root or the start directory
+start_dir = "CompStart"
+
 # If there are any errors, print this out at the end
-final_err_msg = "Please see the error message(s) above and report them to the development team"
+final_err_msg = (
+    "Please see the error message(s) above and report them to the development team"
+)
 
 # Program starting point
 if __name__ == "__main__":
     # Set the starting directory
-    start_dir_result = deps_helper.set_start_dir()
+    start_dir_result = deps_helper.set_start_dir(start_dir)
     if not start_dir_result:
         deps_pretty.prettify_custom_error(
             "No folder called CompStart could be found on the current path\nExiting tool...",
@@ -31,7 +36,9 @@ if __name__ == "__main__":
     json_filename = deps_helper.get_startup_filename(default_json=False)
 
     # Print welcome message
-    print("\nWelcome to CompStart: The computer startup tool that will make your life easier")
+    print(
+        "\nWelcome to CompStart: The computer startup tool that will make your life easier"
+    )
 
     # Initialize status variables
     status_state = False
@@ -87,9 +94,13 @@ if __name__ == "__main__":
                 if status_state:
                     input("Press enter when ready to view the startup data...")
                     print(deps_pretty.prettify_json(json_data))
-                    input("\nPress enter when ready to return to the previous menu...")
+                    input(
+                        "\nPress enter when ready to return to the previous menu..."
+                    )
             case 4:
-                status_state, status_message = deps_json.json_editor(json_path, json_filename)
+                status_state, status_message = deps_json.json_editor(
+                    json_path, json_filename
+                )
 
                 # If there were any errors, let the user know to check the error messages
                 if not status_state:

@@ -11,7 +11,7 @@ import CompStart as app_cs
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def set_start_dir():
+def set_start_dir(dir_name: str):
     """Small helper function to set the starting directory
 
     This function will get the path for the current working directory (cwd) and check to see if the folder CompStart is already on it. It will check for five scenarios:
@@ -22,13 +22,16 @@ def set_start_dir():
     4. There is more than one CompStart folder but the last one is at the end of the current working directory path
     5. There is more than one CompStart folder and the last one is not at the end of the current working directory path
 
+    Args:
+        dir_name (str): The name of the start directory to check for
+
     Returns:
         bool: Value specifying if a CompStart folder was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function os.getcwd() has been set so it will return a path to the CompStart folder that all the relevant files and folders exist in.
 
     """
     # Initialize function variables
     ret_value = False
-    start_dir = "CompStart"
+    start_dir = dir_name
     path_dirs_list = os.getcwd().split(os.sep)
     adjusted_len_dirs_list = len(path_dirs_list) - 1
 
