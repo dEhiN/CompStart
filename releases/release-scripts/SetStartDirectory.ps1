@@ -1,7 +1,9 @@
 # This function was created using GitHub Copilot but is taken from the following source: the "set_start_dir" function in the "cs_helper.py" module
 
 function Set-StartDirectory {
+    [CmdletBinding()]
     param (
+        [Parameter(Mandatory, Position = 0)]
         [string]$DirectoryName
     )
 
