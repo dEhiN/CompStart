@@ -35,7 +35,7 @@ def set_start_dir(dir_name: str):
     path_dirs_list = os.getcwd().split(os.sep)
     adjusted_len_dirs_list = len(path_dirs_list) - 1
 
-    # Get the total of how many CompStart folders are on the cwd path
+    # Get the total number of folders matching the passed in directory name on the current working directory path
     total_start_dirs = path_dirs_list.count(start_dir)
 
     # Check for each case
@@ -68,7 +68,7 @@ def set_start_dir(dir_name: str):
         if idx_start_dir < adjusted_len_dirs_list:
             # Scenario 3 or 5
 
-            # Get the difference in folder levels between the last folder and the CompStart folder
+            # Get the difference in folder levels between the last folder and the starting directory
             num_dirs_diff = adjusted_len_dirs_list - idx_start_dir
 
             # Loop through and move the current working directory one folder level up
