@@ -1,8 +1,8 @@
 # This function was created using GitHub Copilot but is taken from the following source: the "set_start_dir" function in the "cs_helper.py" module
 
-function Set-StartDir {
+function Set-StartDirectory {
     param (
-        [string]$DirName
+        [string]$DirectoryName
     )
 
     <#
@@ -10,77 +10,77 @@ function Set-StartDir {
     Small helper function to set the starting directory
 
     .DESCRIPTION
-    This function will get the path for the current working directory (cwd) and check to see if the folder CompStart is already on it. It will check for five scenarios:
+    This function will get the path for the current working directory (cwd) and check to see if the directory passed in as a parameter is already on it. It will check for five scenarios:
 
-    1. There is no CompStart folder at all
-    2. There is one CompStart folder at the end of the current working directory path
-    3. There is one CompStart folder but not at the end of the current working directory path
-    4. There is more than one CompStart folder but the last one is at the end of the current working directory path
-    5. There is more than one CompStart folder and the last one is not at the end of the current working directory path
+    1. There is no folder at all
+    2. There is one folder at the end of the current working directory path
+    3. There is one folder but not at the end of the current working directory path
+    4. There is more than one folder but the last one is at the end of the current working directory path
+    5. There is more than one folder and the last one is not at the end of the current working directory path
 
-    .PARAMETER DirName
-    The name of the start directory to check for
+    .PARAMETER DirectoryName
+    The name of the directory to check for
 
     .OUTPUTS
-    [bool] Value specifying if a CompStart folder was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Get-Location has been set so it will return a path to the CompStart folder that all the relevant files and folders exist in.
+    [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
     #>
 
     # Initialize function variables
-    $RetValue = $false
-    $StartDir = $DirName
-    $PathDirsList = (Get-Location).Path -split [System.IO.Path]::DirectorySeparatorChar
-    $AdjustedLenDirsList = $PathDirsList.Length - 1
+    $ReturnValue = $false
+    $StartDirectory = $DirectoryName
+    $PathDirectoriesList = (Get-Location).Path -split [System.IO.Path]::DirectorySeparatorChar
+    $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
-    # Get the total of how many CompStart folders are on the cwd path
-    $TotalStartDirs = ($PathDirsList | Where-Object { $_ -eq $StartDir }).Count
+    # Get the total number of folders matching the passed in directory name on the current working directory path
+    $TotalStartDirectories = ($PathDirectoriesList | Where-Object { $_ -eq $StartDirectory }).Count
 
     # Check for each case
-    if ($TotalStartDirs -eq 0) {
+    if ($TotalStartDirectories -eq 0) {
         # Scenario 1
-        $RetValue = $false
+        $ReturnValue = $false
     }
     else {
-        if ($TotalStartDirs -eq 1) {
+        if ($TotalStartDirectories -eq 1) {
             # Scenarios 2 or 3
 
             # Get the index of the CompStart folder in the list
-            $IdxStartDir = $PathDirsList.IndexOf($StartDir)
+            $IndexStartDirectory = $PathDirectoriesList.IndexOf($StartDirectory)
         }
         else {
             # Scenario 4 or 5
 
             # Loop through to get to the last occurrence of the CompStart folder in the list
-            $NumStartDirs = 0
-            $IdxStartDir = -1
+            $CountStartDirectories = 0
+            $IndexStartDirectory = -1
 
-            for ($i = 0; $i -lt $PathDirsList.Length; $i++) {
-                if ($PathDirsList[$i] -eq $StartDir) {
-                    $NumStartDirs++
+            for ($i = 0; $i -lt $PathDirectoriesList.Length; $i++) {
+                if ($PathDirectoriesList[$i] -eq $StartDirectory) {
+                    $CountStartDirectories++
                 }
 
-                if ($NumStartDirs -eq $TotalStartDirs) {
-                    $IdxStartDir = $i
+                if ($CountStartDirectories -eq $TotalStartDirectories) {
+                    $IndexStartDirectory = $i
                     break
                 }
             }
         }
 
         # Check if the index is at the end of the list or in the middle
-        if ($IdxStartDir -lt $AdjustedLenDirsList) {
+        if ($IndexStartDirectory -lt $AdjustedLengthPDL) {
             # Scenario 3 or 5
 
-            # Get the difference in folder levels between the last folder and the CompStart folder
-            $NumDirsDiff = $AdjustedLenDirsList - $IdxStartDir
+            # Get the difference in folder levels between the last folder and the starting directory
+            $CountDirectoriesOffset = $AdjustedLengthPDL - $IndexStartDirectory
 
             # Loop through and move the current working directory one folder level up
-            while ($NumDirsDiff -gt 0) {
+            while ($CountDirectoriesOffset -gt 0) {
                 Set-Location ..
-                $NumDirsDiff--
+                $CountDirectoriesOffset--
             }
         }
 
-        $RetValue = $true
+        $ReturnValue = $true
     }
 
-    return $RetValue
+    return $ReturnValue
 }
