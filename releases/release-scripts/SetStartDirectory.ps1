@@ -30,7 +30,8 @@ function Set-StartDirectory {
     # Initialize function variables
     $ReturnValue = $false
     $StartDirectory = $DirectoryName
-    $PathDirectoriesList = (Get-Location).Path -split [System.IO.Path]::DirectorySeparatorChar
+    $SplitChar = "\" + [System.IO.Path]::DirectorySeparatorChar
+    $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
     # Get the total number of folders matching the passed in directory name on the current working directory path
