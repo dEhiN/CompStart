@@ -1,4 +1,7 @@
-# This function was created using GitHub Copilot but is taken from the following source: the "set_start_dir" function in the "cs_helper.py" module
+# This function was created using GitHub Copilot
+# It was taken from the function "set_start_dir" function in the Python module "cs_helper.py"
+# It has been modified to work in PowerShell and to be more idiomatic to the language
+# Finally, this function has been set up as a PowerShell module for easy reuse in other scripts
 
 function Set-StartDirectory {
     [CmdletBinding()]
