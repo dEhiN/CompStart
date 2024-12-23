@@ -1,5 +1,8 @@
 # PowerShell script to automate the generation of the Python command line tool CompStart.py to an executable using the Python module PyInstaller. This script is meant to be used for releases and will assume the release folder has been created. As a result, only a "py-tool" folder will be created where everything will be copied and worked on.
 
+# Set the sleep time as a global variable
+$Global:SleepTime = 2
+
 # Import the Set-StartDirectory function
 Import-Module ".\SetStartDirectory.psm1"
 
@@ -102,6 +105,8 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
 }
 
 # Copy over the files and folder necessary to generate the Python executable
+Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolsFolder folder..."
+Start-Sleep $Global:SleepTime
 if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
     Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
 }
@@ -120,4 +125,6 @@ Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindo
 Write-Host "`nPython executable successfully created"
 
 # Change the working directory back to the project root
+Write-Host "`nChanging directory back to project root..."
+Start-Sleep $Global:SleepTime
 Set-Location $ProjectRootPath
