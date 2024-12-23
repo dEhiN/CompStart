@@ -5,7 +5,7 @@ echo off
 set currpath=%~dp0
 set scriptone=CreateReleaseFolder.ps1
 set scripttwo=GeneratePythonTool.ps1
-set scriptthree=CopyReleaseContent.ps1
+set scriptthree=CopyReleaseContents.ps1
 
 echo.
 echo Running CreateReleaseFolder.ps1...
