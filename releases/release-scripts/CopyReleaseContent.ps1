@@ -137,8 +137,9 @@ Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVe
 Start-Sleep $Global:SleepTime
 Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
 
+Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
 
 # Change the working directory back to the project root
-Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
-Write-Host "Changing directory back to project root"
+Write-Host "`nChanging directory back to project root..."
+Start-Sleep $Global:SleepTime
 Set-Location $ProjectRootPath
