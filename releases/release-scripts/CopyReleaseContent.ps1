@@ -3,14 +3,14 @@
 # Set the sleep time as a global variable
 $Global:SleepTime = 2
 
-# Get the location of the release folder root
-$ProjectRootPath = Get-Location
-
 # Import the Set-StartDirectory function
 Import-Module ".\SetStartDirectory.psm1"
 
 # Set the starting directory to the project root
 $SetCSSuccess = Set-StartDirectory "CompStart"
+
+# Get the location of the release folder root
+$ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
 if (-Not $SetCSSuccess) {
