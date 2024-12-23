@@ -1,10 +1,19 @@
 # PowerShell script to automate the generation of the Python command line tool CompStart.py to an executable using the Python module PyInstaller. This script is meant to be used for releases and will assume the release folder has been created. As a result, only a "py-tool" folder will be created where everything will be copied and worked on.
 
+# Set the sleep time as a global variable
+$Global:SleepTime = 2
+
+# Import the Set-StartDirectory function
+Import-Module ".\SetStartDirectory.psm1"
+
+# Set the starting directory to the project root
+$SetCSSuccess = Set-StartDirectory "CompStart"
+
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
-if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
+if (-Not $SetCSSuccess) {
     # Inform user project root can't be found and the script is ending
     Write-Host "`nUnable to find project root. Quitting script..."
     Exit
@@ -17,10 +26,11 @@ $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $PyToolsFolder = "py-tools"
 $CSScript = "CompStart.py"
-$FullReleaseVersion = ""
+$ReleaseFullVersion = ""
 
 # Create the paths to be used in the script
-$ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
@@ -42,22 +52,24 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-$FullReleaseVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
-    $FullReleaseVersion += "-$ReleaseTag"
+    $ReleaseFullVersion += "-$ReleaseTag"
 }
 
-# Determine the full path to the release directory we are working with
-$FullReleasePath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$FullReleaseVersion"
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$FullReleasePath\$PyToolsFolder"
+$PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $FullReleasePath)) {
-    Write-Host "`nThe release folder $FullReleasePath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+if (-Not (Test-Path $ReleaseFullPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
@@ -93,6 +105,8 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
 }
 
 # Copy over the files and folder necessary to generate the Python executable
+Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolsFolder folder..."
+Start-Sleep $Global:SleepTime
 if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
     Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
 }
@@ -111,4 +125,6 @@ Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindo
 Write-Host "`nPython executable successfully created"
 
 # Change the working directory back to the project root
+Write-Host "`nChanging directory back to project root..."
+Start-Sleep $Global:SleepTime
 Set-Location $ProjectRootPath

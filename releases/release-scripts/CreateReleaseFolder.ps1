@@ -1,7 +1,7 @@
 # PowerShell script to create the directory structure for a new release
 
 # Set the sleep time as a global variable
-$Global:SleepTime = 1
+$Global:SleepTime = 2
 
 # Function to create a folder for the major version of a release
 function Add-MajorVersion {
@@ -51,11 +51,17 @@ function Add-ReleaseVersion {
     New-Item $ReleasePath -ItemType Directory > $null
 }
 
+# Import the Set-StartDirectory function
+Import-Module ".\SetStartDirectory.psm1"
+
+# Set the starting directory to the project root
+$SetCSSuccess = Set-StartDirectory "CompStart"
+
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
-if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
+if (-Not $SetCSSuccess) {
     # Inform user project root can't be found and the script is ending
     Write-Host "`nUnable to find project root. Quitting script..."
     Exit
@@ -116,3 +122,8 @@ else {
     Write-Host "`nThere already exists a release $ReleaseFullVersion folder...skipping this step..."
     Start-Sleep $Global:SleepTime
 }
+
+# Change the working directory back to the project root
+Write-Host "`nChanging directory back to project root..."
+Start-Sleep $Global:SleepTime
+Set-Location $ProjectRootPath

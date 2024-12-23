@@ -3,11 +3,17 @@
 # Set the sleep time as a global variable
 $Global:SleepTime = 2
 
+# Import the Set-StartDirectory function
+Import-Module ".\SetStartDirectory.psm1"
+
+# Set the starting directory to the project root
+$SetCSSuccess = Set-StartDirectory "CompStart"
+
 # Get the location of the release folder root
 $ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
-if (-Not (Select-String -InputObject $ProjectRootPath -Pattern "CompStart" -CaseSensitive)) {
+if (-Not $SetCSSuccess) {
     # Inform user project root can't be found and the script is ending
     Write-Host "`nUnable to find project root. Quitting script..."
     Exit
@@ -34,7 +40,7 @@ $ReleaseTemplatesFolder = "release-templates"
 $ReleaseNotesFolder = "release-notes"
 $ReleaseNotesMDFile = "release_notes.md"
 $ReleaseInstructionsFile = "instructions.txt"
-$FullReleaseVersion = ""
+$ReleaseFullVersion = ""
 
 # Create the release paths to be used in the script
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
@@ -62,75 +68,78 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-$FullReleaseVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
-    $FullReleaseVersion += "-$ReleaseTag"
+    $ReleaseFullVersion += "-$ReleaseTag"
 }
 
-# Determine the full path to the release directory we are working with
-$FullReleasePath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$FullReleaseVersion"
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $FullReleasePath)) {
-    Write-Host "`nThe release folder $FullReleasePath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+if (-Not (Test-Path $ReleaseFullPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
-Set-Location $FullReleasePath
+Set-Location $ReleaseFullPath
 
 # Create the CompStart folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $CompStartFolder)) {
-    Write-Host "`nCreating the CompStart folder for release $FullReleaseVersion..."
+    Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Global:SleepTime
     New-Item -ItemType Directory -Name $CompStartFolder > $null
 }
 else {
-    Write-Host "`nThere already exists a CompStart folder for release $FullReleaseVersion...skipping this step..."
+    Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
     Start-Sleep $Global:SleepTime
 }
-$CSFolderPath = "$FullReleasePath\$CompStartFolder"
+$CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
 
 # Create the release notes folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $ReleaseNotesFolder)) {
-    Write-Host "`nCreating the release-notes folder for release $FullReleaseVersion..."
+    Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
     Start-Sleep $Global:SleepTime
     New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
 }
 else {
-    Write-Host "`nThere already exists a release-notes folder for release $FullReleaseVersion...skipping this step..."
+    Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
     Start-Sleep $Global:SleepTime
 }
-$ReleaseNotesFolderPath = "$FullReleasePath\$ReleaseNotesFolder"
+$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
 
 # Copy the CompStart content
-Write-Host "`nPopulating the CompStart folder for release $FullReleaseVersion..."
+Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
 Start-Sleep $Global:SleepTime
 Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
 Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
 Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
 
 # Copy the release notes content and instructions file
-Write-Host "`nCopying over the instructions and release notes README for release $FullReleaseVersion..."
+Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
 Start-Sleep $Global:SleepTime
 Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
 Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
 
 # Deal with the Python executable
-$PyToolsPath = "$FullReleasePath\$PyToolsFolder"
+$PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
 if (-Not (Test-Path $PyToolsPath)) {
     Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
     Exit
 }
 $PyIDistPath = "$PyToolsPath\$PyIDistFolder"
 $CSPythonPath = "$PyIDistPath\$PythonExeFile"
-Write-Host "`nCopying over the Python tool executable for release $FullReleaseVersion..."
+Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
 Start-Sleep $Global:SleepTime
 Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
 
+Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
 
 # Change the working directory back to the project root
-Write-Host "`nAll release content has been copied over successfully to $FullReleasePath"
-Write-Host "Changing directory back to project root"
+Write-Host "`nChanging directory back to project root..."
+Start-Sleep $Global:SleepTime
 Set-Location $ProjectRootPath
