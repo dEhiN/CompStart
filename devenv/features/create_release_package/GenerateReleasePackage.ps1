@@ -1,0 +1,1 @@
+# This script is for automating the task of creating a release package, or in other words, a package artifact for a specific release.
