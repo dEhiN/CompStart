@@ -10,6 +10,9 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
+### 1. features/create_release_package
+Branch to work on a script to automatically create the package file (or artifact) for a release.
+
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
