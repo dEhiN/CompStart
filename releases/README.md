@@ -13,7 +13,7 @@ Under the parent folder _releases_ are the following folders:
 
 The _release-templates_ directory has a master copy of the _instructions.txt_ file and the _release_notes.md_ file. These are meant to be copied over to each release folder. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of the two files.
 
-The _release-scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool.
+The _release-scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool. For instructions on how to automatically create a release, see the section [_Creating a Release_](#create-release).
 
 ## Directory Structure for Releases
 
@@ -56,3 +56,20 @@ A release package should only contain the following artifacts:
 1. _CompStart_
 2. _release_notes_
 3. _instructions.txt_
+
+## <a name="create-release"></a>Creating a Release
+To automate the process for creating a release, as mentioned above, there is a subfolder called `release-scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
+
+- _new-release.bat_
+- _CreateReleaseFolder.ps1_
+- _GeneratePythonTool.ps1_
+- _CopyReleaseContent.ps1_
+- _SetStartDirectory.psm1_
+
+To create a new release folder from scratch, run the _Batch_ script. This will call the 3 _PowerShell_ scripts in the order listed above. The _PowerShell_ module contains a function that all 3 scripts use to set the project root directory correctly. This ensures that you can run the _Batch_ script from anywhere as long it's a subdirectory under the project root folder.
+
+The automation process was broken into 3 main scripts so that each script could be run separately as needed. For example, if a release folder has already been created, and all that's needed it to generate (or re-generate) the _Python_ tool, then one can just run `GeneratePythonTool.ps1`.
+
+Note that the second script, `GeneratePythonTool.ps1`, just generates the `CompStart.exe` file within the `py-tools` folder. It's the third script, `CopyReleaseContent.ps1` that copies over everything necessary for creating a release package, including the _Python_ executable.
+
+Finally, if one is using VS Code as their editor, the _Batch_ script will need to be run manually from the integrated terminal (or another terminal shell) as the editor Run button uses the Output tab which doesn't allow for user input. However, the _PowerShell_ scripts can usually be run from the editor window by first clicking on 3 horizontal ellipsis and then selecting _Run_ as the Run button initially will also use the Output tab. Once the _Run_ command is selected from the ellipsis menu, then the Run button will work as the script is then started from the integrated terminal.
