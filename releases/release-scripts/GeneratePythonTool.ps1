@@ -23,10 +23,11 @@ $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $PyToolsFolder = "py-tools"
 $CSScript = "CompStart.py"
-$FullReleaseVersion = ""
+$ReleaseFullVersion = ""
 
 # Create the paths to be used in the script
-$ReleasePath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
 $DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
@@ -48,22 +49,24 @@ $ReleaseMinorVersion = $Host.UI.ReadLine()
 Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
 $ReleaseTag = $Host.UI.ReadLine()
 
-$FullReleaseVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
 
 # Add the release tag if one exists
 if ($ReleaseTag -ne "") {
-    $FullReleaseVersion += "-$ReleaseTag"
+    $ReleaseFullVersion += "-$ReleaseTag"
 }
 
-# Determine the full path to the release directory we are working with
-$FullReleasePath = "$ReleaseVersionsPath\v$ReleaseMajorVersion\m$ReleaseMinorVersion\$FullReleaseVersion"
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$FullReleasePath\$PyToolsFolder"
+$PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $FullReleasePath)) {
-    Write-Host "`nThe release folder $FullReleasePath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+if (-Not (Test-Path $ReleaseFullPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
     Exit
 }
 
