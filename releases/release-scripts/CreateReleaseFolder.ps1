@@ -51,14 +51,14 @@ function Add-ReleaseVersion {
     New-Item $ReleasePath -ItemType Directory > $null
 }
 
-# Get the location of the release folder root
-$ProjectRootPath = Get-Location
-
 # Import the Set-StartDirectory function
 Import-Module ".\SetStartDirectory.psm1"
 
 # Set the starting directory to the project root
 $SetCSSuccess = Set-StartDirectory "CompStart"
+
+# Get the location of the release folder root
+$ProjectRootPath = Get-Location
 
 # Check to make sure we are in the project root
 if (-Not $SetCSSuccess) {
