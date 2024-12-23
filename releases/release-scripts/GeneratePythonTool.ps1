@@ -4,7 +4,7 @@
 $Global:SleepTime = 2
 
 # Import the Set-StartDirectory function
-Import-Module ".\SetStartDirectory.psm1"
+Import-Module ".\Set-StartDirectory.psm1"
 
 # Set the starting directory to the project root
 $SetCSSuccess = Set-StartDirectory "CompStart"
