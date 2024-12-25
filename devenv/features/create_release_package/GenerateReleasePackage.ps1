@@ -18,6 +18,7 @@ if (-Not $SetCSSuccess) {
 
 # Initialize the static variables to be used in the script
 $PackagesFolder = "packages"
+$PackageVersionsFolder = "package-versions"
 $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "release-versions"
 $CompStartFolder = "CompStart"
@@ -25,6 +26,7 @@ $ReleaseNotesFolder = "release-notes"
 $ReleaseInstructionsFile = "instructions.txt"
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
 $PackagesPath = "$ProjectRootPath\$PackagesFolder"
+$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
 $ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
 
 
@@ -48,7 +50,7 @@ if ($ReleaseTag -ne "") {
 
 # Store the release and package subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$PackageMajorPath = "$PackagesPath\v$ReleaseMajorVersion"
+$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
@@ -60,12 +62,12 @@ if (-Not (Test-Path $ReleaseFullPath)) {
     Exit
 }
 
-$ReleaseCSFolder = "$ReleaseFullPath\$CompStartFolder"
-$ReleaseNotesFolder = "$ReleaseFullPath\$ReleaseNotesFolder"
+$ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
+$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolderPath"
 $ReleaseInstructionsPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
 
 # Check if the release folder has the necessary folders and files
-if (-Not (Test-Path $ReleaseCSFolder) -Or -Not (Test-Path $ReleaseNotesFolder) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
+if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseNotesFolder) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
     Exit
 }
