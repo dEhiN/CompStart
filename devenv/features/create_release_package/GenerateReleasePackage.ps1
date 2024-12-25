@@ -80,14 +80,14 @@ if (-Not (Test-Path $PackageFullPath)) {
 
     Set-Location $PackageVersionsPath
     if (-Not (Test-Path $PackageMajorPath)) {
-        Write-Host "`nCreating package directory for the release major version $ReleaseMajorVersion..."
+        Write-Host "`nCreating the package directory for release major version $ReleaseMajorVersion..."
         Start-Sleep $Global:SleepTime
         New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
     }
 
     Set-Location $PackageMajorPath
     if (-Not (Test-Path $PackageMinorPath)) {
-        Write-Host "`nCreating package directory for the release minor version $ReleaseMinorVersion..."
+        Write-Host "`nCreating the package directory for release minor version $ReleaseMinorVersion..."
         Start-Sleep $Global:SleepTime
         New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
     }
@@ -101,3 +101,13 @@ Set-Location $PackageFullPath
 # Get the release package name
 $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
+# Create the hash table object to pass to the Compress-Archive cmdlet
+$PackageContents = @{
+    Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+    DestinationPath  = $ReleasePackageName
+    CompressionLevel = "Optimal"
+}
+
+Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
+Start-Sleep $Global:SleepTime
+Compress-Archive @PackageContents > $null
