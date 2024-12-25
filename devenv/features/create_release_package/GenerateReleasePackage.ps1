@@ -93,13 +93,12 @@ if (-Not (Test-Path $PackageFullPath)) {
         Start-Sleep $Global:SleepTime
         New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
     }
-
-    Set-Location $PackageMinorPath
-    New-Item -Name $ReleaseFullVersion -ItemType "directory"
 }
 else {
     Write-Host "`nThe package folder $PackageFullPath already exists`n"
 }
+
+Set-Location $PackageFullPath
 
 # Get the release package name
 $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
