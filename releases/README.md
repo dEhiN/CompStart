@@ -54,8 +54,7 @@ The _instructions.txt_ file currently (as of 2024-12-14) contains information on
 A release package should only contain the following artifacts: 
 
 1. _CompStart_
-2. _release_notes_
-3. _instructions.txt_
+2. _instructions.txt_
 
 ## <a name="create-release"></a>Creating a Release
 To automate the process for creating a release, as mentioned above, there is a subfolder called `release-scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
