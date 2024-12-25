@@ -1,5 +1,8 @@
 # This script is for automating the task of creating a release package, or in other words, a package artifact for a specific release.
 
+# Set the sleep time as a global variable
+$Global:SleepTime = 2
+
 # Import the Set-StartDirectory function
 Import-Module "$PSScriptRoot\Set-StartDirectory.psm1"
 
@@ -79,12 +82,16 @@ if (-Not (Test-Path $PackageFullPath)) {
 
     Set-Location $PackageVersionsPath
     if (-Not (Test-Path $PackageMajorPath)) {
-        New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory"
+        Write-Host "`nCreating package directory for the release major version $ReleaseMajorVersion..."
+        Start-Sleep $Global:SleepTime
+        New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
     }
 
     Set-Location $PackageMajorPath
     if (-Not (Test-Path $PackageMinorPath)) {
-        New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory"
+        Write-Host "`nCreating package directory for the release minor version $ReleaseMinorVersion..."
+        Start-Sleep $Global:SleepTime
+        New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
     }
 
     Set-Location $PackageMinorPath
