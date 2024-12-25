@@ -10,6 +10,10 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
+### 1. features/cs-installer
+
+Branch to create or work on an automated installer for _CompStart_. This branch will start with the work form branch #9, `feature_addons/powershell_installer`, which was moved to `/devenv/experimental-content/powershell-installer`.
+
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
