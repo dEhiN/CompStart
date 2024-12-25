@@ -54,7 +54,8 @@ $PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-$PackageFullPath = "$PackageMinorPath\$ReleaseFullVersion"
+$PackageFullPath = $PackageMinorPath
+
 
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $ReleaseFullPath)) {
