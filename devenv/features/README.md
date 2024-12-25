@@ -10,9 +10,6 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
-### 1. features/create_release_package
-Branch to work on a script to automatically create the package file (or artifact) for a release.
-
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
@@ -68,3 +65,6 @@ Created a script to automate the creation of a _release_ folder. Note, this feat
 Created the third PowerShell script to automate the process of creating a release. This third script creates the directory structure necessary for a release as well as copies over the relevant content. This includes the `CompStart.exe` file in the `py-tools` folder. Because of this, the release automation scripts need to be run in the following order:
 
 _CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_
+
+### 14. features/create_release_package
+Created a PowerShell script to automate the process of creating a package. This script checks to see if the entered release folder exists and if so, it creates a ZIP file from the `CompStart` folder and the `instructions.txt` file within the release folder.
