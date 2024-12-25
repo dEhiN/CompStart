@@ -64,11 +64,11 @@ if (-Not (Test-Path $ReleaseFullPath)) {
 }
 
 $ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolderPath"
+$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
 $ReleaseInstructionsPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
 
 # Check if the release folder has the necessary folders and files
-if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseNotesFolder) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
+if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseNotesFolderPath) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
     Exit
 }
