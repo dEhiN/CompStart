@@ -74,8 +74,23 @@ if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseNotesFolde
 
 # Also check if the packages folder exists
 if (-Not (Test-Path $PackageFullPath)) {
-    Write-Host "`nThe packages folder $PackageFullPath does not exist!`nPlease create the packages folder before running this script..."
-    Exit
+    Write-Host "`nThe package folder $PackageFullPath does not exist!`nIt will now be created..."
+
+    Set-Location $PackageVersionsPath
+    if (-Not (Test-Path $PackageMajorPath)) {
+        New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory"
+    }
+
+    Set-Location $PackageMajorPath
+    if (-Not (Test-Path $PackageMinorPath)) {
+        New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory"
+    }
+
+    Set-Location $PackageMinorPath
+    New-Item -Name $ReleaseFullVersion -ItemType "directory"
+}
+else {
+    Write-Host "`nThe package folder $PackageFullPath already exists`n"
 }
 
 # Get the release package name
