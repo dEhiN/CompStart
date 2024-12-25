@@ -52,7 +52,7 @@ function Add-ReleaseVersion {
 }
 
 # Import the Set-StartDirectory function
-Import-Module ".\Set-StartDirectory.psm1"
+Import-Module "$PSScriptRoot\Set-StartDirectory.psm1"
 
 # Set the starting directory to the project root
 $SetCSSuccess = Set-StartDirectory "CompStart"
