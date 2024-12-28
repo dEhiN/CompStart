@@ -33,15 +33,9 @@ function New-CSFolder {
         Start-Sleep $Global:SleepTime
         New-Item -Path $CSFullPath -ItemType "Directory" > $null
         Write-Host "...folder successfully created at $CSFullPath"
-        $RetValue = $true
-    }
-    else {
-        Write-Host "Existing CompStart folder found at $CSFullPath..."
-        Start-Sleep $Global:SleepTime
-        Write-Host "...skipping this step"
     }
 
-    return $RetValue
+    
 }
 
 # Check if the current environment is production or not
