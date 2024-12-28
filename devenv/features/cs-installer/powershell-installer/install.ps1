@@ -5,6 +5,31 @@ $Global:SplitChar = [System.IO.Path]::DirectorySeparatorChar
 $Global:SleepTime = 2
 
 function New-CSFolder {
+    <#
+    .SYNOPSIS
+        Creates a CompStart folder in the specified path or in the default local application data folder.
+
+    .DESCRIPTION
+        The New-CSFolder function creates a folder named "CompStart" in the path specified by the user. If no path is specified or if the provided path is not valid, the folder will be created in the default local application data folder. If the folder already exists, the function will do nothing.
+
+    .PARAMETER SuppliedPath
+        Optional path where the CompStart folder should be created. If the path is not valid or the parameter is not specified, the folder will be created in the default local application data folder.
+
+    .RETURNS
+        [bool] Returns $true if the folder was created, otherwise $false.
+
+    .EXAMPLE
+        PS> New-CSFolder -SuppliedPath "C:\MyPath"
+        Creates the CompStart folder in "C:\MyPath" if the path is valid.
+
+    .EXAMPLE
+        PS> New-CSFolder
+        Creates the CompStart folder in the default local application data folder.
+
+    .NOTES
+        Author: David H. Watson
+        Date: 2024-12-28
+    #>
     [CmdletBinding()]
     param (
         [string] $SuppliedPath
