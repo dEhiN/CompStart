@@ -112,4 +112,5 @@ foreach ($Item in $FilesList) {
 }
 
 # Create the CompStart folder if required
-New-CSFolder
+New-CSFolder > $null
+Install-CSFiles  > $null
