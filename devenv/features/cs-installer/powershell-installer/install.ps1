@@ -88,7 +88,19 @@ function Install-CSFiles {
         Author: David H. Watson
         Date: 2024-12-28
     #>
-    Write-Host $Global:CSParentPath
+
+    # Set the destination path for the installed files
+    $DestPath = $Script:CSParentPath + $Script:OSSeparatorChar + "CompStart" + $Script:OSSeparatorChar
+
+    # Get a list of all the files to "install"
+    $FilesList = Get-ChildItem -Recurse $InstallFullPath
+
+    # Copy the files to the CompStart folder
+    foreach ($Item in $FilesList) {
+        $ItemFullPath = $DestPath + $Item.Name
+        Write-Host "$($Item.Name) -- $($Item.FullName) -- $ItemFullPath"
+        # Copy-Item -Path $Item.FullName -Destination $DestPath -Force
+    }
 }
 
 # Main script logic
@@ -101,14 +113,8 @@ if ($IsProdEnv) {
     Exit
 }
 
-# Get a list of all the files to "install"
-$InstallRelPath = "installer-files"
-$InstallFullPath = ($PSScriptRoot + $global:SplitChar + $InstallRelPath)
-$FilesList = Get-ChildItem -Recurse $InstallFullPath
-foreach ($Item in $FilesList) {
-    Write-Host $Item.FullName
-}
-
 # Create the CompStart folder if required
 New-CSFolder > $null
+
+# Install the required files
 Install-CSFiles  > $null
