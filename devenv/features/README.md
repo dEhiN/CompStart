@@ -10,10 +10,6 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
-### 1. features/cs-installer
-
-Branch to create or work on an automated installer for _CompStart_. This branch will start with the work form branch #9, `feature_addons/powershell_installer`, which was moved to `/devenv/experimental-content/powershell-installer`.
-
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
@@ -72,3 +68,7 @@ _CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_
 
 ### 14. features/create_release_package
 Created a PowerShell script to automate the process of creating a package. This script checks to see if the entered release folder exists and if so, it creates a ZIP file from the `CompStart` folder and the `instructions.txt` file within the release folder.
+
+### 15. features/cs-installer
+
+Created a PowerShell script to automate the installation of _CompStart_. This script creates the `CompStart` folder and then copies over all files within the subdirectory `installer-files`.
