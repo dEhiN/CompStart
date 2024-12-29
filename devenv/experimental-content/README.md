@@ -11,7 +11,3 @@ Each subfolder should represent experimentation with a specific thing and branch
 ### tkinter
 
 Folder containing examples demonstrating the usage of the Python library _Tkinter_
-
-### powershell_installer
-
-Folder containing the beginnings of a PowerShell installer script as well as copies of the CompStart batch and PowerShell scripts
