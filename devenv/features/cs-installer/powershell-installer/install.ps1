@@ -1,10 +1,12 @@
 # This will be the installation script used for CompStart
 
-# GLobal variables
-$Global:SleepTime = 2
-$Global:SplitChar = [System.IO.Path]::DirectorySeparatorChar
-$Global:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
-
+# Script-global variables
+$Script:SleepTime = 2
+$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
+$Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+$Script:CSFolder = "CompStart"
+$Script:InstallerFolder = "installer-files"
+$Script:FuncRetValue = $false
 
 function New-CSFolder {
     <#
@@ -37,38 +39,34 @@ function New-CSFolder {
         [string] $SuppliedPath
     )
 
-    # Initialize function variables
-    $CSFolder = "CompStart"
-    $RetValue = $false
-
     # Test the passed in parameter and use it if it's a valid path
     if ($SuppliedPath) {
         if (-Not (Test-Path -Path $SuppliedPath)) {
-            Write-Host "$SuppliedPath is not a valid file system path...defaulting to $Global:CSParentPath..."
+            Write-Host "$SuppliedPath is not a valid file system path...defaulting to $Script:CSParentPath..."
         }
         else {
-            $Global:CSParentPath = $SuppliedPath
+            $Script:CSParentPath = $SuppliedPath
         }
     }
 
     # Set the full CompStart folder path
-    $CSFullPath = $Global:CSParentPath + $Global:SplitChar + $CSFolder
+    $CSFullPath = $Script:CSParentPath + $Script:OSSeparatorChar + $Script:CSFolder
 
     # Create the folder if need be
     if (-Not (Test-Path $CSFullPath)) {
         Write-Host "`nCreating CompStart folder..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
         New-Item -Path $CSFullPath -ItemType "Directory" > $null
         Write-Host "...folder successfully created at $CSFullPath"
-        $RetValue = $true
+        $Script:FuncRetValue = $true
     }
     else {
         Write-Host "`nExisting CompStart folder found at $CSFullPath..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
         Write-Host "...skipping this step"
     }
 
-    return $RetValue
+    return $Script:FuncRetValue
 }
 
 function Install-CSFiles {
