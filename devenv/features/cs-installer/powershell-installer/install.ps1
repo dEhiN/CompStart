@@ -54,14 +54,14 @@ function New-CSFolder {
 
     # Create the folder if need be
     if (-Not (Test-Path $CSFullPath)) {
-        Write-Host "`nCreating CompStart folder..."
+        Write-Host "`nCreating CompStart folder..." -NoNewline
         Start-Sleep $Script:SleepTime
         New-Item -Path $CSFullPath -ItemType "Directory" > $null
         Write-Host "...folder successfully created at $CSFullPath"
         $Script:FuncRetValue = $true
     }
     else {
-        Write-Host "`nExisting CompStart folder found at $CSFullPath..."
+        Write-Host "`nExisting CompStart folder found at $CSFullPath..." -NoNewline
         Start-Sleep $Script:SleepTime
         Write-Host "...skipping this step"
     }
@@ -89,6 +89,9 @@ function Install-CSFiles {
         Date: 2024-12-28
     #>
 
+    Write-Host "`nStarting installation of CompStart files..."
+    Start-Sleep $Script:SleepTime
+
     # Set the destination path for the installed files
     $DestPath = $Script:CSParentPath + $Script:OSSeparatorChar + "CompStart" + $Script:OSSeparatorChar
 
@@ -98,9 +101,12 @@ function Install-CSFiles {
     # Copy the files to the CompStart folder
     foreach ($Item in $FilesList) {
         $ItemFullPath = $DestPath + $Item.Name
-        Write-Host "$($Item.Name) -- $($Item.FullName) -- $ItemFullPath"
-        # Copy-Item -Path $Item.FullName -Destination $DestPath -Force
+        Write-Host "...Installing $($Item.Name)..."
+        Start-Sleep $Script:SleepTime
+        Copy-Item -Path $Item.FullName -Destination $ItemFullPath -Force
     }
+
+    Write-Host "`...successfully installed all files to $DestPath"
 }
 
 # Main script logic
