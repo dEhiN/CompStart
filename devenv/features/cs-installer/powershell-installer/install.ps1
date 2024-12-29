@@ -1,8 +1,10 @@
 # This will be the installation script used for CompStart
 
 # GLobal variables
-$Global:SplitChar = [System.IO.Path]::DirectorySeparatorChar
 $Global:SleepTime = 2
+$Global:SplitChar = [System.IO.Path]::DirectorySeparatorChar
+$Global:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+
 
 function New-CSFolder {
     <#
@@ -37,21 +39,20 @@ function New-CSFolder {
 
     # Initialize function variables
     $CSFolder = "CompStart"
-    $CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
     $RetValue = $false
 
     # Test the passed in parameter and use it if it's a valid path
     if ($SuppliedPath) {
         if (-Not (Test-Path -Path $SuppliedPath)) {
-            Write-Host "$SuppliedPath is not a valid file system path...defaulting to $CSParentPath..."
+            Write-Host "$SuppliedPath is not a valid file system path...defaulting to $Global:CSParentPath..."
         }
         else {
-            $CSParentPath = $SuppliedPath
+            $Global:CSParentPath = $SuppliedPath
         }
     }
 
     # Set the full CompStart folder path
-    $CSFullPath = $CSParentPath + $global:SplitChar + $CSFolder
+    $CSFullPath = $Global:CSParentPath + $Global:SplitChar + $CSFolder
 
     # Create the folder if need be
     if (-Not (Test-Path $CSFullPath)) {
@@ -62,7 +63,7 @@ function New-CSFolder {
         $RetValue = $true
     }
     else {
-        Write-Host "Existing CompStart folder found at $CSFullPath..."
+        Write-Host "`nExisting CompStart folder found at $CSFullPath..."
         Start-Sleep $Global:SleepTime
         Write-Host "...skipping this step"
     }
