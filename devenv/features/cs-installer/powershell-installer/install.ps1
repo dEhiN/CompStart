@@ -71,6 +71,30 @@ function New-CSFolder {
     return $RetValue
 }
 
+function Install-CSFiles {
+    <#
+    .SYNOPSIS
+        Installs the files required for CompStart.
+
+    .DESCRIPTION
+        The Install-CSFiles function installs the files required for CompStart. The files are copied from the installer-files folder to the CompStart folder. If the files already exist in the CompStart folder, they will be overwritten.
+
+    .RETURNS
+        [bool] Returns $true if the files were successfully installed, otherwise $false.
+
+    .EXAMPLE
+        PS> Install-CSFiles
+        Installs the files required for CompStart.
+
+    .NOTES
+        Author: David H. Watson
+        Date: 2024-12-28
+    #>
+    Write-Host $Global:CSParentPath
+}
+
+# Main script logic
+
 # Check if the current environment is production or not
 $IsProdEnv = $false
 
