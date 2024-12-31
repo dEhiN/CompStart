@@ -3,8 +3,29 @@
 # Set the sleep time as a global variable
 $Global:SleepTime = 2
 
-# Function to create a folder for the major version of a release
 function Add-MajorVersion {
+    <#
+        .SYNOPSIS
+        Creates a directory for a major release version.
+
+        .DESCRIPTION
+        The `Add-MajorVersion` function creates a directory for a major release version at the specified location.
+
+        .PARAMETER MajorVersion
+        The major version of the release.
+
+        .PARAMETER MajorPath
+        The path where the major version directory will be created.
+
+        .EXAMPLE
+        Add-MajorVersion -MajorVersion "1.0" -MajorPath "C:\Releases\1.0"
+        Creates a directory for the major release version 1.0 at the location C:\Releases\1.0.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-30
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -19,8 +40,29 @@ function Add-MajorVersion {
     New-Item $MajorPath -ItemType Directory > $null
 }
 
-# Function to create a folder for the minor version of a release
 function Add-MinorVersion {
+    <#
+        .SYNOPSIS
+        Creates a directory for a minor release version.
+
+        .DESCRIPTION
+        The `Add-MinorVersion` function creates a directory for a minor release version at the specified location.
+
+        .PARAMETER MinorVersion
+        The minor version of the release.
+
+        .PARAMETER MinorPath
+        The path where the minor version directory will be created.
+
+        .EXAMPLE
+        Add-MinorVersion -MinorVersion "1.1" -MinorPath "C:\Releases\1.1"
+        Creates a directory for the minor release version 1.1 at the location C:\Releases\1.1.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-30
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -35,8 +77,29 @@ function Add-MinorVersion {
     New-Item $MinorPath -ItemType Directory > $null
 }
 
-# Function to create a folder for a release
 function Add-ReleaseVersion {
+    <#
+        .SYNOPSIS
+        Creates a directory for a release version.
+
+        .DESCRIPTION
+        The `Add-ReleaseVersion` function creates a directory for a release version at the specified location.
+
+        .PARAMETER ReleaseVersion
+        The version of the release.
+
+        .PARAMETER ReleasePath
+        The path where the release version directory will be created.
+
+        .EXAMPLE
+        Add-ReleaseVersion -ReleaseVersion "2.0" -ReleasePath "C:\Releases\2.0"
+        Creates a directory for the release version 2.0 at the location C:\Releases\2.0.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-30
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]

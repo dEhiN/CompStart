@@ -1,12 +1,35 @@
 # Main PowerShell script for CompStart
 
-# Function to run a specific startup item
-# Input: 1. A String representing the full file path + program name with
-#        extension of the startup item
-#        2. A String representing the full arguments list to pass to
-#        this startup item when calling it
-#        3. A Int32 representing which startup item number this item is
 function Start-StartupItem {
+    <#
+        .SYNOPSIS
+        Starts a specified startup item.
+
+        .DESCRIPTION
+        The `Start-StartupItem` function starts a specified startup item by launching a program at the given path with optional arguments.
+
+        .PARAMETER StartItemNumber
+        The number identifying the startup item.
+
+        .PARAMETER ProgramPath
+        The path to the program to be started.
+
+        .PARAMETER ArgumentsList
+        Optional arguments to be passed to the program.
+
+        .EXAMPLE
+        Start-StartupItem -StartItemNumber 1 -ProgramPath "C:\Program Files\Example\example.exe"
+        Starts the program located at "C:\Program Files\Example\example.exe" without any arguments.
+
+        .EXAMPLE
+        Start-StartupItem -StartItemNumber 2 -ProgramPath "C:\Program Files\Example\example.exe" -ArgumentsList "-arg1 -arg2"
+        Starts the program located at "C:\Program Files\Example\example.exe" with the arguments "-arg1 -arg2".
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-30
+    #>
     param (
         [Parameter(Mandatory)]
         [int32]$StartItemNumber,
@@ -25,11 +48,32 @@ function Start-StartupItem {
     }
 }
 
-
-# Function to process all the data for a specific startup item
-# Input: 1. A PSCustomObject containing all the JSON data for a single
-#        startup item
 function Get-StartupItem {
+    <#
+        .SYNOPSIS
+        Retrieves and starts a specified startup item.
+
+        .DESCRIPTION
+        The `Get-StartupItem` function retrieves the properties of a specified startup item and starts it using the `Start-StartupItem` function.
+
+        .PARAMETER StartupItem
+        A PSCustomObject representing the startup item, containing properties such as ItemNumber, FilePath, ArgumentCount, and ArgumentList.
+
+        .EXAMPLE
+        $startupItem = [PSCustomObject]@{
+            ItemNumber = 1
+            FilePath = "C:\Program Files\Example\example.exe"
+            ArgumentCount = 2
+            ArgumentList = @("-arg1", "-arg2")
+        }
+        Get-StartupItem -StartupItem $startupItem
+        Retrieves the startup item properties and starts the program located at "C:\Program Files\Example\example.exe" with the arguments "-arg1 -arg2".
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-30
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]

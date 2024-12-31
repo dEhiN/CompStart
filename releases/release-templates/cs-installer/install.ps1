@@ -10,29 +10,30 @@ $Script:FuncRetValue = $false
 
 function New-CSFolder {
     <#
-    .SYNOPSIS
-        Creates a CompStart folder in the specified path or in the default local application data folder.
+        .SYNOPSIS
+            Creates a CompStart folder in the specified path or in the default local application data folder.
 
-    .DESCRIPTION
-        The New-CSFolder function creates a folder named "CompStart" in the path specified by the user. If no path is specified or if the provided path is not valid, the folder will be created in the default local application data folder. If the folder already exists, the function will do nothing.
+        .DESCRIPTION
+            The New-CSFolder function creates a folder named "CompStart" in the path specified by the user. If no path is specified or if the provided path is not valid, the folder will be created in the default local application data folder. If the folder already exists, the function will do nothing.
 
-    .PARAMETER SuppliedPath
-        Optional path where the CompStart folder should be created. If the path is not valid or the parameter is not specified, the folder will be created in the default local application data folder.
+        .PARAMETER SuppliedPath
+            Optional path where the CompStart folder should be created. If the path is not valid or the parameter is not specified, the folder will be created in the default local application data folder.
 
-    .RETURNS
-        [bool] Returns $true if the folder was created, otherwise $false.
+        .RETURNS
+            [bool] Returns $true if the folder was created, otherwise $false.
 
-    .EXAMPLE
-        PS> New-CSFolder -SuppliedPath "C:\MyPath"
-        Creates the CompStart folder in "C:\MyPath" if the path is valid.
+        .EXAMPLE
+            PS> New-CSFolder -SuppliedPath "C:\MyPath"
+            Creates the CompStart folder in "C:\MyPath" if the path is valid.
 
-    .EXAMPLE
-        PS> New-CSFolder
-        Creates the CompStart folder in the default local application data folder.
+        .EXAMPLE
+            PS> New-CSFolder
+            Creates the CompStart folder in the default local application data folder.
 
-    .NOTES
-        Author: David H. Watson
-        Date: 2024-12-28
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-28
     #>
     [CmdletBinding()]
     param (
@@ -71,22 +72,23 @@ function New-CSFolder {
 
 function Install-CSFiles {
     <#
-    .SYNOPSIS
-        Installs the files required for CompStart.
+        .SYNOPSIS
+            Installs the files required for CompStart.
 
-    .DESCRIPTION
-        The Install-CSFiles function installs the files required for CompStart. The files are copied from the installer-files folder to the CompStart folder. If the files already exist in the CompStart folder, they will be overwritten.
+        .DESCRIPTION
+            The Install-CSFiles function installs the files required for CompStart. The files are copied from the installer-files folder to the CompStart folder. If the files already exist in the CompStart folder, they will be overwritten.
 
-    .RETURNS
-        [bool] Returns $true if the files were successfully installed, otherwise $false.
+        .RETURNS
+            [bool] Returns $true if the files were successfully installed, otherwise $false.
 
-    .EXAMPLE
-        PS> Install-CSFiles
-        Installs the files required for CompStart.
+        .EXAMPLE
+            PS> Install-CSFiles
+            Installs the files required for CompStart.
 
-    .NOTES
-        Author: David H. Watson
-        Date: 2024-12-28
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-28
     #>
 
     Write-Host "`nStarting installation of CompStart files..."

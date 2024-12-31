@@ -4,31 +4,43 @@
 # Finally, this function has been set up as a PowerShell module for easy reuse in other scripts
 
 function Set-StartDirectory {
+    <#
+        .SYNOPSIS
+        Small helper function to set the starting directory
+
+        .DESCRIPTION
+        This function will get the path for the current working directory (cwd) and check to see if the directory passed in as a parameter is already on it. It will check for five scenarios:
+
+        1. There is no folder at all
+        2. There is one folder at the end of the current working directory path
+        3. There is one folder but not at the end of the current working directory path
+        4. There is more than one folder but the last one is at the end of the current working directory path
+        5. There is more than one folder and the last one is not at the end of the current working directory path
+
+        .PARAMETER DirectoryName
+        The name of the directory to check for
+
+        .OUTPUTS
+        [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
+
+        .EXAMPLE
+        Set-StartDirectory -DirectoryName "CompStart"
+        Checks if the directory "CompStart" is in the current working directory path and sets the location to it if found.
+
+        .EXAMPLE
+        Set-StartDirectory -DirectoryName "Releases"
+        Checks if the directory "Releases" is in the current working directory path and sets the location to it if found.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2024-12-20
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
         [string]$DirectoryName
     )
-
-    <#
-    .SYNOPSIS
-    Small helper function to set the starting directory
-
-    .DESCRIPTION
-    This function will get the path for the current working directory (cwd) and check to see if the directory passed in as a parameter is already on it. It will check for five scenarios:
-
-    1. There is no folder at all
-    2. There is one folder at the end of the current working directory path
-    3. There is one folder but not at the end of the current working directory path
-    4. There is more than one folder but the last one is at the end of the current working directory path
-    5. There is more than one folder and the last one is not at the end of the current working directory path
-
-    .PARAMETER DirectoryName
-    The name of the directory to check for
-
-    .OUTPUTS
-    [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
-    #>
 
     # Initialize function variables
     $ReturnValue = $false
