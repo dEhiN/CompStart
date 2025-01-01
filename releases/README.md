@@ -6,32 +6,34 @@ Parent folder to store all release data. Each release will be set up using the s
 
 Under the parent folder _releases_ are the following folders:
 
-- _release-versions_: A directory containing all the release-specific folders and files (see the next section for details)
-- _release-templates_: A directory containing templates of static content to include in each release
-- _release-scripts_: A directory containing scripts for creating new releases
+- _scripts_: A directory containing scripts for creating new releases
+- _templates_: A directory containing templates of static content to include in each release
+- _versions_: A directory containing all the specific folders and files for a release version
 - _README.md_: This README file
 
-The _release-templates_ directory has a master copy of the _instructions.txt_ file and the _release_notes.md_ file. These are meant to be copied over to each release folder. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of the two files.
+The _scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool. For instructions on how to automatically create a release, see the section [_Creating a Release_](#create-release).
 
-The _release-scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool. For instructions on how to automatically create a release, see the section [_Creating a Release_](#create-release).
+The _templates_ directory has a master copy of the _instructions.txt_ file and the _release_notes.md_ file. These are meant to be copied over to each release folder. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of the two files.
+
+The _versions_ directory is where the subdirectories related to each release version is located. See the next section for details.
 
 ## Directory Structure for Releases
 
 ### Major Versions
 
-Major versions will have a directory that starts with _v_ followed by the version number. For example, _v1_ is for all releases related to version `1`.
+Major versions will have a directory that starts with _v_ followed by the version number. For example, _v1_ is for all releases related to `version 1`.
 
 ### Minor Versions
 
-Minor versions will have a directory that starts with _m_ followed by the version number, and will be a subdirectory to the major version. For example, _v1/m1_ would be for all content related to version `1.1`.
+Minor versions will have a directory that starts with _m_ followed by the version number, and will be a subdirectory to the major version. For example, _v1/m1_ would be for all content related to `version 1.1`.
 
 ### Tags
 
-Currently, there is no plan to add a third level of versioning, but tags might be added for a release, such as _alpha_. Tags should be added to the end of the release version number and preceded by a hyphen. For example, the very first release of `CompStart` was version `1.1-alpha`.
+There is no third level of versioning, but tags might be added to a release, such as _alpha_. Tags should be added to the end of the release version number and preceded by a hyphen. For example, the very first release of `CompStart` was `version 1.1-alpha`.
 
 ### Subdirectories
 
- Within each major-minor directory tree structure, a subdirectory will be created for each release. This will be considered the release folder. The subdirectory will be named the same as the release, including the tag, if there is one. For example, release `1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
+ Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
 
 ### Artifacts
 
@@ -57,7 +59,7 @@ A release package should only contain the following artifacts:
 2. _instructions.txt_
 
 ## <a name="create-release"></a>Creating a Release
-To automate the process for creating a release, as mentioned above, there is a subfolder called `release-scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
+To automate the process for creating a release, as mentioned above, there is a subfolder called `scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
 
 - _new-release.bat_
 - _CreateReleaseFolder.ps1_
