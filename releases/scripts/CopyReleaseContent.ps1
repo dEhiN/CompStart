@@ -35,8 +35,8 @@ $CSBatchPath = "$DevPath\$BatchScriptFile"
 
 # Initialize the release file and folder names to be used in the script
 $ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "release-versions"
-$ReleaseTemplatesFolder = "release-templates"
+$ReleaseVersionsFolder = "versions"
+$ReleaseTemplatesFolder = "templates"
 $ReleaseNotesFolder = "release-notes"
 $ReleaseNotesMDFile = "release_notes.md"
 $ReleaseInstructionsFile = "instructions.txt"

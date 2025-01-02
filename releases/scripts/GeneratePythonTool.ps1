@@ -21,7 +21,7 @@ if (-Not $SetCSSuccess) {
 
 # Initialize the relevant folder and file variables to be used in the script
 $ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "release-versions"
+$ReleaseVersionsFolder = "versions"
 $DevFolder = "devenv"
 $DependenciesFolder = "dependencies"
 $PyToolsFolder = "py-tools"
