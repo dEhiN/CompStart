@@ -21,9 +21,9 @@ if (-Not $SetCSSuccess) {
 
 # Initialize the static variables to be used in the script
 $PackagesFolder = "packages"
-$PackageVersionsFolder = "package-versions"
+$PackageVersionsFolder = "versions"
 $ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "release-versions"
+$ReleaseVersionsFolder = "versions"
 $CompStartFolder = "CompStart"
 $ReleaseInstructionsFile = "instructions.txt"
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
