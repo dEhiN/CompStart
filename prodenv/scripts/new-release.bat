@@ -6,6 +6,7 @@ set currpath=%~dp0
 set scriptone=CreateReleaseFolder.ps1
 set scripttwo=GeneratePythonTool.ps1
 set scriptthree=CopyReleaseContent.ps1
+set scriptfour=GenerateReleasePackage.ps1
 
 echo.
 echo Running CreateReleaseFolder.ps1...
@@ -18,3 +19,7 @@ start /wait /b powershell.exe -ExecutionPolicy Unrestricted -File %currpath%%scr
 echo.
 echo Running CopyReleaseContent.ps1...
 start /wait /b powershell.exe -ExecutionPolicy Unrestricted -File %currpath%%scriptthree%
+
+echo.
+echo Running GenerateReleasePackage.ps1...
+start /wait /b powershell.exe -ExecutionPolicy Unrestricted -File %currpath%%scriptfour%

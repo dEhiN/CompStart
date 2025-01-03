@@ -4,17 +4,17 @@ Parent folder to store all released packages. A release package should just be a
 
 ## Packaging
 
-For now, a ZIP archive will be created with the content for each release. Until an installer is created, this will serve as the release package. The archive will be generated from the release folder found in `/releases/release-versions`. See the `README.md` file in `/releases` for more information.
+For now, a ZIP archive will be created with the content for each release. Until an installer is created, this will serve as the release package. The archive will be generated from the release folder found in `/releases/versions`. See the `README.md` file in `/releases` for more information.
 
 ## Directory Structure
 
 ### Major Versions
 
-Major versions will have a directory that starts with _v_ followed by the version number. For example, _v1_ is for all content related to version `1`.
+Major versions will have a directory that starts with _v_ followed by the version number. For example, _v1_ is for all content related to `version 1`.
 
 ### Minor Versions
 
-Minor versions will have a directory that starts with _m_ followed by the version number, and will be a subdirectory to the major version. For example, _v1/m1_ would be for all content related to version `1.1`.
+Minor versions will have a directory that starts with _m_ followed by the version number, and will be a subdirectory to the major version. For example, _v1/m1_ would be for all content related to `version 1.1`.
 
 ### Artifacts
 

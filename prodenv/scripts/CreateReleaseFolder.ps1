@@ -132,7 +132,7 @@ if (-Not $SetCSSuccess) {
 
 # Initialize the variables to be used in the script
 $ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "release-versions"
+$ReleaseVersionsFolder = "versions"
 $ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 
 # Determine which release version to create
