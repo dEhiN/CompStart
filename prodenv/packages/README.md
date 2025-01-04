@@ -18,7 +18,7 @@ Minor versions will have a directory that starts with `m` followed by the versio
 
 ### Artifacts
 
-See the [Packaging](packaging) section for more information.
+See the [Packaging](#packaging) section for more information.
 
 The naming pattern for a release artifact is as follows: `CompStart-<release-version>`
 
