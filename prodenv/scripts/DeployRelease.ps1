@@ -15,9 +15,13 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-# Script variables
-# Set a standard sleep time to use between steps
+# Script-global variables
 $Script:SleepTime = 2
+$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
+$Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+$Script:CSFolder = "CompStart"
+$Script:InstallerFolder = "installer-files"
+$Script:FuncRetValue = $false
 
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
