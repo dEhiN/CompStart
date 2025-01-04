@@ -1,4 +1,4 @@
-# CompStart/feature_addons
+# CompStart/features
 
 Parent folder to store all feature branches while being worked on. The folder itself is called _feature_addons_.
 
