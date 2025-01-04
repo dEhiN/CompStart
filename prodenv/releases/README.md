@@ -1,6 +1,6 @@
 # CompStart/releases
 
-Parent folder to store all release data. Each release will be set up using the structure outlined below. The folder itself is called _releases_.
+Parent folder to store all release data. Each release will be set up using the structure outlined below.
 
 ## Directories
 
