@@ -1,28 +1,28 @@
 # CompStart/packages
 
-Parent folder to store all released packages. A release package should just be a single file, for example, either a _zip_ or _msi_ file. This is what will be distributed to GitHub.
+Parent folder to store all released packages. A release package should be just a single file, for example, either a _zip_ or _msi_ file. This is what will be distributed to GitHub.
 
-## Packaging
+## <a name="packaging"></a>Packaging
 
-For now, a ZIP archive will be created with the content for each release. Until an installer is created, this will serve as the release package. The archive will be generated from the release folder found in `/releases/versions`. See the `README.md` file in `/releases` for more information.
+For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `README` file in `/prodenv/releases` for more information.
 
 ## Directory Structure
 
 ### Major Versions
 
-Major versions will have a directory that starts with _v_ followed by the version number. For example, _v1_ is for all content related to `version 1`.
+Major versions will have a directory that starts with `v` followed by the version number. For example, `v1` would be for all content related to _release version 1_.
 
 ### Minor Versions
 
-Minor versions will have a directory that starts with _m_ followed by the version number, and will be a subdirectory to the major version. For example, _v1/m1_ would be for all content related to `version 1.1`.
+Minor versions will have a directory that starts with `m` followed by the version number, and will be a subdirectory to the major version. For example, `v1/m1` would be for all content related to _release version 1.1_.
 
 ### Artifacts
 
-Each minor version folder will have one or more files associated with that version that will be considered a release package. A release package file itself will either be an archive or installer file. The naming pattern for a release package file is as follows: 
+See the [Packaging](packaging) section for more information.
 
-1. _CompStart_
-2. Hyphen 
-3. Release name
+The naming pattern for a release artifact is as follows: `CompStart-<release-version>`
+
+For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _release version 1.1-alpha_. 
 
 ## Released Packages
 
