@@ -15,15 +15,19 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-function Set-StartDirectory {
+# Script variables
+# Set a standard sleep time to use between steps
+$Script:SleepTime = 2
+
+function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
     <#
         .SYNOPSIS
-        Small helper function to set the starting directory
+        Small helper function to set the starting directory to the project root.
 
         .DESCRIPTION
-        This function will get the path for the current working directory (cwd) and check to see if the directory passed in as a parameter is already on it. It will check for five scenarios:
+        This function will get the path for the current working directory (cwd) and check to see if the CompStart project root directory is already on it. It will check for five scenarios:
 
         1. There is no folder at all
         2. There is one folder at the end of the current working directory path
@@ -31,34 +35,22 @@ function Set-StartDirectory {
         4. There is more than one folder but the last one is at the end of the current working directory path
         5. There is more than one folder and the last one is not at the end of the current working directory path
 
-        .PARAMETER DirectoryName
-        The name of the directory to check for
-
         .OUTPUTS
         [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
 
         .EXAMPLE
-        Set-StartDirectory -DirectoryName "CompStart"
+        Set-StartDirectory
         Checks if the directory "CompStart" is in the current working directory path and sets the location to it if found.
-
-        .EXAMPLE
-        Set-StartDirectory -DirectoryName "Releases"
-        Checks if the directory "Releases" is in the current working directory path and sets the location to it if found.
 
         .NOTES
             Author: David H. Watson (with help from VS Code Copilot)
             GitHub: @dEhiN
-            Date: 2024-12-20
+            Date: 2025-01-04
     #>
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory, Position = 0)]
-        [string]$DirectoryName
-    )
 
     # Initialize function variables
     $ReturnValue = $false
-    $StartDirectory = $DirectoryName
+    $StartDirectory = "CompStart"
     $SplitChar = "\" + [System.IO.Path]::DirectorySeparatorChar
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
@@ -140,6 +132,7 @@ function Add-MajorVersion {
             GitHub: @dEhiN
             Date: 2024-12-30
     #>
+    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -148,9 +141,10 @@ function Add-MajorVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$MajorPath
     )
+
     Write-Host "Creating directory for release major version $MajorVersion..."
     Write-Host "...at $MajorPath"
-    Start-Sleep -Seconds $Global:SleepTime
+    Start-Sleep -Seconds $Script:SleepTime
     New-Item $MajorPath -ItemType Directory > $null
 }
 
@@ -177,6 +171,7 @@ function Add-MinorVersion {
             GitHub: @dEhiN
             Date: 2024-12-30
     #>
+
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -185,9 +180,10 @@ function Add-MinorVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$MinorPath
     )
+
     Write-Host "Creating directory for release minor version $MinorVersion..."
     Write-Host "...at $MinorPath"
-    Start-Sleep -Seconds $Global:SleepTime
+    Start-Sleep -Seconds $Script:SleepTime
     New-Item $MinorPath -ItemType Directory > $null
 }
 
@@ -214,6 +210,7 @@ function Add-ReleaseVersion {
             GitHub: @dEhiN
             Date: 2024-12-30
     #>
+
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -222,8 +219,9 @@ function Add-ReleaseVersion {
         [Parameter(Mandatory, Position = 1)]
         [string]$ReleasePath
     )
+
     Write-Host "Creating directory for release $ReleaseVersion..."
     Write-Host "...at $ReleasePath"
-    Start-Sleep -Seconds $Global:SleepTime
+    Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleasePath -ItemType Directory > $null
 }
