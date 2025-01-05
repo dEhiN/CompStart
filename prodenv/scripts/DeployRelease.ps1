@@ -72,7 +72,7 @@ function Set-ProjectRoot {
         # Get the index of the CompStart folder in the list
         $IndexStartDirectory = $PathDirectoriesList.IndexOf($StartDirectory)
     }
-    else if ($TotalStartDirectories -gt 1) {
+    elseif ($TotalStartDirectories -gt 1) {
         # Scenario 4 or 5
         $ReturnValue = $true
 
