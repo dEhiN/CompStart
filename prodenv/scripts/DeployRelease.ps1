@@ -4,7 +4,7 @@
     This script will be used to create a new release and package it for deployment.
 
     .DESCRIPTION
-    The script will perform the following steps:
+    The `DeployRelease` script will perform the following steps:
     
     1. Create new release and package folders, including major and minor version directories
     2. Create any release artifacts that need to be generated
@@ -31,7 +31,7 @@ function Set-ProjectRoot {
         Small helper function to set the starting directory to the project root.
 
         .DESCRIPTION
-        This function will get the path for the current working directory (cwd) and check to see if the CompStart project root directory is already on it. It will check for five scenarios:
+        The `Set-ProjectRoot` function will get the path for the current working directory (cwd) and check to see if the CompStart project root directory is already on it. It will check for five scenarios:
 
         1. There is no folder at all
         2. There is one folder at the end of the current working directory path
@@ -109,13 +109,13 @@ function Set-ProjectRoot {
     return $ReturnValue
 }
 
-function Add-MajorVersion {
+function Add-MajorVersionFolder {
     <#
         .SYNOPSIS
         Creates a directory for a major release version.
 
         .DESCRIPTION
-        The `Add-MajorVersion` function creates a directory for a major release version at the specified location.
+        The `Add-MajorVersionFolder` function creates a directory for a major release version at the specified location.
 
         .PARAMETER MajorVersion
         The major version of the release.
@@ -149,13 +149,13 @@ function Add-MajorVersion {
     New-Item $MajorPath -ItemType Directory > $null
 }
 
-function Add-MinorVersion {
+function Add-MinorVersionFolder {
     <#
         .SYNOPSIS
         Creates a directory for a minor release version.
 
         .DESCRIPTION
-        The `Add-MinorVersion` function creates a directory for a minor release version at the specified location.
+        The `Add-MinorVersionFolder` function creates a directory for a minor release version at the specified location.
 
         .PARAMETER MinorVersion
         The minor version of the release.
@@ -189,13 +189,13 @@ function Add-MinorVersion {
     New-Item $MinorPath -ItemType Directory > $null
 }
 
-function Add-ReleaseVersion {
+function Add-ReleaseVersionFolder {
     <#
         .SYNOPSIS
         Creates a directory for a release version.
 
         .DESCRIPTION
-        The `Add-ReleaseVersion` function creates a directory for a release version at the specified location.
+        The `Add-ReleaseVersionFolder` function creates a directory for a release version at the specified location.
 
         .PARAMETER ReleaseVersion
         The version of the release.
@@ -227,6 +227,99 @@ function Add-ReleaseVersion {
     Write-Host "...at $ReleasePath"
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleasePath -ItemType Directory > $null
+}
+
+function Set-MajorVersionPath {
+    <#
+        .SYNOPSIS
+        Checks for an existing major release version folder and creates one if applicable.
+
+        .DESCRIPTION
+        The `Set-MajorVersionPath` function checks both the releases and packages folders to see if there is already a subfolder for the major version given as a parameter. If there isn't one, then it will create one.
+
+        .PARAMETER MajorVersion
+        The major version of the release.
+
+        .EXAMPLE
+        Set-MajorVersionPath -MajorVersion "1"
+        Checks to see if there's a folder called "v1" at /prodenv/releases/ and /prodenv/packages/, and create it if it doesn't exist.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2025-01-04
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]
+        $MajorVersion
+    )
+}
+
+function Set-MinorVersionPath {
+    <#
+        .SYNOPSIS
+        Checks for an existing minor release version folder and creates one if applicable.
+
+        .DESCRIPTION
+        The `Set-MinorVersionPath` function checks both the releases and packages folders to see if there is already a subfolder for the minor version given as a parameter. If there isn't one, then it will create one.
+
+        .PARAMETER MajorVersion
+        The major version of the release.
+
+        .PARAMETER MinorVersion
+        The minor version of the release.
+
+        .EXAMPLE
+        Set-MinorVersionPath -MajorVersion "1" -MinorVersion "1"
+        Checks to see if there's a folder called "m1" at /prodenv/releases/v1 and /prodenv/packages/v1, and create it if it doesn't exist.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2025-01-04
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]
+        $MajorVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $MinorVersion
+    )
+}
+
+function Set-ReleasePath {
+    <#
+        .SYNOPSIS
+        Checks for an existing release folder and creates one if applicable.
+
+        .DESCRIPTION
+        The `Set-ReleasePath` function checks the releases folder to see if there is already a subfolder for the release version given as a parameter. If there isn't one, then it will create one.
+
+        .PARAMETER ReleaseVersion
+        The release full version
+
+        .EXAMPLE
+        Set-ReleasePath -ReleaseVersion "1.1-alpha"
+        Checks to see if there's a folder called "1.1-alpha" at /prodenv/releases/v1/m1, and create it if it doesn't exist.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2025-01-04
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]
+        $ReleaseVersion
+    )
 }
 
 function Start-Release {
