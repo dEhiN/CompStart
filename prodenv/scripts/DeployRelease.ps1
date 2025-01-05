@@ -135,11 +135,12 @@ function Add-MajorVersion {
     
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory, Position = 0)]
-        [string]$MajorVersion,
-
-        [Parameter(Mandatory, Position = 1)]
-        [string]$MajorPath
+        [Parameter(Mandatory)]
+        [string]
+        $MajorVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $MajorPath
     )
 
     Write-Host "Creating directory for release major version $MajorVersion..."
@@ -174,11 +175,12 @@ function Add-MinorVersion {
 
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory, Position = 0)]
-        [string]$MinorVersion,
-
-        [Parameter(Mandatory, Position = 1)]
-        [string]$MinorPath
+        [Parameter(Mandatory)]
+        [string]
+        $MinorVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $MinorPath
     )
 
     Write-Host "Creating directory for release minor version $MinorVersion..."
@@ -213,15 +215,57 @@ function Add-ReleaseVersion {
 
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory, Position = 0)]
-        [string]$ReleaseVersion,
-
-        [Parameter(Mandatory, Position = 1)]
-        [string]$ReleasePath
+        [Parameter(Mandatory)]
+        [string]
+        $ReleaseVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $ReleasePath
     )
 
     Write-Host "Creating directory for release $ReleaseVersion..."
     Write-Host "...at $ReleasePath"
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleasePath -ItemType Directory > $null
+}
+
+function Start-Release {
+    <#
+        .SYNOPSIS
+        Starts the release process.
+
+        .DESCRIPTION
+        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+
+        .PARAMETER MajorVersion
+        The major version of the release.
+
+        .PARAMETER MinorVersion
+        The minor version of the release.
+
+        .PARAMETER ReleaseVersion
+        The version of the release.
+
+        .EXAMPLE
+        Start-Release -MajorVersion "1" -MinorVersion "0" -ReleaseVersion "1.0"
+        Initiates the release process for version 1.0.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Date: 2025-01-04
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]
+        $MajorVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $MinorVersion,
+        [Parameter(Mandatory)]
+        [string]
+        $ReleaseVersion
+    )
 }
