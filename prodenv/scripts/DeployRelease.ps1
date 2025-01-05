@@ -362,6 +362,15 @@ function Start-Release {
         $ReleaseVersion
     )
 
+    # Deal with the major release version
+    Set-MajorVersionPath -MajorVersion $MajorVersion
+
+    # Deal with the minor release version
+    Set-MinorVersionPath -MajorVersion $MajorVersion -MinorVersion $MinorVersion
+
+    # Deal with the release folder
+    Set-ReleasePath -ReleaseVersion $ReleaseVersion
+
     if (-Not (Test-Path $ReleaseMajorPath)) {
         Write-Host "`nCannot find a directory for the release major version $ReleaseMajorVersion..."
         Add-MajorVersion $ReleaseMajorVersion $ReleaseMajorPath
