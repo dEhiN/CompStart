@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "m5j6f9jjo1cq5ix1ro",
+    "file": "prodenv/scripts/DeployRelease.ps1",
+    "line": 401,
+    "message": "There is some code commonality among the below copy-pasted code texts that could be extrapolated. For example, all 4 automation scripts ask the user for the major version, the minor version, and a tag if applicable. This could be moved to its own function. All 4 scripts have code at the beginning that calls the Set-StartDirectory (renamed to Set-ProjectRoot) function, checks the return result, and quits if necessary. While the code lines for this was only copied from the CreateReleaseFolder script, the code could probably be set as the first thing DeployRelease does. Or, the code could also be set to its own function but that function is called first. Finally, all 4 automation scripts have either the same or similarly named variables to work with the various folders, etc. These could possibly be merged together into the minimum amount of variables. These variables could also maybe be made into script variables (or some other scope that correctly reflects their purpose). If so, then the existing functions may not need parameters as they may be able to use the script variables.",
+    "author": "Anonymous",
+    "timestamp": "2025-01-05T05:32:49.039Z",
+    "thread": [],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
