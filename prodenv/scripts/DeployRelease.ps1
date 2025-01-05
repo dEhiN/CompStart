@@ -67,12 +67,14 @@ function Set-ProjectRoot {
     # Scenarios 2-5 will be handled here
     if ($TotalStartDirectories -eq 1) {
         # Scenarios 2 or 3
+        $ReturnValue = $true
 
         # Get the index of the CompStart folder in the list
         $IndexStartDirectory = $PathDirectoriesList.IndexOf($StartDirectory)
     }
     else if ($TotalStartDirectories -gt 1) {
         # Scenario 4 or 5
+        $ReturnValue = $true
 
         # Loop through to get to the last occurrence of the CompStart folder in the list
         $CountStartDirectories = 0
@@ -88,22 +90,20 @@ function Set-ProjectRoot {
                 break
             }
         }
+    }
 
-        # Check if the index is at the end of the list or in the middle
-        if ($IndexStartDirectory -lt $AdjustedLengthPDL) {
-            # Scenario 3 or 5
+    # Check if the index is at the end of the list or in the middle
+    if ($IndexStartDirectory -lt $AdjustedLengthPDL) {
+        # Scenario 3 or 5
 
-            # Get the difference in folder levels between the last folder and the starting directory
-            $CountDirectoriesOffset = $AdjustedLengthPDL - $IndexStartDirectory
+        # Get the difference in folder levels between the last folder and the starting directory
+        $CountDirectoriesOffset = $AdjustedLengthPDL - $IndexStartDirectory
 
-            # Loop through and move the current working directory one folder level up
-            while ($CountDirectoriesOffset -gt 0) {
-                Set-Location ..
-                $CountDirectoriesOffset--
-            }
+        # Loop through and move the current working directory one folder level up
+        while ($CountDirectoriesOffset -gt 0) {
+            Set-Location ..
+            $CountDirectoriesOffset--
         }
-
-        $ReturnValue = $true
     }
 
     return $ReturnValue
