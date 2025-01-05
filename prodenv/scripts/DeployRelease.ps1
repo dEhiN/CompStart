@@ -21,7 +21,7 @@ $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
 $Script:CSFolder = "CompStart"
 $Script:InstallerFolder = "installer-files"
-$Script:FuncRetValue = $false
+$Script:DefRetValue = $false
 
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
@@ -53,9 +53,9 @@ function Set-ProjectRoot {
     #>
 
     # Initialize function variables
-    $ReturnValue = $false
-    $StartDirectory = "CompStart"
-    $SplitChar = "\" + [System.IO.Path]::DirectorySeparatorChar
+    $ReturnValue = $Script:DefRetValue
+    $StartDirectory = $Script:CSFolder
+    $SplitChar = "\" + $Script:OSSeparatorChar
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
@@ -63,33 +63,29 @@ function Set-ProjectRoot {
     $TotalStartDirectories = ($PathDirectoriesList | Where-Object { $_ -eq $StartDirectory }).Count
 
     # Check for each case
-    if ($TotalStartDirectories -eq 0) {
-        # Scenario 1
-        $ReturnValue = $false
+    # Scenario 1 will be the default since the return variable is already $false
+    # Scenarios 2-5 will be handled here
+    if ($TotalStartDirectories -eq 1) {
+        # Scenarios 2 or 3
+
+        # Get the index of the CompStart folder in the list
+        $IndexStartDirectory = $PathDirectoriesList.IndexOf($StartDirectory)
     }
-    else {
-        if ($TotalStartDirectories -eq 1) {
-            # Scenarios 2 or 3
+    else if ($TotalStartDirectories -gt 1) {
+        # Scenario 4 or 5
 
-            # Get the index of the CompStart folder in the list
-            $IndexStartDirectory = $PathDirectoriesList.IndexOf($StartDirectory)
-        }
-        else {
-            # Scenario 4 or 5
+        # Loop through to get to the last occurrence of the CompStart folder in the list
+        $CountStartDirectories = 0
+        $IndexStartDirectory = -1
 
-            # Loop through to get to the last occurrence of the CompStart folder in the list
-            $CountStartDirectories = 0
-            $IndexStartDirectory = -1
+        for ($i = 0; $i -lt $PathDirectoriesList.Length; $i++) {
+            if ($PathDirectoriesList[$i] -eq $StartDirectory) {
+                $CountStartDirectories++
+            }
 
-            for ($i = 0; $i -lt $PathDirectoriesList.Length; $i++) {
-                if ($PathDirectoriesList[$i] -eq $StartDirectory) {
-                    $CountStartDirectories++
-                }
-
-                if ($CountStartDirectories -eq $TotalStartDirectories) {
-                    $IndexStartDirectory = $i
-                    break
-                }
+            if ($CountStartDirectories -eq $TotalStartDirectories) {
+                $IndexStartDirectory = $i
+                break
             }
         }
 
