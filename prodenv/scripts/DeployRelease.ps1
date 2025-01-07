@@ -398,15 +398,14 @@ function Start-Release {
         $ReleaseFullVersion += "-$ReleaseTag"
     }
 
-
     # Deal with the major release version
-    Set-MajorVersionPath -MajorVersion $MajorVersion
+    # Set-MajorVersionPath -MajorVersion $ReleaseMajorVersion
 
     # Deal with the minor release version
-    Set-MinorVersionPath -MajorVersion $MajorVersion -MinorVersion $MinorVersion
+    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
 
     # Deal with the release folder
-    Set-ReleasePath -ReleaseVersion $ReleaseVersion
+    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
 }
 
 # Start of the main script
@@ -443,24 +442,6 @@ $ReleasesFolder = "releases"
 $ReleaseVersionsFolder = "versions"
 $ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 
-# Determine which release version to create
-Write-Host "`nWhat is the release major version number? " -NoNewline
-$ReleaseMajorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release minor version number? " -NoNewline
-$ReleaseMinorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
-$ReleaseTag = $Host.UI.ReadLine()
-
-# Create the full release version for later
-$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
-
-# Add the release tag if one exists
-if ($ReleaseTag -ne "") {
-    $ReleaseFullVersion += "-$ReleaseTag"
-}
-
 # Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
@@ -491,23 +472,6 @@ $PyIArgumentArray = @(
     $CSPath,
     "--onefile"
 )
-
-# Determine which version number we are working with
-Write-Host "`nWhat is the release major version number? " -NoNewline
-$ReleaseMajorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release minor version number? " -NoNewline
-$ReleaseMinorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
-$ReleaseTag = $Host.UI.ReadLine()
-
-$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
-
-# Add the release tag if one exists
-if ($ReleaseTag -ne "") {
-    $ReleaseFullVersion += "-$ReleaseTag"
-}
 
 # Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
@@ -615,23 +579,6 @@ $PythonExeFile = "CompStart.exe"
 $PyToolsPath = ""
 $PyIDistPath = ""
 $CSPythonPath = ""
-
-# Determine which version number we are working with
-Write-Host "`nWhat is the release major version number? " -NoNewline
-$ReleaseMajorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release minor version number? " -NoNewline
-$ReleaseMinorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
-$ReleaseTag = $Host.UI.ReadLine()
-
-$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
-
-# Add the release tag if one exists
-if ($ReleaseTag -ne "") {
-    $ReleaseFullVersion += "-$ReleaseTag"
-}
 
 # Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
