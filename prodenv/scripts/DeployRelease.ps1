@@ -421,7 +421,17 @@ if (-Not $SetCSSuccess) {
     Exit
 }
 
-Start-Release
+# Determine which release version to create
+Write-Host "`nWhat is the release major version number? " -NoNewline
+$MajorVersion = $Host.UI.ReadLine()
+
+Write-Host "What is the release minor version number? " -NoNewline
+$MinorVersion = $Host.UI.ReadLine()
+
+Write-Host "What is the release tag for v$MajorVersion.$MinorVersion (or leave blank if there is none)? " -NoNewline
+$Tag = $Host.UI.ReadLine()
+
+Start-Release -ReleaseMajorVersion $MajorVersion -ReleaseMinorVersion $MinorVersion -ReleaseTag $Tag
 
 # The following code has been copied from the CreateReleaseFolder script:
 <#
