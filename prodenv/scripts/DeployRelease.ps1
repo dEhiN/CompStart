@@ -400,6 +400,20 @@ function Start-Release {
     Set-ReleasePath -ReleaseVersion $ReleaseVersion
 }
 
+# Start of the main script
+
+# Set the starting directory to the project root
+$SetCSSuccess = Set-ProjectRoot
+
+# Check to make sure we are in the project root
+if (-Not $SetCSSuccess) {
+    # Inform user project root can't be found and the script is ending
+    Write-Host "`nUnable to find project root. Quitting script..."
+    Exit
+}
+
+Start-Release
+
 # The following code has been copied from the CreateReleaseFolder script:
 <#
 # Set the starting directory to the project root
