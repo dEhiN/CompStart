@@ -386,7 +386,6 @@ function Start-Release {
         [Parameter(Mandatory)]
         [string]
         $ReleaseMinorVersion,
-        [Parameter]
         [string]
         $ReleaseTag
     )
