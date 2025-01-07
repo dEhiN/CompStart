@@ -659,25 +659,6 @@ $PackagesPath = "$ProjectRootPath\$PackagesFolder"
 $PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
 $ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
 
-
-# Determine which release version to work with
-Write-Host "`nWhat is the release major version number? " -NoNewline
-$ReleaseMajorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release minor version number? " -NoNewline
-$ReleaseMinorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release tag for v$ReleaseMajorVersion.$ReleaseMinorVersion (or leave blank if there is none)? " -NoNewline
-$ReleaseTag = $Host.UI.ReadLine()
-
-# Create the full release version for later
-$ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
-
-# Add the release tag if one exists
-if ($ReleaseTag -ne "") {
-    $ReleaseFullVersion += "-$ReleaseTag"
-}
-
 # Store the release and package subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
 $PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
