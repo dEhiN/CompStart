@@ -364,12 +364,12 @@ function Start-Release {
         .PARAMETER MinorVersion
         The minor version of the release.
 
-        .PARAMETER ReleaseVersion
-        The version of the release.
+        .PARAMETER ReleaseTag
+        The release tag, if there is one.
 
         .EXAMPLE
-        Start-Release -MajorVersion "1" -MinorVersion "0" -ReleaseVersion "1.0"
-        Initiates the release process for version 1.0.
+        Start-Release -MajorVersion "1" -MinorVersion "1" -ReleaseTag "-alpha"
+        Initiates the release process for version 1.1-alpha.
 
         .NOTES
             Author: David H. Watson (with help from VS Code Copilot)
