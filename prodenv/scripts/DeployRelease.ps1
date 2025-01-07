@@ -358,37 +358,47 @@ function Start-Release {
         .DESCRIPTION
         The `Start-Release` function initiates the release process by creating the necessary directories for the release.
 
-        .PARAMETER MajorVersion
+        .PARAMETER ReleaseMajorVersion
         The major version of the release.
 
-        .PARAMETER MinorVersion
+        .PARAMETER ReleaseMinorVersion
         The minor version of the release.
 
         .PARAMETER ReleaseTag
         The release tag, if there is one.
 
         .EXAMPLE
-        Start-Release -MajorVersion "1" -MinorVersion "1" -ReleaseTag "-alpha"
+        Start-Release -ReleaseMajorVersion "1" -ReleaseMinorVersion "1" -ReleaseTag "-alpha"
         Initiates the release process for version 1.1-alpha.
 
         .NOTES
             Author: David H. Watson (with help from VS Code Copilot)
             GitHub: @dEhiN
-            Date: 2025-01-04
+            Created: 2025-01-04
+            Updated: 2025-01-07
     #>
     
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
         [string]
-        $MajorVersion,
+        $ReleaseMajorVersion,
         [Parameter(Mandatory)]
         [string]
-        $MinorVersion,
-        [Parameter(Mandatory)]
+        $ReleaseMinorVersion,
+        [Parameter]
         [string]
-        $ReleaseVersion
+        $ReleaseTag
     )
+
+    # Create the full release version for later
+    $ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+
+    # Add the release tag if one exists
+    if ($ReleaseTag) {
+        $ReleaseFullVersion += "-$ReleaseTag"
+    }
+
 
     # Deal with the major release version
     Set-MajorVersionPath -MajorVersion $MajorVersion
