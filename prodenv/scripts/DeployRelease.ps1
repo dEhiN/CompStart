@@ -15,7 +15,7 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-# Script-global variables
+# Script variables
 $Script:SleepTime = 2
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
@@ -259,7 +259,7 @@ function Set-MajorVersionPath {
 
     if (-Not (Test-Path $ReleaseMajorPath)) {
         Write-Host "`nCannot find a directory for the release major version $ReleaseMajorVersion..."
-        Add-MajorVersion $ReleaseMajorVersion $ReleaseMajorPath
+        Add-MajorVersionFolder $ReleaseMajorVersion $ReleaseMajorPath
     }
     else {
         Write-Host "`nThere already exists a release major version $ReleaseMajorVersion folder...skipping this step..."
@@ -304,7 +304,7 @@ function Set-MinorVersionPath {
 
     if (-Not (Test-Path $ReleaseMinorPath)) {
         Write-Host "`nCannot find a directory for the release minor version $ReleaseMinorVersion..."
-        Add-MinorVersion $ReleaseMinorVersion $ReleaseMinorPath
+        Add-MinorVersionFolder $ReleaseMinorVersion $ReleaseMinorPath
     }
     else {
         Write-Host "`nThere already exists a release minor version $ReleaseMinorVersion folder...skipping this step..."
@@ -342,7 +342,7 @@ function Set-ReleasePath {
 
     if (-Not (Test-Path $ReleaseFullPath)) {
         Write-Host "`nCannot find a directory for the release $ReleaseFullVersion..."
-        Add-ReleaseVersion $ReleaseFullVersion $ReleaseFullPath
+        Add-ReleaseVersionFolder $ReleaseFullVersion $ReleaseFullPath
     }
     else {
         Write-Host "`nThere already exists a release $ReleaseFullVersion folder...skipping this step..."
