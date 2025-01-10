@@ -48,6 +48,12 @@ $Script:ReleaseNotesMDFile = "release_notes.md"
 $Script:PythonExeFile = "CompStart.exe"
 $Script:PowerShellInstallFile = "install.ps1"
 
+# Release details script variables
+$Script:ReleaseMajorVersion = ""
+$Script:ReleaseMinorVersion = ""
+$Script:ReleaseTag = ""
+$Script:ReleaseFullVersion = ""
+
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
 # Initialize the variables to be used in the script
@@ -504,6 +510,35 @@ function Start-Release {
     # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
 }
 
+function Get-ReleaseDetails {
+    <#
+        .SYNOPSIS
+        Gets the release details from the user.
+
+        .DESCRIPTION
+        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag.
+
+        .EXAMPLE
+        Get-ReleaseDetails
+        Prompts the user for the release details.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-10
+    #>
+
+    # Determine which release version to create
+    Write-Host "`nWhat is the release major version number? " -NoNewline
+    $Script:ReleaseMajorVersion = $Host.UI.ReadLine()
+
+    Write-Host "What is the release minor version number? " -NoNewline
+    $Script:ReleaseMinorVersion = $Host.UI.ReadLine()
+
+    Write-Host "What is the release tag for v$MajorVersion.$MinorVersion (or leave blank if there is none)? " -NoNewline
+    $Script:ReleaseTag = $Host.UI.ReadLine()    
+}
+
 # Start of the main script
 
 # Set the starting directory to the project root
@@ -520,7 +555,7 @@ if (-Not $SetCSSuccess) {
 $ProjectRootPath = Get-Location
 Write-Host "`nProject root path: $ProjectRootPath"
 
-Start-Release -ReleaseMajorVersion $MajorVersion -ReleaseMinorVersion $MinorVersion -ReleaseTag $Tag
+Get-ReleaseDetails
 
 # The following code has been copied from the CreateReleaseFolder script:
 <#
