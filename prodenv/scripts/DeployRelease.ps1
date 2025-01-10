@@ -143,9 +143,9 @@ function Set-ProjectRoot {
         Checks if the directory "CompStart" is in the current working directory path and sets the location to it if found.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2025-01-04
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
     #>
 
     # Initialize function variables
@@ -224,9 +224,9 @@ function Add-MajorVersionFolder {
         Creates a directory for the major release version 1.0 at the location C:\Releases\1.0.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2024-12-30
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
     #>
     
     [CmdletBinding()]
@@ -264,9 +264,9 @@ function Add-MinorVersionFolder {
         Creates a directory for the minor release version 1.1 at the location C:\Releases\1.1.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2024-12-30
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
     #>
 
     [CmdletBinding()]
@@ -304,9 +304,9 @@ function Add-ReleaseVersionFolder {
         Creates a directory for the release version 2.0 at the location C:\Releases\2.0.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2024-12-30
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
     #>
 
     [CmdletBinding()]
@@ -341,9 +341,9 @@ function Set-MajorVersionPath {
         Checks to see if there's a folder called "v1" at /prodenv/releases/ and /prodenv/packages/, and create it if it doesn't exist.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2025-01-04
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
     #>
     
     [CmdletBinding()]
@@ -383,9 +383,9 @@ function Set-MinorVersionPath {
         Checks to see if there's a folder called "m1" at /prodenv/releases/v1 and /prodenv/packages/v1, and create it if it doesn't exist.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2025-01-04
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
     #>
     
     [CmdletBinding()]
@@ -424,9 +424,9 @@ function Set-ReleasePath {
         Checks to see if there's a folder called "1.1-alpha" at /prodenv/releases/v1/m1, and create it if it doesn't exist.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Date: 2025-01-04
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
     #>
     
     [CmdletBinding()]
@@ -468,10 +468,10 @@ function Start-Release {
         Initiates the release process for version 1.1-alpha.
 
         .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Created: 2025-01-04
-            Updated: 2025-01-07
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-07
     #>
     
     [CmdletBinding()]
