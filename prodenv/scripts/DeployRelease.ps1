@@ -27,20 +27,20 @@ $Script:PathVars = [ordered]@{
 
 # Folder names script variables
 $Script:FolderNames = [ordered]@{
-    CompStart = "CompStart"
-    InstallerFiles = "installer-files"
-    DevEnv = "devenv"
-    Config = "config"
+    CompStart          = "CompStart"
+    InstallerFiles     = "installer-files"
+    DevEnv             = "devenv"
+    Config             = "config"
     PythonDependencies = "dependencies"
-    ProdEnv = "prodenv"
-    Releases = "releases"
-    Packages = "packages"
-    Assets = "assets"
-    ReleaseAssets = "release-assets"
-    CSInstaller = "cs-installer"
-    PyTool = "py-tool"
-    PyInstaller = "pyinstaller"
-    PyIDist = "dist"
+    ProdEnv            = "prodenv"
+    Releases           = "releases"
+    Packages           = "packages"
+    Assets             = "assets"
+    ReleaseAssets      = "release-assets"
+    CSInstaller        = "cs-installer"
+    PyTool             = "py-tool"
+    PyInstaller        = "pyinstaller"
+    PyIDist            = "dist"
 }
 
 # File names script variables
