@@ -18,41 +18,49 @@
 # Misc script variables
 $Script:SleepTime = 2
 $Script:DefRetValue = $false
+$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 
 # Path related script variables
-$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
-$Script:InstallerParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+$Script:PathVars = [ordered]@{    
+    InstallationLocationParent = [System.Environment]::GetFolderPath('LocalApplicationData')
+}
 
 # Folder names script variables
-$Script:CompStartFolder = "CompStart"
-$Script:InstallerFilesFolder = "installer-files"
-$Script:DevEnvFolder = "devenv"
-$Script:ConfigFolder = "config"
-$Script:PythonDependenciesFolder = "dependencies"
-$Script:ProdEnvFolder = "prodenv"
-$Script:ReleasesFolder = "releases"
-$Script:PackagesFolder = "packages"
-$Script:AssetsFolder = "assets"
-$Script:ReleaseAssetsFolder = "release-assets"
-$Script:CSInstallerFolder = "cs-installer"
-$Script:PyToolFolder = "py-tool"
-$Script:PyInstallerFolder = "pyinstaller"
-$Script:PyIDistFolder = "dist"
+$Script:FolderNames = [ordered]@{
+    CompStart = "CompStart"
+    InstallerFiles = "installer-files"
+    DevEnv = "devenv"
+    Config = "config"
+    PythonDependencies = "dependencies"
+    ProdEnv = "prodenv"
+    Releases = "releases"
+    Packages = "packages"
+    Assets = "assets"
+    ReleaseAssets = "release-assets"
+    CSInstaller = "cs-installer"
+    PyTool = "py-tool"
+    PyInstaller = "pyinstaller"
+    PyIDist = "dist"
+}
 
 # File names script variables
-$Script:BatchScriptFile = "CompStart.bat"
-$Script:PowerShellScriptFile = "CompStart.ps1"
-$Script:PythonScriptFile = "CompStart.py"
-$Script:ReleaseInstructionsFile = "instructions.txt"
-$Script:ReleaseNotesMDFile = "release_notes.md"
-$Script:PythonExeFile = "CompStart.exe"
-$Script:PowerShellInstallFile = "install.ps1"
+$Script:FileNames = [ordered]@{
+    BatchScriptFile = "CompStart.bat"
+    PowerShellScriptFile = "CompStart.ps1"
+    PythonScriptFile = "CompStart.py"
+    ReleaseInstructionsFile = "instructions.txt"
+    ReleaseNotesMDFile = "release_notes.md"
+    PythonExeFile = "CompStart.exe"
+    PowerShellInstallFile = "install.ps1"
+}
 
 # Release details script variables
-$Script:ReleaseMajorVersion = ""
-$Script:ReleaseMinorVersion = ""
-$Script:ReleaseTag = ""
-$Script:ReleaseFullVersion = ""
+$Script:ReleaseDetails = [ordered]@{
+    ReleaseMajorVersion = ""
+    ReleaseMinorVersion = ""
+    ReleaseTag = ""
+    ReleaseFullVersion = ""
+}
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
