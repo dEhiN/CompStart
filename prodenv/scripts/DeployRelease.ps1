@@ -471,14 +471,6 @@ function Start-Release {
         Updated: 2025-01-07
     #>
     
-    # Create the full release version for later
-    $Script:ReleaseFullVersion = "$Script:ReleaseMajorVersion.$Script:ReleaseMinorVersion"
-
-    # Add the release tag if one exists
-    if ($Script:ReleaseTag) {
-        $Script:ReleaseFullVersion += "-$Script:ReleaseTag"
-    }
-
     # Deal with the major release version
     # Set-MajorVersionPath -MajorVersion $ReleaseMajorVersion
 
@@ -515,7 +507,16 @@ function Get-ReleaseDetails {
     $Script:ReleaseMinorVersion = $Host.UI.ReadLine()
 
     Write-Host "What is the release tag for v$MajorVersion.$MinorVersion (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseTag = $Host.UI.ReadLine()    
+    $Script:ReleaseTag = $Host.UI.ReadLine()
+
+    # Create the full release version for later
+    $Script:ReleaseFullVersion = "$Script:ReleaseMajorVersion.$Script:ReleaseMinorVersion"
+
+    # Add the release tag if one exists
+    if ($Script:ReleaseTag) {
+        $Script:ReleaseFullVersion += "-$Script:ReleaseTag"
+    }
+    
 }
 
 # Start of the main script
