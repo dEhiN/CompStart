@@ -460,18 +460,9 @@ function Start-Release {
         .DESCRIPTION
         The `Start-Release` function initiates the release process by creating the necessary directories for the release.
 
-        .PARAMETER ReleaseMajorVersion
-        The major version of the release.
-
-        .PARAMETER ReleaseMinorVersion
-        The minor version of the release.
-
-        .PARAMETER ReleaseTag
-        The release tag, if there is one.
-
         .EXAMPLE
-        Start-Release -ReleaseMajorVersion "1" -ReleaseMinorVersion "1" -ReleaseTag "-alpha"
-        Initiates the release process for version 1.1-alpha.
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -480,24 +471,12 @@ function Start-Release {
         Updated: 2025-01-07
     #>
     
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $ReleaseMajorVersion,
-        [Parameter(Mandatory)]
-        [string]
-        $ReleaseMinorVersion,
-        [string]
-        $ReleaseTag
-    )
-
     # Create the full release version for later
-    $ReleaseFullVersion = "$ReleaseMajorVersion.$ReleaseMinorVersion"
+    $Script:ReleaseFullVersion = "$Script:ReleaseMajorVersion.$Script:ReleaseMinorVersion"
 
     # Add the release tag if one exists
-    if ($ReleaseTag) {
-        $ReleaseFullVersion += "-$ReleaseTag"
+    if ($Script:ReleaseTag) {
+        $Script:ReleaseFullVersion += "-$Script:ReleaseTag"
     }
 
     # Deal with the major release version
@@ -557,9 +536,7 @@ Write-Host "`nProject root path: $ProjectRootPath"
 
 Get-ReleaseDetails
 
-# The following code has been copied from the CreateReleaseFolder script:
-<#
-#>
+Start-Release
 
 # The following code has been copied from the GeneratePythonTool script:
 <#
