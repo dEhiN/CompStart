@@ -15,13 +15,38 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-# Script variables
+# Misc script variables
 $Script:SleepTime = 2
-$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
-$Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
-$Script:CSFolder = "CompStart"
-$Script:InstallerFolder = "installer-files"
 $Script:DefRetValue = $false
+
+# Path related script variables
+$Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
+$Script:InstallerParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+
+# Folder names script variables
+$Script:CompStartFolder = "CompStart"
+$Script:InstallerFilesFolder = "installer-files"
+$Script:DevEnvFolder = "devenv"
+$Script:ConfigFolder = "config"
+$Script:PythonDependenciesFolder = "dependencies"
+$Script:ProdEnvFolder = "prodenv"
+$Script:ReleasesFolder = "releases"
+$Script:PackagesFolder = "packages"
+$Script:AssetsFolder = "assets"
+$Script:ReleaseAssetsFolder = "release-assets"
+$Script:CSInstallerFolder = "cs-installer"
+$Script:PyToolFolder = "py-tool"
+$Script:PyInstallerFolder = "pyinstaller"
+$Script:PyIDistFolder = "dist"
+
+# File names script variables
+$Script:BatchScriptFile = "CompStart.bat"
+$Script:PowerShellScriptFile = "CompStart.ps1"
+$Script:PythonScriptFile = "CompStart.py"
+$Script:ReleaseInstructionsFile = "instructions.txt"
+$Script:ReleaseNotesMDFile = "release_notes.md"
+$Script:PythonExeFile = "CompStart.exe"
+$Script:PowerShellInstallFile = "install.ps1"
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
@@ -29,23 +54,12 @@ $Script:DefRetValue = $false
 $ProjectRootPath = Get-Location
 
 # Initialize the variables to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
 $ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 
 # Store the release subfolder paths
 $ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
 $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
-# Initialize the relevant folder and file variables to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$DevFolder = "devenv"
-$DependenciesFolder = "dependencies"
-$PyToolsFolder = "py-tools"
-$CSScript = "CompStart.py"
-$ReleaseFullVersion = ""
 
 # Create the paths to be used in the script
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
@@ -55,7 +69,6 @@ $CSPath = "$DevPath\$CSScript"
 $DependenciesPath = "$DevPath\$DependenciesFolder"
 
 # Initialize the pyinstaller specific variables
-$PyIFilePath = "pyinstaller"
 $PyIArgumentArray = @(
     $CSPath,
     "--onefile"
@@ -69,28 +82,12 @@ $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 # Set the folder for the PyInstaller generated content
 $PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
 
-# Initialize the devenv file and folder names to be used in the script
-$DevFolder = "devenv"
-$ConfigFolder = "config"
-$CompStartFolder = "CompStart"
-$PowerShellScriptFile = "CompStart.ps1"
-$BatchScriptFile = "CompStart.bat"
-
 # Create the devenv paths to be used in the script
 $DevPath = "$ProjectRootPath\$DevFolder"
 $ConfigPath = "$DevPath\$ConfigFolder"
 $CSFolderPath = ""
 $CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
 $CSBatchPath = "$DevPath\$BatchScriptFile"
-
-# Initialize the release file and folder names to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$ReleaseTemplatesFolder = "templates"
-$ReleaseNotesFolder = "release-notes"
-$ReleaseNotesMDFile = "release_notes.md"
-$ReleaseInstructionsFile = "instructions.txt"
-$ReleaseFullVersion = ""
 
 # Create the release paths to be used in the script
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
@@ -101,9 +98,6 @@ $ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
 $ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
 
 # Create the PyInstaller specific variables to be used in the script
-$PyToolsFolder = "py-tools"
-$PyIDistFolder = "dist"
-$PythonExeFile = "CompStart.exe"
 $PyToolsPath = ""
 $PyIDistPath = ""
 $CSPythonPath = ""
@@ -114,12 +108,6 @@ $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 
 # Initialize the static variables to be used in the script
-$PackagesFolder = "packages"
-$PackageVersionsFolder = "versions"
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$CompStartFolder = "CompStart"
-$ReleaseInstructionsFile = "instructions.txt"
 $ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
 $PackagesPath = "$ProjectRootPath\$PackagesFolder"
 $PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
@@ -132,7 +120,6 @@ $ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
 $PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
 $ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 $PackageFullPath = $PackageMinorPath
-
 #>
 
 function Set-ProjectRoot {
