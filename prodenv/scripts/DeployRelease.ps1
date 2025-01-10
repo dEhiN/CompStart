@@ -23,6 +23,118 @@ $Script:CSFolder = "CompStart"
 $Script:InstallerFolder = "installer-files"
 $Script:DefRetValue = $false
 
+# Temporary holding place for copy-pasting of all the script variables needed for the script
+<#
+# Get the location of the release folder root
+$ProjectRootPath = Get-Location
+
+# Initialize the variables to be used in the script
+$ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "versions"
+$ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
+
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
+
+# Initialize the relevant folder and file variables to be used in the script
+$ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "versions"
+$DevFolder = "devenv"
+$DependenciesFolder = "dependencies"
+$PyToolsFolder = "py-tools"
+$CSScript = "CompStart.py"
+$ReleaseFullVersion = ""
+
+# Create the paths to be used in the script
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
+$DevPath = "$ProjectRootPath\$DevFolder"
+$CSPath = "$DevPath\$CSScript"
+$DependenciesPath = "$DevPath\$DependenciesFolder"
+
+# Initialize the pyinstaller specific variables
+$PyIFilePath = "pyinstaller"
+$PyIArgumentArray = @(
+    $CSPath,
+    "--onefile"
+)
+
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
+
+# Set the folder for the PyInstaller generated content
+$PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
+
+# Initialize the devenv file and folder names to be used in the script
+$DevFolder = "devenv"
+$ConfigFolder = "config"
+$CompStartFolder = "CompStart"
+$PowerShellScriptFile = "CompStart.ps1"
+$BatchScriptFile = "CompStart.bat"
+
+# Create the devenv paths to be used in the script
+$DevPath = "$ProjectRootPath\$DevFolder"
+$ConfigPath = "$DevPath\$ConfigFolder"
+$CSFolderPath = ""
+$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
+$CSBatchPath = "$DevPath\$BatchScriptFile"
+
+# Initialize the release file and folder names to be used in the script
+$ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "versions"
+$ReleaseTemplatesFolder = "templates"
+$ReleaseNotesFolder = "release-notes"
+$ReleaseNotesMDFile = "release_notes.md"
+$ReleaseInstructionsFile = "instructions.txt"
+$ReleaseFullVersion = ""
+
+# Create the release paths to be used in the script
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
+$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
+$ReleaseNotesFolderPath = ""
+$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
+$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
+
+# Create the PyInstaller specific variables to be used in the script
+$PyToolsFolder = "py-tools"
+$PyIDistFolder = "dist"
+$PythonExeFile = "CompStart.exe"
+$PyToolsPath = ""
+$PyIDistPath = ""
+$CSPythonPath = ""
+
+# Store the release subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
+
+# Initialize the static variables to be used in the script
+$PackagesFolder = "packages"
+$PackageVersionsFolder = "versions"
+$ReleasesFolder = "releases"
+$ReleaseVersionsFolder = "versions"
+$CompStartFolder = "CompStart"
+$ReleaseInstructionsFile = "instructions.txt"
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$PackagesPath = "$ProjectRootPath\$PackagesFolder"
+$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
+
+# Store the release and package subfolder paths
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
+$PackageFullPath = $PackageMinorPath
+
+#>
+
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
@@ -434,53 +546,10 @@ Start-Release -ReleaseMajorVersion $MajorVersion -ReleaseMinorVersion $MinorVers
 
 # The following code has been copied from the CreateReleaseFolder script:
 <#
-# Get the location of the release folder root
-$ProjectRootPath = Get-Location
-
-# Initialize the variables to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
 #>
 
 # The following code has been copied from the GeneratePythonTool script:
 <#
-# Initialize the relevant folder and file variables to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$DevFolder = "devenv"
-$DependenciesFolder = "dependencies"
-$PyToolsFolder = "py-tools"
-$CSScript = "CompStart.py"
-$ReleaseFullVersion = ""
-
-# Create the paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-$DevPath = "$ProjectRootPath\$DevFolder"
-$CSPath = "$DevPath\$CSScript"
-$DependenciesPath = "$DevPath\$DependenciesFolder"
-
-# Initialize the pyinstaller specific variables
-$PyIFilePath = "pyinstaller"
-$PyIArgumentArray = @(
-    $CSPath,
-    "--onefile"
-)
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
-# Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
-
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $ReleaseFullPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
@@ -541,50 +610,6 @@ Write-Host "`nPython executable successfully created"
 
 # The following code has been copied from the CopyReleaseContent script:
 <#
-# Initialize the devenv file and folder names to be used in the script
-$DevFolder = "devenv"
-$ConfigFolder = "config"
-$CompStartFolder = "CompStart"
-$PowerShellScriptFile = "CompStart.ps1"
-$BatchScriptFile = "CompStart.bat"
-
-# Create the devenv paths to be used in the script
-$DevPath = "$ProjectRootPath\$DevFolder"
-$ConfigPath = "$DevPath\$ConfigFolder"
-$CSFolderPath = ""
-$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
-$CSBatchPath = "$DevPath\$BatchScriptFile"
-
-# Initialize the release file and folder names to be used in the script
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$ReleaseTemplatesFolder = "templates"
-$ReleaseNotesFolder = "release-notes"
-$ReleaseNotesMDFile = "release_notes.md"
-$ReleaseInstructionsFile = "instructions.txt"
-$ReleaseFullVersion = ""
-
-# Create the release paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
-$ReleaseNotesFolderPath = ""
-$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
-$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
-
-# Create the PyInstaller specific variables to be used in the script
-$PyToolsFolder = "py-tools"
-$PyIDistFolder = "dist"
-$PythonExeFile = "CompStart.exe"
-$PyToolsPath = ""
-$PyIDistPath = ""
-$CSPythonPath = ""
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $ReleaseFullPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
@@ -647,27 +672,6 @@ Write-Host "`nAll release content has been copied over successfully to $ReleaseF
 
 # The following code has been copied from the GenerateReleasePackage script:
 <#
-# Initialize the static variables to be used in the script
-$PackagesFolder = "packages"
-$PackageVersionsFolder = "versions"
-$ReleasesFolder = "releases"
-$ReleaseVersionsFolder = "versions"
-$CompStartFolder = "CompStart"
-$ReleaseInstructionsFile = "instructions.txt"
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$PackagesPath = "$ProjectRootPath\$PackagesFolder"
-$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-
-# Store the release and package subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-$PackageFullPath = $PackageMinorPath
-
-
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
 if (-Not (Test-Path $ReleaseFullPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease create the release folder before running this script..."
