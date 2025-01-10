@@ -163,7 +163,7 @@ function Set-ProjectRoot {
 
     # Initialize function variables
     $ReturnValue = $Script:DefRetValue
-    $StartDirectory = $Script:CSFolder
+    $StartDirectory = $Script:FolderNames.CompStart
     $SplitChar = "\" + $Script:OSSeparatorChar
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
@@ -505,23 +505,19 @@ function Get-ReleaseDetails {
         GitHub: @dEhiN
         Created: 2025-01-10
     #>
-
-    # Determine which release version to create
     Write-Host "`nWhat is the release major version number? " -NoNewline
-    $Script:ReleaseMajorVersion = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
 
     Write-Host "What is the release minor version number? " -NoNewline
-    $Script:ReleaseMinorVersion = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
 
-    Write-Host "What is the release tag for v$MajorVersion.$MinorVersion (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseTag = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.Add("FullVersion", "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)")
 
-    # Create the full release version for later
-    $Script:ReleaseFullVersion = "$Script:ReleaseMajorVersion.$Script:ReleaseMinorVersion"
+    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
+    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
 
-    # Add the release tag if one exists
-    if ($Script:ReleaseTag) {
-        $Script:ReleaseFullVersion += "-$Script:ReleaseTag"
+    if ($Script:ReleaseDetails.Tag) {
+        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
     }
     
 }
