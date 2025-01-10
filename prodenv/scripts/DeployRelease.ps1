@@ -543,6 +543,12 @@ Get-ReleaseDetails
 
 Start-Release
 
+# End of the main script
+
+# The following code has been copied from the CreateReleaseFolder script:
+<#
+#>
+
 # The following code has been copied from the GeneratePythonTool script:
 <#
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
