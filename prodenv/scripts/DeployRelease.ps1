@@ -159,6 +159,7 @@ function Set-ProjectRoot {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
+        Updated: 2025-01-10
     #>
 
     # Initialize function variables
@@ -475,7 +476,7 @@ function Start-Release {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-07
+        Updated: 2025-01-10
     #>
     
     # Deal with the major release version
