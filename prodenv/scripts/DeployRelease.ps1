@@ -45,21 +45,20 @@ $Script:FolderNames = [ordered]@{
 
 # File names script variables
 $Script:FileNames = [ordered]@{
-    BatchScriptFile = "CompStart.bat"
-    PowerShellScriptFile = "CompStart.ps1"
-    PythonScriptFile = "CompStart.py"
-    ReleaseInstructionsFile = "instructions.txt"
-    ReleaseNotesMDFile = "release_notes.md"
-    PythonExeFile = "CompStart.exe"
-    PowerShellInstallFile = "install.ps1"
+    CSBatchScript           = "CompStart.bat"
+    CSPowerShellScript      = "CompStart.ps1"
+    CSPythonScript          = "CompStart.py"
+    CSPythonExe             = "CompStart.exe"
+    InstallPowerShellScript = "install.ps1"
+    ReleaseInstructions     = "instructions.txt"
+    ReleaseNotesMD          = "release_notes.md"
 }
 
 # Release details script variables
 $Script:ReleaseDetails = [ordered]@{
-    ReleaseMajorVersion = ""
-    ReleaseMinorVersion = ""
-    ReleaseTag = ""
-    ReleaseFullVersion = ""
+    MajorVersion = ""
+    MinorVersion = ""
+    Tag          = ""
 }
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
