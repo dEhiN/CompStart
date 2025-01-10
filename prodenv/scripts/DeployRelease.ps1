@@ -263,7 +263,7 @@ function Set-MajorVersionPath {
     }
     else {
         Write-Host "`nThere already exists a release major version $ReleaseMajorVersion folder...skipping this step..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
     }
 
 }
@@ -308,7 +308,7 @@ function Set-MinorVersionPath {
     }
     else {
         Write-Host "`nThere already exists a release minor version $ReleaseMinorVersion folder...skipping this step..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
     }
 }
 
@@ -346,7 +346,7 @@ function Set-ReleasePath {
     }
     else {
         Write-Host "`nThere already exists a release $ReleaseFullVersion folder...skipping this step..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
     }
 }
 
@@ -520,7 +520,7 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
 
 # Copy over the files and folder necessary to generate the Python executable
 Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolsFolder folder..."
-Start-Sleep $Global:SleepTime
+Start-Sleep $Script:SleepTime
 if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
     Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
 }
@@ -596,37 +596,37 @@ Set-Location $ReleaseFullPath
 # Create the CompStart folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $CompStartFolder)) {
     Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
-    Start-Sleep $Global:SleepTime
+    Start-Sleep $Script:SleepTime
     New-Item -ItemType Directory -Name $CompStartFolder > $null
 }
 else {
     Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
-    Start-Sleep $Global:SleepTime
+    Start-Sleep $Script:SleepTime
 }
 $CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
 
 # Create the release notes folder for the release, if needed, and update the appropriate path variable
 if (-Not (Test-Path $ReleaseNotesFolder)) {
     Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
-    Start-Sleep $Global:SleepTime
+    Start-Sleep $Script:SleepTime
     New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
 }
 else {
     Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
-    Start-Sleep $Global:SleepTime
+    Start-Sleep $Script:SleepTime
 }
 $ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
 
 # Copy the CompStart content
 Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
-Start-Sleep $Global:SleepTime
+Start-Sleep $Script:SleepTime
 Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
 Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
 Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
 
 # Copy the release notes content and instructions file
 Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
-Start-Sleep $Global:SleepTime
+Start-Sleep $Script:SleepTime
 Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
 Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
 
@@ -639,7 +639,7 @@ if (-Not (Test-Path $PyToolsPath)) {
 $PyIDistPath = "$PyToolsPath\$PyIDistFolder"
 $CSPythonPath = "$PyIDistPath\$PythonExeFile"
 Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
-Start-Sleep $Global:SleepTime
+Start-Sleep $Script:SleepTime
 Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
 
 Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
@@ -690,14 +690,14 @@ if (-Not (Test-Path $PackageFullPath)) {
     Set-Location $PackageVersionsPath
     if (-Not (Test-Path $PackageMajorPath)) {
         Write-Host "`nCreating the package directory for release major version $ReleaseMajorVersion..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
         New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
     }
 
     Set-Location $PackageMajorPath
     if (-Not (Test-Path $PackageMinorPath)) {
         Write-Host "`nCreating the package directory for release minor version $ReleaseMinorVersion..."
-        Start-Sleep $Global:SleepTime
+        Start-Sleep $Script:SleepTime
         New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
     }
 }
@@ -718,6 +718,6 @@ $PackageContents = @{
 }
 
 Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
-Start-Sleep $Global:SleepTime
+Start-Sleep $Script:SleepTime
 Compress-Archive @PackageContents > $null
 #>
