@@ -50,9 +50,6 @@ $Script:PowerShellInstallFile = "install.ps1"
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
-# Get the location of the release folder root
-$ProjectRootPath = Get-Location
-
 # Initialize the variables to be used in the script
 $ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
 
@@ -519,15 +516,9 @@ if (-Not $SetCSSuccess) {
     Exit
 }
 
-# Determine which release version to create
-Write-Host "`nWhat is the release major version number? " -NoNewline
-$MajorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release minor version number? " -NoNewline
-$MinorVersion = $Host.UI.ReadLine()
-
-Write-Host "What is the release tag for v$MajorVersion.$MinorVersion (or leave blank if there is none)? " -NoNewline
-$Tag = $Host.UI.ReadLine()
+# Get the location of the release folder root
+$ProjectRootPath = Get-Location
+Write-Host "`nProject root path: $ProjectRootPath"
 
 Start-Release -ReleaseMajorVersion $MajorVersion -ReleaseMinorVersion $MinorVersion -ReleaseTag $Tag
 
