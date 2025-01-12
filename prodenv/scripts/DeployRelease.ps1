@@ -56,9 +56,6 @@ $Script:FileNames = [ordered]@{
 
 # Release details script variables
 $Script:ReleaseDetails = [ordered]@{
-    MajorVersion = ""
-    MinorVersion = ""
-    Tag          = ""
 }
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
@@ -507,15 +504,18 @@ function Get-ReleaseDetails {
         Created: 2025-01-10
     #>
     Write-Host "`nWhat is the release major version number? " -NoNewline
-    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
+    $UserInput = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.Add("MajorVersion", $UserInput)
 
     Write-Host "What is the release minor version number? " -NoNewline
-    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
+    $UserInput = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.Add("MinorVersion", $UserInput)
 
     $Script:ReleaseDetails.Add("FullVersion", "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)")
 
     Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
+    $UserInput = $Host.UI.ReadLine()
+    $Script:ReleaseDetails.Add("Tag", $UserInput)
 
     if ($Script:ReleaseDetails.Tag) {
         $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
