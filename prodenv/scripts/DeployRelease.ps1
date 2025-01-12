@@ -502,6 +502,7 @@ function Get-ReleaseDetails {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-10
+        Updated: 2025-01-12
     #>
     Write-Host "`nWhat is the release major version number? " -NoNewline
     $UserInput = $Host.UI.ReadLine()
