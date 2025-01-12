@@ -539,8 +539,10 @@ if (-Not $SetCSSuccess) {
 $ProjectRootPath = Get-Location
 Write-Host "`nProject root path: $ProjectRootPath"
 
+# Get the details of the release to work with
 Get-ReleaseDetails
 
+# Start the process to work on the release
 Start-Release
 
 # End of the main script
