@@ -58,77 +58,7 @@ $Script:FileNames = [ordered]@{
 $Script:ReleaseDetails = [ordered]@{
 }
 
-# Temporary holding place for copy-pasting of all the script variables needed for the script
-<#
-# Initialize the variables to be used in the script
-$ReleaseVersionsPath = "$ProjectRootPath\$ReleasesFolder\$ReleaseVersionsFolder"
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
-# Create the paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-$DevPath = "$ProjectRootPath\$DevFolder"
-$CSPath = "$DevPath\$CSScript"
-$DependenciesPath = "$DevPath\$DependenciesFolder"
-
-# Initialize the pyinstaller specific variables
-$PyIArgumentArray = @(
-    $CSPath,
-    "--onefile"
-)
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
-# Set the folder for the PyInstaller generated content
-$PyInstallerPath = "$ReleaseFullPath\$PyToolsFolder"
-
-# Create the devenv paths to be used in the script
-$DevPath = "$ProjectRootPath\$DevFolder"
-$ConfigPath = "$DevPath\$ConfigFolder"
-$CSFolderPath = ""
-$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
-$CSBatchPath = "$DevPath\$BatchScriptFile"
-
-# Create the release paths to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
-$ReleaseNotesFolderPath = ""
-$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
-$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
-
-# Create the PyInstaller specific variables to be used in the script
-$PyToolsPath = ""
-$PyIDistPath = ""
-$CSPythonPath = ""
-
-# Store the release subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-
-# Initialize the static variables to be used in the script
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$PackagesPath = "$ProjectRootPath\$PackagesFolder"
-$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-
-# Store the release and package subfolder paths
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-$PackageFullPath = $PackageMinorPath
-#>
-
+# Script functions
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
@@ -548,6 +478,46 @@ Start-Release
 
 # End of the main script
 
+# Temporary holding place for copy-pasting of all the script variables needed for the script
+<#
+# Release related paths
+$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
+$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
+$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
+$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
+$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
+$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
+$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
+$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
+$ReleaseNotesFolderPath = ""
+
+# Package related paths
+$PackagesPath = "$ProjectRootPath\$PackagesFolder"
+$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
+$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
+$PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
+$PackageFullPath = $PackageMinorPath
+
+# Dev related paths
+$DevPath = "$ProjectRootPath\$DevFolder"
+$CSPath = "$DevPath\$CSScript"
+$DependenciesPath = "$DevPath\$DependenciesFolder"
+$ConfigPath = "$DevPath\$ConfigFolder"
+$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
+$CSBatchPath = "$DevPath\$BatchScriptFile"
+
+# PyInstaller related paths and properties
+$PyInstallerPath = "$ReleaseFullPath\$PyToolFolder"
+$CSFolderPath = ""
+$PyToolsPath = ""
+$PyIDistPath = ""
+$CSPythonPath = ""
+$PyIArgumentArray = @(
+    $CSPath,
+    "--onefile"
+)
+#>
+
 # The following code has been copied from the CreateReleaseFolder script:
 <#
 #>
@@ -592,7 +562,7 @@ if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
 }
 
 # Copy over the files and folder necessary to generate the Python executable
-Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolsFolder folder..."
+Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolFolder folder..."
 Start-Sleep $Script:SleepTime
 if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
     Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
@@ -608,7 +578,7 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 }
 
 # Create the Python executable: pyinstaller .\CompStart.py --onefile
-Start-Process -FilePath $PyIFilePath -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
 Write-Host "`nPython executable successfully created"
 #>
 
