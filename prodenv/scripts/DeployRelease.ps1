@@ -492,7 +492,7 @@ function Get-ReleaseDetails {
         Gets the release details from the user.
 
         .DESCRIPTION
-        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag.
+        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
 
         .EXAMPLE
         Get-ReleaseDetails
