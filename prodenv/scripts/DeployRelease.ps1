@@ -186,46 +186,6 @@ function Set-ProjectRoot {
     return $ReturnValue
 }
 
-function Add-MajorVersionFolder {
-    <#
-        .SYNOPSIS
-        Creates a directory for a major release version.
-
-        .DESCRIPTION
-        The `Add-MajorVersionFolder` function creates a directory for a major release version at the specified location.
-
-        .PARAMETER MajorVersion
-        The major version of the release.
-
-        .PARAMETER MajorPath
-        The path where the major version directory will be created.
-
-        .EXAMPLE
-        Add-MajorVersion -MajorVersion "1.0" -MajorPath "C:\Releases\1.0"
-        Creates a directory for the major release version 1.0 at the location C:\Releases\1.0.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-12-30
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $MajorVersion,
-        [Parameter(Mandatory)]
-        [string]
-        $MajorPath
-    )
-
-    Write-Host "Creating directory for release major version $MajorVersion..."
-    Write-Host "...at $MajorPath"
-    Start-Sleep -Seconds $Script:SleepTime
-    New-Item $MajorPath -ItemType Directory > $null
-}
-
 function Add-MinorVersionFolder {
     <#
         .SYNOPSIS
@@ -304,45 +264,6 @@ function Add-ReleaseVersionFolder {
     Write-Host "...at $ReleasePath"
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleasePath -ItemType Directory > $null
-}
-
-function Set-MajorVersionPath {
-    <#
-        .SYNOPSIS
-        Checks for an existing major release version folder and creates one if applicable.
-
-        .DESCRIPTION
-        The `Set-MajorVersionPath` function checks both the releases and packages folders to see if there is already a subfolder for the major version given as a parameter. If there isn't one, then it will create one.
-
-        .PARAMETER MajorVersion
-        The major version of the release.
-
-        .EXAMPLE
-        Set-MajorVersionPath -MajorVersion "1"
-        Checks to see if there's a folder called "v1" at /prodenv/releases/ and /prodenv/packages/, and create it if it doesn't exist.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $MajorVersion
-    )
-
-    if (-Not (Test-Path $ReleaseMajorPath)) {
-        Write-Host "`nCannot find a directory for the release major version $ReleaseMajorVersion..."
-        Add-MajorVersionFolder $ReleaseMajorVersion $ReleaseMajorPath
-    }
-    else {
-        Write-Host "`nThere already exists a release major version $ReleaseMajorVersion folder...skipping this step..."
-        Start-Sleep $Script:SleepTime
-    }
-
 }
 
 function Set-MinorVersionPath {
@@ -427,42 +348,129 @@ function Set-ReleasePath {
     }
 }
 
-function Get-ReleaseDetails {
+function Add-MajorVersionFolder {
     <#
         .SYNOPSIS
-        Gets the release details from the user.
+        Creates a directory for a major release version.
 
         .DESCRIPTION
-        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
+        The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+        .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+        .EXAMPLE
+        Add-MajorVersion -IsPackage $true
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
+
+        .EXAMPLE
+        Add-MajorVersion -IsPackage $false
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
+        Updated: 2025-01-12
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MajorPath = $Script:PathVars.PackageMajorPath
+    }
+    else {
+        $MajorPath = $Script:PathVars.ReleaseMajorPath
+    }
+    
+    Write-Host "Creating a directory for major version $($Script:ReleaseDetails.MajorVersion) at $MajorPath"
+    Start-Sleep -Seconds $Script:SleepTime
+    New-Item $MajorPath -ItemType Directory > $null
+}
+
+function Set-MajorVersionPaths {
+    <#
+        .SYNOPSIS
+        Checks for an existing major release version folder and creates one if applicable for both releases and packages.
+
+        .DESCRIPTION
+        The `Set-MajorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MajorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MajorVersionFolder` will be called to create it.
 
         .PARAMETER None
         This function does not take any parameters.
 
         .EXAMPLE
-        Get-ReleaseDetails
-        Prompts the user for the release details.
+        Set-MajorVersionPaths
+        Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-10
+        Created: 2025-01-04
         Updated: 2025-01-12
     #>
-    Write-Host "`nWhat is the release major version number? " -NoNewline
-    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
 
-    Write-Host "What is the release minor version number? " -NoNewline
-    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
+    # Set up local variables for easier access
+    $ReleaseMajorVersion = $Script:ReleaseDetails.MajorVersion
+    $PackageMajorPath = $Script:PathVars.PackageMajorPath
+    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
 
-    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
-
-    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
-
-    if ($Script:ReleaseDetails.Tag) {
-        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
+    # Check the packages directory
+    if (-Not (Test-Path $PackageMajorPath)) {
+        Write-Host "`nCannot find a package directory for major version $ReleaseMajorVersion..."
+        Add-MajorVersionFolder -IsPackage $true
+    }
+    else {
+        Write-Host "`nThere already exists a directory at $PackageMajorPath...skipping this step..."
+        Start-Sleep $Script:SleepTime
     }
     
+    # Check the releases directory
+    if (-Not (Test-Path $ReleaseMajorPath)) {
+        Write-Host "`nCannot find a release directory for major version $ReleaseMajorVersion..."
+        Add-MajorVersionFolder -IsPackage $false
+    }
+    else {
+        Write-Host "`nThere already exists a directory at $ReleaseMajorPath...skipping this step..."
+        Start-Sleep $Script:SleepTime
+    }
+}
+
+function Start-Release {
+    <#
+        .SYNOPSIS
+        Starts the release process.
+
+        .DESCRIPTION
+        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+
+        .PARAMETER None
+        This function does not take any parameters.
+
+        .EXAMPLE
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-12
+    #>
+    
+    # Deal with the major release version
+    Set-MajorVersionPaths
+
+    # Deal with the minor release version
+    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
+
+    # Deal with the release folder
+    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
 }
 
 function Update-PathVars {
@@ -529,41 +537,43 @@ function Update-PathVars {
     $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath\$($Script:FolderNames.CompStart)"
     $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath\$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath\$($Script:FolderNames.PyTool)"
-
-    # To test all the paths
-    Write-Host ($Script:PathVars | Format-List | Out-String)
 }
 
-function Start-Release {
+function Get-ReleaseDetails {
     <#
         .SYNOPSIS
-        Starts the release process.
+        Gets the release details from the user.
 
         .DESCRIPTION
-        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
 
         .PARAMETER None
         This function does not take any parameters.
 
         .EXAMPLE
-        Start-Release
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+        Get-ReleaseDetails
+        Prompts the user for the release details.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
+        Created: 2025-01-10
         Updated: 2025-01-12
     #>
-    
-    # Deal with the major release version
-    # Set-MajorVersionPath -MajorVersion $ReleaseMajorVersion
+    Write-Host "`nWhat is the release major version number? " -NoNewline
+    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
 
-    # Deal with the minor release version
-    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
+    Write-Host "What is the release minor version number? " -NoNewline
+    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
 
-    # Deal with the release folder
-    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
+    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
+
+    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
+    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
+
+    if ($Script:ReleaseDetails.Tag) {
+        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
+    }    
 }
 
 # Start of the main script
