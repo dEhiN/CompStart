@@ -192,74 +192,65 @@ function Add-ReleaseVersionFolder {
         Creates a directory for a release version.
 
         .DESCRIPTION
-        The `Add-ReleaseVersionFolder` function creates a directory for a release version at the specified location.
+        The `Add-ReleaseVersionFolder` function creates a directory for a  release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
 
-        .PARAMETER ReleaseVersion
-        The version of the release.
-
-        .PARAMETER ReleasePath
-        The path where the release version directory will be created.
+        .PARAMETER None
+        This function does not take any parameters.
 
         .EXAMPLE
-        Add-ReleaseVersion -ReleaseVersion "2.0" -ReleasePath "C:\Releases\2.0"
-        Creates a directory for the release version 2.0 at the location C:\Releases\2.0.
+        Add-ReleaseVersionFolder
+        Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-12-30
+        Updated: 2025-01-12
     #>
 
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $ReleaseVersion,
-        [Parameter(Mandatory)]
-        [string]
-        $ReleasePath
-    )
-
-    Write-Host "Creating directory for release $ReleaseVersion..."
-    Write-Host "...at $ReleasePath"
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+        
+    Write-Host "Creating a directory for the full release $ReleaseFullVersion..."
+    Write-Host "...at $ReleaseFullPath"
     Start-Sleep -Seconds $Script:SleepTime
-    New-Item $ReleasePath -ItemType Directory > $null
+    New-Item $ReleaseFullPath -ItemType Directory > $null
 }
 
-function Set-ReleasePath {
+function Set-ReleaseVersionPath {
     <#
         .SYNOPSIS
         Checks for an existing release folder and creates one if applicable.
 
         .DESCRIPTION
-        The `Set-ReleasePath` function checks the releases folder to see if there is already a subfolder for the release version given as a parameter. If there isn't one, then it will create one.
+        The `Set-ReleaseVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
 
-        .PARAMETER ReleaseVersion
-        The release full version
+        .PARAMETER None
+        This function does not take any parameters.
 
         .EXAMPLE
-        Set-ReleasePath -ReleaseVersion "1.1-alpha"
-        Checks to see if there's a folder called "1.1-alpha" at /prodenv/releases/v1/m1, and create it if it doesn't exist.
+        Set-ReleaseVersionPath
+        Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
+        Updated: 2025-01-12
     #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $ReleaseVersion
-    )
 
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+
+    # Check the releases directory
     if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nCannot find a directory for the release $ReleaseFullVersion..."
-        Add-ReleaseVersionFolder $ReleaseFullVersion $ReleaseFullPath
+        Write-Host "`nCannot find a directory for the full release $ReleaseFullVersion..."
+        Add-ReleaseVersionFolder
     }
     else {
-        Write-Host "`nThere already exists a release $ReleaseFullVersion folder...skipping this step..."
+        Write-Host "`nThere already exists a full release directory for $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTime
     }
 }
@@ -313,7 +304,6 @@ function Add-MinorVersionFolder {
 }
 
 function Set-MinorVersionPaths {
-    <#
     <#
         .SYNOPSIS
         Checks for an existing minor release version folder and creates one if applicable for both releases and packages.
@@ -486,7 +476,7 @@ function Start-Release {
     Set-MinorVersionPaths
 
     # Deal with the release folder
-    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
+    Set-ReleaseVersionPath
 }
 
 function Update-PathVars {
