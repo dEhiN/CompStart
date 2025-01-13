@@ -564,30 +564,21 @@ Start-Release
 
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
-# Release related paths
-$ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
-$ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
-$ReleaseNotesFolderPath = ""
-
-# Dev related paths
-$CSPath = "$DevPath\$CSScript"
-$CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
-$CSBatchPath = "$DevPath\$BatchScriptFile"
-
 # PyInstaller related paths and properties
-$PyInstallerPath = "$ReleaseFullPath\$PyToolFolder"
-$CSFolderPath = ""
-$PyToolsPath = ""
-$PyIDistPath = ""
-$CSPythonPath = ""
 $PyIArgumentArray = @(
     $CSPath,
     "--onefile"
 )
-#>
 
-# The following code has been copied from the CreateReleaseFolder script:
-<#
+# Get the release package name
+$ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
+
+# Create the hash table object to pass to the Compress-Archive cmdlet
+$PackageContents = @{
+    Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+    DestinationPath  = $ReleasePackageName
+    CompressionLevel = "Optimal"
+}
 #>
 
 # The following code has been copied from the GeneratePythonTool script:
