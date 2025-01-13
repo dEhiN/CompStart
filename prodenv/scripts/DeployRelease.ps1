@@ -19,6 +19,7 @@
 $Script:SleepTime = 2
 $Script:DefRetValue = $false
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
+$Script:PyInstallerCmd = "pyinstaller"
 
 # Release details script variables
 $Script:ReleaseDetails = [ordered]@{
@@ -35,10 +36,8 @@ $Script:FileNames = [ordered]@{
     CSPythonScript            = "CompStart.py"
     CSPythonExe               = "CompStart.exe"
 
-    ReleaseInstructions       = "instructions.txt"
-    ReleaseNotesMD            = "release_notes.md"
-    
-    PyInstaller               = "pyinstaller"
+    ReleaseInstructionsText   = "instructions.txt"
+    ReleaseNotesMarkdown      = "release_notes.md"
 
     InstallerPowerShellScript = "install.ps1"
 }
