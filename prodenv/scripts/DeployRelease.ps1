@@ -529,6 +529,41 @@ function Update-PathVars {
     $Script:PathVars.ReleaseMinorPath = "$ReleaseMajorPath\$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
     $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
     $Script:PathVars.ReleaseFullPath = "$ReleaseMinorPath\$($Script:ReleaseDetails.FullVersion)"
+
+    <#    
+    # Release related paths
+    $ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
+    $ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
+    $ReleaseNotesFolderPath = ""
+
+    # Dev related paths
+    $CSPath = "$DevPath\$CSScript"
+    $CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
+    $CSBatchPath = "$DevPath\$BatchScriptFile"
+
+    # PyInstaller related paths and properties
+    $PyInstallerPath = "$ReleaseFullPath\$PyToolFolder"
+    $CSFolderPath = ""
+    $PyToolsPath = ""
+    $PyIDistPath = ""
+    $CSPythonPath = ""
+    $PyIArgumentArray = @(
+        $CSPath,
+        "--onefile"
+    )
+
+    CSPath                  = ""
+    CSPowerShellPath        = ""
+    CSBatchPath             = ""
+    PyInstallerPath         = ""
+    CSFolderPath            = ""
+    PyToolsPath             = ""
+    PyIDistPath             = ""
+    CSPythonPath            = ""
+    #>
+
+    # To test all the paths
+    Write-Host ($Script:PathVars | Format-List | Out-String)
 }
 
 # Start of the main script
@@ -560,28 +595,12 @@ Start-Release
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
 # Release related paths
-$ReleasesPath = "$ProjectRootPath\$ReleasesFolder"
-$ReleaseVersionsPath = "$ReleasesPath\$ReleaseVersionsFolder"
-$ReleaseMajorPath = "$ReleaseVersionsPath\v$ReleaseMajorVersion"
-$ReleaseMinorPath = "$ReleaseMajorPath\m$ReleaseMinorVersion"
-$ReleaseFullPath = "$ReleaseMinorPath\$ReleaseFullVersion"
-$ReleaseTemplatesPath = "$ReleasesPath\$ReleaseTemplatesFolder"
 $ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
 $ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
 $ReleaseNotesFolderPath = ""
 
-# Package related paths
-$PackagesPath = "$ProjectRootPath\$PackagesFolder"
-$PackageVersionsPath = "$PackagesPath\$PackageVersionsFolder"
-$PackageMajorPath = "$PackageVersionsPath\v$ReleaseMajorVersion"
-$PackageMinorPath = "$PackageMajorPath\m$ReleaseMinorVersion"
-$PackageFullPath = $PackageMinorPath
-
 # Dev related paths
-$DevPath = "$ProjectRootPath\$DevFolder"
 $CSPath = "$DevPath\$CSScript"
-$DependenciesPath = "$DevPath\$DependenciesFolder"
-$ConfigPath = "$DevPath\$ConfigFolder"
 $CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
 $CSBatchPath = "$DevPath\$BatchScriptFile"
 
