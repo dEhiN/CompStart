@@ -186,46 +186,6 @@ function Set-ProjectRoot {
     return $ReturnValue
 }
 
-function Add-MinorVersionFolder {
-    <#
-        .SYNOPSIS
-        Creates a directory for a minor release version.
-
-        .DESCRIPTION
-        The `Add-MinorVersionFolder` function creates a directory for a minor release version at the specified location.
-
-        .PARAMETER MinorVersion
-        The minor version of the release.
-
-        .PARAMETER MinorPath
-        The path where the minor version directory will be created.
-
-        .EXAMPLE
-        Add-MinorVersion -MinorVersion "1.1" -MinorPath "C:\Releases\1.1"
-        Creates a directory for the minor release version 1.1 at the location C:\Releases\1.1.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-12-30
-    #>
-
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $MinorVersion,
-        [Parameter(Mandatory)]
-        [string]
-        $MinorPath
-    )
-
-    Write-Host "Creating directory for release minor version $MinorVersion..."
-    Write-Host "...at $MinorPath"
-    Start-Sleep -Seconds $Script:SleepTime
-    New-Item $MinorPath -ItemType Directory > $null
-}
-
 function Add-ReleaseVersionFolder {
     <#
         .SYNOPSIS
@@ -266,50 +226,6 @@ function Add-ReleaseVersionFolder {
     New-Item $ReleasePath -ItemType Directory > $null
 }
 
-function Set-MinorVersionPath {
-    <#
-        .SYNOPSIS
-        Checks for an existing minor release version folder and creates one if applicable.
-
-        .DESCRIPTION
-        The `Set-MinorVersionPath` function checks both the releases and packages folders to see if there is already a subfolder for the minor version given as a parameter. If there isn't one, then it will create one.
-
-        .PARAMETER MajorVersion
-        The major version of the release.
-
-        .PARAMETER MinorVersion
-        The minor version of the release.
-
-        .EXAMPLE
-        Set-MinorVersionPath -MajorVersion "1" -MinorVersion "1"
-        Checks to see if there's a folder called "m1" at /prodenv/releases/v1 and /prodenv/packages/v1, and create it if it doesn't exist.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $MajorVersion,
-        [Parameter(Mandatory)]
-        [string]
-        $MinorVersion
-    )
-
-    if (-Not (Test-Path $ReleaseMinorPath)) {
-        Write-Host "`nCannot find a directory for the release minor version $ReleaseMinorVersion..."
-        Add-MinorVersionFolder $ReleaseMinorVersion $ReleaseMinorPath
-    }
-    else {
-        Write-Host "`nThere already exists a release minor version $ReleaseMinorVersion folder...skipping this step..."
-        Start-Sleep $Script:SleepTime
-    }
-}
-
 function Set-ReleasePath {
     <#
         .SYNOPSIS
@@ -348,6 +264,103 @@ function Set-ReleasePath {
     }
 }
 
+function Add-MinorVersionFolder {
+    <#
+        .SYNOPSIS
+        Creates a directory for a minor release version.
+
+        .DESCRIPTION
+        The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+        .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+        .EXAMPLE
+        Add-MinorVersionFolder -IsPackage $true
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
+
+        .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $false
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
+        Updated: 2025-01-12
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MinorPath = $Script:PathVars.PackageMinorPath
+        $DirType = "package"
+    }
+    else {
+        $MinorPath = $Script:PathVars.ReleaseMinorPath
+        $DirType = "release"
+    }
+    
+    Write-Host "Creating a $DirType directory for minor version $($Script:ReleaseDetails.MinorVersion)..."
+    Write-Host "...at $MinorPath"
+    Start-Sleep -Seconds $Script:SleepTime
+    New-Item $MinorPath -ItemType Directory > $null
+}
+
+function Set-MinorVersionPaths {
+    <#
+    <#
+        .SYNOPSIS
+        Checks for an existing minor release version folder and creates one if applicable for both releases and packages.
+
+        .DESCRIPTION
+        The `Set-MinorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MinorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MinorVersionFolder` will be called to create it.
+
+        .PARAMETER None
+        This function does not take any parameters.
+
+        .EXAMPLE
+        Set-MinorVersionPaths
+        Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-12
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseMinorVersion = $Script:ReleaseDetails.MinorVersion
+    $PackageMinorPath = $Script:PathVars.PackageMinorPath
+    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
+
+    # Check the packages directory
+    if (-Not (Test-Path $PackageMinorPath)) {
+        Write-Host "`nCannot find a package directory for minor version $ReleaseMinorVersion..."
+        Add-MinorVersionFolder -IsPackage $true
+    }
+    else {
+        Write-Host "`nThere already exists a package directory for minor version $ReleaseMinorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTime
+    }
+    
+    # Check the releases directory
+    if (-Not (Test-Path $ReleaseMinorPath)) {
+        Write-Host "`nCannot find a release directory for minor version $ReleaseMinorVersion..."
+        Add-MinorVersionFolder -IsPackage $false
+    }
+    else {
+        Write-Host "`nThere already exists a release directory for minor version $ReleaseMinorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTime
+    }
+}
+
 function Add-MajorVersionFolder {
     <#
         .SYNOPSIS
@@ -360,11 +373,11 @@ function Add-MajorVersionFolder {
         A boolean specifying if the directory is to be created in the packages folder or the releases folder.
 
         .EXAMPLE
-        Add-MajorVersion -IsPackage $true
+        Add-MajorVersionFolder -IsPackage $true
         Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
 
         .EXAMPLE
-        Add-MajorVersion -IsPackage $false
+        Add-MajorVersionFolder -IsPackage $false
         Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
 
         .NOTES
@@ -383,12 +396,15 @@ function Add-MajorVersionFolder {
 
     if ($IsPackage) {
         $MajorPath = $Script:PathVars.PackageMajorPath
+        $DirType = "package"
     }
     else {
         $MajorPath = $Script:PathVars.ReleaseMajorPath
+        $DirType = "release"
     }
     
-    Write-Host "Creating a directory for major version $($Script:ReleaseDetails.MajorVersion) at $MajorPath"
+    Write-Host "Creating a $DirType directory for major version $($Script:ReleaseDetails.MajorVersion)..."
+    Write-Host "...at $MajorPath"
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $MajorPath -ItemType Directory > $null
 }
@@ -426,7 +442,7 @@ function Set-MajorVersionPaths {
         Add-MajorVersionFolder -IsPackage $true
     }
     else {
-        Write-Host "`nThere already exists a directory at $PackageMajorPath...skipping this step..."
+        Write-Host "`nThere already exists a package directory for major version $ReleaseMajorVersion...skipping this step..."
         Start-Sleep $Script:SleepTime
     }
     
@@ -436,7 +452,7 @@ function Set-MajorVersionPaths {
         Add-MajorVersionFolder -IsPackage $false
     }
     else {
-        Write-Host "`nThere already exists a directory at $ReleaseMajorPath...skipping this step..."
+        Write-Host "`nThere already exists a release directory major version $ReleaseMajorVersion...skipping this step..."
         Start-Sleep $Script:SleepTime
     }
 }
@@ -467,7 +483,7 @@ function Start-Release {
     Set-MajorVersionPaths
 
     # Deal with the minor release version
-    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
+    Set-MinorVersionPaths
 
     # Deal with the release folder
     # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
