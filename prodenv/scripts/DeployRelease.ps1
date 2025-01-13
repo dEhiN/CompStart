@@ -424,35 +424,6 @@ function Set-ReleasePath {
     }
 }
 
-function Start-Release {
-    <#
-        .SYNOPSIS
-        Starts the release process.
-
-        .DESCRIPTION
-        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
-
-        .EXAMPLE
-        Start-Release
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-10
-    #>
-    
-    # Deal with the major release version
-    # Set-MajorVersionPath -MajorVersion $ReleaseMajorVersion
-
-    # Deal with the minor release version
-    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
-
-    # Deal with the release folder
-    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
-}
-
 function Get-ReleaseDetails {
     <#
         .SYNOPSIS
@@ -534,6 +505,35 @@ function Update-PathVars {
 
     # To test all the paths
     Write-Host ($Script:PathVars | Format-List | Out-String)
+}
+
+function Start-Release {
+    <#
+        .SYNOPSIS
+        Starts the release process.
+
+        .DESCRIPTION
+        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+
+        .EXAMPLE
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-10
+    #>
+    
+    # Deal with the major release version
+    # Set-MajorVersionPath -MajorVersion $ReleaseMajorVersion
+
+    # Deal with the minor release version
+    # Set-MinorVersionPath -MajorVersion $ReleaseMajorVersion -MinorVersion $ReleaseMinorVersion
+
+    # Deal with the release folder
+    # Set-ReleasePath -ReleaseVersion $ReleaseFullVersion
 }
 
 # Start of the main script
