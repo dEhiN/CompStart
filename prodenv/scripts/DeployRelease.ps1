@@ -492,6 +492,45 @@ function Get-ReleaseDetails {
     
 }
 
+function Update-PathVars {
+    # Set the project root path for easy reference
+    $ProjectRootPath = $Script:PathVars.ProjectRootPath
+
+    # First level folder paths
+    $Script:PathVars.DevPath = "$ProjectRootPath\$($Script:FolderNames.DevEnv)"
+    $Script:PathVars.ProdPath = "$ProjectRootPath\$($Script:FolderNames.ProdEnv)"
+
+    # Dev related folder paths
+    $DevPath = $Script:PathVars.DevPath
+    $Script:PathVars.PythonDependenciesPath = "$DevPath\$($Script:FolderNames.PythonDependencies)"
+    $Script:PathVars.ConfigPath = "$DevPath\$($Script:FolderNames.Config)"
+
+    # Prod related folder paths
+    $ProdPath = $Script:PathVars.ProdPath
+    $Script:PathVars.AssetsPath = "$ProdPath\$($Script:FolderNames.Assets)"
+    $Script:PathVars.PackagesPath = "$ProdPath\$($Script:FolderNames.Packages)"
+    $Script:PathVars.ReleasesPath = "$ProdPath\$($Script:FolderNames.Releases)"
+
+    # Asset related folder paths
+    $AssetsPath = $Script:PathVars.AssetsPath
+    $Script:PathVars.ReleaseAssetsPath = "$AssetsPath\$($Script:FolderNames.ReleaseAssets)"
+    $Script:PathVars.InstallerAssetsPath = "$AssetsPath\$($Script:FolderNames.InstallerAssets)"
+
+    # Package related folder paths
+    $PackagesPath = $Script:PathVars.PackagesPath
+    $Script:PathVars.PackageMajorPath = "$PackagesPath\$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $PackageMajorPath = $Script:PathVars.PackageMajorPath
+    $Script:PathVars.PackageMinorPath = "$PackageMajorPath\$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+
+    # Release related folder paths
+    $ReleasesPath = $Script:PathVars.ReleasesPath
+    $Script:PathVars.ReleaseMajorPath = "$ReleasesPath\$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
+    $Script:PathVars.ReleaseMinorPath = "$ReleaseMajorPath\$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
+    $Script:PathVars.ReleaseFullPath = "$ReleaseMinorPath\$($Script:ReleaseDetails.FullVersion)"
+}
+
 # Start of the main script
 
 # Set the starting directory to the project root
@@ -505,11 +544,13 @@ if (-Not $SetCSSuccess) {
 }
 
 # Get the location of the release folder root
-$ProjectRootPath = Get-Location
-Write-Host "`nProject root path: $ProjectRootPath"
+$Script:PathVars.ProjectRootPath = Get-Location
 
 # Get the details of the release to work with
 Get-ReleaseDetails
+
+# Update all the script path variables 
+Update-PathVars
 
 # Start the process to work on the release
 Start-Release
