@@ -432,26 +432,26 @@ function Set-MajorVersionPaths {
         Start-Sleep $Script:SleepTime
     }
 }
-function Start-Release {
+function Set-ReleaseFolderStructure {
     <#
         .SYNOPSIS
-        Starts the release process.
+        Create the folder structure for a release.
 
         .DESCRIPTION
-        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+        The `Set-ReleaseFolderStructure` function initiates the release process by creating the necessary directories for the release in both the releases and packages folders. The locations are first checked to see if the necessary directories already exist, and are skipped if they exist. The `Script:ReleaseDetails` dictionary is used to determine the needed directories.
 
         .PARAMETER None
         This function does not take any parameters.
 
         .EXAMPLE
-        Start-Release
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+        Set-ReleaseFolderStructure
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable. See Description for more details.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-12
+        Updated: 2025-01-13
     #>
     
     # Deal with the major release version
