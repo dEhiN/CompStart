@@ -518,7 +518,7 @@ function Update-PathVars {
     $PackageMajorPath = $Script:PathVars.PackageMajorPath
     $Script:PathVars.PackageMinorPath = "$PackageMajorPath\$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
 
-    # Release related folder paths
+    # Release related parent folder paths
     $ReleasesPath = $Script:PathVars.ReleasesPath
     $Script:PathVars.ReleaseMajorPath = "$ReleasesPath\$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
@@ -526,37 +526,11 @@ function Update-PathVars {
     $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
     $Script:PathVars.ReleaseFullPath = "$ReleaseMinorPath\$($Script:ReleaseDetails.FullVersion)"
 
-    <#    
-    # Release related paths
-    $ReleaseNotesMDPath = "$ReleaseTemplatesPath\$ReleaseNotesMDFile"
-    $ReleaseInstructionsPath = "$ReleaseTemplatesPath\$ReleaseInstructionsFile"
-    $ReleaseNotesFolderPath = ""
-
-    # Dev related paths
-    $CSPath = "$DevPath\$CSScript"
-    $CSPowerShellPath = "$DevPath\$PowerShellScriptFile"
-    $CSBatchPath = "$DevPath\$BatchScriptFile"
-
-    # PyInstaller related paths and properties
-    $PyInstallerPath = "$ReleaseFullPath\$PyToolFolder"
-    $CSFolderPath = ""
-    $PyToolsPath = ""
-    $PyIDistPath = ""
-    $CSPythonPath = ""
-    $PyIArgumentArray = @(
-        $CSPath,
-        "--onefile"
-    )
-
-    CSPath                  = ""
-    CSPowerShellPath        = ""
-    CSBatchPath             = ""
-    PyInstallerPath         = ""
-    CSFolderPath            = ""
-    PyToolsPath             = ""
-    PyIDistPath             = ""
-    CSPythonPath            = ""
-    #>
+    # Release specific child folder paths
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+    $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath\$($Script:FolderNames.CompStart)"
+    $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath\$($Script:FolderNames.ReleaseNotes)"
+    $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath\$($Script:FolderNames.PyTool)"
 
     # To test all the paths
     Write-Host ($Script:PathVars | Format-List | Out-String)
