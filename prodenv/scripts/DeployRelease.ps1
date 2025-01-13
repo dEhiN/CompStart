@@ -15,21 +15,17 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-# Misc script variables
+# Section: Script Variables
 $Script:SleepTime = 2
 $Script:DefRetValue = $false
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:PyInstallerCmd = "pyinstaller"
-
-# Release details script variables
 $Script:ReleaseDetails = [ordered]@{
     MajorVersion = ""
     MinorVersion = ""
     Tag          = ""
     FullVersion  = ""
 }
-
-# File name script variables
 $Script:FileNames = [ordered]@{
     CSBatchScript             = "CompStart.bat"
     CSPowerShellScript        = "CompStart.ps1"
@@ -41,8 +37,6 @@ $Script:FileNames = [ordered]@{
 
     InstallerPowerShellScript = "install.ps1"
 }
-
-# Folder name script variables
 $Script:FolderNames = [ordered]@{
     DevEnv                = "devenv"
     Config                = "config"
@@ -65,8 +59,6 @@ $Script:FolderNames = [ordered]@{
     ParentInstallLocation = "LocalApplicationData"
     InstallerFiles        = "installer-files"
 }
-
-# Path script variables
 $Script:PathVars = [ordered]@{    
     ParentInstallPath       = [System.Environment]::GetFolderPath($Script:FolderNames.ParentInstallLocation)
     ProjectRootPath         = ""
@@ -95,7 +87,7 @@ $Script:PathVars = [ordered]@{
     ReleasePyToolFolderPath = ""
 }
 
-# Script functions
+# Section: Script Functions
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
@@ -185,7 +177,6 @@ function Set-ProjectRoot {
 
     return $ReturnValue
 }
-
 function Add-ReleaseVersionFolder {
     <#
         .SYNOPSIS
@@ -217,7 +208,6 @@ function Add-ReleaseVersionFolder {
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
-
 function Set-ReleaseVersionPath {
     <#
         .SYNOPSIS
@@ -254,7 +244,6 @@ function Set-ReleaseVersionPath {
         Start-Sleep $Script:SleepTime
     }
 }
-
 function Add-MinorVersionFolder {
     <#
         .SYNOPSIS
@@ -302,7 +291,6 @@ function Add-MinorVersionFolder {
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $MinorPath -ItemType Directory > $null
 }
-
 function Set-MinorVersionPaths {
     <#
         .SYNOPSIS
@@ -350,7 +338,6 @@ function Set-MinorVersionPaths {
         Start-Sleep $Script:SleepTime
     }
 }
-
 function Add-MajorVersionFolder {
     <#
         .SYNOPSIS
@@ -398,7 +385,6 @@ function Add-MajorVersionFolder {
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $MajorPath -ItemType Directory > $null
 }
-
 function Set-MajorVersionPaths {
     <#
         .SYNOPSIS
@@ -446,7 +432,6 @@ function Set-MajorVersionPaths {
         Start-Sleep $Script:SleepTime
     }
 }
-
 function Start-Release {
     <#
         .SYNOPSIS
@@ -478,7 +463,6 @@ function Start-Release {
     # Deal with the release folder
     Set-ReleaseVersionPath
 }
-
 function Update-PathVars {
     <#
         .SYNOPSIS
@@ -543,7 +527,6 @@ function Update-PathVars {
     $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath\$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath\$($Script:FolderNames.PyTool)"
 }
-
 function Get-ReleaseDetails {
     <#
         .SYNOPSIS
@@ -581,8 +564,7 @@ function Get-ReleaseDetails {
     }    
 }
 
-# Start of the main script
-
+# Section: Main Script
 # Set the starting directory to the project root
 $SetCSSuccess = Set-ProjectRoot
 
@@ -605,8 +587,7 @@ Update-PathVars
 # Start the process to work on the release
 Start-Release
 
-# End of the main script
-
+# Section: Commented-out Copied Code
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
 # PyInstaller related paths and properties
@@ -625,7 +606,6 @@ $PackageContents = @{
     CompressionLevel = "Optimal"
 }
 #>
-
 # The following code has been copied from the GeneratePythonTool script:
 <#
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
@@ -685,7 +665,6 @@ for ($counter = 5; $counter -gt 0; $counter--) {
 Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
 Write-Host "`nPython executable successfully created"
 #>
-
 # The following code has been copied from the CopyReleaseContent script:
 <#
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
@@ -747,7 +726,6 @@ Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
 
 Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
 #>
-
 # The following code has been copied from the GenerateReleasePackage script:
 <#
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
