@@ -61,41 +61,38 @@ $Script:FolderNames = [ordered]@{
     PyTool                = "py-tool"
     ReleaseNotes          = "release-notes"
     PyIDist               = "dist"
-    InstallerFiles        = "installer-files"
 
     ParentInstallLocation = "LocalApplicationData"
+    InstallerFiles        = "installer-files"
 }
 
 # Path script variables
 $Script:PathVars = [ordered]@{    
-    ParentInstallPath      = [System.Environment]::GetFolderPath($Script:FolderNames.ParentInstallLocation)
-    ProjectRootPath        = ""
+    ParentInstallPath       = [System.Environment]::GetFolderPath($Script:FolderNames.ParentInstallLocation)
+    ProjectRootPath         = ""
 
-    DevPath                = ""
-    PythonDependenciesPath = ""
-    ConfigPath             = ""
+    DevPath                 = ""
+    ProdPath                = ""
 
-    ProdPath               = ""
-    AssetsPath             = ""
-    ReleaseAssetsPath      = ""
-    InstallerAssetsPath    = ""
-    PackagesPath           = ""
-    PackageMajorPath       = ""
-    PackageMinorPath       = ""
-    ReleasesPath           = ""
-    ReleaseMajorPath       = ""
-    ReleaseMinorPath       = ""
-    ReleaseFullPath        = ""
-    ReleaseNotesFolderPath = ""
+    ConfigPath              = ""
+    PythonDependenciesPath  = ""
 
-    CSPath                 = ""
-    CSPowerShellPath       = ""
-    CSBatchPath            = ""
-    PyInstallerPath        = ""
-    CSFolderPath           = ""
-    PyToolsPath            = ""
-    PyIDistPath            = ""
-    CSPythonPath           = ""
+    AssetsPath              = ""
+    ReleaseAssetsPath       = ""
+    InstallerAssetsPath     = ""
+
+    PackagesPath            = ""
+    PackageMajorPath        = ""
+    PackageMinorPath        = ""
+
+    ReleasesPath            = ""
+    ReleaseMajorPath        = ""
+    ReleaseMinorPath        = ""
+    ReleaseFullPath         = ""
+
+    ReleaseNotesFolderPath  = ""
+    ReleaseCSFolderPath     = ""
+    ReleasePyToolFolderPath = ""
 }
 
 # Script functions
