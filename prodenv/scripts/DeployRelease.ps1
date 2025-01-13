@@ -575,19 +575,41 @@ if (-Not $SetCSSuccess) {
     Exit
 }
 
-# Get the location of the release folder root
+# Store the full path of the project root
 $Script:PathVars.ProjectRootPath = Get-Location
 
 # Get the details of the release to work with
 Get-ReleaseDetails
 
-# Update all the script path variables 
+# Update all the path variables to be used in the script
 Update-PathVars
 
 # Start the process to work on the release
 Start-Release
 
 # Section: Commented-out Copied Code
+<#
+function Start-Release {
+        .SYNOPSIS
+        Starts the release process.
+
+        .DESCRIPTION
+        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
+
+        .PARAMETER None
+        This function does not take any parameters.
+
+        .EXAMPLE
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-12
+}
+#>
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
 # PyInstaller related paths and properties
