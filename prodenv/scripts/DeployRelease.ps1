@@ -20,46 +20,82 @@ $Script:SleepTime = 2
 $Script:DefRetValue = $false
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 
-# Path related script variables
-$Script:PathVars = [ordered]@{    
-    InstallationLocationParent = [System.Environment]::GetFolderPath('LocalApplicationData')
-}
-
-# Folder names script variables
-$Script:FolderNames = [ordered]@{
-    CompStart          = "CompStart"
-    InstallerFiles     = "installer-files"
-    DevEnv             = "devenv"
-    Config             = "config"
-    PythonDependencies = "dependencies"
-    ProdEnv            = "prodenv"
-    Releases           = "releases"
-    Packages           = "packages"
-    Assets             = "assets"
-    ReleaseAssets      = "release-assets"
-    CSInstaller        = "cs-installer"
-    PyTool             = "py-tool"
-    PyInstaller        = "pyinstaller"
-    PyIDist            = "dist"
-}
-
-# File names script variables
-$Script:FileNames = [ordered]@{
-    CSBatchScript           = "CompStart.bat"
-    CSPowerShellScript      = "CompStart.ps1"
-    CSPythonScript          = "CompStart.py"
-    CSPythonExe             = "CompStart.exe"
-    InstallPowerShellScript = "install.ps1"
-    ReleaseInstructions     = "instructions.txt"
-    ReleaseNotesMD          = "release_notes.md"
-}
-
 # Release details script variables
 $Script:ReleaseDetails = [ordered]@{
     MajorVersion = ""
     MinorVersion = ""
     Tag          = ""
     FullVersion  = ""
+}
+
+# File name script variables
+$Script:FileNames = [ordered]@{
+    CSBatchScript             = "CompStart.bat"
+    CSPowerShellScript        = "CompStart.ps1"
+    CSPythonScript            = "CompStart.py"
+    CSPythonExe               = "CompStart.exe"
+
+    ReleaseInstructions       = "instructions.txt"
+    ReleaseNotesMD            = "release_notes.md"
+    
+    PyInstaller               = "pyinstaller"
+
+    InstallerPowerShellScript = "install.ps1"
+}
+
+# Folder name script variables
+$Script:FolderNames = [ordered]@{
+    DevEnv             = "devenv"
+    Config             = "config"
+    PythonDependencies = "dependencies"
+
+    ProdEnv            = "prodenv"
+    Assets             = "assets"
+    ReleaseAssets      = "release-assets"
+    InstallerAssets    = "cs-installer"
+    Packages           = "packages"
+    Releases           = "releases"
+    ReleaseMajorPrefix = "v"
+    ReleaseMinorPrefix = "m"
+
+    CompStart          = "CompStart"
+    PyTool             = "py-tool"
+    ReleaseNotes       = "release-notes"
+    PyIDist            = "dist"
+    InstallerFiles     = "installer-files"
+}
+
+# Path script variables
+$Script:PathVars = [ordered]@{    
+    InstallationLocationParent = [System.Environment]::GetFolderPath('LocalApplicationData')
+
+    DevPath                    = ""
+    PythonDependenciesPath     = ""
+    ConfigPath                 = ""
+
+    ProdPath                   = ""
+    AssetsPath                 = ""
+    ReleaseAssetsPath          = ""
+    InstallerAssetsPath        = ""
+    PackagesPath               = ""
+    PackageMajorPath           = ""
+    PackageMinorPath           = ""
+    PackageFullPath            = ""
+    ReleasesPath               = ""
+    ReleaseMajorPath           = ""
+    ReleaseMinorPath           = ""
+    ReleaseFullPath            = ""
+    ReleaseNotesFolderPath     = ""
+    ReleaseInstructionsPath    = ""
+
+    CSPath                     = ""
+    CSPowerShellPath           = ""
+    CSBatchPath                = ""
+    PyInstallerPath            = ""
+    CSFolderPath               = ""
+    PyToolsPath                = ""
+    PyIDistPath                = ""
+    CSPythonPath               = ""
 }
 
 # Script functions
