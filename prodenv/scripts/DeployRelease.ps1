@@ -291,6 +291,8 @@ function Start-Release {
         3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
         4. New release package - creates a new release package
 
+        The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
+
         .PARAMETER None
         This function does not take any parameters.
 
@@ -305,10 +307,48 @@ function Start-Release {
         Updated: 2025-01-13
     #>
 
-    Set-ReleaseFolderStructure
-    Invoke-PythonTool
-    Copy-ReleaseContent
-    New-ReleasePackage
+    # Loop until user answers prompt
+    $LoopTrue = $True
+    do {
+        # Show the user the menu options
+        $UserMenu = "`nPlease choose one of the following:`n[1] Start the whole release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n`nWhat would you like to do? "
+
+        Write-Host $UserMenu
+        $UserPrompt = $Host.UI.ReadLine()
+
+        # Check the user entered a valid choice
+        $UserOptions = @("1", "2", "3", "4", "5")
+
+        if ($UserPrompt -in $UserOptions) {
+            $UserChoice = [int]$UserPrompt
+
+            # Tell loop to quit
+            $LoopTrue = $False
+        }
+        else {
+            Write-Host "Please make a valid choice!"
+        }
+    } while ($LoopTrue -eq $True)
+
+    # Task 1
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 2)) {
+        Set-ReleaseFolderStructure
+    }
+
+    # Task 2
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 3)) {
+        Invoke-PythonTool
+    }
+
+    # Task 3
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 4)) {
+        Copy-ReleaseContent
+    }
+
+    # Task 4
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 5)) {
+        New-ReleasePackage
+    }
 }
 function Set-ReleaseFolderStructure {
     <#
@@ -630,28 +670,6 @@ Update-PathVars
 Start-Release
 
 # Section: Commented-out Copied Code
-<#
-function Start-Release {
-        .SYNOPSIS
-        Starts the release process.
-
-        .DESCRIPTION
-        The `Start-Release` function initiates the release process by creating the necessary directories for the release.
-
-        .PARAMETER None
-        This function does not take any parameters.
-
-        .EXAMPLE
-        Start-Release
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
-
-        .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
-}
-#>
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
 # PyInstaller related paths and properties
