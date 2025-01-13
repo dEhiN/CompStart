@@ -475,24 +475,23 @@ function Start-Release {
 
 function Update-PathVars {
     <#
-    .SYNOPSIS
-    Updates the project environment path variables to be used by this script.
+        .SYNOPSIS
+        Updates the project environment path variables to be used by this script.
 
-    .DESCRIPTION
-    The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:PathVars` dictionary.
+        .DESCRIPTION
+        The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:PathVars` dictionary.
 
-    .PARAMETER None
-    This function does not take any parameters.
+        .PARAMETER None
+        This function does not take any parameters.
 
-    .EXAMPLE
-    Update-PathVars
-    Updates all the path variables based on the current project root path and folder names.
+        .EXAMPLE
+        Update-PathVars
+        Updates all the path variables based on the current project root path and folder names.
 
-    .NOTES
-    Author: David H. Watson (with help from VS Code Copilot)
-    GitHub: @dEhiN
-    Created: 2024-12-30
-
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
     #>
 
     # Set the project root path for easy reference
