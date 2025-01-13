@@ -231,7 +231,8 @@ function Update-PathVars {
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-12-30
+        Created: 2025-01-12
+        Updated: 2025-01-13
     #>
 
     # Set the project root path for easy reference
@@ -276,6 +277,38 @@ function Update-PathVars {
     $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath\$($Script:FolderNames.CompStart)"
     $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath\$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath\$($Script:FolderNames.PyTool)"
+}
+function Start-Release {
+    <#
+        .SYNOPSIS
+        Starts the release process.
+
+        .DESCRIPTION
+        The `Start-Release` function initiates the release process by going through the 4 major tasks involved:
+
+        1. Set (up) the release folder structure for both the releases and packages directories
+        2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
+        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
+        4. New release package - creates a new release package
+
+        .PARAMETER None
+        This function does not take any parameters.
+
+        .EXAMPLE
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+
+        .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-13
+    #>
+
+    Set-ReleaseFolderStructure
+    Invoke-PythonTool
+    Copy-ReleaseContent
+    New-ReleasePackage
 }
 function Set-ReleaseFolderStructure {
     <#
@@ -562,6 +595,15 @@ function Add-FullVersionFolder {
     Write-Host "...at $ReleaseFullPath"
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
+}
+function Invoke-PythonTool {
+
+}
+function Copy-ReleaseContent {
+
+}
+function New-ReleasePackage {
+    
 }
 
 # Section: Main Script
