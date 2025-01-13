@@ -203,7 +203,7 @@ function Add-FullVersionFolder {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
         
-    Write-Host "Creating a directory for the full release $ReleaseFullVersion..."
+    Write-Host "Creating a directory for release version $ReleaseFullVersion..."
     Write-Host "...at $ReleaseFullPath"
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleaseFullPath -ItemType Directory > $null
@@ -236,11 +236,11 @@ function Set-FullVersionPath {
 
     # Check the releases directory
     if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nCannot find a directory for the full release $ReleaseFullVersion..."
-        Add-ReleaseVersionFolder
+        Write-Host "`nCannot find a directory for release version $ReleaseFullVersion..."
+        Add-FullVersionFolder
     }
     else {
-        Write-Host "`nThere already exists a full release directory for $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a directory for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTime
     }
 }
