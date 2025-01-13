@@ -112,6 +112,9 @@ function Set-ProjectRoot {
         4. There is more than one folder but the last one is at the end of the current working directory path
         5. There is more than one folder and the last one is not at the end of the current working directory path
 
+        .PARAMETER None
+        This function does not take any parameters.
+
         .OUTPUTS
         [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
 
@@ -123,7 +126,7 @@ function Set-ProjectRoot {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-10
+        Updated: 2025-01-12
     #>
 
     # Initialize function variables
@@ -432,6 +435,9 @@ function Get-ReleaseDetails {
         .DESCRIPTION
         The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
 
+        .PARAMETER None
+        This function does not take any parameters.
+
         .EXAMPLE
         Get-ReleaseDetails
         Prompts the user for the release details.
@@ -460,6 +466,27 @@ function Get-ReleaseDetails {
 }
 
 function Update-PathVars {
+    <#
+    .SYNOPSIS
+    Updates the project environment path variables to be used by this script.
+
+    .DESCRIPTION
+    The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:PathVars` dictionary.
+
+    .PARAMETER None
+    This function does not take any parameters.
+
+    .EXAMPLE
+    Update-PathVars
+    Updates all the path variables based on the current project root path and folder names.
+
+    .NOTES
+    Author: David H. Watson (with help from VS Code Copilot)
+    GitHub: @dEhiN
+    Created: 2024-12-30
+
+    #>
+
     # Set the project root path for easy reference
     $ProjectRootPath = $Script:PathVars.ProjectRootPath
 
@@ -515,6 +542,9 @@ function Start-Release {
         .DESCRIPTION
         The `Start-Release` function initiates the release process by creating the necessary directories for the release.
 
+        .PARAMETER None
+        This function does not take any parameters.
+
         .EXAMPLE
         Start-Release
         Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
@@ -523,7 +553,7 @@ function Start-Release {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-10
+        Updated: 2025-01-12
     #>
     
     # Deal with the major release version
