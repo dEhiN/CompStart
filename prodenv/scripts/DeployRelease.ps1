@@ -177,26 +177,26 @@ function Set-ProjectRoot {
 
     return $ReturnValue
 }
-function Add-ReleaseVersionFolder {
+function Add-FullVersionFolder {
     <#
         .SYNOPSIS
         Creates a directory for a release version.
 
         .DESCRIPTION
-        The `Add-ReleaseVersionFolder` function creates a directory for a  release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
+        The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
 
         .PARAMETER None
         This function does not take any parameters.
 
         .EXAMPLE
-        Add-ReleaseVersionFolder
+        Add-FullVersionFolder
         Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-12-30
-        Updated: 2025-01-12
+        Updated: 2025-01-13
     #>
 
     # Set up local variables for easier access
@@ -208,26 +208,26 @@ function Add-ReleaseVersionFolder {
     Start-Sleep -Seconds $Script:SleepTime
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
-function Set-ReleaseVersionPath {
+function Set-FullVersionPath {
     <#
         .SYNOPSIS
         Checks for an existing release folder and creates one if applicable.
 
         .DESCRIPTION
-        The `Set-ReleaseVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
+        The `Set-FullVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
 
         .PARAMETER None
         This function does not take any parameters.
 
         .EXAMPLE
-        Set-ReleaseVersionPath
+        Set-FullVersionPath
         Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
 
         .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-12
+        Updated: 2025-01-13
     #>
 
     # Set up local variables for easier access
@@ -461,7 +461,7 @@ function Set-ReleaseFolderStructure {
     Set-MinorVersionPaths
 
     # Deal with the release folder
-    Set-ReleaseVersionPath
+    Set-FullVersionPath
 }
 function Update-PathVars {
     <#
