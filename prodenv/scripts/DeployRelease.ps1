@@ -673,14 +673,16 @@ function Invoke-PythonTool {
         Updated: 2025-01-14
     #>
 
-    # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
-    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
-        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
-        Exit
-    }
+    # Before proceeding, confirm the release folder path exists
+    Confirm-ReleaseFolder
 
+    # Make sure we are in the correct directory
     Set-Location $Script:PathVars.ReleasePyToolFolderPath
+
+    # Set up the py-tool folder for the release
     Set-PyToolFolder
+
+    # Copy the necessary files to the py-tool folder
     Add-PyToolContents
 
     # Let user know the Python executable will be created after a 5 second countdown
