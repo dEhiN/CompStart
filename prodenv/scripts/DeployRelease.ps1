@@ -638,18 +638,25 @@ function Add-FullVersionFolder {
 }
 function Invoke-PythonTool {
     # The following code has been copied from the GeneratePythonTool script:
-    <#
-    # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
+    
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+    $PyTool = $Script:FolderNames.PyTool
+    $PyInstallerPath = $ReleaseFullPath + $Script:OSSeparatorChar + $PyTool
+
+    # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
     if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion!`nPlease create it first..."
         Exit
     }
 
     # Before proceeding, confirm if the py-tools path exists and if not, try to create it
     if (-Not (Test-Path $PyInstallerPath)) {
-        # Create the PyInstaller folder
-        Write-Host "`nCreating directory $PyInstallerPath..."
-        Start-Sleep -Seconds 1
+        Write-Host "`nCannot find a folder named `"$PyTool`" in the release folder for release version $ReleaseFullVersion."
+        Write-Host "Creating the $PyTool folder..."
+        Write-Host "...at $ReleaseFullPath"
+        Start-Sleep -Seconds $Script:SleepTimer
         New-Item $PyInstallerPath -ItemType Directory > $null
     }
 
