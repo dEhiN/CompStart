@@ -698,6 +698,34 @@ function Invoke-PythonTool {
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
+function Confirm-ReleaseFolder {
+    <#
+    .SYNOPSIS
+        Confirms the release folder exists and creates it if it doesn't.
+
+    .DESCRIPTION
+        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it continues with the release process.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Confirm-ReleaseFolder
+        Checks if the release folder exists for the current release version and exits the script if it doesn't.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14    
+    #>
+
+    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
+        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
+        Exit
+    }
+
+}
 function Set-PyToolFolder {
     <#
     .SYNOPSIS
@@ -778,7 +806,7 @@ function Add-PyToolContents {
     $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
     Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
 }
-function Copy-ReleaseContent {
+function Copy-ReleaseContents {
     # The following code has been copied from the CopyReleaseContent script:
     <#
 # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
