@@ -719,6 +719,53 @@ function Invoke-PythonTool {
     Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
+function Set-PyToolFolder {
+    <#
+        .SYNOPSIS
+        Sets up the py-tool folder for the release.
+
+        .DESCRIPTION
+        The `Set-PyToolFolder` function sets up the py-tool folder for the release by checking if the folder exists in the release folder. If the folder does not exist, it creates the folder. If the folder exists but is not empty, it deletes the existing contents.
+        
+        .PARAMETER None
+            This function does not take any parameters.
+
+        .EXAMPLE
+            Set-PyToolFolder
+            Sets up the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Created: 2024-01-14
+    #>
+    # Set up local variables for easier access
+    $PyToolFolder = $Script:FolderNames.PyTool
+    $PyInstallerPath = $Script:PathVars.ReleaseFullPath + $Script:OSSeparatorChar + $PyToolFolder
+
+    # Before proceeding, check to make sure we are in the correct directory
+    if ((Get-Location) -ne $PyInstallerPath) {
+        Set-Location $PyInstallerPath
+    }
+    
+    # Confirm if the py-tool folder path exists and if not, try to create it
+    if (-Not (Test-Path $PyInstallerPath)) {
+        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
+        Write-Host "Creating the $PyToolFolder folder..."
+        Write-Host "...at $($Script:PathVars.ReleaseFullPath)"
+        Start-Sleep -Seconds $Script:SleepTimer
+        New-Item $PyInstallerPath -ItemType Directory > $null
+    }
+
+    # Check to see if there's anything already in the py-tool folder and if so, delete it
+    $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
+    if ($PyToolFolderLen -gt 0) {
+        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
+        Start-Sleep -Seconds $Script:SleepTimer
+        Remove-Item * -Recurse -Force
+        Write-Host "The folder is now empty."
+    }
+}
 function Copy-ReleaseContent {
     # The following code has been copied from the CopyReleaseContent script:
     <#
