@@ -636,7 +636,31 @@ function Add-FullVersionFolder {
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
-function Invoke-PythonTool {  
+function Invoke-PythonTool {
+    <#
+        .SYNOPSIS
+            Generates an executable from the CompStart.py script using the PyInstaller Python module.
+
+        .DESCRIPTION
+            The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
+            
+            The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function checks that the release folder contains a py-tool folder. If not, it creates one within the release folder. If the py-tool folder exists but it's not empty, the existing contents are deleted.
+            
+            The function then copies over the CompStart.py script and all its Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+
+        .PARAMETER None
+            This function does not take any parameters.
+
+        .EXAMPLE
+            Invoke-PythonTool
+            Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
+
+        .NOTES
+            Author: David H. Watson (with help from VS Code Copilot)
+            GitHub: @dEhiN
+            Created: 2024-01-13
+            Updated: 2025-01-14
+    #>
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
