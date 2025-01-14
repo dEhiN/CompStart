@@ -14,20 +14,18 @@ ENUM_JSK = deps_enum.JsonSchemaKeys
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def add_startup_item():
+def add_startup_item(last_item_num: int = -1):
     """Helper function to add, or create, a new startup item
 
     Args:
-        None
+        last_item_num (int): An integer to use to keep track of the total number of existing startup items. When it's specified, the function will add 1 to this parameter and use that for the new startup item's ItemNumber property. If it's not specified, it will default to -1. This will trigger a call to the function get_count_total_items from the cs_helper module to track the total number of existing startup items. The function will then add 1 to that total. This will allow for a calling function to manipulate the ItemNumber property of the new startup item, if needed, but there is no validation currently done to confirm the value passed in is correct.
 
     Returns:
         dict: The new startup item formed correctly and validated according to the startup_item.schema.json file.
     """
     # Print out introduction to this section for creating a startup item
-    print(
-        "\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details."
-    )
-    input("\nPress any key to continue...")
+    # print("\nWelcome to Add a Startup Item. In this section, you can set a name and description for the startup item. You can also choose the path of the program and set any parameters or arguments to pass to the program. An argument would be, for example, if you want to have a specific file immediately open in Microsoft Word. After you add the startup item, if you made any mistakes in setting the details, you can use the other menu options to change any of the startup item details.")
+    # input("\nPress any key to continue...")
 
     # Create blank JSON object / Python dictionary
     new_item = ENUM_JSS.OBJECT.value.copy()
@@ -46,34 +44,46 @@ def add_startup_item():
     )
 
     menu_choices = [
-        "Create a startup item",
-        "Change the item name",
-        "Change the item description",
-        "Pick a new program path to the item",
-        "Edit or add arguments for the item",
+        "Create the startup item",
+        "Edit the item name",
+        "Edit the item description",
+        "Edit the program path to the item",
+        "Edit or add arguments to the item",
         "View the startup item",
         "Save the startup item",
         "Return to the previous menu",
     ]
 
+    menu_return = 8
+
     # Loop through to allow the user to create the startup item
     quit_loop = False
     while not quit_loop:
-        user_choice = deps_chooser.user_menu_chooser(menu_choices, False)
+        user_choice = deps_chooser.user_menu_chooser(
+            menu_choices=menu_choices, allow_quit=True, include_save=True
+        )
 
         # Check to see if the user chose another option besides 1 but hasn't yet created a startup item
-        if user_choice == len(menu_choices):
+        if user_choice == menu_return:
+            # Check if user created a startup item
+            if new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
+                # Let the calling function know there's no actual startup item
+                return {}
+
             # User has chosen to return to the previous menu
             quit_loop = True
         elif user_choice > 1 and new_item[ENUM_JSK.ITEMNUMBER.value] == 0:
             # Alert the user to create a startup item first
-            print("\nPlease create a startup item first")
+            print("\nPlease create the startup item first")
         else:
             # Continue on with regular execution
             match user_choice:
                 case 1:
                     # Determine the next item number for this item
-                    curr_total_items = deps_helper.get_count_total_items()
+                    if last_item_num == -1:
+                        curr_total_items = deps_helper.get_count_total_items()
+                    else:
+                        curr_total_items = last_item_num
 
                     # Add the Name, Description, FilePath, and ArgumentList parameters
                     startup_item_setup(new_item)
@@ -113,7 +123,8 @@ def add_startup_item():
                         new_item, file_path, file_name
                     )
                     print(save_message)
-    return new_item
+
+    return copy.deepcopy(new_item)
 
 
 def startup_item_setup(startup_item: dict):
@@ -141,7 +152,12 @@ def add_startup_item_name():
     Returns:
         str: The new startup item name.
     """
-    new_name = input("\nPlease enter the name you would like to use: ")
+    new_name = ""
+    while new_name == "":
+        new_name = input("\nPlease enter the name you would like to use: ")
+        if new_name == "":
+            print("The item name cannot be blank")
+
     return new_name
 
 
@@ -154,17 +170,22 @@ def add_startup_item_description():
     Returns:
         str: The new startup item description.
     """
-    new_description = input("\nPlease enter the description you would like to use: ")
+    new_description = ""
+    while new_description == "":
+        new_description = input("\nPlease enter the description you would like to use: ")
+        if new_description == "":
+            print("The item description cannot be blank")
+
     return new_description
 
 
-def add_startup_item_program_path(item_name: str = "Startup Item"):
+def add_startup_item_program_path(item_name: str):
     """Helper function to set the path of a startup item
 
     Note: While the add functions for name and description allow the user to change what they initially entered via a loop, this add function doesn't. At present, it makes sense to only check for if the user didn't enter anything or make a choice, and loop in that case. However, there is argument for a scenario where a user chooses the wrong file by accident or enters the wrong path. For now, this function won't worry about that, which means the calling function will need to validate the user input.
 
     Args:
-        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the default will be "Startup Item".
+        item_name (str): Optional. The name of the startup item for which the user has to set the program path. If none is provided, the name will be set to "Startup Item".
 
     Returns:
         str: The new startup item absolute path
@@ -172,13 +193,15 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
     # Initialize function variables
     new_path = ""
     loop_quit = False
-    check_blank = False
+
+    if item_name == "":
+        item_name = "Startup Item"
 
     # Loop until user chooses or enters a path
     while not loop_quit:
         user_menu = [
-            f"Use the file chooser window to select the program executable path for {item_name}",
-            f"Enter the full path manually for {item_name}",
+            f"Use the file chooser window to select the program path for {item_name}",
+            f"Manually enter the program path for {item_name}",
         ]
 
         user_choice = deps_chooser.user_menu_chooser(user_menu, False)
@@ -186,15 +209,15 @@ def add_startup_item_program_path(item_name: str = "Startup Item"):
         match user_choice:
             case 1:
                 new_path = deps_chooser.existing_file_chooser(item_name)
-                check_blank = True
             case 2:
                 input_msg = (
                     "\nPlease enter the new path to the program executable as an absolute path: "
                 )
                 new_path = input(input_msg)
-                check_blank = True
 
-        if check_blank:
+        if new_path == "":
+            print("The program path cannot be blank")
+        else:
             loop_quit = True
 
     return new_path
@@ -238,7 +261,7 @@ def add_startup_item_arguments_list(arg_list: list = []):
                 new_arg_list.append(new_argument)
                 print('\nSuccessfully added "' + new_argument + '"!')
             else:
-                print("Argument cannot be blank!")
+                print("The argument cannot be blank")
 
     return new_arg_list
 
@@ -260,7 +283,6 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
     """
     # Read in existing JSON file and store the return results of the json_read function
     status_state, status_message, json_data = deps_json.json_reader(json_path, json_filename)
-    print("\n" + status_message)
 
     if status_state:
         new_json_data = deps_data_gen.generate_user_edited_data(
@@ -271,5 +293,9 @@ def save_new_startup_item(new_startup_item: dict, json_path: list, json_filename
 
         data_file = deps_helper.parse_full_path(json_path, json_filename)
         status_state, status_message = deps_json.json_writer(data_file, 2, new_json_data)
+
+    if not status_state:
+        status_message = "Could not save the startup item"
+        deps_pretty.prettify_custom_error(status_message, "save_new_startup_item")
 
     return (status_state, status_message)

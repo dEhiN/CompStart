@@ -637,6 +637,11 @@ function Add-FullVersionFolder {
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
 function Invoke-PythonTool {
+    #    Write-Host $PyInstallerPath
+    #    Write-Host ((Get-ChildItem $PyInstallerPath).Length)
+    #    Write-Host ((Get-ChildItem $PyInstallerPath -Recurse).Length)
+    #    Exit
+
     # The following code has been copied from the GeneratePythonTool script:
     
     # Set up local variables for easier access
@@ -660,28 +665,42 @@ function Invoke-PythonTool {
         New-Item $PyInstallerPath -ItemType Directory > $null
     }
 
-    Set-Location $PyInstallerPath
+    #    Set-Location $PyInstallerPath
+    $PyInstallerPath = $Script:PathVars.ReleasesPath + $Script:OSSeparatorChar + "v1" + $Script:OSSeparatorChar + "m1" + $Script:OSSeparatorChar + "1.1-beta" + $Script:OSSeparatorChar + $Script:FolderNames.PyTool
 
     # Check to see if there's anything already in the PyInstaller folder and if so, delete it
-    if ((Get-ChildItem $PyInstallerPath).Length -gt 0) {
+    $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
+    if ($PyToolFolderLen -gt 0) {
         Write-Host "`nFound items in the py-tools folder. Deleting all items..."
+
         # Loop until there's nothing in py-tools
-        $LoopTrue = $true
-        do {
-            Get-ChildItem -Path $PyInstallerPath -Recurse | ForEach-Object {
-                if ($_.GetType() -eq [System.IO.FileInfo]) {
-                    Remove-Item $_
-                }
-                elseif (($_.GetType() -eq [System.IO.DirectoryInfo]) -and ((Get-ChildItem $_).Length -eq 0)) {
-                    $LoopTrue = $false
-                    continue
-                }
+        $PyToolFolderContents = Get-ChildItem $PyInstallerPath -Recurse
+        "Listing full contents of py-tools..." | Out-File -FilePath "IPT_test.txt"
+        $PyToolFolderContents | Out-File -FilePath "IPT_test.txt" -Append
+        "End listing full contents of py-tools..." | Out-File -FilePath "IPT_test.txt" -Append
+        $LoopCount = 0
+        foreach ($Item in $PyToolFolderContents) {
+            $LoopCount++
+            "`nSpecific Item #$($LoopCount): $Item" | Out-File -FilePath "IPT_test.txt" -Append
+            if ($Item.GetType() -eq [System.IO.FileInfo]) {
+                "Remove File: $Item" | Out-File -FilePath "IPT_test.txt" -Append
+                #                Remove-Item $Item
             }
-        } while ($LoopTrue -eq $true)
-        # Set-Location $PyInstallerPath
-        # Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
+            elseif ($Item.GetType() -eq [System.IO.DirectoryInfo]) {
+                if ((Get-ChildItem $Item).Length -gt 0) {
+                    "Parent Folder: $Item" | Out-File -FilePath "IPT_test.txt" -Append
+                }
+                else {
+                    "Remove Folder: $Item" | Out-File -FilePath "IPT_test.txt" -Append
+                    #                    Remove-Item $Item -Force
+                } 
+            }
+        }
+        #        Set-Location $PyInstallerPath
+        #        Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
         Write-Host "The folder is now empty."
     }
+    Exit
 
     # Copy over the files and folder necessary to generate the Python executable
     Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolFolder folder..."
@@ -702,127 +721,126 @@ function Invoke-PythonTool {
     # Create the Python executable: pyinstaller .\CompStart.py --onefile
     Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
-    #>
 }
 function Copy-ReleaseContent {
     # The following code has been copied from the CopyReleaseContent script:
     <#
-    # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-    if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
-        Exit
-    }
+# Before proceeding, confirm the release folder path exists and if not, alert the user to create it
+if (-Not (Test-Path $ReleaseFullPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
+    Exit
+}
 
-    Set-Location $ReleaseFullPath
+Set-Location $ReleaseFullPath
 
-    # Create the CompStart folder for the release, if needed, and update the appropriate path variable
-    if (-Not (Test-Path $CompStartFolder)) {
-        Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $CompStartFolder > $null
-    }
-    else {
-        Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-    $CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-
-    # Create the release notes folder for the release, if needed, and update the appropriate path variable
-    if (-Not (Test-Path $ReleaseNotesFolder)) {
-        Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
-    }
-    else {
-        Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-    $ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
-
-    # Copy the CompStart content
-    Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
+# Create the CompStart folder for the release, if needed, and update the appropriate path variable
+if (-Not (Test-Path $CompStartFolder)) {
+    Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
-    Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
-    Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
-
-    # Copy the release notes content and instructions file
-    Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
+    New-Item -ItemType Directory -Name $CompStartFolder > $null
+}
+else {
+    Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
-    Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
+}
+$CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
 
-    # Deal with the Python executable
-    $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
-    if (-Not (Test-Path $PyToolsPath)) {
-        Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
-        Exit
-    }
-    $PyIDistPath = "$PyToolsPath\$PyIDistFolder"
-    $CSPythonPath = "$PyIDistPath\$PythonExeFile"
-    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
+# Create the release notes folder for the release, if needed, and update the appropriate path variable
+if (-Not (Test-Path $ReleaseNotesFolder)) {
+    Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
+    New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
+}
+else {
+    Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
+    Start-Sleep $Script:SleepTimer
+}
+$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
 
-    Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
-    #>
+# Copy the CompStart content
+Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
+Start-Sleep $Script:SleepTimer
+Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
+Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
+Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
+
+# Copy the release notes content and instructions file
+Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
+Start-Sleep $Script:SleepTimer
+Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
+Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
+
+# Deal with the Python executable
+$PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
+if (-Not (Test-Path $PyToolsPath)) {
+    Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+    Exit
+}
+$PyIDistPath = "$PyToolsPath\$PyIDistFolder"
+$CSPythonPath = "$PyIDistPath\$PythonExeFile"
+Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
+Start-Sleep $Script:SleepTimer
+Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
+
+Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
+#>
 }
 function New-ReleasePackage {
     # The following code has been copied from the GenerateReleasePackage script:
     <#
-    # Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-    if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease create the release folder before running this script..."
-        Exit
+# Before proceeding, confirm the release folder path exists and if not, alert the user to create it
+if (-Not (Test-Path $ReleaseFullPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease create the release folder before running this script..."
+    Exit
+}
+
+$ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
+$ReleaseInstructionsPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
+
+# Check if the release folder has the necessary folders and files
+if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
+    Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
+    Exit
+}
+
+# Also check if the packages folder exists
+if (-Not (Test-Path $PackageFullPath)) {
+    Write-Host "`nThe package folder $PackageFullPath does not exist!`nIt will now be created..."
+
+    Set-Location $PackageVersionsPath
+    if (-Not (Test-Path $PackageMajorPath)) {
+        Write-Host "`nCreating the package directory for release major version $ReleaseMajorVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
     }
 
-    $ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-    $ReleaseInstructionsPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
-
-    # Check if the release folder has the necessary folders and files
-    if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
-        Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
-        Exit
+    Set-Location $PackageMajorPath
+    if (-Not (Test-Path $PackageMinorPath)) {
+        Write-Host "`nCreating the package directory for release minor version $ReleaseMinorVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
     }
+}
+else {
+    Write-Host "`nThe package folder $PackageFullPath already exists`n"
+}
 
-    # Also check if the packages folder exists
-    if (-Not (Test-Path $PackageFullPath)) {
-        Write-Host "`nThe package folder $PackageFullPath does not exist!`nIt will now be created..."
+Set-Location $PackageFullPath
 
-        Set-Location $PackageVersionsPath
-        if (-Not (Test-Path $PackageMajorPath)) {
-            Write-Host "`nCreating the package directory for release major version $ReleaseMajorVersion..."
-            Start-Sleep $Script:SleepTimer
-            New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
-        }
+# Get the release package name
+$ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
-        Set-Location $PackageMajorPath
-        if (-Not (Test-Path $PackageMinorPath)) {
-            Write-Host "`nCreating the package directory for release minor version $ReleaseMinorVersion..."
-            Start-Sleep $Script:SleepTimer
-            New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
-        }
-    }
-    else {
-        Write-Host "`nThe package folder $PackageFullPath already exists`n"
-    }
+# Create the hash table object to pass to the Compress-Archive cmdlet
+$PackageContents = @{
+    Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+    DestinationPath  = $ReleasePackageName
+    CompressionLevel = "Optimal"
+}
 
-    Set-Location $PackageFullPath
-
-    # Get the release package name
-    $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
-
-    # Create the hash table object to pass to the Compress-Archive cmdlet
-    $PackageContents = @{
-        Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
-        DestinationPath  = $ReleasePackageName
-        CompressionLevel = "Optimal"
-    }
-
-    Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Compress-Archive @PackageContents > $null
-    #>
+Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
+Start-Sleep $Script:SleepTimer
+Compress-Archive @PackageContents > $null
+#>
 }
 
 # Section: Main Script
@@ -853,8 +871,8 @@ Start-Release
 <#
 # PyInstaller related paths and properties
 $PyIArgumentArray = @(
-    $CSPath,
-    "--onefile"
+$CSPath,
+"--onefile"
 )
 
 # Get the release package name
@@ -862,8 +880,8 @@ $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
 # Create the hash table object to pass to the Compress-Archive cmdlet
 $PackageContents = @{
-    Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
-    DestinationPath  = $ReleasePackageName
-    CompressionLevel = "Optimal"
+Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+DestinationPath  = $ReleasePackageName
+CompressionLevel = "Optimal"
 }
 #>

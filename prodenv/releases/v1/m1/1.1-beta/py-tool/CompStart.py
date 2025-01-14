@@ -1,4 +1,5 @@
 # This will be a command line tool to create and edit the startup_data.json file
+import sys
 import dependencies.cs_jsonfn as deps_json
 import dependencies.cs_helper as deps_helper
 import dependencies.cs_chooser as deps_chooser
@@ -7,7 +8,10 @@ import dependencies.cs_pretty as deps_pretty
 # Global Variables
 
 # Specifies whether the tool is in production or testing
-is_prod = True
+is_prod = False
+
+# Specifies the name of the project root or the start directory
+start_dir = "CompStart"
 
 # If there are any errors, print this out at the end
 final_err_msg = (
@@ -17,7 +21,15 @@ final_err_msg = (
 # Program starting point
 if __name__ == "__main__":
     # Set the starting directory
-    deps_helper.set_start_dir()
+    start_dir_result = deps_helper.set_start_dir(start_dir)
+    if not start_dir_result:
+        deps_pretty.prettify_custom_error(
+            "No folder called CompStart could be found on the current path\nExiting tool...",
+            "main > set_start_dir",
+        )
+        print(f"\n{final_err_msg}")
+        input("\nPlease press the enter key when ready to close this window...")
+        sys.exit()
 
     # Variables for location and name of JSON file with startup data
     json_path = deps_helper.get_prod_path()
@@ -25,7 +37,7 @@ if __name__ == "__main__":
 
     # Print welcome message
     print(
-        "\nWelcome to CompStart: The computer startup tool that will make your life easier."
+        "\nWelcome to CompStart: The computer startup tool that will make your life easier"
     )
 
     # Initialize status variables
@@ -35,10 +47,11 @@ if __name__ == "__main__":
 
     # Menu choices to present to user during main loop
     menu_choices = [
-        "What is CompStart?",
+        "Program description",
         "Create a new startup file",
-        "View the existing startup file",
-        "Edit the existing startup file",
+        "View the startup file",
+        "Edit the startup file",
+        # "Add new startup items to the startup file",
     ]
 
     # Main loop to allow user to navigate program options
@@ -59,7 +72,7 @@ if __name__ == "__main__":
                     )
 
                 # If there were any errors, let the user know to check the error messages
-                if not status_state:
+                if not status_state and not status_message.startswith("Skipped"):
                     status_message = final_err_msg
 
                 # Print out the status message
@@ -81,10 +94,24 @@ if __name__ == "__main__":
                 if status_state:
                     input("Press enter when ready to view the startup data...")
                     print(deps_pretty.prettify_json(json_data))
-                    input("\nPress enter when ready to return to the previous menu...")
+                    input(
+                        "\nPress enter when ready to return to the previous menu..."
+                    )
             case 4:
-                deps_json.json_editor(json_path, json_filename)
-            case 5:
+                status_state, status_message = deps_json.json_editor(
+                    json_path, json_filename
+                )
+
+                # If there were any errors, let the user know to check the error messages
+                if not status_state:
+                    status_message = final_err_msg
+
+                # Print out the status message
+                print(f"\n{status_message}")
+
+            # case 5:
+            #    deps_json.json_adder(json_path, json_filename)
+            case _:
                 # This case will never really be addressed since the function user_menu_chooser adds an option by default to quit the program
                 # If the user picks that option, the function calls sys.exit so execution should never return to this loop
                 # However, just in case execution does return (i.e., some bug that gets introduced), this will prevent an infinite loop
