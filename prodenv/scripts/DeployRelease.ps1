@@ -651,32 +651,27 @@ function Add-FullVersionFolder {
 }
 function Invoke-PythonTool {
     <#
-        .SYNOPSIS
-            Generates an executable from the CompStart.py script using the PyInstaller Python module.
+    .SYNOPSIS
+        Generates an executable from the CompStart.py script using the PyInstaller Python module.
 
-        .DESCRIPTION
-            The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
-            
-            The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+    .DESCRIPTION
+        The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
+        
+        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
 
-        .PARAMETER None
-            This function does not take any parameters.
+    .PARAMETER None
+        This function does not take any parameters.
 
-        .EXAMPLE
-            Invoke-PythonTool
-            Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
+    .EXAMPLE
+        Invoke-PythonTool
+        Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
 
-        .NOTES
-            Author: David H. Watson (with help from VS Code Copilot)
-            GitHub: @dEhiN
-            Created: 2024-01-13
-            Updated: 2025-01-14
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14
     #>
-    # Set up local variables for easier access
-    $PyInstallerPath = $Script:PathVars.ReleaseFullPath + $Script:OSSeparatorChar + $Script:FolderNames.PyTool
-    $CSPythonPath = $Script:PathVars.DevPath + $Script:OSSeparatorChar + $Script:FileNames.CSPythonScript
-    $DevDependenciesPath = $Script:PathVars.PythonDependenciesPath
-    $PyToolDependenciesPath = $PyInstallerPath + $Script:OSSeparatorChar + $Script:FolderNames.PythonDependencies
 
     # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
     if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
@@ -684,15 +679,9 @@ function Invoke-PythonTool {
         Exit
     }
 
-    Set-Location $PyInstallerPath
+    Set-Location $Script:PathVars.ReleasePyToolFolderPath
     Set-PyToolFolder
-
-    # Copy over the files and folder necessary to generate the Python executable
-    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
-    Start-Sleep -Seconds $Script:SleepTimer
-    Copy-Item -Path $CSPythonPath -Destination $PyInstallerPath
-    Copy-Item -Path $DevDependenciesPath -Destination $PyInstallerPath
-    Copy-Item -Path $DevDependenciesPath\*.py -Destination $PyToolDependenciesPath
+    Add-PyToolContents
 
     # Let user know the Python executable will be created after a 5 second countdown
     Write-Host "`nCreating Python executable in..."
@@ -703,7 +692,7 @@ function Invoke-PythonTool {
 
     # Create the Python executable
     $PyIArgumentArray = @(
-        $CSPythonPath,
+        $Script:PathVars.CSPythonScriptPath,
         "--onefile"
     )
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
