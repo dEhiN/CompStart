@@ -665,8 +665,7 @@ function Invoke-PythonTool {
         New-Item $PyInstallerPath -ItemType Directory > $null
     }
 
-    #    Set-Location $PyInstallerPath
-    $PyInstallerPath = $Script:PathVars.ReleasesPath + $Script:OSSeparatorChar + "v1" + $Script:OSSeparatorChar + "m1" + $Script:OSSeparatorChar + "1.1-beta" + $Script:OSSeparatorChar + $Script:FolderNames.PyTool
+    Set-Location $PyInstallerPath
 
     # Check to see if there's anything already in the PyInstaller folder and if so, delete it
     $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
@@ -675,20 +674,12 @@ function Invoke-PythonTool {
 
         # Loop until there's nothing in py-tools
         $PyToolFolderContents = Get-ChildItem $PyInstallerPath -Recurse
-        "Listing full contents of py-tools..." | Out-File -FilePath "IPT_test.txt"
-        $PyToolFolderContents | Out-File -FilePath "IPT_test.txt" -Append
-        "End listing full contents of py-tools..." | Out-File -FilePath "IPT_test.txt" -Append
-        $LoopCount = 0
         foreach ($Item in $PyToolFolderContents) {
-            $LoopCount++
-            "`nSpecific Item #$($LoopCount): $Item" | Out-File -FilePath "IPT_test.txt" -Append
             if ($Item.GetType() -eq [System.IO.FileInfo]) {
-                "Remove File: $Item" | Out-File -FilePath "IPT_test.txt" -Append
-                #                Remove-Item $Item
+                Remove-Item $Item
             }
         }
-        #        Set-Location $PyInstallerPath
-        #        Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
+        Remove-Item * -Recurse -Force
         Write-Host "The folder is now empty."
     }
     Exit
