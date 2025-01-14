@@ -686,15 +686,6 @@ function Invoke-PythonTool {
                 "Remove File: $Item" | Out-File -FilePath "IPT_test.txt" -Append
                 #                Remove-Item $Item
             }
-            elseif ($Item.GetType() -eq [System.IO.DirectoryInfo]) {
-                if ((Get-ChildItem $Item).Length -gt 0) {
-                    "Parent Folder: $Item" | Out-File -FilePath "IPT_test.txt" -Append
-                }
-                else {
-                    "Remove Folder: $Item" | Out-File -FilePath "IPT_test.txt" -Append
-                    #                    Remove-Item $Item -Force
-                } 
-            }
         }
         #        Set-Location $PyInstallerPath
         #        Start-Process -FilePath "cmd.exe" -ArgumentList "for /D %v in (*) do rd /s/q %v" -NoNewWindow
