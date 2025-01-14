@@ -636,14 +636,7 @@ function Add-FullVersionFolder {
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
-function Invoke-PythonTool {
-    #    Write-Host $PyInstallerPath
-    #    Write-Host ((Get-ChildItem $PyInstallerPath).Length)
-    #    Write-Host ((Get-ChildItem $PyInstallerPath -Recurse).Length)
-    #    Exit
-
-    # The following code has been copied from the GeneratePythonTool script:
-    
+function Invoke-PythonTool {  
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
@@ -652,6 +645,7 @@ function Invoke-PythonTool {
     $CSPythonPath = $Script:PathVars.DevPath + $Script:OSSeparatorChar + $Script:FileNames.CSPythonScript
     $DevDependenciesPath = $Script:PathVars.PythonDependenciesPath
     $PyToolDependenciesPath = $PyInstallerPath + $Script:OSSeparatorChar + $Script:FolderNames.PythonDependencies
+    $PyInstallerFile = $Script:PyInstallerCmd
 
     # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
     if (-Not (Test-Path $ReleaseFullPath)) {
@@ -674,15 +668,6 @@ function Invoke-PythonTool {
     $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
     if ($PyToolFolderLen -gt 0) {
         Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
-        <#
-        # Loop until there's nothing in py-tools
-        $PyToolFolderContents = Get-ChildItem $PyInstallerPath -Recurse
-        foreach ($Item in $PyToolFolderContents) {
-            if ($Item.GetType() -eq [System.IO.FileInfo]) {
-                Remove-Item $Item
-            }
-        }
-        #>
         Start-Sleep -Seconds $Script:SleepTimer
         Remove-Item * -Recurse -Force
         Write-Host "The folder is now empty."
@@ -695,7 +680,7 @@ function Invoke-PythonTool {
     Copy-Item -Path $DevDependenciesPath -Destination $PyInstallerPath
     Copy-Item -Path $DevDependenciesPath\*.py -Destination $PyToolDependenciesPath
 
-    # Let user know the Python executable will be created and count down for 5 seconds
+    # Let user know the Python executable will be created after a 5 second countdown
     Write-Host "`nCreating Python executable in..."
     for ($counter = 5; $counter -gt 0; $counter--) {
         Write-Host "$counter..."
@@ -703,6 +688,10 @@ function Invoke-PythonTool {
     }
 
     # Create the Python executable: pyinstaller .\CompStart.py --onefile
+    $PyIArgumentArray = @(
+        $CSPythonPath,
+        "--onefile"
+    )
     Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
