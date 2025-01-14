@@ -421,9 +421,6 @@ function Invoke-PythonTool {
     # Before proceeding, confirm the release folder path exists
     Confirm-ReleaseFolder
 
-    # Make sure we are in the correct directory
-    Set-Location $Script:PathVars.ReleasePyToolFolderPath
-
     # Set up the py-tool folder for the release
     Set-PyToolFolder
 
@@ -451,7 +448,7 @@ function Confirm-ReleaseFolder {
         Confirms the release folder exists and creates it if it doesn't.
 
     .DESCRIPTION
-        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it continues with the release process.
+        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
 
     .PARAMETER None
         This function does not take any parameters.
@@ -468,10 +465,14 @@ function Confirm-ReleaseFolder {
     #>
 
     if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
-        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
+        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first...exiting the script..."
         Exit
     }
-
+    else {
+        Write-Host "`nFound the release folder for release version $($Script:ReleaseDetails.FullVersion)...continuing with the release process..."
+        Start-Sleep $Script:SleepTimer
+        Set-Location $Script:PathVars.ReleaseFullPath
+    }
 }
 function Set-MajorVersionPaths {
     <#
