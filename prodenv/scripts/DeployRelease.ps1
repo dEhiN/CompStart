@@ -756,6 +756,40 @@ function Set-PyToolFolder {
         Write-Host "The folder is now empty."
     }
 }
+function Add-PyToolContents {
+    <#
+    .SYNOPSIS
+        Copies the necessary files to the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-PyToolContents
+        Copies the necessary files to the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $Script:PathVars.ReleasePyToolFolderPath
+
+    # Copy over the files and folder necessary to generate the Python executable
+    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
+    Start-Sleep -Seconds $Script:SleepTimer
+
+    Copy-Item -Path $Script:PathVars.CSPythonScriptPath -Destination $Script:PathVars.ReleasePyToolFolderPath
+    Copy-Item -Path $Script:PathVars.DevPythonDependenciesPath -Destination $Script:PathVars.ReleasePyToolFolderPath
+    
+    $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
+    Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
+}
 function Copy-ReleaseContent {
     # The following code has been copied from the CopyReleaseContent script:
     <#
