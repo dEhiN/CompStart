@@ -671,7 +671,7 @@ function Invoke-PythonTool {
     $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
     if ($PyToolFolderLen -gt 0) {
         Write-Host "`nFound items in the py-tools folder. Deleting all items..."
-
+        <#
         # Loop until there's nothing in py-tools
         $PyToolFolderContents = Get-ChildItem $PyInstallerPath -Recurse
         foreach ($Item in $PyToolFolderContents) {
@@ -679,6 +679,7 @@ function Invoke-PythonTool {
                 Remove-Item $Item
             }
         }
+        #>
         Remove-Item * -Recurse -Force
         Write-Host "The folder is now empty."
     }
