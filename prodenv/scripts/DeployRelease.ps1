@@ -644,9 +644,7 @@ function Invoke-PythonTool {
         .DESCRIPTION
             The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
             
-            The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function checks that the release folder contains a py-tool folder. If not, it creates one within the release folder. If the py-tool folder exists but it's not empty, the existing contents are deleted.
-            
-            The function then copies over the CompStart.py script and all its Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+            The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
 
         .PARAMETER None
             This function does not take any parameters.
@@ -662,43 +660,22 @@ function Invoke-PythonTool {
             Updated: 2025-01-14
     #>
     # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
-    $PyToolFolder = $Script:FolderNames.PyTool
-    $PyInstallerPath = $ReleaseFullPath + $Script:OSSeparatorChar + $PyToolFolder
+    $PyInstallerPath = $Script:PathVars.ReleaseFullPath + $Script:OSSeparatorChar + $Script:FolderNames.PyTool
     $CSPythonPath = $Script:PathVars.DevPath + $Script:OSSeparatorChar + $Script:FileNames.CSPythonScript
     $DevDependenciesPath = $Script:PathVars.PythonDependenciesPath
     $PyToolDependenciesPath = $PyInstallerPath + $Script:OSSeparatorChar + $Script:FolderNames.PythonDependencies
-    $PyInstallerFile = $Script:PyInstallerCmd
 
     # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
-    if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion!`nPlease create it first..."
+    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
+        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
         Exit
     }
 
-    # Before proceeding, confirm if the py-tools path exists and if not, try to create it
-    if (-Not (Test-Path $PyInstallerPath)) {
-        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $ReleaseFullVersion."
-        Write-Host "Creating the $PyToolFolder folder..."
-        Write-Host "...at $ReleaseFullPath"
-        Start-Sleep -Seconds $Script:SleepTimer
-        New-Item $PyInstallerPath -ItemType Directory > $null
-    }
-
     Set-Location $PyInstallerPath
-
-    # Check to see if there's anything already in the PyInstaller folder and if so, delete it
-    $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
-    if ($PyToolFolderLen -gt 0) {
-        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
-        Start-Sleep -Seconds $Script:SleepTimer
-        Remove-Item * -Recurse -Force
-        Write-Host "The folder is now empty."
-    }
+    Set-PyToolFolder
 
     # Copy over the files and folder necessary to generate the Python executable
-    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolFolder folder..."
+    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
     Start-Sleep -Seconds $Script:SleepTimer
     Copy-Item -Path $CSPythonPath -Destination $PyInstallerPath
     Copy-Item -Path $DevDependenciesPath -Destination $PyInstallerPath
@@ -716,7 +693,7 @@ function Invoke-PythonTool {
         $CSPythonPath,
         "--onefile"
     )
-    Start-Process -FilePath $PyInstallerFile -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+    Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
 function Set-PyToolFolder {
