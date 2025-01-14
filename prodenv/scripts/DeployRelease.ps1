@@ -711,7 +711,7 @@ function Invoke-PythonTool {
         Start-Sleep -Seconds 1
     }
 
-    # Create the Python executable: pyinstaller .\CompStart.py --onefile
+    # Create the Python executable
     $PyIArgumentArray = @(
         $CSPythonPath,
         "--onefile"
