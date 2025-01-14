@@ -394,6 +394,85 @@ function Set-ReleaseFolderStructure {
     # Deal with the release folder
     Set-FullVersionPath
 }
+function Invoke-PythonTool {
+    <#
+    .SYNOPSIS
+        Generates an executable from the CompStart.py script using the PyInstaller Python module.
+
+    .DESCRIPTION
+        The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
+        
+        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Invoke-PythonTool
+        Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14
+    #>
+
+    # Before proceeding, confirm the release folder path exists
+    Confirm-ReleaseFolder
+
+    # Make sure we are in the correct directory
+    Set-Location $Script:PathVars.ReleasePyToolFolderPath
+
+    # Set up the py-tool folder for the release
+    Set-PyToolFolder
+
+    # Copy the necessary files to the py-tool folder
+    Add-PyToolContents
+
+    # Let user know the Python executable will be created after a 5 second countdown
+    Write-Host "`nCreating Python executable in..."
+    for ($counter = 5; $counter -gt 0; $counter--) {
+        Write-Host "$counter..."
+        Start-Sleep -Seconds 1
+    }
+
+    # Create the Python executable
+    $PyIArgumentArray = @(
+        $Script:PathVars.CSPythonScriptPath,
+        "--onefile"
+    )
+    Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+    Write-Host "`nPython executable successfully created"
+}
+function Confirm-ReleaseFolder {
+    <#
+    .SYNOPSIS
+        Confirms the release folder exists and creates it if it doesn't.
+
+    .DESCRIPTION
+        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it continues with the release process.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Confirm-ReleaseFolder
+        Checks if the release folder exists for the current release version and exits the script if it doesn't.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14    
+    #>
+
+    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
+        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
+        Exit
+    }
+
+}
 function Set-MajorVersionPaths {
     <#
     .SYNOPSIS
@@ -524,6 +603,52 @@ function Set-FullVersionPath {
         Start-Sleep $Script:SleepTimer
     }
 }
+function Set-PyToolFolder {
+    <#
+    .SYNOPSIS
+        Sets up the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Set-PyToolFolder` function sets up the py-tool folder for the release by checking if the folder exists in the release folder. If the folder does not exist, it creates the folder. If the folder exists but is not empty, it deletes the existing contents.
+    
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-PyToolFolder
+        Sets up the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Set up local variables for easier access
+    $PyToolFolder = $Script:FolderNames.PyTool
+    $PyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $PyToolFolderPath
+    
+    # Confirm if the py-tool folder path exists and if not, try to create it
+    if (-Not (Test-Path $PyToolFolderPath)) {
+        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
+        Write-Host "Creating the $PyToolFolder folder..."
+        Write-Host "...at $($Script:PathVars.ReleaseFullPath)"
+        Start-Sleep -Seconds $Script:SleepTimer
+        New-Item $PyToolFolderPath -ItemType Directory > $null
+    }
+
+    # Check to see if there's anything already in the py-tool folder and if so, delete it
+    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
+    if ($PyToolFolderLen -gt 0) {
+        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
+        Start-Sleep -Seconds $Script:SleepTimer
+        Remove-Item * -Recurse -Force
+        Write-Host "The folder is now empty."
+    }
+}
 function Add-MajorVersionFolder {
     <#
     .SYNOPSIS
@@ -648,131 +773,6 @@ function Add-FullVersionFolder {
     Write-Host "...at $ReleaseFullPath"
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
-}
-function Invoke-PythonTool {
-    <#
-    .SYNOPSIS
-        Generates an executable from the CompStart.py script using the PyInstaller Python module.
-
-    .DESCRIPTION
-        The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
-        
-        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Invoke-PythonTool
-        Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14
-    #>
-
-    # Before proceeding, confirm the release folder path exists
-    Confirm-ReleaseFolder
-
-    # Make sure we are in the correct directory
-    Set-Location $Script:PathVars.ReleasePyToolFolderPath
-
-    # Set up the py-tool folder for the release
-    Set-PyToolFolder
-
-    # Copy the necessary files to the py-tool folder
-    Add-PyToolContents
-
-    # Let user know the Python executable will be created after a 5 second countdown
-    Write-Host "`nCreating Python executable in..."
-    for ($counter = 5; $counter -gt 0; $counter--) {
-        Write-Host "$counter..."
-        Start-Sleep -Seconds 1
-    }
-
-    # Create the Python executable
-    $PyIArgumentArray = @(
-        $Script:PathVars.CSPythonScriptPath,
-        "--onefile"
-    )
-    Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
-    Write-Host "`nPython executable successfully created"
-}
-function Confirm-ReleaseFolder {
-    <#
-    .SYNOPSIS
-        Confirms the release folder exists and creates it if it doesn't.
-
-    .DESCRIPTION
-        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it continues with the release process.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Confirm-ReleaseFolder
-        Checks if the release folder exists for the current release version and exits the script if it doesn't.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14    
-    #>
-
-    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
-        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first..."
-        Exit
-    }
-
-}
-function Set-PyToolFolder {
-    <#
-    .SYNOPSIS
-        Sets up the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Set-PyToolFolder` function sets up the py-tool folder for the release by checking if the folder exists in the release folder. If the folder does not exist, it creates the folder. If the folder exists but is not empty, it deletes the existing contents.
-    
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Set-PyToolFolder
-        Sets up the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Set up local variables for easier access
-    $PyToolFolder = $Script:FolderNames.PyTool
-    $PyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $PyToolFolderPath
-    
-    # Confirm if the py-tool folder path exists and if not, try to create it
-    if (-Not (Test-Path $PyToolFolderPath)) {
-        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
-        Write-Host "Creating the $PyToolFolder folder..."
-        Write-Host "...at $($Script:PathVars.ReleaseFullPath)"
-        Start-Sleep -Seconds $Script:SleepTimer
-        New-Item $PyToolFolderPath -ItemType Directory > $null
-    }
-
-    # Check to see if there's anything already in the py-tool folder and if so, delete it
-    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
-    if ($PyToolFolderLen -gt 0) {
-        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
-        Start-Sleep -Seconds $Script:SleepTimer
-        Remove-Item * -Recurse -Force
-        Write-Host "The folder is now empty."
-    }
 }
 function Add-PyToolContents {
     <#
@@ -955,12 +955,6 @@ Start-Release
 # Section: Commented-out Copied Code
 # Temporary holding place for copy-pasting of all the script variables needed for the script
 <#
-# PyInstaller related paths and properties
-$PyIArgumentArray = @(
-$CSPath,
-"--onefile"
-)
-
 # Get the release package name
 $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
