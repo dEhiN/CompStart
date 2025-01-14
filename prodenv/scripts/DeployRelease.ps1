@@ -647,8 +647,11 @@ function Invoke-PythonTool {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
-    $PyTool = $Script:FolderNames.PyTool
-    $PyInstallerPath = $ReleaseFullPath + $Script:OSSeparatorChar + $PyTool
+    $PyToolFolder = $Script:FolderNames.PyTool
+    $PyInstallerPath = $ReleaseFullPath + $Script:OSSeparatorChar + $PyToolFolder
+    $CSPythonPath = $Script:PathVars.DevPath + $Script:OSSeparatorChar + $Script:FileNames.CSPythonScript
+    $DevDependenciesPath = $Script:PathVars.PythonDependenciesPath
+    $PyToolDependenciesPath = $PyInstallerPath + $Script:OSSeparatorChar + $Script:FolderNames.PythonDependencies
 
     # Before proceeding, confirm the release folder path exists and if not, alert the user to create it and then stop the script
     if (-Not (Test-Path $ReleaseFullPath)) {
@@ -658,8 +661,8 @@ function Invoke-PythonTool {
 
     # Before proceeding, confirm if the py-tools path exists and if not, try to create it
     if (-Not (Test-Path $PyInstallerPath)) {
-        Write-Host "`nCannot find a folder named `"$PyTool`" in the release folder for release version $ReleaseFullVersion."
-        Write-Host "Creating the $PyTool folder..."
+        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $ReleaseFullVersion."
+        Write-Host "Creating the $PyToolFolder folder..."
         Write-Host "...at $ReleaseFullPath"
         Start-Sleep -Seconds $Script:SleepTimer
         New-Item $PyInstallerPath -ItemType Directory > $null
@@ -670,7 +673,7 @@ function Invoke-PythonTool {
     # Check to see if there's anything already in the PyInstaller folder and if so, delete it
     $PyToolFolderLen = (Get-ChildItem $PyInstallerPath -Recurse).Length
     if ($PyToolFolderLen -gt 0) {
-        Write-Host "`nFound items in the py-tools folder. Deleting all items..."
+        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
         <#
         # Loop until there's nothing in py-tools
         $PyToolFolderContents = Get-ChildItem $PyInstallerPath -Recurse
@@ -680,19 +683,17 @@ function Invoke-PythonTool {
             }
         }
         #>
+        Start-Sleep -Seconds $Script:SleepTimer
         Remove-Item * -Recurse -Force
         Write-Host "The folder is now empty."
     }
-    Exit
 
     # Copy over the files and folder necessary to generate the Python executable
     Write-Host "`nCopying over the Python CLI tool and its dependencies to the $PyToolFolder folder..."
-    Start-Sleep $Script:SleepTimer
-    if ((Get-ChildItem $PyInstallerPath).Length -eq 0) {
-        Copy-Item -Path $DependenciesPath -Destination $PyInstallerPath
-    }
-    Copy-Item -Path $CSPath -Destination $PyInstallerPath
-    Copy-Item -Path $DependenciesPath\*.py -Destination $PyInstallerPath\dependencies
+    Start-Sleep -Seconds $Script:SleepTimer
+    Copy-Item -Path $CSPythonPath -Destination $PyInstallerPath
+    Copy-Item -Path $DevDependenciesPath -Destination $PyInstallerPath
+    Copy-Item -Path $DevDependenciesPath\*.py -Destination $PyToolDependenciesPath
 
     # Let user know the Python executable will be created and count down for 5 seconds
     Write-Host "`nCreating Python executable in..."
