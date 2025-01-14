@@ -96,10 +96,10 @@ function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Small helper function to set the starting directory to the project root.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Set-ProjectRoot` function will get the path for the current working directory (cwd) and check to see if the CompStart project root directory is already on it. It will check for five scenarios:
 
         1. There is no folder at all
@@ -108,17 +108,17 @@ function Set-ProjectRoot {
         4. There is more than one folder but the last one is at the end of the current working directory path
         5. There is more than one folder and the last one is not at the end of the current working directory path
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .OUTPUTS
+    .OUTPUTS
         [bool] Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the function Set-Location has been used to move the current working directory to the desired location.
 
-        .EXAMPLE
+    .EXAMPLE
         Set-StartDirectory
         Checks if the directory "CompStart" is in the current working directory path and sets the location to it if found.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -183,20 +183,20 @@ function Set-ProjectRoot {
 }
 function Get-ReleaseDetails {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Gets the release details from the user.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Get-ReleaseDetails
         Prompts the user for the release details.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-10
@@ -236,7 +236,7 @@ function Update-PathVars {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-12
-        Updated: 2025-01-13
+        Updated: 2025-01-14
     #>
 
     # Set the project root path for easy reference
@@ -293,10 +293,10 @@ function Update-PathVars {
 }
 function Start-Release {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Starts the release process.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Start-Release` function initiates the release process by going through the 4 major tasks involved:
 
         1. Set (up) the release folder structure for both the releases and packages directories
@@ -306,14 +306,14 @@ function Start-Release {
 
         The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Start-Release
         Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -365,20 +365,20 @@ function Start-Release {
 }
 function Set-ReleaseFolderStructure {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Create the folder structure for a release.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Set-ReleaseFolderStructure` function initiates the release process by creating the necessary directories for the release in both the releases and packages folders. The locations are first checked to see if the necessary directories already exist, and are skipped if they exist. The `Script:ReleaseDetails` dictionary is used to determine the needed directories.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Set-ReleaseFolderStructure
         Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable. See Description for more details.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -396,20 +396,20 @@ function Set-ReleaseFolderStructure {
 }
 function Set-MajorVersionPaths {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Checks for an existing major release version folder and creates one if applicable for both releases and packages.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Set-MajorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MajorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MajorVersionFolder` will be called to create it.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Set-MajorVersionPaths
         Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -443,20 +443,20 @@ function Set-MajorVersionPaths {
 }
 function Set-MinorVersionPaths {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Checks for an existing minor release version folder and creates one if applicable for both releases and packages.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Set-MinorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MinorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MinorVersionFolder` will be called to create it.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Set-MinorVersionPaths
         Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -490,20 +490,20 @@ function Set-MinorVersionPaths {
 }
 function Set-FullVersionPath {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Checks for an existing release folder and creates one if applicable.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Set-FullVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Set-FullVersionPath
         Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
@@ -526,24 +526,24 @@ function Set-FullVersionPath {
 }
 function Add-MajorVersionFolder {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Creates a directory for a major release version.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
 
-        .PARAMETER IsPackage
+    .PARAMETER IsPackage
         A boolean specifying if the directory is to be created in the packages folder or the releases folder.
 
-        .EXAMPLE
+    .EXAMPLE
         Add-MajorVersionFolder -IsPackage $true
         Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
 
-        .EXAMPLE
+    .EXAMPLE
         Add-MajorVersionFolder -IsPackage $false
         Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-12-30
@@ -573,24 +573,24 @@ function Add-MajorVersionFolder {
 }
 function Add-MinorVersionFolder {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Creates a directory for a minor release version.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
 
-        .PARAMETER IsPackage
+    .PARAMETER IsPackage
         A boolean specifying if the directory is to be created in the packages folder or the releases folder.
 
-        .EXAMPLE
+    .EXAMPLE
         Add-MinorVersionFolder -IsPackage $true
         Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
 
-        .EXAMPLE
+    .EXAMPLE
         Add-MajorVersionFolder -IsPackage $false
         Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-12-30
@@ -620,20 +620,20 @@ function Add-MinorVersionFolder {
 }
 function Add-FullVersionFolder {
     <#
-        .SYNOPSIS
+    .SYNOPSIS
         Creates a directory for a release version.
 
-        .DESCRIPTION
+    .DESCRIPTION
         The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
 
-        .PARAMETER None
+    .PARAMETER None
         This function does not take any parameters.
 
-        .EXAMPLE
+    .EXAMPLE
         Add-FullVersionFolder
         Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
 
-        .NOTES
+    .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-12-30
