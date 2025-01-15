@@ -445,7 +445,7 @@ function Invoke-PythonTool {
 function Confirm-ReleaseFolder {
     <#
     .SYNOPSIS
-        Confirms the release folder exists and creates it if it doesn't.
+        Confirms the release folder exists.
 
     .DESCRIPTION
         The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
@@ -809,68 +809,121 @@ function Add-PyToolContents {
     $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
     Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
 }
-function Copy-ReleaseContents {
-    # The following code has been copied from the CopyReleaseContent script:
+function Set-CompStartFolder {
     <#
-# Before proceeding, confirm the release folder path exists and if not, alert the user to create it
-if (-Not (Test-Path $ReleaseFullPath)) {
-    Write-Host "`nThe release folder $ReleaseFullPath does not exist!`nPlease run the PowerShell script 'CreateReleaseFolder.ps1' before running this script..."
-    Exit
+    .SYNOPSIS
+        Sets the CompStart folder name for the release.
+
+    .DESCRIPTION
+        The `Set-CompStartFolder` function sets the CompStart folder name for the release based on the release version details stored in the `$Script:ReleaseDetails` dictionary. The folder name is constructed using the major and minor version numbers, along with the release tag if it exists.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-CompStartFolder
+        Sets the CompStart folder name for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Create the CompStart folder for the release, if needed, and update the appropriate path variable
+    if (-Not (Test-Path $CompStartFolder)) {
+        Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $CompStartFolder > $null
+    }
+    else {
+        Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+    $CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
 }
+function Set-ReleaseNotesFolder {
+    <#
+    .SYNOPSIS
+        Sets the release notes folder name for the release.
 
-Set-Location $ReleaseFullPath
+    .DESCRIPTION
+        The `Set-ReleaseNotesFolder` function sets the release notes folder name for the release based on the release version details stored in the `$Script:ReleaseDetails` dictionary. The folder name is constructed using the major and minor version numbers, along with the release tag if it exists.
 
-# Create the CompStart folder for the release, if needed, and update the appropriate path variable
-if (-Not (Test-Path $CompStartFolder)) {
-    Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-ReleaseNotesFolder
+        Sets the release notes folder name for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Create the release notes folder for the release, if needed, and update the appropriate path variable
+    if (-Not (Test-Path $ReleaseNotesFolder)) {
+        Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
+    }
+    else {
+        Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+    $ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
+}
+function Copy-ReleaseContents {
+    <#
+    .SYNOPSIS
+        Copies the necessary content for a release to the release folder.
+    .DESCRIPTION
+        The `Copy-ReleaseContents` function copies the necessary content for a release to the release folder. This includes the CompStart content, the release notes content, and the Python tool executable. The function first checks to ensure the release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function copies the CompStart content, the release notes content, and the Python tool executable to the release folder.
+    .PARAMETER None
+        This function does not take any parameters.
+    .EXAMPLE
+        Copy-ReleaseContents
+        Copies the necessary content for a release to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+    
+    # Before proceeding, confirm the release folder path exists
+    Confirm-ReleaseFolder
+
+    Set-CompStartFolder
+    Set-ReleaseNotesFolder
+
+    # Copy the CompStart content
+    Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    New-Item -ItemType Directory -Name $CompStartFolder > $null
-}
-else {
-    Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
+    Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
+    Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
+    Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
+
+    # Copy the release notes content and instructions file
+    Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-}
-$CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
+    Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
+    Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
 
-# Create the release notes folder for the release, if needed, and update the appropriate path variable
-if (-Not (Test-Path $ReleaseNotesFolder)) {
-    Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
+    # Deal with the Python executable
+    $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
+    if (-Not (Test-Path $PyToolsPath)) {
+        Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+        Exit
+    }
+    $PyIDistPath = "$PyToolsPath\$PyIDistFolder"
+    $CSPythonPath = "$PyIDistPath\$PythonExeFile"
+    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
-}
-else {
-    Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
-    Start-Sleep $Script:SleepTimer
-}
-$ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
+    Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
 
-# Copy the CompStart content
-Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
-Start-Sleep $Script:SleepTimer
-Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
-Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
-Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
-
-# Copy the release notes content and instructions file
-Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
-Start-Sleep $Script:SleepTimer
-Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
-Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
-
-# Deal with the Python executable
-$PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
-if (-Not (Test-Path $PyToolsPath)) {
-    Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
-    Exit
-}
-$PyIDistPath = "$PyToolsPath\$PyIDistFolder"
-$CSPythonPath = "$PyIDistPath\$PythonExeFile"
-Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
-Start-Sleep $Script:SleepTimer
-Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
-
-Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
-#>
+    Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
 }
 function New-ReleasePackage {
     # The following code has been copied from the GenerateReleasePackage script:
