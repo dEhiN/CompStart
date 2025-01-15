@@ -92,6 +92,236 @@ $Script:PathVars = [ordered]@{
 }
 
 # Section: Script Functions
+function Start-Release {
+    <#
+    .SYNOPSIS
+        Starts the release process.
+
+    .DESCRIPTION
+        The `Start-Release` function initiates the release process by going through the 4 major tasks involved:
+
+        1. Set (up) the release folder structure for both the releases and packages directories
+        2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
+        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
+        4. New release package - creates a new release package
+
+        The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Start-Release
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-13
+    #>
+
+    # Loop until user answers prompt
+    $LoopTrue = $True
+    do {
+        # Show the user the menu options
+        $UserMenu = "`nPlease choose one of the following:`n[1] Start the whole release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n`nWhat would you like to do? "
+
+        Write-Host $UserMenu
+        $UserPrompt = $Host.UI.ReadLine()
+
+        # Check the user entered a valid choice
+        $UserOptions = @("1", "2", "3", "4", "5")
+
+        if ($UserPrompt -in $UserOptions) {
+            $UserChoice = [int]$UserPrompt
+
+            # Tell loop to quit
+            $LoopTrue = $False
+        }
+        else {
+            Write-Host "Please make a valid choice!"
+        }
+    } while ($LoopTrue -eq $True)
+
+    # Task 1
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 2)) {
+        Set-ReleaseFolderStructure
+    }
+
+    # Task 2
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 3)) {
+        Invoke-PythonTool
+    }
+
+    # Task 3
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 4)) {
+        Copy-ReleaseContent
+    }
+
+    # Task 4
+    if (($UserChoice -eq 1) -or ($UserChoice -eq 5)) {
+        New-ReleasePackage
+    }
+}
+function Invoke-PythonTool {
+    <#
+    .SYNOPSIS
+        Generates an executable from the CompStart.py script using the PyInstaller Python module.
+
+    .DESCRIPTION
+        The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
+        
+        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Invoke-PythonTool
+        Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14
+    #>
+
+    # Before proceeding, confirm the release folder path exists
+    Set-ReleaseFolder
+
+    # Set up the py-tool folder for the release
+    Add-PyToolFolder
+
+    # Copy the necessary files to the py-tool folder
+    Add-PyToolContents
+
+    # Let user know the Python executable will be created after a 5 second countdown
+    Write-Host "`nCreating Python executable in..."
+    for ($counter = 5; $counter -gt 0; $counter--) {
+        Write-Host "$counter..."
+        Start-Sleep -Seconds 1
+    }
+
+    # Create the Python executable
+    $PyIArgumentArray = @(
+        $Script:PathVars.CSPythonScriptPath,
+        "--onefile"
+    )
+    Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
+    Write-Host "`nPython executable successfully created"
+}
+function Update-PathVars {
+    <#
+    .SYNOPSIS
+        Updates the project environment path variables to be used by this script.
+
+    .DESCRIPTION
+        The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:PathVars` dictionary.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Update-PathVars
+        Updates all the path variables based on the current project root path and folder names.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-12
+        Updated: 2025-01-14
+    #>
+
+    # Set the project root path for easy reference
+    $ProjectRootPath = $Script:PathVars.ProjectRootPath
+
+    # First level folder paths
+    $Script:PathVars.DevPath = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.DevEnv)"
+    $Script:PathVars.ProdPath = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.ProdEnv)"
+
+    # Dev related folder paths
+    $DevPath = $Script:PathVars.DevPath
+    $Script:PathVars.DevConfigPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
+    $Script:PathVars.DevPythonDependenciesPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+
+    # Dev related file paths
+    $Script:PathVars.CSPythonScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
+    $Script:PathVars.CSBatchScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
+    $Script:PathVars.CSPowerShellScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
+
+    # Prod related folder paths
+    $ProdPath = $Script:PathVars.ProdPath
+    $Script:PathVars.AssetsPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Assets)"
+    $Script:PathVars.PackagesPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Packages)"
+    $Script:PathVars.ReleasesPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Releases)"
+
+    # Asset related folder paths
+    $AssetsPath = $Script:PathVars.AssetsPath
+    $Script:PathVars.ReleaseAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
+    $Script:PathVars.InstallerAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
+
+    # Package related folder paths
+    $PackagesPath = $Script:PathVars.PackagesPath
+    $Script:PathVars.PackageMajorPath = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $PackageMajorPath = $Script:PathVars.PackageMajorPath
+    $Script:PathVars.PackageMinorPath = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+
+    # Release related parent folder paths
+    $ReleasesPath = $Script:PathVars.ReleasesPath
+    $Script:PathVars.ReleaseMajorPath = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
+    $Script:PathVars.ReleaseMinorPath = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
+    $Script:PathVars.ReleaseFullPath = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
+
+    # Release specific child folder paths
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+    $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
+    $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
+
+    # PyInstaller specific folder paths    
+    $ReleasePyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
+    $Script:PathVars.ReleasePythonDependenciesPath = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+}
+function Get-ReleaseDetails {
+    <#
+    .SYNOPSIS
+        Gets the release details from the user.
+
+    .DESCRIPTION
+        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Get-ReleaseDetails
+        Prompts the user for the release details.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-10
+        Updated: 2025-01-12
+    #>
+    Write-Host "`nWhat is the release major version number? " -NoNewline
+    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
+
+    Write-Host "What is the release minor version number? " -NoNewline
+    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
+
+    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
+
+    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
+    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
+
+    if ($Script:ReleaseDetails.Tag) {
+        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
+    }    
+}
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
@@ -502,6 +732,41 @@ function Add-FullVersionFolder {
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
 }
+function Add-CompStartFolder {
+    <#
+    .SYNOPSIS
+        Creates the CompStart folder for the release.
+
+    .DESCRIPTION
+        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-CompStartFolder
+        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
+
+    if (-Not (Test-Path $ReleaseCSFolderPath)) {
+        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $ReleaseCSFolderPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
 function Add-PyToolFolder {
     <#
     .SYNOPSIS
@@ -546,41 +811,6 @@ function Add-PyToolFolder {
         Start-Sleep -Seconds $Script:SleepTimer
         Remove-Item * -Recurse -Force
         Write-Host "The folder is now empty."
-    }
-}
-function Add-CompStartFolder {
-    <#
-    .SYNOPSIS
-        Creates the CompStart folder for the release.
-
-    .DESCRIPTION
-        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-CompStartFolder
-        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
-
-    if (-Not (Test-Path $ReleaseCSFolderPath)) {
-        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseCSFolderPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
     }
 }
 function Add-ReleaseNotesFolder {
@@ -651,306 +881,6 @@ function Add-PyToolContents {
     
     $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
     Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
-}
-function Get-ReleaseDetails {
-    <#
-    .SYNOPSIS
-        Gets the release details from the user.
-
-    .DESCRIPTION
-        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Get-ReleaseDetails
-        Prompts the user for the release details.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-10
-        Updated: 2025-01-12
-    #>
-    Write-Host "`nWhat is the release major version number? " -NoNewline
-    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
-
-    Write-Host "What is the release minor version number? " -NoNewline
-    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
-
-    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
-
-    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
-
-    if ($Script:ReleaseDetails.Tag) {
-        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
-    }    
-}
-function Update-PathVars {
-    <#
-    .SYNOPSIS
-        Updates the project environment path variables to be used by this script.
-
-    .DESCRIPTION
-        The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:PathVars` dictionary.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Update-PathVars
-        Updates all the path variables based on the current project root path and folder names.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-12
-        Updated: 2025-01-14
-    #>
-
-    # Set the project root path for easy reference
-    $ProjectRootPath = $Script:PathVars.ProjectRootPath
-
-    # First level folder paths
-    $Script:PathVars.DevPath = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.DevEnv)"
-    $Script:PathVars.ProdPath = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.ProdEnv)"
-
-    # Dev related folder paths
-    $DevPath = $Script:PathVars.DevPath
-    $Script:PathVars.DevConfigPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
-    $Script:PathVars.DevPythonDependenciesPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
-
-    # Dev related file paths
-    $Script:PathVars.CSPythonScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
-    $Script:PathVars.CSBatchScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
-    $Script:PathVars.CSPowerShellScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
-
-    # Prod related folder paths
-    $ProdPath = $Script:PathVars.ProdPath
-    $Script:PathVars.AssetsPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Assets)"
-    $Script:PathVars.PackagesPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Packages)"
-    $Script:PathVars.ReleasesPath = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Releases)"
-
-    # Asset related folder paths
-    $AssetsPath = $Script:PathVars.AssetsPath
-    $Script:PathVars.ReleaseAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
-    $Script:PathVars.InstallerAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
-
-    # Package related folder paths
-    $PackagesPath = $Script:PathVars.PackagesPath
-    $Script:PathVars.PackageMajorPath = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
-    $PackageMajorPath = $Script:PathVars.PackageMajorPath
-    $Script:PathVars.PackageMinorPath = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-
-    # Release related parent folder paths
-    $ReleasesPath = $Script:PathVars.ReleasesPath
-    $Script:PathVars.ReleaseMajorPath = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
-    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
-    $Script:PathVars.ReleaseMinorPath = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
-    $Script:PathVars.ReleaseFullPath = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
-
-    # Release specific child folder paths
-    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
-    $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-    $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
-    $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
-
-    # PyInstaller specific folder paths    
-    $ReleasePyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
-    $Script:PathVars.ReleasePythonDependenciesPath = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
-}
-function Start-Release {
-    <#
-    .SYNOPSIS
-        Starts the release process.
-
-    .DESCRIPTION
-        The `Start-Release` function initiates the release process by going through the 4 major tasks involved:
-
-        1. Set (up) the release folder structure for both the releases and packages directories
-        2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
-        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
-        4. New release package - creates a new release package
-
-        The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Start-Release
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-13
-    #>
-
-    # Loop until user answers prompt
-    $LoopTrue = $True
-    do {
-        # Show the user the menu options
-        $UserMenu = "`nPlease choose one of the following:`n[1] Start the whole release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n`nWhat would you like to do? "
-
-        Write-Host $UserMenu
-        $UserPrompt = $Host.UI.ReadLine()
-
-        # Check the user entered a valid choice
-        $UserOptions = @("1", "2", "3", "4", "5")
-
-        if ($UserPrompt -in $UserOptions) {
-            $UserChoice = [int]$UserPrompt
-
-            # Tell loop to quit
-            $LoopTrue = $False
-        }
-        else {
-            Write-Host "Please make a valid choice!"
-        }
-    } while ($LoopTrue -eq $True)
-
-    # Task 1
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 2)) {
-        Set-ReleaseFolderStructure
-    }
-
-    # Task 2
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 3)) {
-        Invoke-PythonTool
-    }
-
-    # Task 3
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 4)) {
-        Copy-ReleaseContent
-    }
-
-    # Task 4
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 5)) {
-        New-ReleasePackage
-    }
-}
-function Invoke-PythonTool {
-    <#
-    .SYNOPSIS
-        Generates an executable from the CompStart.py script using the PyInstaller Python module.
-
-    .DESCRIPTION
-        The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
-        
-        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Invoke-PythonTool
-        Generates a CompStart.exe executable file from the CompStart.py script using PyInstaller.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14
-    #>
-
-    # Before proceeding, confirm the release folder path exists
-    Set-ReleaseFolder
-
-    # Set up the py-tool folder for the release
-    Add-PyToolFolder
-
-    # Copy the necessary files to the py-tool folder
-    Add-PyToolContents
-
-    # Let user know the Python executable will be created after a 5 second countdown
-    Write-Host "`nCreating Python executable in..."
-    for ($counter = 5; $counter -gt 0; $counter--) {
-        Write-Host "$counter..."
-        Start-Sleep -Seconds 1
-    }
-
-    # Create the Python executable
-    $PyIArgumentArray = @(
-        $Script:PathVars.CSPythonScriptPath,
-        "--onefile"
-    )
-    Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
-    Write-Host "`nPython executable successfully created"
-}
-function Add-CompStartFolder {
-    <#
-    .SYNOPSIS
-        Creates the CompStart folder for the release.
-
-    .DESCRIPTION
-        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-CompStartFolder
-        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
-
-    if (-Not (Test-Path $ReleaseCSFolderPath)) {
-        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseCSFolderPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Add-ReleaseNotesFolder {
-    <#
-    .SYNOPSIS
-        Creates the release-notes folder for the release.
-
-    .DESCRIPTION
-        The `Add-ReleaseNotesFolder` function creates the release-notes folder for the release, if it doesn't already exist.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-ReleaseNotesFolder
-        Adds the release-notes folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseNotesFolderPath = $Script:PathVars.ReleaseNotesFolderPath
-
-    if (-Not (Test-Path $ReleaseNotesFolderPath)) {
-        Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseNotesFolderPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
 }
 function Copy-ReleaseContents {
     <#
