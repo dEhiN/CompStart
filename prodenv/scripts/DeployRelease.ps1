@@ -809,20 +809,20 @@ function Add-PyToolContents {
     $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
     Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
 }
-function Set-CompStartFolder {
+function Add-CompStartFolder {
     <#
     .SYNOPSIS
-        Sets the CompStart folder name for the release.
+        Creates the CompStart folder for the release.
 
     .DESCRIPTION
-        The `Set-CompStartFolder` function sets the CompStart folder name for the release based on the release version details stored in the `$Script:ReleaseDetails` dictionary. The folder name is constructed using the major and minor version numbers, along with the release tag if it exists.
+        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Set-CompStartFolder
-        Sets the CompStart folder name for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+        Add-CompStartFolder
+        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -830,32 +830,34 @@ function Set-CompStartFolder {
         Created: 2024-01-14
     #>
 
-    # Create the CompStart folder for the release, if needed, and update the appropriate path variable
-    if (-Not (Test-Path $CompStartFolder)) {
-        Write-Host "`nCreating the CompStart folder for release $ReleaseFullVersion..."
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
+
+    if (-Not (Test-Path $ReleaseCSFolderPath)) {
+        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $CompStartFolder > $null
+        New-Item -ItemType Directory -Name $ReleaseCSFolderPath > $null
     }
     else {
-        Write-Host "`nThere already exists a CompStart folder for release $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
-    $CSFolderPath = "$ReleaseFullPath\$CompStartFolder"
 }
-function Set-ReleaseNotesFolder {
+function Add-ReleaseNotesFolder {
     <#
     .SYNOPSIS
-        Sets the release notes folder name for the release.
+        Creates the release-notes folder for the release.
 
     .DESCRIPTION
-        The `Set-ReleaseNotesFolder` function sets the release notes folder name for the release based on the release version details stored in the `$Script:ReleaseDetails` dictionary. The folder name is constructed using the major and minor version numbers, along with the release tag if it exists.
+        The `Add-ReleaseNotesFolder` function creates the release-notes folder for the release, if it doesn't already exist.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Set-ReleaseNotesFolder
-        Sets the release notes folder name for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+        Add-ReleaseNotesFolder
+        Adds the release-notes folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -863,17 +865,19 @@ function Set-ReleaseNotesFolder {
         Created: 2024-01-14
     #>
 
-    # Create the release notes folder for the release, if needed, and update the appropriate path variable
-    if (-Not (Test-Path $ReleaseNotesFolder)) {
-        Write-Host "`nCreating the release-notes folder for release $ReleaseFullVersion..."
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseNotesFolderPath = $Script:PathVars.ReleaseNotesFolderPath
+
+    if (-Not (Test-Path $ReleaseNotesFolderPath)) {
+        Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseNotesFolder > $null
+        New-Item -ItemType Directory -Name $ReleaseNotesFolderPath > $null
     }
     else {
-        Write-Host "`nThere already exists a release-notes folder for release $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
-    $ReleaseNotesFolderPath = "$ReleaseFullPath\$ReleaseNotesFolder"
 }
 function Copy-ReleaseContents {
     <#
