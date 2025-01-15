@@ -76,6 +76,10 @@ $Script:PathVars = [ordered]@{
     ReleaseAssetsPath             = ""
     InstallerAssetsPath           = ""
 
+    InstallerPowerShellScriptPath = ""
+    ReleaseNotesMarkdownPath      = ""
+    InstructionsTextPath          = ""
+
     PackagesPath                  = ""
     PackageMajorPath              = ""
     PackageMinorPath              = ""
@@ -89,6 +93,7 @@ $Script:PathVars = [ordered]@{
     ReleaseCSFolderPath           = ""
     ReleasePyToolFolderPath       = ""
     ReleasePythonDependenciesPath = ""
+    ReleaseInstallerFolderPath    = ""
 }
 
 # Section: Script Functions
@@ -262,6 +267,11 @@ function Update-PathVars {
     $Script:PathVars.ReleaseAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
     $Script:PathVars.InstallerAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
 
+    # Asset related file paths
+    $Script:PathVars.ReleaseNotesMarkdownPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
+    $Script:PathVars.InstructionsTextPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
+    $Script:PathVars.InstallerPowerShellScriptPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
+
     # Package related folder paths
     $PackagesPath = $Script:PathVars.PackagesPath
     $Script:PathVars.PackageMajorPath = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
@@ -281,8 +291,7 @@ function Update-PathVars {
     $Script:PathVars.ReleaseCSFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
     $Script:PathVars.ReleaseNotesFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
-
-    # PyInstaller specific folder paths    
+    $Script:PathVars.ReleaseInstallerFolderPath = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
     $ReleasePyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
     $Script:PathVars.ReleasePythonDependenciesPath = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
 }
