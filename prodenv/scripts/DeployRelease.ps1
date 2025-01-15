@@ -181,6 +181,202 @@ function Set-ProjectRoot {
 
     return $ReturnValue
 }
+function Set-ReleaseFolderStructure {
+    <#
+    .SYNOPSIS
+        Create the folder structure for a release.
+
+    .DESCRIPTION
+        The `Set-ReleaseFolderStructure` function initiates the release process by creating the necessary directories for the release in both the releases and packages folders. The locations are first checked to see if the necessary directories already exist, and are skipped if they exist. The `Script:ReleaseDetails` dictionary is used to determine the needed directories.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-ReleaseFolderStructure
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable. See Description for more details.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-13
+    #>
+    
+    # Deal with the major release version
+    Set-MajorVersionPaths
+
+    # Deal with the minor release version
+    Set-MinorVersionPaths
+
+    # Deal with the release folder
+    Set-FullVersionPath
+}
+function Set-ReleaseFolder {
+    <#
+    .SYNOPSIS
+        Sets the current location to the release folder.
+
+    .DESCRIPTION
+        The `Set-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-ReleaseFolder
+        Checks if the release folder exists for the current release version and sets that as the current version if it exists.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-13
+        Updated: 2025-01-14    
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+
+    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion)!`nPlease create it first...exiting the script..."
+        Exit
+    }
+    else {
+        Write-Host "`nFound the release folder for release version $ReleaseFullVersion...continuing with the release process..."
+        Start-Sleep $Script:SleepTimer
+        Set-Location $Script:PathVars.ReleaseFullPath
+    }
+}
+function Set-MajorVersionPaths {
+    <#
+    .SYNOPSIS
+        Checks for an existing major release version folder and creates one if applicable for both releases and packages.
+
+    .DESCRIPTION
+        The `Set-MajorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MajorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MajorVersionFolder` will be called to create it.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-MajorVersionPaths
+        Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-12
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseMajorVersion = $Script:ReleaseDetails.MajorVersion
+    $PackageMajorPath = $Script:PathVars.PackageMajorPath
+    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
+
+    # Check the packages directory
+    if (-Not (Test-Path $PackageMajorPath)) {
+        Write-Host "`nCannot find a package directory for major version $ReleaseMajorVersion..."
+        Add-MajorVersionFolder -IsPackage $true
+    }
+    else {
+        Write-Host "`nThere already exists a package directory for major version $ReleaseMajorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+    
+    # Check the releases directory
+    if (-Not (Test-Path $ReleaseMajorPath)) {
+        Write-Host "`nCannot find a release directory for major version $ReleaseMajorVersion..."
+        Add-MajorVersionFolder -IsPackage $false
+    }
+    else {
+        Write-Host "`nThere already exists a release directory major version $ReleaseMajorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+function Set-MinorVersionPaths {
+    <#
+    .SYNOPSIS
+        Checks for an existing minor release version folder and creates one if applicable for both releases and packages.
+
+    .DESCRIPTION
+        The `Set-MinorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MinorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MinorVersionFolder` will be called to create it.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-MinorVersionPaths
+        Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-12
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseMinorVersion = $Script:ReleaseDetails.MinorVersion
+    $PackageMinorPath = $Script:PathVars.PackageMinorPath
+    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
+
+    # Check the packages directory
+    if (-Not (Test-Path $PackageMinorPath)) {
+        Write-Host "`nCannot find a package directory for minor version $ReleaseMinorVersion..."
+        Add-MinorVersionFolder -IsPackage $true
+    }
+    else {
+        Write-Host "`nThere already exists a package directory for minor version $ReleaseMinorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+    
+    # Check the releases directory
+    if (-Not (Test-Path $ReleaseMinorPath)) {
+        Write-Host "`nCannot find a release directory for minor version $ReleaseMinorVersion..."
+        Add-MinorVersionFolder -IsPackage $false
+    }
+    else {
+        Write-Host "`nThere already exists a release directory for minor version $ReleaseMinorVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+function Set-FullVersionPath {
+    <#
+    .SYNOPSIS
+        Checks for an existing release folder and creates one if applicable.
+
+    .DESCRIPTION
+        The `Set-FullVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Set-FullVersionPath
+        Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2025-01-04
+        Updated: 2025-01-13
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+
+    # Check the releases directory
+    if (-Not (Test-Path $ReleaseFullPath)) {
+        Write-Host "`nCannot find a directory for release version $ReleaseFullVersion..."
+        Add-FullVersionFolder
+    }
+    else {
+        Write-Host "`nThere already exists a directory for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
 function Get-ReleaseDetails {
     <#
     .SYNOPSIS
@@ -363,37 +559,6 @@ function Start-Release {
         New-ReleasePackage
     }
 }
-function Set-ReleaseFolderStructure {
-    <#
-    .SYNOPSIS
-        Create the folder structure for a release.
-
-    .DESCRIPTION
-        The `Set-ReleaseFolderStructure` function initiates the release process by creating the necessary directories for the release in both the releases and packages folders. The locations are first checked to see if the necessary directories already exist, and are skipped if they exist. The `Script:ReleaseDetails` dictionary is used to determine the needed directories.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Set-ReleaseFolderStructure
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable. See Description for more details.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-13
-    #>
-    
-    # Deal with the major release version
-    Set-MajorVersionPaths
-
-    # Deal with the minor release version
-    Set-MinorVersionPaths
-
-    # Deal with the release folder
-    Set-FullVersionPath
-}
 function Invoke-PythonTool {
     <#
     .SYNOPSIS
@@ -419,10 +584,10 @@ function Invoke-PythonTool {
     #>
 
     # Before proceeding, confirm the release folder path exists
-    Confirm-ReleaseFolder
+    Set-ReleaseFolder
 
     # Set up the py-tool folder for the release
-    Set-PyToolFolder
+    Add-PyToolFolder
 
     # Copy the necessary files to the py-tool folder
     Add-PyToolContents
@@ -442,182 +607,20 @@ function Invoke-PythonTool {
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
-function Confirm-ReleaseFolder {
+function Add-PyToolFolder {
     <#
     .SYNOPSIS
-        Confirms the release folder exists.
+        Creates the py-tool folder for the release.
 
     .DESCRIPTION
-        The `Confirm-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Confirm-ReleaseFolder
-        Checks if the release folder exists for the current release version and exits the script if it doesn't.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14    
-    #>
-
-    if (-Not (Test-Path $Script:PathVars.ReleaseFullPath)) {
-        Write-Host "`nCannot find a release folder for release version $($Script:ReleaseDetails.FullVersion)!`nPlease create it first...exiting the script..."
-        Exit
-    }
-    else {
-        Write-Host "`nFound the release folder for release version $($Script:ReleaseDetails.FullVersion)...continuing with the release process..."
-        Start-Sleep $Script:SleepTimer
-        Set-Location $Script:PathVars.ReleaseFullPath
-    }
-}
-function Set-MajorVersionPaths {
-    <#
-    .SYNOPSIS
-        Checks for an existing major release version folder and creates one if applicable for both releases and packages.
-
-    .DESCRIPTION
-        The `Set-MajorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MajorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MajorVersionFolder` will be called to create it.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Set-MajorVersionPaths
-        Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseMajorVersion = $Script:ReleaseDetails.MajorVersion
-    $PackageMajorPath = $Script:PathVars.PackageMajorPath
-    $ReleaseMajorPath = $Script:PathVars.ReleaseMajorPath
-
-    # Check the packages directory
-    if (-Not (Test-Path $PackageMajorPath)) {
-        Write-Host "`nCannot find a package directory for major version $ReleaseMajorVersion..."
-        Add-MajorVersionFolder -IsPackage $true
-    }
-    else {
-        Write-Host "`nThere already exists a package directory for major version $ReleaseMajorVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-    
-    # Check the releases directory
-    if (-Not (Test-Path $ReleaseMajorPath)) {
-        Write-Host "`nCannot find a release directory for major version $ReleaseMajorVersion..."
-        Add-MajorVersionFolder -IsPackage $false
-    }
-    else {
-        Write-Host "`nThere already exists a release directory major version $ReleaseMajorVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Set-MinorVersionPaths {
-    <#
-    .SYNOPSIS
-        Checks for an existing minor release version folder and creates one if applicable for both releases and packages.
-
-    .DESCRIPTION
-        The `Set-MinorVersionPaths` function checks both the releases and packages folders to see if there is already a directory corresponding to the MinorVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-MinorVersionFolder` will be called to create it.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Set-MinorVersionPaths
-        Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseMinorVersion = $Script:ReleaseDetails.MinorVersion
-    $PackageMinorPath = $Script:PathVars.PackageMinorPath
-    $ReleaseMinorPath = $Script:PathVars.ReleaseMinorPath
-
-    # Check the packages directory
-    if (-Not (Test-Path $PackageMinorPath)) {
-        Write-Host "`nCannot find a package directory for minor version $ReleaseMinorVersion..."
-        Add-MinorVersionFolder -IsPackage $true
-    }
-    else {
-        Write-Host "`nThere already exists a package directory for minor version $ReleaseMinorVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-    
-    # Check the releases directory
-    if (-Not (Test-Path $ReleaseMinorPath)) {
-        Write-Host "`nCannot find a release directory for minor version $ReleaseMinorVersion..."
-        Add-MinorVersionFolder -IsPackage $false
-    }
-    else {
-        Write-Host "`nThere already exists a release directory for minor version $ReleaseMinorVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Set-FullVersionPath {
-    <#
-    .SYNOPSIS
-        Checks for an existing release folder and creates one if applicable.
-
-    .DESCRIPTION
-        The `Set-FullVersionPath` function checks the releases folder to see if there is already a directory corresponding to the FullVersion property found in the `$Script:ReleaseDetails` dictionary. If there isn't one, the function `Add-ReleaseVersionFolder` will be called to create it.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Set-FullVersionPath
-        Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-13
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
-
-    # Check the releases directory
-    if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nCannot find a directory for release version $ReleaseFullVersion..."
-        Add-FullVersionFolder
-    }
-    else {
-        Write-Host "`nThere already exists a directory for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Set-PyToolFolder {
-    <#
-    .SYNOPSIS
-        Sets up the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Set-PyToolFolder` function sets up the py-tool folder for the release by checking if the folder exists in the release folder. If the folder does not exist, it creates the folder. If the folder exists but is not empty, it deletes the existing contents.
+        The `Add-PyToolFolder` function creates the py-tool folder for the release, if it doesn't exist. If the folder exists but is not empty, it deletes the existing contents.
     
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Set-PyToolFolder
-        Sets up the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+        Add-PyToolFolder
+        Adds the py-tool folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -895,12 +898,12 @@ function Copy-ReleaseContents {
         GitHub: @dEhiN
         Created: 2024-01-14
     #>
-    
-    # Before proceeding, confirm the release folder path exists
-    Confirm-ReleaseFolder
 
-    Set-CompStartFolder
-    Set-ReleaseNotesFolder
+    # Before proceeding, confirm the release folder path exists
+    Set-ReleaseFolder
+
+    Add-CompStartFolder
+    Add-ReleaseNotesFolder
 
     # Copy the CompStart content
     Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
