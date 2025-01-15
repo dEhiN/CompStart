@@ -377,6 +377,281 @@ function Set-FullVersionPath {
         Start-Sleep $Script:SleepTimer
     }
 }
+function Add-MajorVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a major release version.
+
+    .DESCRIPTION
+        The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+    .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+    .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $true
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
+
+    .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $false
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
+        Updated: 2025-01-12
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MajorPath = $Script:PathVars.PackageMajorPath
+        $DirType = "package"
+    }
+    else {
+        $MajorPath = $Script:PathVars.ReleaseMajorPath
+        $DirType = "release"
+    }
+    
+    Write-Host "Creating a $DirType directory for major version $($Script:ReleaseDetails.MajorVersion)..."
+    Write-Host "...at $MajorPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $MajorPath -ItemType Directory > $null
+}
+function Add-MinorVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a minor release version.
+
+    .DESCRIPTION
+        The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+    .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+    .EXAMPLE
+        Add-MinorVersionFolder -IsPackage $true
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
+
+    .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $false
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
+        Updated: 2025-01-12
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MinorPath = $Script:PathVars.PackageMinorPath
+        $DirType = "package"
+    }
+    else {
+        $MinorPath = $Script:PathVars.ReleaseMinorPath
+        $DirType = "release"
+    }
+    
+    Write-Host "Creating a $DirType directory for minor version $($Script:ReleaseDetails.MinorVersion)..."
+    Write-Host "...at $MinorPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $MinorPath -ItemType Directory > $null
+}
+function Add-FullVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a release version.
+
+    .DESCRIPTION
+        The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-FullVersionFolder
+        Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-12-30
+        Updated: 2025-01-13
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
+        
+    Write-Host "Creating a directory for release version $ReleaseFullVersion..."
+    Write-Host "...at $ReleaseFullPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $ReleaseFullPath -ItemType Directory > $null
+}
+function Add-PyToolFolder {
+    <#
+    .SYNOPSIS
+        Creates the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Add-PyToolFolder` function creates the py-tool folder for the release, if it doesn't exist. If the folder exists but is not empty, it deletes the existing contents.
+    
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-PyToolFolder
+        Adds the py-tool folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Set up local variables for easier access
+    $PyToolFolder = $Script:FolderNames.PyTool
+    $PyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $PyToolFolderPath
+    
+    # Confirm if the py-tool folder path exists and if not, try to create it
+    if (-Not (Test-Path $PyToolFolderPath)) {
+        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
+        Write-Host "Creating the $PyToolFolder folder..."
+        Write-Host "...at $($Script:PathVars.ReleaseFullPath)"
+        Start-Sleep -Seconds $Script:SleepTimer
+        New-Item $PyToolFolderPath -ItemType Directory > $null
+    }
+
+    # Check to see if there's anything already in the py-tool folder and if so, delete it
+    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
+    if ($PyToolFolderLen -gt 0) {
+        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
+        Start-Sleep -Seconds $Script:SleepTimer
+        Remove-Item * -Recurse -Force
+        Write-Host "The folder is now empty."
+    }
+}
+function Add-CompStartFolder {
+    <#
+    .SYNOPSIS
+        Creates the CompStart folder for the release.
+
+    .DESCRIPTION
+        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-CompStartFolder
+        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
+
+    if (-Not (Test-Path $ReleaseCSFolderPath)) {
+        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $ReleaseCSFolderPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+function Add-ReleaseNotesFolder {
+    <#
+    .SYNOPSIS
+        Creates the release-notes folder for the release.
+
+    .DESCRIPTION
+        The `Add-ReleaseNotesFolder` function creates the release-notes folder for the release, if it doesn't already exist.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-ReleaseNotesFolder
+        Adds the release-notes folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseNotesFolderPath = $Script:PathVars.ReleaseNotesFolderPath
+
+    if (-Not (Test-Path $ReleaseNotesFolderPath)) {
+        Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $ReleaseNotesFolderPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+function Add-PyToolContents {
+    <#
+    .SYNOPSIS
+        Copies the necessary files to the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-PyToolContents
+        Copies the necessary files to the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $Script:PathVars.ReleasePyToolFolderPath
+
+    # Copy over the files and folder necessary to generate the Python executable
+    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
+    Start-Sleep -Seconds $Script:SleepTimer
+
+    Copy-Item -Path $Script:PathVars.CSPythonScriptPath -Destination $Script:PathVars.ReleasePyToolFolderPath
+    Copy-Item -Path $Script:PathVars.DevPythonDependenciesPath -Destination $Script:PathVars.ReleasePyToolFolderPath
+    
+    $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
+    Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
+}
 function Get-ReleaseDetails {
     <#
     .SYNOPSIS
@@ -606,211 +881,6 @@ function Invoke-PythonTool {
     )
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
-}
-function Add-PyToolFolder {
-    <#
-    .SYNOPSIS
-        Creates the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Add-PyToolFolder` function creates the py-tool folder for the release, if it doesn't exist. If the folder exists but is not empty, it deletes the existing contents.
-    
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-PyToolFolder
-        Adds the py-tool folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Set up local variables for easier access
-    $PyToolFolder = $Script:FolderNames.PyTool
-    $PyToolFolderPath = $Script:PathVars.ReleasePyToolFolderPath
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $PyToolFolderPath
-    
-    # Confirm if the py-tool folder path exists and if not, try to create it
-    if (-Not (Test-Path $PyToolFolderPath)) {
-        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
-        Write-Host "Creating the $PyToolFolder folder..."
-        Write-Host "...at $($Script:PathVars.ReleaseFullPath)"
-        Start-Sleep -Seconds $Script:SleepTimer
-        New-Item $PyToolFolderPath -ItemType Directory > $null
-    }
-
-    # Check to see if there's anything already in the py-tool folder and if so, delete it
-    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
-    if ($PyToolFolderLen -gt 0) {
-        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
-        Start-Sleep -Seconds $Script:SleepTimer
-        Remove-Item * -Recurse -Force
-        Write-Host "The folder is now empty."
-    }
-}
-function Add-MajorVersionFolder {
-    <#
-    .SYNOPSIS
-        Creates a directory for a major release version.
-
-    .DESCRIPTION
-        The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
-
-    .PARAMETER IsPackage
-        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
-
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $true
-        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
-
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $false
-        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-12
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [System.Boolean]
-        $IsPackage
-    )    
-
-    if ($IsPackage) {
-        $MajorPath = $Script:PathVars.PackageMajorPath
-        $DirType = "package"
-    }
-    else {
-        $MajorPath = $Script:PathVars.ReleaseMajorPath
-        $DirType = "release"
-    }
-    
-    Write-Host "Creating a $DirType directory for major version $($Script:ReleaseDetails.MajorVersion)..."
-    Write-Host "...at $MajorPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $MajorPath -ItemType Directory > $null
-}
-function Add-MinorVersionFolder {
-    <#
-    .SYNOPSIS
-        Creates a directory for a minor release version.
-
-    .DESCRIPTION
-        The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
-
-    .PARAMETER IsPackage
-        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
-
-    .EXAMPLE
-        Add-MinorVersionFolder -IsPackage $true
-        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
-
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $false
-        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-12
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [System.Boolean]
-        $IsPackage
-    )    
-
-    if ($IsPackage) {
-        $MinorPath = $Script:PathVars.PackageMinorPath
-        $DirType = "package"
-    }
-    else {
-        $MinorPath = $Script:PathVars.ReleaseMinorPath
-        $DirType = "release"
-    }
-    
-    Write-Host "Creating a $DirType directory for minor version $($Script:ReleaseDetails.MinorVersion)..."
-    Write-Host "...at $MinorPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $MinorPath -ItemType Directory > $null
-}
-function Add-FullVersionFolder {
-    <#
-    .SYNOPSIS
-        Creates a directory for a release version.
-
-    .DESCRIPTION
-        The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-FullVersionFolder
-        Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-13
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseFullPath = $Script:PathVars.ReleaseFullPath
-        
-    Write-Host "Creating a directory for release version $ReleaseFullVersion..."
-    Write-Host "...at $ReleaseFullPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $ReleaseFullPath -ItemType Directory > $null
-}
-function Add-PyToolContents {
-    <#
-    .SYNOPSIS
-        Copies the necessary files to the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-PyToolContents
-        Copies the necessary files to the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $Script:PathVars.ReleasePyToolFolderPath
-
-    # Copy over the files and folder necessary to generate the Python executable
-    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
-    Start-Sleep -Seconds $Script:SleepTimer
-
-    Copy-Item -Path $Script:PathVars.CSPythonScriptPath -Destination $Script:PathVars.ReleasePyToolFolderPath
-    Copy-Item -Path $Script:PathVars.DevPythonDependenciesPath -Destination $Script:PathVars.ReleasePyToolFolderPath
-    
-    $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
-    Copy-Item -Path $AllPythonDependencies -Destination $Script:PathVars.ReleasePythonDependenciesPath
 }
 function Add-CompStartFolder {
     <#
