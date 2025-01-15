@@ -908,6 +908,10 @@ function Copy-ReleaseContents {
         Created: 2024-01-14
     #>
 
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
+
     # Before proceeding, set the location to the release folder
     Set-ReleaseFolderLocation
 
@@ -917,15 +921,20 @@ function Copy-ReleaseContents {
     # Copy the CompStart content
     Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $CSBatchPath -Destination $CSFolderPath
-    Copy-Item -Path $CSPowerShellPath -Destination $CSFolderPath
-    Copy-Item -Path $ConfigPath -Destination $CSFolderPath -Recurse -Force
+    Copy-Item -Path $Script:PathVars.CSBatchScriptPath -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.CSPowerShellScriptPath -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.DevConfigPath -Destination $ReleaseCSFolderPath -Recurse -Force
+
+    # Copy the CS installer content
+    Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:PathVars.InstallerPowerShellScriptPath -Destination $ReleaseCSFolderPath
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $ReleaseNotesMDPath -Destination $ReleaseNotesFolderPath
-    Copy-Item -Path $ReleaseInstructionsPath -Destination $FullReleasesPath
+    Copy-Item -Path $Script:PathVars.ReleaseNotesMarkdownPath -Destination $Script:PathVars.ReleaseNotesFolderPath
+    Copy-Item -Path $Script:PathVars.InstructionsTextPath -Destination $Script:PathVars.ReleaseFullPath
 
     # Deal with the Python executable
     $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
@@ -951,10 +960,10 @@ if (-Not (Test-Path $ReleaseFullPath)) {
 }
 
 $ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-$ReleaseInstructionsPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
+$InstructionsTextPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
 
 # Check if the release folder has the necessary folders and files
-if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $ReleaseInstructionsPath)) {
+if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $InstructionsTextPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
     Exit
 }
@@ -988,7 +997,7 @@ $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
 # Create the hash table object to pass to the Compress-Archive cmdlet
 $PackageContents = @{
-    Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+    Path             = $ReleaseCSFolderPath, $InstructionsTextPath
     DestinationPath  = $ReleasePackageName
     CompressionLevel = "Optimal"
 }
@@ -1030,7 +1039,7 @@ $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
 # Create the hash table object to pass to the Compress-Archive cmdlet
 $PackageContents = @{
-Path             = $ReleaseCSFolderPath, $ReleaseInstructionsPath
+Path             = $ReleaseCSFolderPath, $InstructionsTextPath
 DestinationPath  = $ReleasePackageName
 CompressionLevel = "Optimal"
 }
