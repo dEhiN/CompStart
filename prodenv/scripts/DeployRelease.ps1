@@ -188,8 +188,8 @@ function Invoke-PythonTool {
         Updated: 2025-01-14
     #>
 
-    # Before proceeding, confirm the release folder path exists
-    Set-ReleaseFolder
+    # Before proceeding, set the location to the release folder
+    Set-ReleaseFolderLocation
 
     # Set up the py-tool folder for the release
     Add-PyToolFolder
@@ -442,19 +442,19 @@ function Set-ReleaseFolderStructure {
     # Deal with the release folder
     Set-FullVersionPath
 }
-function Set-ReleaseFolder {
+function Set-ReleaseFolderLocation {
     <#
     .SYNOPSIS
         Sets the current location to the release folder.
 
     .DESCRIPTION
-        The `Set-ReleaseFolder` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
+        The `Set-ReleaseFolderLocation` function checks if the release folder exists for the current release version. If the folder does not exist, it alerts the user and exits the script. If the folder exists, it sets the location to the release folder and continues with the release process.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Set-ReleaseFolder
+        Set-ReleaseFolderLocation
         Checks if the release folder exists for the current release version and sets that as the current version if it exists.
 
     .NOTES
@@ -899,8 +899,8 @@ function Copy-ReleaseContents {
         Created: 2024-01-14
     #>
 
-    # Before proceeding, confirm the release folder path exists
-    Set-ReleaseFolder
+    # Before proceeding, set the location to the release folder
+    Set-ReleaseFolderLocation
 
     Add-CompStartFolder
     Add-ReleaseNotesFolder
