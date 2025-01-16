@@ -126,19 +126,31 @@ function Start-Release {
         Updated: 2025-01-13
     #>
 
+    # Function variables
+    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[Q] Quit`n`nWhat would you like to do? "
+    $UserOptions = @("1", "2", "3", "4", "5", "Q")
+    $ChoiceFullRelease = 1
+    $ChoiceSetReleaseFolder = 2
+    $ChoiceInvokePythonTool = 3
+    $ChoiceCopyReleaseContents = 4
+    $ChoiceNewReleasePackage = 5
+    $ChoiceQuit = "Q"
+
     # Loop until user answers prompt
     $LoopTrue = $True
     do {
         # Show the user the menu options
-        $UserMenu = "`nPlease choose one of the following:`n[1] Start the whole release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n`nWhat would you like to do? "
-
-        Write-Host $UserMenu
+        Write-Host $UserMenu -NoNewline
         $UserPrompt = $Host.UI.ReadLine()
 
         # Check the user entered a valid choice
-        $UserOptions = @("1", "2", "3", "4", "5")
-
         if ($UserPrompt -in $UserOptions) {
+            # Check if the user wants to quit
+            if ($UserPrompt -eq $ChoiceQuit) {
+                Write-Host "`nExiting the script...`n"
+                Exit
+            }
+            
             $UserChoice = [int]$UserPrompt
 
             # Tell loop to quit
@@ -150,22 +162,22 @@ function Start-Release {
     } while ($LoopTrue -eq $True)
 
     # Task 1
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 2)) {
+    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
         Set-ReleaseFolderStructure
     }
 
     # Task 2
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 3)) {
+    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
         Invoke-PythonTool
     }
 
     # Task 3
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 4)) {
-        Copy-ReleaseContent
+    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
+        Copy-ReleaseContents
     }
 
     # Task 4
-    if (($UserChoice -eq 1) -or ($UserChoice -eq 5)) {
+    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
         New-ReleasePackage
     }
 }
