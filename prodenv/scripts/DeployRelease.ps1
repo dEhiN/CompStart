@@ -756,22 +756,40 @@ function Add-FullVersionFolder {
 function Add-CompStartFolder {
     <#
     .SYNOPSIS
-        Creates the CompStart folder for the release.
+        Creates the CompStart folder directory structure for the release.
 
     .DESCRIPTION
-        The `Add-CompStartFolder` function creates the CompStart folder for the release, if it doesn't already exist.
+        The `Add-CompStartFolder` function creates the CompStart folder and its subfolders for the release. If there is already a CompStart folder, it is deleted and recreated. This ensures the correct CompStart directory structure is set up for the release.
+
+        The CompStart directory structure will be the following (with the release version folder as the parent directory):
+        > - <release-folder>
+        | - CompStart (folder)
+            | - install.ps1 (script)
+            | - installer-files (folder)
+                | - CompStart (folder)
+                    | - CompStart.ps1 (script)
+                    | - CompStart.bat (script)
+                    | - config (folder)
+                        | - default_startup.json (config file)
+                        | - startup_data.json (config file)
+                        | - schema (folder)
+                            | - startup_data.schema.json (schema file)
+                            | - startup_item.schema.json (schema file)
+        
+        This directory structure will allow the installer script to correctly set up the CompStart folder and its contents during installation.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
         Add-CompStartFolder
-        Adds the CompStart folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+        Adds the CompStart folder and subfolders to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable. See Description for more details.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2024-01-14
+        Updated: 2025-01-16
     #>
 
     # Set up local variables for easier access
