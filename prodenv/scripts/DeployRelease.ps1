@@ -123,7 +123,7 @@ function Start-Release {
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
         Created: 2025-01-04
-        Updated: 2025-01-13
+        Updated: 2025-01-16
     #>
 
     # Function variables
@@ -150,7 +150,7 @@ function Start-Release {
                 Write-Host "`nExiting the script...`n"
                 Exit
             }
-            
+
             $UserChoice = [int]$UserPrompt
 
             # Tell loop to quit
@@ -924,9 +924,8 @@ function Copy-ReleaseContents {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolderPath
 
-    # Before proceeding, set the location to the release folder
+    # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
-
     Add-CompStartFolder
     Add-ReleaseNotesFolder
 
