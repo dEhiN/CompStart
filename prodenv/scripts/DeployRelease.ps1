@@ -970,7 +970,6 @@ function Copy-ReleaseContents {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseCSFolderPath = $Script:PathVars.ReleaseCSFolder 
 
     # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
@@ -978,22 +977,24 @@ function Copy-ReleaseContents {
     Add-ReleaseNotesFolder
 
     # Copy the CompStart content
-    Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
+    Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $ReleaseCSFolderPath
-    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $ReleaseCSFolderPath
-    Copy-Item -Path $Script:PathVars.DevConfigFolder -Destination $ReleaseCSFolderPath -Recurse -Force
+    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $$Script:PathVars.ReleasesInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $$Script:PathVars.ReleasesInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevConfigFolder -Destination $Script:PathVars.ReleasesInnerCSFolder  -Recurse -Force
 
     # Copy the CS installer content
     Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.AssetInstallerPowerShellScript  -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.AssetInstallerPowerShellScript  -Destination $Script:PathVars.ReleasesOuterCSFolder
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
     Copy-Item -Path $Script:PathVars.AssetReleaseNotesMarkdown  -Destination $Script:PathVars.ReleaseNotesFolder 
-    Copy-Item -Path $Script:PathVars.AssetInstructionsText  -Destination $Script:PathVars.ReleaseFullFolder
+    Copy-Item -Path $Script:PathVars.AssetInstructionsText  -Destination $Script:PathVars.ReleaseInstallerFolder
+
+    Exit
 
     # Deal with the Python executable
     $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
