@@ -68,13 +68,13 @@ $Script:PathVars = [ordered]@{
 
     DevConfigPath                 = ""
     DevPythonDependenciesPath     = ""
-    CSPythonScriptPath            = ""
-    CSBatchScriptPath             = ""
-    CSPowerShellScriptPath        = ""
+    DevCSPythonScriptPath         = ""
+    DevCSBatchScriptPath          = ""
+    DevCSPowerShellScriptPath     = ""
 
     AssetsPath                    = ""
-    ReleaseAssetsPath             = ""
-    InstallerAssetsPath           = ""
+    AssetsReleasePath             = ""
+    AssetsInstallerPath           = ""
 
     InstallerPowerShellScriptPath = ""
     ReleaseNotesMarkdownPath      = ""
@@ -223,7 +223,7 @@ function Invoke-PythonTool {
 
     # Create the Python executable
     $PyIArgumentArray = @(
-        $Script:PathVars.CSPythonScriptPath,
+        $Script:PathVars.DevCSPythonScriptPath,
         "--onefile"
     )
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
@@ -264,9 +264,9 @@ function Update-PathVars {
     $Script:PathVars.DevPythonDependenciesPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
 
     # Dev related file paths
-    $Script:PathVars.CSPythonScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
-    $Script:PathVars.CSBatchScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
-    $Script:PathVars.CSPowerShellScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
+    $Script:PathVars.DevCSPythonScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
+    $Script:PathVars.DevCSBatchScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
+    $Script:PathVars.DevCSPowerShellScriptPath = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
 
     # Prod related folder paths
     $ProdPath = $Script:PathVars.ProdPath
@@ -276,8 +276,8 @@ function Update-PathVars {
 
     # Asset related folder paths
     $AssetsPath = $Script:PathVars.AssetsPath
-    $Script:PathVars.ReleaseAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
-    $Script:PathVars.InstallerAssetsPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
+    $Script:PathVars.AssetsReleasePath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
+    $Script:PathVars.AssetsInstallerPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
 
     # Asset related file paths
     $Script:PathVars.ReleaseNotesMarkdownPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
@@ -915,7 +915,7 @@ function Add-PyToolContents {
     Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
     Start-Sleep -Seconds $Script:SleepTimer
 
-    Copy-Item -Path $Script:PathVars.CSPythonScriptPath -Destination $Script:PathVars.ReleasePyToolFolderPath
+    Copy-Item -Path $Script:PathVars.DevCSPythonScriptPath -Destination $Script:PathVars.ReleasePyToolFolderPath
     Copy-Item -Path $Script:PathVars.DevPythonDependenciesPath -Destination $Script:PathVars.ReleasePyToolFolderPath
     
     $AllPythonDependencies = "$($Script:PathVars.DevPythonDependenciesPath)$($Script:OSSeparatorChar)*.py"
@@ -950,8 +950,8 @@ function Copy-ReleaseContents {
     # Copy the CompStart content
     Write-Host "`nPopulating the CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.CSBatchScriptPath -Destination $ReleaseCSFolderPath
-    Copy-Item -Path $Script:PathVars.CSPowerShellScriptPath -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.DevCSBatchScriptPath -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.DevCSPowerShellScriptPath -Destination $ReleaseCSFolderPath
     Copy-Item -Path $Script:PathVars.DevConfigPath -Destination $ReleaseCSFolderPath -Recurse -Force
 
     # Copy the CS installer content
