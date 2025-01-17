@@ -60,40 +60,40 @@ $Script:FolderNames = [ordered]@{
     InstallerFiles        = "installer-files"
 }
 $Script:PathVars = [ordered]@{    
-    ParentInstallPath             = [System.Environment]::GetFolderPath($Script:FolderNames.ParentInstallLocation)
-    ProjectRootPath               = ""
+    ParentInstallPath                  = [System.Environment]::GetFolderPath($Script:FolderNames.ParentInstallLocation)
+    ProjectRootPath                    = ""
 
-    DevPath                       = ""
-    ProdPath                      = ""
+    DevPath                            = ""
+    ProdPath                           = ""
 
-    DevConfigPath                 = ""
-    DevPythonDependenciesPath     = ""
-    DevCSPythonScriptPath         = ""
-    DevCSBatchScriptPath          = ""
-    DevCSPowerShellScriptPath     = ""
+    DevConfigPath                      = ""
+    DevPythonDependenciesPath          = ""
+    DevCSPythonScriptPath              = ""
+    DevCSBatchScriptPath               = ""
+    DevCSPowerShellScriptPath          = ""
 
-    AssetsPath                    = ""
-    AssetsReleasePath             = ""
-    AssetsInstallerPath           = ""
+    AssetsPath                         = ""
+    AssetsReleasePath                  = ""
+    AssetsInstallerPath                = ""
 
-    InstallerPowerShellScriptPath = ""
-    ReleaseNotesMarkdownPath      = ""
-    InstructionsTextPath          = ""
+    AssetInstallerPowerShellScriptPath = ""
+    AssetReleaseNotesMarkdownPath      = ""
+    AssetInstructionsTextPath          = ""
 
-    PackagesPath                  = ""
-    PackageMajorPath              = ""
-    PackageMinorPath              = ""
+    PackagesPath                       = ""
+    PackageMajorPath                   = ""
+    PackageMinorPath                   = ""
 
-    ReleasesPath                  = ""
-    ReleaseMajorPath              = ""
-    ReleaseMinorPath              = ""
-    ReleaseFullPath               = ""
+    ReleasesPath                       = ""
+    ReleaseMajorPath                   = ""
+    ReleaseMinorPath                   = ""
+    ReleaseFullPath                    = ""
 
-    ReleaseNotesFolderPath        = ""
-    ReleaseCSFolderPath           = ""
-    ReleasePyToolFolderPath       = ""
-    ReleasePythonDependenciesPath = ""
-    ReleaseInstallerFolderPath    = ""
+    ReleaseNotesFolderPath             = ""
+    ReleaseCSFolderPath                = ""
+    ReleasePyToolFolderPath            = ""
+    ReleasePythonDependenciesPath      = ""
+    ReleaseInstallerFolderPath         = ""
 }
 
 # Section: Script Functions
@@ -280,9 +280,9 @@ function Update-PathVars {
     $Script:PathVars.AssetsInstallerPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
 
     # Asset related file paths
-    $Script:PathVars.ReleaseNotesMarkdownPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
-    $Script:PathVars.InstructionsTextPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
-    $Script:PathVars.InstallerPowerShellScriptPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
+    $Script:PathVars.AssetReleaseNotesMarkdownPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
+    $Script:PathVars.AssetInstructionsTextPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
+    $Script:PathVars.AssetInstallerPowerShellScriptPath = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
 
     # Package related folder paths
     $PackagesPath = $Script:PathVars.PackagesPath
@@ -957,13 +957,13 @@ function Copy-ReleaseContents {
     # Copy the CS installer content
     Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.InstallerPowerShellScriptPath -Destination $ReleaseCSFolderPath
+    Copy-Item -Path $Script:PathVars.AssetInstallerPowerShellScriptPath -Destination $ReleaseCSFolderPath
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.ReleaseNotesMarkdownPath -Destination $Script:PathVars.ReleaseNotesFolderPath
-    Copy-Item -Path $Script:PathVars.InstructionsTextPath -Destination $Script:PathVars.ReleaseFullPath
+    Copy-Item -Path $Script:PathVars.AssetReleaseNotesMarkdownPath -Destination $Script:PathVars.ReleaseNotesFolderPath
+    Copy-Item -Path $Script:PathVars.AssetInstructionsTextPath -Destination $Script:PathVars.ReleaseFullPath
 
     # Deal with the Python executable
     $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
@@ -989,10 +989,10 @@ if (-Not (Test-Path $ReleaseFullPath)) {
 }
 
 $ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-$InstructionsTextPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
+$AssetInstructionsTextPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
 
 # Check if the release folder has the necessary folders and files
-if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $InstructionsTextPath)) {
+if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $AssetInstructionsTextPath)) {
     Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
     Exit
 }
@@ -1026,7 +1026,7 @@ $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
 # Create the hash table object to pass to the Compress-Archive cmdlet
 $PackageContents = @{
-    Path             = $ReleaseCSFolderPath, $InstructionsTextPath
+    Path             = $ReleaseCSFolderPath, $AssetInstructionsTextPath
     DestinationPath  = $ReleasePackageName
     CompressionLevel = "Optimal"
 }
@@ -1068,7 +1068,7 @@ $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
 # Create the hash table object to pass to the Compress-Archive cmdlet
 $PackageContents = @{
-Path             = $ReleaseCSFolderPath, $InstructionsTextPath
+Path             = $ReleaseCSFolderPath, $AssetInstructionsTextPath
 DestinationPath  = $ReleasePackageName
 CompressionLevel = "Optimal"
 }
