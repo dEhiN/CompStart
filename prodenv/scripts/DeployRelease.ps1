@@ -98,13 +98,13 @@ $Script:PathVars = [ordered]@{
 }
 
 # Section: Script Functions
-function Start-Release {
+function Start-ReleaseProcess {
     <#
     .SYNOPSIS
         Starts the release process.
 
     .DESCRIPTION
-        The `Start-Release` function initiates the release process by going through the 4 major tasks involved:
+        The `Start-ReleaseProcess` function initiates the release process by going through the 4 major tasks involved:
 
         1. Set (up) the release folder structure for both the releases and packages directories
         2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
@@ -113,11 +113,13 @@ function Start-Release {
 
         The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
 
+        The function loops through the menu until the user specifically quits. This allows the user to perform, for example, work on tasks 2 and 4, or 3 and 4, without having to go through the full release process each time.
+
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Start-Release
+        Start-ReleaseProcess
         Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
 
     .NOTES
@@ -128,63 +130,75 @@ function Start-Release {
     #>
 
     # Function variables
-    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[Q] Quit`n`nWhat would you like to do? "
+    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
     $UserOptions = @("1", "2", "3", "4", "5", "Q")
     $ChoiceFullRelease = 1
     $ChoiceSetReleaseFolder = 2
     $ChoiceInvokePythonTool = 3
     $ChoiceCopyReleaseContents = 4
     $ChoiceNewReleasePackage = 5
+    $ChoiceChangeReleaseDetails = 6
     $ChoiceQuit = "Q"
 
-    # Loop until user answers prompt
-    $LoopTrue = $True
+    # Loop until the user specifically quits
     do {
-        # Show the user the menu options
-        Write-Host $UserMenu -NoNewline
-        $UserPrompt = $Host.UI.ReadLine()
+        $UserPrompt = ""
 
-        # Check the user entered a valid choice
-        if ($UserPrompt -in $UserOptions) {
-            # Check if the user wants to quit
-            if ($UserPrompt -eq $ChoiceQuit) {
-                Write-Host "`nExiting the script...`n"
-                Exit
+        # Loop until user answers prompt
+        $InnerLoopTrue = $True
+        do {
+            # Show the user the menu options
+            Write-Host $UserMenu -NoNewline
+            $UserPrompt = $Host.UI.ReadLine()
+
+            # Check the user entered a valid choice
+            if ($UserPrompt -in $UserOptions) {
+                # Check if the user wants to quit
+                if ($UserPrompt -eq $ChoiceQuit) {
+                    Write-Host "`nExiting the script...`n"
+                    Exit
+                }
+
+                $UserChoice = [int]$UserPrompt
+
+                # Tell loop to quit
+                $InnerLoopTrue = $False
             }
+            else {
+                Write-Host "Please make a valid choice!"
+            }
+        } while ($InnerLoopTrue -eq $True)
 
-            $UserChoice = [int]$UserPrompt
-
-            # Tell loop to quit
-            $LoopTrue = $False
+        # Set the release details if they are not already set or if the user chooses to change them
+        if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
+            Get-ReleaseDetails
+            Update-PathVars
         }
-        else {
-            Write-Host "Please make a valid choice!"
+
+        # Task 1
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
+            Set-ReleaseFolderStructure
+            Set-ProjectRoot
         }
-    } while ($LoopTrue -eq $True)
 
-    # Task 1
-    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
-        Set-ReleaseFolderStructure
-        Set-ProjectRoot
-    }
+        # Task 2
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
+            Invoke-PythonTool
+            Set-ProjectRoot
+        }
 
-    # Task 2
-    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
-        Invoke-PythonTool
-        Set-ProjectRoot
-    }
+        # Task 3
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
+            Copy-ReleaseContents
+            Set-ProjectRoot
+        }
 
-    # Task 3
-    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
-        Copy-ReleaseContents
-        Set-ProjectRoot
-    }
-
-    # Task 4
-    if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
-        New-ReleasePackage
-        Set-ProjectRoot
-    }
+        # Task 4
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
+            New-ReleasePackage
+            Set-ProjectRoot
+        }
+    } while ($UserPrompt -ne $ChoiceQuit)
 }
 function Invoke-PythonTool {
     <#
@@ -1094,14 +1108,8 @@ if (-Not $SetCSSuccess) {
 # Store the full path of the project root
 $Script:PathVars.ProjectRootFolder = Get-Location
 
-# Get the details of the release to work with
-Get-ReleaseDetails
-
-# Update all the path variables to be used in the script
-Update-PathVars
-
 # Start the process to work on the release
-Start-Release
+Start-ReleaseProcess
 
 # Section: Commented-out Copied Code
 # Temporary holding place for copy-pasting of all the script variables needed for the script
