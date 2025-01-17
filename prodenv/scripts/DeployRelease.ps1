@@ -90,7 +90,8 @@ $Script:PathVars = [ordered]@{
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
-    ReleaseCSFolder                 = ""
+    ReleasesOuterCSFolder           = ""
+    ReleaseInnerCSFolder            = ""
     ReleasePyToolFolder             = ""
     ReleasePythonDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
@@ -300,10 +301,13 @@ function Update-PathVars {
 
     # Release specific child folder paths
     $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
-    $Script:PathVars.ReleaseCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $Script:PathVars.ReleasesOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
     $Script:PathVars.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
-    $Script:PathVars.ReleaseInstallerFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
+    $ReleaseOuterCSPath = $Script:PathVars.ReleasesOuterCSFolder
+    $Script:PathVars.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
+    $ReleaseInstallerPath = $Script:PathVars.ReleaseInstallerFolder
+    $Script:PathVars.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
     $ReleasePyToolFolderPath = $Script:PathVars.ReleasePyToolFolder 
     $Script:PathVars.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
 }
