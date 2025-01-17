@@ -825,6 +825,7 @@ function Add-CompStartFolder {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
     $ReleasesOuterCSPath = $Script:PathVars.ReleasesOuterCSFolder 
     $ReleaseInstallerPath = $Script:PathVars.ReleaseInstallerFolder
     $ReleaseInnerCSPath = $Script:PathVars.ReleaseInnerCSFolder
@@ -833,7 +834,7 @@ function Add-CompStartFolder {
     if (-Not (Test-Path $ReleasesOuterCSPath)) {
         Write-Host "`nCreating the outer CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleasesOuterCSPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
     }
     else {
         Write-Host "`nThere already exists an outer CompStart folder for release version $ReleaseFullVersion...skipping this step..."
@@ -844,7 +845,7 @@ function Add-CompStartFolder {
     if (-Not (Test-Path $ReleaseInstallerPath)) {
         Write-Host "`nCreating the installer-files folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseInstallerPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleasesOuterCSPath > $null
     }
     else {
         Write-Host "`nThere already exists an installer-files folder for release version $ReleaseFullVersion...skipping this step..."
@@ -855,7 +856,7 @@ function Add-CompStartFolder {
     if (-Not (Test-Path $ReleaseInnerCSPath)) {
         Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseInnerCSPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
     }
     else {
         Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
@@ -931,12 +932,13 @@ function Add-ReleaseNotesFolder {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseNotesFolderPath = $Script:PathVars.ReleaseNotesFolder 
+    $ReleaseNotesFolderPath = $Script:PathVars.ReleaseNotesFolder
+    $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder 
 
     if (-Not (Test-Path $ReleaseNotesFolderPath)) {
         Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $ReleaseNotesFolderPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.ReleaseNotes -Path $ReleaseFullPath > $null
     }
     else {
         Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
@@ -1005,8 +1007,8 @@ function Copy-ReleaseContents {
     # Copy the CompStart content
     Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $$Script:PathVars.ReleasesInnerCSFolder 
-    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $$Script:PathVars.ReleasesInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $Script:PathVars.ReleasesInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $Script:PathVars.ReleasesInnerCSFolder 
     Copy-Item -Path $Script:PathVars.DevConfigFolder -Destination $Script:PathVars.ReleasesInnerCSFolder  -Recurse -Force
 
     # Copy the CS installer content
