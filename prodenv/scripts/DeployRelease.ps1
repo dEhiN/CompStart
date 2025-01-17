@@ -1104,3 +1104,40 @@ DestinationPath  = $ReleasePackageName
 CompressionLevel = "Optimal"
 }
 #>
+
+# Section: New release folder structure:
+<#
+> - <release-folder>
+        | - CompStart (folder)
+            | - install.ps1 (file)
+            | - installer-files (folder)
+                | - instructions.txt (file)
+                | - CompStart (folder)
+                    | - CompStart.ps1 (file)
+                    | - CompStart.bat (file)
+                    | - config (folder)
+                        | - default_startup.json (file)
+                        | - startup_data.json (file)
+                        | - schema (folder)
+                            | - startup_data.schema.json (file)
+                            | - startup_item.schema.json (file)
+        | - py-tool (folder)
+            | - CompStart.py (file)
+            | - CompStart.spec (file)
+            | - build (folder) [PyInstaller specific build files]
+            | - dist (folder)
+                | - CompStart.exe (file)
+            | - dependencies (folder)
+                | - __init__.py (file)
+                | - cs_chooser.py
+                | - cs_data_generate.py
+                | - cs_desc.py
+                | - cs_enum.py
+                | - cs_helper.py
+                | - cs_jsonfn.py
+                | - cs_pretty.py
+                | - cs_startup_add.py
+                | - cs_startup_edit.py
+        | - release-notes (folder)
+            | - release-notes.md (file)
+#>
