@@ -215,6 +215,9 @@ function Invoke-PythonTool {
     # Copy the necessary files to the py-tool folder
     Add-PyToolContents
 
+    # Confirm we are in the correct location
+    Set-Location $Script:PathVars.ReleasePyToolFolder
+
     # Let user know the Python executable will be created after a 5 second countdown
     Write-Host "`nCreating Python executable in..."
     for ($counter = 5; $counter -gt 0; $counter--) {
@@ -224,9 +227,10 @@ function Invoke-PythonTool {
 
     # Create the Python executable
     $PyIArgumentArray = @(
-        $Script:PathVars.DevCSPythonScriptPath,
+        $Script:FileNames.CSPythonScript,
         "--onefile"
     )
+
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
@@ -860,9 +864,6 @@ function Add-PyToolFolder {
     # Set up local variables for easier access
     $PyToolFolder = $Script:FolderNames.PyTool
     $PyToolFolderPath = $Script:PathVars.ReleasePyToolFolder 
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $PyToolFolderPath
     
     # Confirm if the py-tool folder path exists and if not, try to create it
     if (-Not (Test-Path $PyToolFolderPath)) {
@@ -872,6 +873,9 @@ function Add-PyToolFolder {
         Start-Sleep -Seconds $Script:SleepTimer
         New-Item $PyToolFolderPath -ItemType Directory > $null
     }
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $PyToolFolderPath
 
     # Check to see if there's anything already in the py-tool folder and if so, delete it
     $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
