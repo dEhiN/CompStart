@@ -165,21 +165,25 @@ function Start-Release {
     # Task 1
     if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
         Set-ReleaseFolderStructure
+        Set-ProjectRoot
     }
 
     # Task 2
     if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
         Invoke-PythonTool
+        Set-ProjectRoot
     }
 
     # Task 3
     if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
         Copy-ReleaseContents
+        Set-ProjectRoot
     }
 
     # Task 4
     if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
         New-ReleasePackage
+        Set-ProjectRoot
     }
 }
 function Invoke-PythonTool {
@@ -216,7 +220,11 @@ function Invoke-PythonTool {
     Add-PyToolContents
 
     # Confirm we are in the correct location
-    Set-Location $Script:PathVars.ReleasePyToolFolder
+    $CurrLocation = Get-Location
+    if ($CurrLocation -ne $Script:PathVars.ReleasePyToolFolder) {
+        Set-Location $Script:PathVars.ReleasePyToolFolder
+    }
+    
 
     # Let user know the Python executable will be created after a 5 second countdown
     Write-Host "`nCreating Python executable in..."
@@ -628,11 +636,11 @@ function Set-FullVersionPath {
 
     # Check the releases directory
     if (-Not (Test-Path $ReleaseFullPath)) {
-        Write-Host "`nCannot find a directory for release version $ReleaseFullVersion..."
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion..."
         Add-FullVersionFolder
     }
     else {
-        Write-Host "`nThere already exists a directory for release version $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a release folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
 }
@@ -756,7 +764,7 @@ function Add-FullVersionFolder {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
         
-    Write-Host "Creating a directory for release version $ReleaseFullVersion..."
+    Write-Host "Creating a release folder for release version $ReleaseFullVersion..."
     Write-Host "...at $ReleaseFullPath"
     Start-Sleep -Seconds $Script:SleepTimer
     New-Item $ReleaseFullPath -ItemType Directory > $null
