@@ -93,8 +93,10 @@ $Script:PathVars = [ordered]@{
     ReleaseOuterCSFolder            = ""
     ReleaseInnerCSFolder            = ""
     ReleasePyToolFolder             = ""
+    ReleasePyIDistFolder            = ""
     ReleasePythonDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
+    ReleaseCSExecutable             = ""
 }
 
 # Section: Script Functions
@@ -178,25 +180,25 @@ function Start-ReleaseProcess {
         # Task 1
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
             Set-ReleaseFolderStructure
-            Set-ProjectRoot
+            Set-ProjectRoot > $null
         }
 
         # Task 2
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
             Invoke-PythonTool
-            Set-ProjectRoot
+            Set-ProjectRoot > $null
         }
 
         # Task 3
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
             Copy-ReleaseContents
-            Set-ProjectRoot
+            Set-ProjectRoot > $null
         }
 
         # Task 4
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
             New-ReleasePackage
-            Set-ProjectRoot
+            Set-ProjectRoot > $null
         }
     } while ($UserPrompt -ne $ChoiceQuit)
 }
@@ -327,17 +329,26 @@ function Update-PathVars {
     $ReleaseMinorPath = $Script:PathVars.ReleaseMinorFolder 
     $Script:PathVars.ReleaseFullFolder = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
-    # Release specific child folder paths
+    # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
     $Script:PathVars.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-    $Script:PathVars.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
-    $Script:PathVars.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleaseOuterCSPath = $Script:PathVars.ReleaseOuterCSFolder
     $Script:PathVars.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
     $ReleaseInstallerPath = $Script:PathVars.ReleaseInstallerFolder
     $Script:PathVars.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+
+    # Release specific child folder paths: py-tool
+    $Script:PathVars.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleasePyToolFolderPath = $Script:PathVars.ReleasePyToolFolder 
     $Script:PathVars.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:PathVars.ReleasePyIDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyIDist)"
+
+    # Release specific child file paths
+    $ReleasePyIDistPath = $Script:PathVars.ReleasePyIDistFolder
+    $Script:PathVars.ReleaseCSExecutable = "$ReleasePyIDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
+
+    # Release specific child folder paths: release-notes
+    $Script:PathVars.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
 }
 function Get-ReleaseDetails {
     <#
@@ -892,7 +903,7 @@ function Add-PyToolFolder {
     
     # Confirm if the py-tool folder path exists and if not, try to create it
     if (-Not (Test-Path $PyToolFolderPath)) {
-        Write-Host "`nCannot find a folder named `"$PyToolFolder`" in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
+        Write-Host "`nCannot find a $PyToolFolder folder in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
         Write-Host "Creating the $PyToolFolder folder..."
         Write-Host "...at $($Script:PathVars.ReleaseFullFolder)"
         Start-Sleep -Seconds $Script:SleepTimer
@@ -1024,21 +1035,16 @@ function Copy-ReleaseContents {
     Copy-Item -Path $Script:PathVars.AssetReleaseNotesMarkdown  -Destination $Script:PathVars.ReleaseNotesFolder 
     Copy-Item -Path $Script:PathVars.AssetInstructionsText  -Destination $Script:PathVars.ReleaseInstallerFolder
 
-    Exit
-
     # Deal with the Python executable
-    $PyToolsPath = "$ReleaseFullPath\$PyToolsFolder"
-    if (-Not (Test-Path $PyToolsPath)) {
+    if (-Not (Test-Path $Script:PathVars.ReleasePyToolFolder)) {
         Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
         Exit
     }
-    $PyIDistPath = "$PyToolsPath\$PyIDistFolder"
-    $CSPythonPath = "$PyIDistPath\$PythonExeFile"
     Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $CSPythonPath -Destination $CSFolderPath
+    Copy-Item -Path $Script:PathVars.ReleaseCSExecutable -Destination $Script:PathVars.ReleaseInnerCSFolder
 
-    Write-Host "`nAll release content has been copied over successfully to $ReleaseFullPath"
+    Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 }
 function New-ReleasePackage {
     # The following code has been copied from the GenerateReleasePackage script:
