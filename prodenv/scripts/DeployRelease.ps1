@@ -33,7 +33,7 @@ $Script:FileNames = [ordered]@{
     CSPythonExe               = "CompStart.exe"
 
     ReleaseInstructionsText   = "instructions.txt"
-    ReleaseNotesMarkdown      = "release_notes.md"
+    ReleaseNotesMarkdown      = "release-notes.md"
 
     InstallerPowerShellScript = "install.ps1"
 }
@@ -307,9 +307,11 @@ function Update-PathVars {
     $Script:PathVars.AssetsInstallerFolder = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
 
     # Asset related file paths
-    $Script:PathVars.AssetReleaseNotesMarkdown = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
-    $Script:PathVars.AssetInstructionsText = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
-    $Script:PathVars.AssetInstallerPowerShellScript = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
+    $CSInstallerPath = $Script:PathVars.AssetsInstallerFolder
+    $CSReleaseNotesPath = $Script:PathVars.AssetsReleaseFolder
+    $Script:PathVars.AssetReleaseNotesMarkdown = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
+    $Script:PathVars.AssetInstructionsText = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
+    $Script:PathVars.AssetInstallerPowerShellScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
 
     # Package related folder paths
     $PackagesPath = $Script:PathVars.PackagesFolder 
@@ -1007,9 +1009,9 @@ function Copy-ReleaseContents {
     # Copy the CompStart content
     Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $Script:PathVars.ReleasesInnerCSFolder 
-    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $Script:PathVars.ReleasesInnerCSFolder 
-    Copy-Item -Path $Script:PathVars.DevConfigFolder -Destination $Script:PathVars.ReleasesInnerCSFolder  -Recurse -Force
+    Copy-Item -Path $Script:PathVars.DevCSBatchScript  -Destination $Script:PathVars.ReleaseInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevCSPowerShellScript -Destination $Script:PathVars.ReleaseInnerCSFolder 
+    Copy-Item -Path $Script:PathVars.DevConfigFolder -Destination $Script:PathVars.ReleaseInnerCSFolder  -Recurse -Force
 
     # Copy the CS installer content
     Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
