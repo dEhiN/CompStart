@@ -90,7 +90,7 @@ $Script:PathVars = [ordered]@{
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
-    ReleasesOuterCSFolder           = ""
+    ReleaseOuterCSFolder            = ""
     ReleaseInnerCSFolder            = ""
     ReleasePyToolFolder             = ""
     ReleasePythonDependenciesFolder = ""
@@ -327,10 +327,10 @@ function Update-PathVars {
 
     # Release specific child folder paths
     $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
-    $Script:PathVars.ReleasesOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $Script:PathVars.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
     $Script:PathVars.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
     $Script:PathVars.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
-    $ReleaseOuterCSPath = $Script:PathVars.ReleasesOuterCSFolder
+    $ReleaseOuterCSPath = $Script:PathVars.ReleaseOuterCSFolder
     $Script:PathVars.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
     $ReleaseInstallerPath = $Script:PathVars.ReleaseInstallerFolder
     $Script:PathVars.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
@@ -826,7 +826,7 @@ function Add-CompStartFolder {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:PathVars.ReleaseFullFolder
-    $ReleasesOuterCSPath = $Script:PathVars.ReleasesOuterCSFolder 
+    $ReleasesOuterCSPath = $Script:PathVars.ReleaseOuterCSFolder 
     $ReleaseInstallerPath = $Script:PathVars.ReleaseInstallerFolder
     $ReleaseInnerCSPath = $Script:PathVars.ReleaseInnerCSFolder
 
@@ -1014,7 +1014,7 @@ function Copy-ReleaseContents {
     # Copy the CS installer content
     Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:PathVars.AssetInstallerPowerShellScript  -Destination $Script:PathVars.ReleasesOuterCSFolder
+    Copy-Item -Path $Script:PathVars.AssetInstallerPowerShellScript  -Destination $Script:PathVars.ReleaseOuterCSFolder
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
