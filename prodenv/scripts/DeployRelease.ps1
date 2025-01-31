@@ -128,8 +128,6 @@ function Start-ReleaseProcess {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-16
     #>
 
     # Function variables
@@ -223,8 +221,6 @@ function Invoke-PythonTool {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14
     #>
 
     # Before proceeding, set the location to the release folder
@@ -277,8 +273,6 @@ function Update-AllPaths {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-12
-        Updated: 2025-01-14
     #>
 
     # Set the project root path for easy reference
@@ -371,8 +365,6 @@ function Get-ReleaseDetails {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-10
-        Updated: 2025-01-12
     #>
     Write-Host "`nWhat is the release major version number? " -NoNewline
     $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
@@ -418,8 +410,6 @@ function Set-ProjectRoot {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
     #>
 
     # Set up local variables for easier access
@@ -498,8 +488,6 @@ function Set-ReleaseFolderStructure {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-13
     #>
     
     # Deal with the major release version
@@ -528,9 +516,7 @@ function Set-ReleaseFolderLocation {
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-13
-        Updated: 2025-01-14    
+        GitHub: @dEhiN  
     #>
 
     # Set up local variables for easier access
@@ -564,8 +550,6 @@ function Set-MajorVersionPaths {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
     #>
 
     # Set up local variables for easier access
@@ -611,8 +595,6 @@ function Set-MinorVersionPaths {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-12
     #>
 
     # Set up local variables for easier access
@@ -658,8 +640,6 @@ function Set-FullVersionPath {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2025-01-04
-        Updated: 2025-01-13
     #>
 
     # Set up local variables for easier access
@@ -698,8 +678,6 @@ function Add-MajorVersionFolder {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-12
     #>
     
     [CmdletBinding()]
@@ -745,8 +723,6 @@ function Add-MinorVersionFolder {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-12
     #>
     
     [CmdletBinding()]
@@ -788,8 +764,6 @@ function Add-FullVersionFolder {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-12-30
-        Updated: 2025-01-13
     #>
 
     # Set up local variables for easier access
@@ -899,7 +873,6 @@ function Add-PyToolFolder {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-01-14
     #>
 
     # Set up local variables for easier access
@@ -945,7 +918,6 @@ function Add-ReleaseNotesFolder {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-01-14
     #>
 
     # Set up local variables for easier access
@@ -1011,7 +983,6 @@ function Copy-ReleaseContents {
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-01-14
     #>
 
     # Set up local variables for easier access
@@ -1052,6 +1023,19 @@ function Copy-ReleaseContents {
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 }
 function New-ReleasePackage {
+    <#
+    .SYNOPSIS
+        Creates a release package by compressing the necessary folders and files into a zip archive.
+    .DESCRIPTION
+        The `New-ReleasePackage` function checks for the existence of required folders and files and then compresses the release folder into a zip archive. The function first sets the location to the release folder, checks if the release folder has the necessary folders and files, and then checks if the packages folder exists. If all checks pass, it creates a zip archive of the release folder.
+   .EXAMPLE
+        New-ReleasePackage
+        Creates a zip archive of the release folder for the current release version.
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $PackageFullPath = $Script:AllPaths.PackageFullFolder
