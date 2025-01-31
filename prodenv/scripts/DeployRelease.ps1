@@ -83,6 +83,7 @@ $Script:FullPaths = [ordered]@{
     PackagesFolder                  = ""
     PackageMajorFolder              = ""
     PackageMinorFolder              = ""
+    PackageFullFolder               = ""
 
     ReleasesFolder                  = ""
     ReleaseMajorFolder              = ""
@@ -320,6 +321,8 @@ function Update-PathVars {
     $Script:FullPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $PackageMajorPath = $Script:FullPaths.PackageMajorFolder 
     $Script:FullPaths.PackageMinorFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $PackageMinorPath = $Script:FullPaths.PackageMinorFolder
+    $Script:FullPaths.PackageFullFolder = "$PackageMinorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
 
     # Release related parent folder paths
     $ReleasesPath = $Script:FullPaths.ReleasesFolder
