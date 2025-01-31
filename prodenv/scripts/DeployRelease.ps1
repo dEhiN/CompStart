@@ -15,6 +15,43 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
+# Section: New release folder structure:
+<#
+> - <release-folder>
+        | - CompStart (folder)
+            | - install.ps1 (file)
+            | - installer-files (folder)
+                | - instructions.txt (file)
+                | - CompStart (folder)
+                    | - CompStart.ps1 (file)
+                    | - CompStart.bat (file)
+                    | - config (folder)
+                        | - default_startup.json (file)
+                        | - startup_data.json (file)
+                        | - schema (folder)
+                            | - startup_data.schema.json (file)
+                            | - startup_item.schema.json (file)
+        | - py-tool (folder)
+            | - CompStart.py (file)
+            | - CompStart.spec (file)
+            | - build (folder) [PyInstaller specific build files]
+            | - dist (folder)
+                | - CompStart.exe (file)
+            | - dependencies (folder)
+                | - __init__.py (file)
+                | - cs_chooser.py
+                | - cs_data_generate.py
+                | - cs_desc.py
+                | - cs_enum.py
+                | - cs_helper.py
+                | - cs_jsonfn.py
+                | - cs_pretty.py
+                | - cs_startup_add.py
+                | - cs_startup_edit.py
+        | - release-notes (folder)
+            | - release-notes.md (file)
+#>
+
 # Section: Script Variables
 $Script:SleepTimer = 2
 $Script:DefaultReturnVal = $false
@@ -1090,53 +1127,4 @@ $Script:AllPaths.ProjectRootFolder = Get-Location
 # Start the process to work on the release
 Start-ReleaseProcess
 
-# Section: Commented-out Copied Code
-# Temporary holding place for copy-pasting of all the script variables needed for the script
-<#
-# Get the release package name
-$ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
-
-# Create the hash table object to pass to the Compress-Archive cmdlet
-$PackageContents = @{
-Path             = $ReleaseCSFolderPath, $AssetInstructionsTextPath
-DestinationPath  = $ReleasePackageName
-CompressionLevel = "Optimal"
-}
-#>
-
-# Section: New release folder structure:
-<#
-> - <release-folder>
-        | - CompStart (folder)
-            | - install.ps1 (file)
-            | - installer-files (folder)
-                | - instructions.txt (file)
-                | - CompStart (folder)
-                    | - CompStart.ps1 (file)
-                    | - CompStart.bat (file)
-                    | - config (folder)
-                        | - default_startup.json (file)
-                        | - startup_data.json (file)
-                        | - schema (folder)
-                            | - startup_data.schema.json (file)
-                            | - startup_item.schema.json (file)
-        | - py-tool (folder)
-            | - CompStart.py (file)
-            | - CompStart.spec (file)
-            | - build (folder) [PyInstaller specific build files]
-            | - dist (folder)
-                | - CompStart.exe (file)
-            | - dependencies (folder)
-                | - __init__.py (file)
-                | - cs_chooser.py
-                | - cs_data_generate.py
-                | - cs_desc.py
-                | - cs_enum.py
-                | - cs_helper.py
-                | - cs_jsonfn.py
-                | - cs_pretty.py
-                | - cs_startup_add.py
-                | - cs_startup_edit.py
-        | - release-notes (folder)
-            | - release-notes.md (file)
-#>
+# End of script
