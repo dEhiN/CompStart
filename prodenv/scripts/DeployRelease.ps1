@@ -422,10 +422,12 @@ function Set-ProjectRoot {
         Updated: 2025-01-12
     #>
 
-    # Initialize function variables
+    # Set up local variables for easier access
     $ReturnValue = $Script:DefaultReturnVal
     $StartDirectory = $Script:FolderNames.CompStart
     $SplitChar = "\" + $Script:OSSeparatorChar
+    
+    # Initialize function variables
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
@@ -1050,38 +1052,24 @@ function Copy-ReleaseContents {
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 }
 function New-ReleasePackage {
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $PackageFullPath = $Script:FullPaths.PackageFullFolder
+    $ReleaseCSFolderPath = $Script:FullPaths.ReleaseOuterCSFolder
+
     # Before proceeding, set the location to the release folder
     Set-ReleaseFolderLocation
 
-    $ReleaseCSFolderPath = "$ReleaseFullPath\$CompStartFolder"
-    $AssetInstructionsTextPath = "$ReleaseFullPath\$ReleaseInstructionsFile"
-
     # Check if the release folder has the necessary folders and files
-    if (-Not (Test-Path $ReleaseCSFolderPath) -Or -Not (Test-Path $AssetInstructionsTextPath)) {
-        Write-Host "`nThe release folder $ReleaseFullPath is missing necessary folders and files!`nPlease ensure the release folder has the following folders and files:`n- $CompStartFolder`n- $ReleaseNotesFolder`n- $ReleaseInstructionsFile`n"
+    if (-Not (Test-Path $ReleaseCSFolderPath)) {
+        Write-Host "`nThe release folder $($Script:FullPaths.ReleaseFullFolder) is missing necessary folders and files...`nPlease choose options 3 (if necessary) and 4 from the main menu first..."
         Exit
     }
 
     # Also check if the packages folder exists
     if (-Not (Test-Path $PackageFullPath)) {
-        Write-Host "`nThe package folder $PackageFullPath does not exist!`nIt will now be created..."
-
-        Set-Location $PackageVersionsPath
-        if (-Not (Test-Path $PackageMajorPath)) {
-            Write-Host "`nCreating the package directory for release major version $ReleaseMajorVersion..."
-            Start-Sleep $Script:SleepTimer
-            New-Item -Name "v$ReleaseMajorVersion" -ItemType "directory" > $null
-        }
-
-        Set-Location $PackageMajorPath
-        if (-Not (Test-Path $PackageMinorPath)) {
-            Write-Host "`nCreating the package directory for release minor version $ReleaseMinorVersion..."
-            Start-Sleep $Script:SleepTimer
-            New-Item -Name "m$ReleaseMinorVersion" -ItemType "directory" > $null
-        }
-    }
-    else {
-        Write-Host "`nThe package folder $PackageFullPath already exists`n"
+        Write-Host "`nThe package folder $PackageFullPath does not exist...`nPlease choose option 2 from the main menu first..."
+        return
     }
 
     Set-Location $PackageFullPath
@@ -1091,7 +1079,7 @@ function New-ReleasePackage {
 
     # Create the hash table object to pass to the Compress-Archive cmdlet
     $PackageContents = @{
-        Path             = $ReleaseCSFolderPath, $AssetInstructionsTextPath
+        Path             = $ReleaseCSFolderPath
         DestinationPath  = $ReleasePackageName
         CompressionLevel = "Optimal"
     }
