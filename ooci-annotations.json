@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "m6lb43ytem5bkmaz61h",
+    "file": "devenv/data/test-data/deploy-release-script/test_2025-01-30/extraction/CompStart/install.ps1",
+    "line": 100,
+    "message": "Need to set $InstallFullPath because it is currently null so the $FilesList ends up being a list of all files in the cwd",
+    "author": "Anonymous",
+    "timestamp": "2025-01-31T21:59:21.365Z",
+    "thread": [
+      {
+        "id": "m6lb6fyuwa4n3j4p8jn",
+        "message": "The fix is probably to assign $InstallFullPath the value of the current folder of the script (i.e., '.') plus the $InstallerFolder varaiable",
+        "author": "Anonymous",
+        "timestamp": "2025-01-31T22:01:10.230Z"
+      },
+      {
+        "id": "m6lb7sbhx0uz01rc26",
+        "message": "It also may make more sense to replace lines 101-109 with a simple Copy-Item -Recurse $InstallFullPath",
+        "author": "Anonymous",
+        "timestamp": "2025-01-31T22:02:12.893Z"
+      }
+    ],
+    "tags": [],
+    "pinned": false,
+    "priority": 0,
+    "severity": "info",
+    "resolved": false
+  }
+]
