@@ -2,7 +2,7 @@
   {
     "id": "m6lb43ytem5bkmaz61h",
     "file": "devenv/data/test-data/deploy-release-script/test_2025-01-30/extraction/CompStart/install.ps1",
-    "line": 100,
+    "line": 102,
     "message": "Need to set $InstallFullPath because it is currently null so the $FilesList ends up being a list of all files in the cwd",
     "author": "Anonymous",
     "timestamp": "2025-01-31T21:59:21.365Z",
@@ -18,6 +18,24 @@
         "message": "It also may make more sense to replace lines 101-109 with a simple Copy-Item -Recurse $InstallFullPath",
         "author": "Anonymous",
         "timestamp": "2025-01-31T22:02:12.893Z"
+      },
+      {
+        "id": "m6lbtogcmukhwo56eg",
+        "message": "$InstallFullPath is now properly set using $PSScriptRoot but the issue still remains",
+        "author": "Anonymous",
+        "timestamp": "2025-01-31T22:19:14.316Z"
+      },
+      {
+        "id": "m6lbxjgvtgfvb6hl58g",
+        "message": "It looks like the problem is that, instead of using a simple Copy-Item -Recurse, a list of the files and folders in $InstallFullPath is taken but then copied over one by one in a loop. The list is populated using Get-ChildItem -Recurse, which correctly preserves the directory structure. But then each item is copied to the CompStart folder in %localappdata%. So, the directory structure isn't recreated",
+        "author": "Anonymous",
+        "timestamp": "2025-01-31T22:22:14.479Z"
+      },
+      {
+        "id": "m6lc087xqcfkm6pbnd",
+        "message": "However, using Copy-Item -Recurse may not be a good solution since currently, with the loop, each item being \"installed\" is shared with the user prior to the copy. Changing the loop to a simple Copy-Item command won't allow for that. If the copying takes a while, the user then just has to wait with no output to show what's going on.",
+        "author": "Anonymous",
+        "timestamp": "2025-01-31T22:24:19.869Z"
       }
     ],
     "tags": [],
