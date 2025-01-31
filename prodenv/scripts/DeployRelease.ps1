@@ -175,7 +175,7 @@ function Start-ReleaseProcess {
         # Set the release details if they are not already set or if the user chooses to change them
         if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
             Get-ReleaseDetails
-            Update-PathVars
+            Update-FullPaths
         }
 
         # Task 1
@@ -259,19 +259,19 @@ function Invoke-PythonTool {
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
-function Update-PathVars {
+function Update-FullPaths {
     <#
     .SYNOPSIS
         Updates the project environment path variables to be used by this script.
 
     .DESCRIPTION
-        The `Update-PathVars` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:FullPaths` dictionary.
+        The `Update-FullPaths` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:FullPaths` dictionary.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Update-PathVars
+        Update-FullPaths
         Updates all the path variables based on the current project root path and folder names.
 
     .NOTES
