@@ -1,6 +1,13 @@
-# CompStart/releases
+# CompStart/prodenv/releases
 
 Parent folder to store all release data. Each release will be set up using the structure outlined below.
+
+## Directories
+
+- _versions_: A directory containing all the specific folders and files for a release version
+- _README.md_: This README file
+
+The _versions_ directory is where the subdirectories related to each release version is located. See the next section for details.
 
 ## Directory Structure for Releases
 
@@ -18,7 +25,13 @@ There is no third level of versioning, but tags might be added to a release, suc
 
 ### Subdirectories
 
- Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, _release version 1.1-alpha_ is located at `v1/m1/1.1-alpha`, while _release version 1.1_ is located at `v1/m1/1.1`.
+ Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
+<br>
+<br>
+
+ # The following needs to be updated and is old information as of 2025-01-30
+
+## Directory Structure for Releases
 
 ### Artifacts
 

@@ -5,26 +5,80 @@ import os, jsonschema
 import dependencies.cs_pretty as deps_pretty
 import dependencies.cs_jsonfn as deps_json
 import dependencies.cs_enum as deps_enum
+import dependencies.cs_desc as deps_desc
 import CompStart as app_cs
 
 ENUM_ITV = deps_enum.ItemTypeVals
 
 
-def set_start_dir():
-    dirs_list = os.getcwd().split(os.sep)
-    len_dirs_list = len(dirs_list) - 1
-    start_dir = "CompStart"
+def set_start_dir(dir_name: str):
+    """Small helper function to set the starting directory
 
-    if start_dir in dirs_list:
-        idx_start_dir = dirs_list.index(start_dir)
+    This function will get the path for the current working directory (cwd) and check to see if the folder name passed in is already on it. It will check for five scenarios:
 
-        if len_dirs_list == idx_start_dir:
-            return
+    1. There is no folder at all
+    2. There is one folder at the end of the current working directory path
+    3. There is one folder but not at the end of the current working directory path
+    4. There is more than one folder but the last one is at the end of the current working directory path
+    5. There is more than one folder and the last one is not at the end of the current working directory path
+
+    Args:
+        dir_name (str): The name of the directory to check for
+
+    Returns:
+        bool: Value specifying if the folder to check for was found on the current working directory path. Essentially scenarios 2-5 above will return True while scenario 1 will return False. It will be assumed that if this function returns true, then the current working directory has been set so that the function os.getcwd() will return the correct starting directory.
+
+    """
+    # Initialize function variables
+    ret_value = False
+    start_dir = dir_name
+    path_dirs_list = os.getcwd().split(os.sep)
+    adjusted_len_dirs_list = len(path_dirs_list) - 1
+
+    # Get the total number of folders matching the passed in directory name on the current working directory path
+    total_start_dirs = path_dirs_list.count(start_dir)
+
+    # Check for each case
+    if total_start_dirs == 0:
+        # Scenario 1
+        ret_value = False
+    else:
+        if total_start_dirs == 1:
+            # Scenarios 2 or 3
+
+            # Get the index of the CompStart folder in the list
+            idx_start_dir = path_dirs_list.index(start_dir)
         else:
-            num_dirs_diff = len_dirs_list - idx_start_dir
+            # Scenario 4 or 5
+
+            # Loop through to get to the last occurrence of the CompStart folder in the list
+            num_start_dirs = 0
+            idx_start_dir = -1
+
+            for curr_dir in path_dirs_list:
+                idx_start_dir += 1
+
+                if curr_dir == start_dir:
+                    num_start_dirs += 1
+
+                if num_start_dirs == total_start_dirs:
+                    break
+
+        # Check if the index is at the end of the list or in the middle
+        if idx_start_dir < adjusted_len_dirs_list:
+            # Scenario 3 or 5
+
+            # Get the difference in folder levels between the last folder and the starting directory
+            num_dirs_diff = adjusted_len_dirs_list - idx_start_dir
+
+            # Loop through and move the current working directory one folder level up
             while num_dirs_diff > 0:
                 os.chdir("..")
                 num_dirs_diff -= 1
+
+        ret_value = True
+
+    return ret_value
 
 
 def is_production():
@@ -40,21 +94,19 @@ def is_production():
 
 def program_info():
     """Function to explain what this program is and how it works"""
-    program_information = (
-        "\nWhat is CompStart?\n"
-        "CompStart is a computer startup tool designed to make your life easier.\n\n"
-        "What does that mean?\n"
-        "Have you ever wished to be able to log into your laptop at work and\n"
-        "have all of your programs automatically start up? Or, maybe you are\n"
-        "working on some personal project at home and don't want to be reopening\n"
-        "the file or program you're using every time you turn on your desktop\n"
-        "computer. With CompStart, you you can have any program automatically open\n"
-        "when you log in, including your favourite browser to any websites you\n"
-        "desire as well as any files you want, such as a Word document."
-    )
-    print(program_information)
-    print("\nThis menu option is still under construction...come back later...")
-    input("\nPress any key to return to the main menu... ")
+    program_description = deps_desc.CS_DESCRIPTION
+    desc_parts = program_description.split("--")
+    total_parts = len(desc_parts)
+    part_counter = 0
+
+    for part in desc_parts:
+        print(part)
+        print("Page {} of {}".format(part_counter + 1, total_parts))
+        part_counter += 1
+        if part_counter < total_parts:
+            input("Press enter to continue to the next page... ")
+        else:
+            input("Press enter to return to the main menu...")
 
 
 def parse_full_path(json_path: list, json_filename: str):
@@ -104,10 +156,9 @@ def check_overwrite(json_file: str):
         user_choice = input(input_message)
 
         if user_choice.upper() == "Y" or user_choice.upper() == "N":
+            quit_loop = True
             if user_choice.upper() == "Y":
                 overwrite_file = True
-
-            quit_loop = True
 
     return overwrite_file
 
@@ -124,7 +175,9 @@ def json_data_validator(json_data: dict, single_item: bool = False):
         bool: True if the validation was successful, False otherwise
     """
     valid_json = False
-    schema_file = "startup_item.schema.json" if single_item else "startup_data.schema.json"
+    schema_file = (
+        "startup_item.schema.json" if single_item else "startup_data.schema.json"
+    )
     schema_path = get_prod_path()
     schema_path.extend(["schema"])
 
@@ -141,9 +194,7 @@ def json_data_validator(json_data: dict, single_item: bool = False):
             err_msg = deps_pretty.prettify_io_error(error)
             deps_pretty.prettify_custom_error(err_msg, "json_data_validator")
     else:
-        custom_err = (
-            "Unable to attempt JSON data validation. Please see previous error for details."
-        )
+        custom_err = "Unable to attempt JSON data validation. Please see previous error for details."
         deps_pretty.prettify_custom_error(custom_err, "json_data_validator")
 
     return valid_json

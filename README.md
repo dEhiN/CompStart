@@ -71,10 +71,10 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 #### Folder: /prodenv -- L2
 
-- D _assets_ - A folder containing all the static files related to production, such as a template for release notes or an installation instructions text file
+- D _assets_ - A folder containing all release-related assets
 - D _packages_ - A folder containing all package files, or artifacts, for each release, as either ZIP or MSI files
 - D _releases_ - A folder containing all files related to each official release; this will NOT be the package file but all content that needs to go into a package artifact
-- D _scripts_ - A folder containing all automation scripts for automatically creating both a release and a package
+- D _scripts_ - A folder containing scripts pertaining to production, such as creating a release
 
 #### Folder: /devenv/config -- L3
 
@@ -86,11 +86,11 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 - D _data/misc-data_ - A folder containing any non-code related files such as text files with planning information, etc.
 - D _data/old-data_ - A folder containing any old or original code files to keep for posterity or just in case
+- D _data/test-data_ - A folder containing any data generated during testing
 
 #### Folder: /devenv/dependencies -- L3
 
 - See each specific Python script in this folder for further details
-
 
 #### Folder: /devenv/experimental_content -- L3
 
@@ -102,8 +102,7 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 #### Folder: /prodenv/assets -- L3
 
-- D _cs-installer_ A folder containing all assets related to the installer for _CompStart_
-- D _release-assets_ A folder containing assets related to release versions
+- See the _Readme_ in this folder for further details
 
 #### Folder: /prodenv/packages -- L3
 
@@ -131,18 +130,13 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 #### Folder: /devenv/data/old_data -- L4
 
-- D _powershell-location-commands_ - A folder containing one PowerShell script related to the creation of the automation scripts
-- D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
-- F _imports_list.txt - A text file listing all the Python import statements that cover all the Python scripts in the _dependencies_ folder
+- D _powershell-location-commands_ - A folder containing a single PowerShell script that was created to try and make a PowerShell equivalent of an existing Python function
+- D _pre-issue80_ - A folder containing the scripts related to production that were in use prior to issue #80
+- F _imports_list.txt - A text file listing all the Python import statements used by the Python CLI tool
 - F _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
-- F _old_setup.bat_ - A Batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+- F _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
 
-#### Folder: /prodenv/assets/cs-installer -- L4
+#### Folder: /devenv/data/test-data -- L4
 
-- D _installer-files_ A blank folder that will contain all the actual program files that the installer needs to work with; a copy of this folder will be created for each actual release
-- F _install.ps1_ A PowerShell script that's being used as the program installer
-
-#### Folder: /prodenv/assets/release-assets -- L4
-
-- F _instructions.txt_ A file containing the instructions and is currently included in every release; this "template" file is what will be updated whenever the instructions need to be updated, and then copied for a release version
-- F _release-notes.md_ A Markdown file to use as the template for what is posted on GitHub for each release version
+- D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
+- D _deploy-release-script_ - A folder containing some output files and the results of running the finished script to deploy a release for test purposes
