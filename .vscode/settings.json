@@ -9,6 +9,7 @@
         "pyinstaller",
         "onefile",
         "reflog",
-        "tkinter"
+        "tkinter",
+        "prodenv"
     ]
 }
