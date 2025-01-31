@@ -1,19 +1,11 @@
-# CompStart/releases
+# CompStart/prodenv/releases
 
-Parent folder to store all release data. Each release will be set up using the structure outlined below. The folder itself is called _releases_.
+Parent folder to store all release data. Each release will be set up using the structure outlined below.
 
 ## Directories
 
-Under the parent folder _releases_ are the following folders:
-
-- _scripts_: A directory containing scripts for creating new releases
-- _templates_: A directory containing templates of static content to include in each release
 - _versions_: A directory containing all the specific folders and files for a release version
 - _README.md_: This README file
-
-The _scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool. For instructions on how to automatically create a release, see the section [_Creating a Release_](#create-release).
-
-The _templates_ directory has a master copy of the _instructions.txt_ file and the _release_notes.md_ file. These are meant to be copied over to each release folder. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of the two files.
 
 The _versions_ directory is where the subdirectories related to each release version is located. See the next section for details.
 
@@ -34,6 +26,12 @@ There is no third level of versioning, but tags might be added to a release, suc
 ### Subdirectories
 
  Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
+<br>
+<br>
+
+ # The following needs to be updated and is old information as of 2025-01-30
+
+## Directory Structure for Releases
 
 ### Artifacts
 

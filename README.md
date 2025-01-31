@@ -53,10 +53,10 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 #### Folder: root (/)
 
 - D _devenv_ - All files related to development
-- D _packages_ - Package files for each release, as either ZIP or MSI files
-- D _releases_ - Files related to each official release; this will NOT be the package files but all content that needs to go into a package file
+- D _prodenv_ - All files pertaining to production
 - F _README.md_ - This README
 - F _.gitignore_ - The gitignore file for this project
+- F _ooci-annotations.json_ An export of the JSON file used by the VS Code extension Out-of-Code Insights for when annotations have been added to files
 
 #### Folder: /devenv
 
@@ -64,7 +64,7 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 - D _data_ - Data folder for either old or miscellaneous data
 - D _dependencies_ Python module folder to hold all the Python scripts that _CompStart.py_ depends on
 - D _experimental_content_ - Parent folder to hold all child folders for any experimentation done with, for example, a library to possibly use in the future
-- D _features_ - Parent folder to hold child folders for each feature branch being worked on (see README inside that folder for more information)
+- D _features_ - Parent folder to hold child folders for each feature branch being worked on
 - F _CompStart.ps1_ - Main PowerShell script that sets up all the programs, browser windows, and tabs
 - F _CompStart.bat_ - A batch file that is run on Windows startup and calls _startup.ps1_
 - F _CompStart.py_ - The Python command-line tool that can be used to modify the JSON startup data
@@ -84,6 +84,7 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 - D _data/misc_data_ - Holds any non-code related files such as text files with planning information, etc.
 - D _data/old_data_ - Holds any old or original code files to keep for posterity or just in case
+- D _data/test-data_ - Hold any data generated during testing
 
 #### Folder: /devenv/data/misc_data
 
@@ -94,10 +95,16 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 #### Folder: /devenv/data/old_data
 
-- D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
+- D _powershell-location-commands_ - A folder containing a single PowerShell script that was created to try and make a PowerShell equivalent of an existing Python function
+- D _pre-issue80_ - A folder containing the scripts related to production that were in use prior to issue #80
 - F _imports_list.txt - A text file listing all the Python import statements that cover all the Python scripts in the _dependencies_ folder
 - F _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
 - F _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+
+#### Folder: /devenv/data/test-data
+
+- D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
+- D _deploy-release-script_ - A folder containing some output files and the results of running the finished script to deploy a release for test purposes
 
 #### Folder: /devenv/experimental_content
 
@@ -107,10 +114,25 @@ As of 2023-10-27, the Powershell script and Batch file both work and I use them 
 
 - See the _Readme_ in this folder for further details
 
-#### Folder: /packages
+#### Folder: /prodenv
+
+- D _assets_ - Various release assets
+- D _releases_ - Files related to each official release; this will NOT be the package files but all content that needs to go into a package file
+- D _packages_ - Package files for each release, as either ZIP or MSI files
+- D _scripts_ - Scripts pertaining to production
+
+#### Folder: /prodenv/assets
 
 - See the _Readme_ in this folder for further details
 
-#### Folder: /releases
+#### Folder: /prodenv/packages
+
+- See the _Readme_ in this folder for further details
+
+#### Folder: /prodenv/releases
+
+- See the _Readme_ in this folder for further details
+
+#### Folder: /prodenv/scripts
 
 - See the _Readme_ in this folder for further details
