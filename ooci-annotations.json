@@ -2,7 +2,7 @@
   {
     "id": "m6lb43ytem5bkmaz61h",
     "file": "prodenv/assets/cs-installer/install.ps1",
-    "line": 102,
+    "line": 97,
     "message": "Need to set $InstallFullPath because it is currently null so the $FilesList ends up being a list of all files in the cwd",
     "author": "Anonymous",
     "timestamp": "2025-01-31T21:59:21.365Z",
@@ -42,6 +42,12 @@
         "message": "Based on the testing done, it looks like each object in $FilesList is a DirectoryInfo object. These objects have certain properties that could be used to recreate the desired directory structure at the install location. See /devenv/data/test-data/ps-commands-output/2025-02-12/test7.txt for more information on the potentially relevant DirectoryInfo object properties.",
         "author": "Anonymous",
         "timestamp": "2025-02-13T02:24:53.262Z"
+      },
+      {
+        "id": "m73mvi1nhm1qvxk0gm",
+        "message": "While working on the code changes, a suggestion from GitHub Copilot showed that a DirectoryInfo object has a PSIsContainer attribute. This attribute is true for folders and false for files. This attribute can be used instead of others ones, like Extension or Length, to recreate the CompStart internal directory structure. See both test.txt and test2.txt in /devenv/data/test-data/ps-commands-output/2025-02-13/ for more information.",
+        "author": "Anonymous",
+        "timestamp": "2025-02-13T17:48:26.267Z"
       }
     ],
     "tags": [],
