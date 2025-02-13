@@ -94,9 +94,10 @@ function Install-CSFiles {
 
     Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
-
+    $TempDir = "C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart"
     # Get a list of all the files to install
-    $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
+    #$InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
+    $InstallerFullPath = $TempDir + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
     # Set the initial destination path
