@@ -3,7 +3,7 @@ CompStart
 
 Commands:
 $FilesList = Get-ChildItem -Recurse .\devenv
-for ($i = 0; $i -lt $13; $i++) {
+for ($i = 0; $i -lt 13; $i++) {
 	$DirInfo = $FilesList[$i]
 	if (Select-String -InputObject $DirInfo.PSPath -Pattern "config" -CaseSensitive -SimpleMatch -Quiet) {
 		$DirInfo.PSChildName >> test.txt
