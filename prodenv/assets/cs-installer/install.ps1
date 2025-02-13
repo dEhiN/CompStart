@@ -104,19 +104,19 @@ function Install-CSFiles {
     $DestPath = $Script:CSFullPath
  
     # Create the directory structure for the CompStart folder
-    Write-Host "`nCreating the folder directory structure..." -NoNewline
+    Write-Host "`nCreating the folder directory structure..."
     Start-Sleep $Script:SleepTime
     foreach ($Item in $InstallerFilesList) {
         if ($Item.PSIsContainer) {
             $DestPath = $DestPath + $Script:OSSeparatorChar + $Item.Name
             if (-Not (Test-Path $DestPath)) {
-                Write-Host "`reating $($Item.Name) folder..." -NoNewline
+                Write-Host "Creating $($Item.Name) folder..." -NoNewline
                 Start-Sleep $Script:SleepTime
                 New-Item -Path $DestPath -ItemType "Directory" > $null
                 Write-Host "...folder successfully created at $DestPath"
             }
             else {
-                Write-Host "`nExisting $($Item.Name) folder found at $DestPath..." -NoNewline
+                Write-Host "Existing $($Item.Name) folder found at $DestPath..." -NoNewline
                 Start-Sleep $Script:SleepTime
                 Write-Host "...skipping this step"
             }
@@ -137,7 +137,14 @@ function Install-CSFiles {
             $DestPathArray = $DestPath.Split("\")
             $DestCurrentFolder = $DestPathArray[$DestPathArray.Length - 1]
 
-            if ($ItemParentFolder -eq $DestCurrentFolder) {
+            if ($ItemParentFolder -eq $Script:InstallerFolder) {
+                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
+                Start-Sleep $Script:SleepTime
+                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
+                Write-Host "...successfully installed $($Item.Name) to $DestPath"
+                $DestPath = $DestPath + $Script:OSSeparatorChar + $DestCurrentFolder
+            } 
+            elseif ($ItemParentFolder -eq $DestCurrentFolder) {
                 Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
                 Start-Sleep $Script:SleepTime
                 Copy-Item -Path $Item.FullName -Destination $DestPath -Force
