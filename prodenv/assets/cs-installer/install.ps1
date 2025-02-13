@@ -94,10 +94,9 @@ function Install-CSFiles {
 
     Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
-    $TempDir = "C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart"
+
     # Get a list of all the files to install
-    #$InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
-    $InstallerFullPath = $TempDir + $Script:OSSeparatorChar + $Script:InstallerFolder
+    $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
     # Set the initial destination path
@@ -131,12 +130,15 @@ function Install-CSFiles {
     Start-Sleep $Script:SleepTime    
     foreach ($Item in $InstallerFilesList) {
         if (-not $Item.PSIsContainer) {
+            # Get the parent folder of the current item
             $ItemPathArray = $Item.PSParentPath.Split("\")
             $ItemParentFolder = $ItemPathArray[$ItemPathArray.Length - 1]
 
+            # Get the current (working) folder in the destination path
             $DestPathArray = $DestPath.Split("\")
             $DestCurrentFolder = $DestPathArray[$DestPathArray.Length - 1]
 
+            # Determine which situation is present to make sure the file is copied to the correct location
             if ($ItemParentFolder -eq $Script:InstallerFolder) {
                 Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
                 Start-Sleep $Script:SleepTime
