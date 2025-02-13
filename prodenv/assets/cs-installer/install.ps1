@@ -5,6 +5,7 @@ $Script:SleepTime = 2
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
 $Script:CSFolder = "CompStart"
+$Script:CSFullPath = ""
 $Script:InstallerFolder = "installer-files"
 $Script:FuncRetValue = $false
 
@@ -51,7 +52,7 @@ function New-CSFolder {
     }
 
     # Set the full CompStart folder path
-    $CSFullPath = $Script:CSParentPath + $Script:OSSeparatorChar + $Script:CSFolder
+    $Script:CSFullPath = $Script:CSParentPath + $Script:OSSeparatorChar + $Script:CSFolder
 
     # Create the folder if need be
     if (-Not (Test-Path $CSFullPath)) {
@@ -94,19 +95,15 @@ function Install-CSFiles {
     Write-Host "`nStarting installation of CompStart files..."
     Start-Sleep $Script:SleepTime
 
-    # Set the destination path for the installed files
-    $DestPath = $Script:CSParentPath + $Script:OSSeparatorChar + "CompStart" + $Script:OSSeparatorChar
-
     # Get a list of all the files to "install"
     $InstallFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $FilesList = Get-ChildItem -Recurse $InstallFullPath
 
     # Copy the files to the CompStart folder
     foreach ($Item in $FilesList) {
-        $ItemFullPath = $DestPath + $Item.Name
         Write-Host "...Installing $($Item.Name)..."
         Start-Sleep $Script:SleepTime
-        Copy-Item -Path $Item.FullName -Destination $ItemFullPath -Force
+        Copy-Item -Path $Item.FullName -Destination $Script:CSFullPath -Force
     }
 
     Write-Host "`...successfully installed all files to $DestPath"
