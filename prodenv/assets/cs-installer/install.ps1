@@ -98,6 +98,7 @@ function Install-CSFiles {
     $DestPath = $Script:CSParentPath + $Script:OSSeparatorChar + "CompStart" + $Script:OSSeparatorChar
 
     # Get a list of all the files to "install"
+    $InstallFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $FilesList = Get-ChildItem -Recurse $InstallFullPath
 
     # Copy the files to the CompStart folder
