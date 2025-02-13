@@ -36,6 +36,12 @@
         "message": "However, using Copy-Item -Recurse may not be a good solution since currently, with the loop, each item being \"installed\" is shared with the user prior to the copy. Changing the loop to a simple Copy-Item command won't allow for that. If the copying takes a while, the user then just has to wait with no output to show what's going on.",
         "author": "Anonymous",
         "timestamp": "2025-01-31T22:24:19.869Z"
+      },
+      {
+        "id": "m72pvt3ihjw2gtnlkt",
+        "message": "Based on the testing done, it looks like each object in $FilesList is a DirectoryInfo object. These objects have certain properties that could be used to recreate the desired directory structure at the install location. See /devenv/data/test-data/ps-commands-output/2025-02-12/test7.txt for more information on the potentially relevant DirectoryInfo object properties.",
+        "author": "Anonymous",
+        "timestamp": "2025-02-13T02:24:53.262Z"
       }
     ],
     "tags": [],
