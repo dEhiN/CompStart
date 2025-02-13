@@ -99,15 +99,58 @@ function Install-CSFiles {
     $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
-    # Copy the files to the CompStart folder
+    # Set the initial destination path
+    $DestPath = $Script:CSFullPath
+ 
+    # Create the directory structure for the CompStart folder
+    Write-Host "`nCreating the folder directory structure..." -NoNewline
+    Start-Sleep $Script:SleepTime
     foreach ($Item in $InstallerFilesList) {
-
-        #Write-Host "...Installing $($Item.Name)..."
-        #Start-Sleep $Script:SleepTime
-        # Copy-Item -Path $Item.FullName -Destination $Script:CSFullPath -Force
+        if ($Item.PSIsContainer) {
+            $DestPath = $DestPath + $Script:OSSeparatorChar + $Item.Name
+            if (-Not (Test-Path $DestPath)) {
+                Write-Host "`reating $($Item.Name) folder..." -NoNewline
+                Start-Sleep $Script:SleepTime
+                New-Item -Path $DestPath -ItemType "Directory" > $null
+                Write-Host "...folder successfully created at $DestPath"
+            }
+            else {
+                Write-Host "`nExisting $($Item.Name) folder found at $DestPath..." -NoNewline
+                Start-Sleep $Script:SleepTime
+                Write-Host "...skipping this step"
+            }
+        }
     }
 
-    Write-Host "`...successfully installed all files to $DestPath"
+    # Reset the destination path
+    $DestPath = $Script:CSFullPath
+
+    # Copy over all the files to the CompStart folder
+    Write-Host "`nCopying over the CompStart files..." -NoNewline
+    Start-Sleep $Script:SleepTime    
+    foreach ($Item in $InstallerFilesList) {
+        if (-not $Item.PSIsContainer) {
+            $ItemPathArray = $Item.PSParentPath.Split("\")
+            $ItemParentFolder = $ItemPathArray[$ItemPathArray.Length - 1]
+
+            $DestPathArray = $DestPath.Split("\")
+            $DestCurrentFolder = $DestPathArray[$DestPathArray.Length - 1]
+
+            if ($ItemParentFolder -eq $DestCurrentFolder) {
+                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
+                Start-Sleep $Script:SleepTime
+                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
+                Write-Host "...successfully installed $($Item.Name) to $DestPath"
+            }
+            else {
+                $DestPath = $DestPath + $Script:OSSeparatorChar + $ItemParentFolder
+                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
+                Start-Sleep $Script:SleepTime
+                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
+                Write-Host "...successfully installed $($Item.Name) to $DestPath"
+            }
+        }
+    }
 }
 
 # Main script logic
