@@ -1,0 +1,40 @@
+Current Working Directory: 
+CompStart
+
+Commands:
+$FilesList = Get-ChildItem -Recurse .\devenv
+for ($i = 0; $i -lt 13; $i++) {
+	$DirInfo = $FilesList[$i]
+	if (Select-String -InputObject $DirInfo.PSPath -Pattern "config" -CaseSensitive -SimpleMatch -Quiet) {
+		$DirInfo.PSChildName >> test.txt
+		$DirInfo.PSPath >> test.txt
+		$DirInfo.PSParentPath >> test.txt
+		"" >> test.txt
+	}
+}
+
+Output:
+config
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv
+
+schema
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+
+default_startup.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\default_startup.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+
+startup_data.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\startup_data.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+
+startup_data.schema.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_data.schema.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+
+startup_item.schema.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_item.schema.json
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+

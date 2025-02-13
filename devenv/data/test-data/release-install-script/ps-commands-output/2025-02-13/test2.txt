@@ -1,0 +1,81 @@
+Current Working Directory: 
+CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files
+
+Commands:
+for ($i = 0; $i -lt $FilesList.Count; $i++) {
+    $DirInfo = $FilesList[$i]
+    "Entry: " + $i >> test.txt
+    "Child Name: " + $DirInfo.PSChildName >> test.txt
+    "Path: " + $DirInfo.PSPath >> test.txt
+    "Parent Path: " + $DirInfo.PSParentPath >> test.txt
+    "Is Container: " + $DirInfo.PSIsContainer >> test.txt  
+    "" >> test.txt                                           
+}
+
+Output:
+Entry: 0
+Child Name: CompStart
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files
+Is Container: True
+
+Entry: 1
+Child Name: instructions.txt
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\instructions.txt
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files
+Is Container: False
+
+Entry: 2
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Is Container: True
+
+Entry: 3
+Child Name: CompStart.bat
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\CompStart.bat
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Is Container: False
+
+Entry: 4
+Child Name: CompStart.exe
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\CompStart.exe
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Is Container: False
+
+Entry: 5
+Child Name: CompStart.ps1
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\CompStart.ps1
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Is Container: False
+
+Entry: 6
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Is Container: True
+
+Entry: 7
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Is Container: False
+
+Entry: 8
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Is Container: False
+
+Entry: 9
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Is Container: False
+
+Entry: 10
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Is Container: False
+
