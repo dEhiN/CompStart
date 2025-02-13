@@ -92,18 +92,19 @@ function Install-CSFiles {
             Date: 2024-12-28
     #>
 
-    Write-Host "`nStarting installation of CompStart files..."
+    Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
 
-    # Get a list of all the files to "install"
-    $InstallFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
-    $FilesList = Get-ChildItem -Recurse $InstallFullPath
+    # Get a list of all the files to install
+    $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
+    $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
     # Copy the files to the CompStart folder
-    foreach ($Item in $FilesList) {
-        Write-Host "...Installing $($Item.Name)..."
-        Start-Sleep $Script:SleepTime
-        Copy-Item -Path $Item.FullName -Destination $Script:CSFullPath -Force
+    foreach ($Item in $InstallerFilesList) {
+
+        #Write-Host "...Installing $($Item.Name)..."
+        #Start-Sleep $Script:SleepTime
+        # Copy-Item -Path $Item.FullName -Destination $Script:CSFullPath -Force
     }
 
     Write-Host "`...successfully installed all files to $DestPath"
