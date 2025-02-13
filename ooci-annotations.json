@@ -1,7 +1,7 @@
 [
   {
     "id": "m6lb43ytem5bkmaz61h",
-    "file": "devenv/data/test-data/deploy-release-script/test_2025-01-30/extraction/CompStart/install.ps1",
+    "file": "prodenv/assets/cs-installer/install.ps1",
     "line": 102,
     "message": "Need to set $InstallFullPath because it is currently null so the $FilesList ends up being a list of all files in the cwd",
     "author": "Anonymous",
