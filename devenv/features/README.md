@@ -1,4 +1,4 @@
-# CompStart/features
+# CompStart/devenv/features
 
 Parent folder to store all feature branches while being worked on. The folder itself is called _feature_addons_.
 
@@ -67,6 +67,7 @@ Created the third PowerShell script to automate the process of creating a releas
 _CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_
 
 ### 14. features/create_release_package
+
 Created a PowerShell script to automate the process of creating a package. This script checks to see if the entered release folder exists and if so, it creates a ZIP file from the `CompStart` folder and the `instructions.txt` file within the release folder.
 
 ### 15. features/cs-installer

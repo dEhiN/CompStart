@@ -1,4 +1,4 @@
-# CompStart/experimental-content
+# CompStart/devenv/experimental-content
 
 Parent folder to hold all child folders related to any code, library, or tool experimentation. The experimentation could be related to possible future use, for example. The need for this folder came out of the following:
 
