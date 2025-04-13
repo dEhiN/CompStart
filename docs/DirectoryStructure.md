@@ -1,4 +1,4 @@
-## Directory Structure
+# CompStart Directory Structure
 
 #### Legend
 
