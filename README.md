@@ -22,8 +22,6 @@ The installation instructions are essentially the same as above if you just want
 
 ## How to help
 
-#### First Steps
-
 If you'd like to contribute to this program, please get in touch! On my GitHub profile page, you'll find how to reach me. My profile page is: https://github.com/dEhiN.
 
 Next, read the following Markdown files:
