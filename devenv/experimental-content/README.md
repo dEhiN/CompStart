@@ -11,3 +11,5 @@ Each subfolder should represent experimentation with a specific thing and branch
 ### tkinter
 
 Folder containing examples demonstrating the usage of the Python library _Tkinter_
+
+_Last Updated: 2025-04-27_

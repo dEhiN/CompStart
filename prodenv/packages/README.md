@@ -22,16 +22,18 @@ See the [Packaging](#packaging) section for more information.
 
 The naming pattern for a release artifact is as follows: `CompStart-<release-version>`
 
-For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _release version 1.1-alpha_. 
+For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _release version 1.1-alpha_.
 
 ## Released Packages
 
 - _CompStart-1.1-beta.zip_
-<br>The second release of _CompStart_ and it also requires manual installation as it contains only the `Batch` script, the `Powershell` script, the `JSON config` file, and `CompStart.exe` - the new Python CLI tool. This Python tool will make it easier to modify the startup data. The _instructions.txt_ file for this release includes directions on how to use the CLI tool.
+  <br>The second release of _CompStart_ and it also requires manual installation as it contains only the `Batch` script, the `Powershell` script, the `JSON config` file, and `CompStart.exe` - the new Python CLI tool. This Python tool will make it easier to modify the startup data. The _instructions.txt_ file for this release includes directions on how to use the CLI tool.
 
 - _CompStart-1.1-alpha.zip_
-<br>The first ever release of _CompStart_ and requires manual installation as it contains only the `Batch` script, the `Powershell` script, and the `JSON` config file. The _instructions.txt_ file for this release includes directions on how to manually alter the `JSON` config file.
+  <br>The first ever release of _CompStart_ and requires manual installation as it contains only the `Batch` script, the `Powershell` script, and the `JSON` config file. The _instructions.txt_ file for this release includes directions on how to manually alter the `JSON` config file.
 
 ## Recalled Packages
 
 - Currently there are no recalled packages
+
+_Last Updated: 2025-04-27_

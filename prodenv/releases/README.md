@@ -25,11 +25,11 @@ There is no third level of versioning, but tags might be added to a release, suc
 
 ### Subdirectories
 
- Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
+Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
 <br>
 <br>
 
- # The following needs to be updated and is old information as of 2025-01-30
+# The following needs to be updated and is old information as of 2025-01-30
 
 ## Directory Structure for Releases
 
@@ -43,6 +43,7 @@ Each release folder will generally contain the following artifacts:
 - `instructions.txt`: A text file containing any relevant instructions
 
 ## Release Contents and Packaging
+
 The `CompStart` folder will have the directory structure that's necessary for the tool to work. For example, the files `CompStart.bat`, `CompStart.ps1`, and `CompStart.exe` should all be inside this folder at what would be considered the root level. There should be a `config` folder also at this root level, and that folder should house the `startup_data.json` file, as well as any other config related data. This makes it so that, in order to make the tool work, the user only needs to copy the `CompStart` folder to a path of their choosing and then follow the `instructions.txt` file.
 
 The `release-notes` directory will contain a Markdown file with release information, including a link to the download page for the associated release package. This may seem redundant, but this file will be posted to GitHub as the release notes.
@@ -51,12 +52,13 @@ The `py-tool` directory will be where the Python module _PyInstaller_ is run to 
 
 The `instructions.txt` file currently (as of 2024-12-14) contains information on how to manually copy the `CompStart` folder to a location of the user's choosing, how to create a Windows symlink or shortcut to the _Batch_ file, how to then move that shortcut to the Windows Start Menu Run folder, and how to modify the startup data.
 
-A release package should only contain the following artifacts: 
+A release package should only contain the following artifacts:
 
 1. _CompStart_
 2. _instructions.txt_
 
 ## <a name="create-release"></a>Creating a Release
+
 To automate the process for creating a release, as mentioned above, there is a subfolder called `scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
 
 - _new-release.bat_
@@ -72,3 +74,5 @@ The automation process was broken into 3 main scripts so that each script could 
 Note that the second script, `GeneratePythonTool.ps1`, just generates the `CompStart.exe` file within the `py-tools` folder. It's the third script, `CopyReleaseContent.ps1` that copies over everything necessary for creating a release package, including the _Python_ executable.
 
 Finally, if one is using VS Code as their editor, the _Batch_ script will need to be run manually from the integrated terminal (or another terminal shell) as the editor Run button uses the Output tab which doesn't allow for user input. However, the _PowerShell_ scripts can usually be run from the editor window by first clicking on 3 horizontal ellipsis and then selecting _Run_ as the Run button initially will also use the Output tab. Once the _Run_ command is selected from the ellipsis menu, then the Run button will work as the script is then started from the integrated terminal.
+
+_Last Updated: 2025-04-27_
