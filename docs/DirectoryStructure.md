@@ -13,8 +13,8 @@ The following is an outline of the project structure using this legend:
 - D _devenv_ - A folder containing all development related files
 - D _prodenv_ A folder containing all production related files
 - F _.gitignore_ - The gitignore file for this project
-- F _ooci-annotations.json_ - A JSON file containing the exported data from the VS Code extension _Out-of-Code Insights_; this file isn't necessary as the extension does not need to be used, but if it is used and the annotations created by the extension need to be synced, they can be exported to this file
 - F _README.md_ - This README file
+- F _CHANGELOG.md_ - The changelog file for this project
 
 ## L2
 
@@ -23,11 +23,11 @@ The following is an outline of the project structure using this legend:
 - D _config_ - The main configuration folder for the JSON files
 - D _data_ - A data folder for either old or miscellaneous data
 - D _dependencies_ The Python module folder to hold all the Python scripts that _CompStart.py_ depends on
-- D _experimental-content_ - A parent folder that will contain all child folders related to any code, library, or tool experimentation to possibly use in the future
-- D _features_ - A parent folder that will contain a child folder for each feature branch being actively worked on (see the `README` file inside that folder for more information)
-- F _CompStart.ps1_ - The main PowerShell script that sets up all the programs, browser windows, and tabs
+- D _experimental-content_ - A parent folder that will contain all subfolders folders related to any code, library, or tool experimentation for possible future use (see the _README_ inside that folder for more information)
+- D _features_ - A parent folder that will contain a subfolder for each feature branch being actively worked on (see the _README_ inside that folder for more information)
+- F _CompStart.ps1_ - The main PowerShell script that runs all the startup programs
 - F _CompStart.bat_ - A Batch script that is run on Windows startup and calls _CompStart.ps1_
-- F _CompStart.py_ - A Python script that's the starting point for the Python command-line tool that can be used to modify the JSON startup data
+- F _CompStart.py_ - A Python script that's the starting point for the Python command-line tool that allows a user to modify the JSON startup data
 
 ### Folder: /prodenv
 
@@ -56,27 +56,27 @@ The following is an outline of the project structure using this legend:
 
 ### Folder: /devenv/experimental_content
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ### Folder: /devenv/features
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ### Folder: /prodenv/assets
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ### Folder: /prodenv/packages
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ### Folder: /prodenv/releases
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ### Folder: /prodenv/scripts
 
-- See the _Readme_ in this folder for further details
+- See the _README_ in this folder for further details
 
 ## L4
 
@@ -96,9 +96,9 @@ The following is an outline of the project structure using this legend:
 
 - D _powershell-location-commands_ - A folder containing a single PowerShell script that was created to try and make a PowerShell equivalent of an existing Python function
 - D _pre-issue80_ - A folder containing the scripts related to production that were in use prior to issue #80
-- F \_imports_list.txt - A text file listing all the Python import statements used by the Python CLI tool
+- F _imports_list.txt_ - A text file listing all the Python import statements used by the Python CLI tool
 - F _old_startup.ps1_ - The original startup PowerShell script file with all the startup data hard coded in
-- F _old_setup.bat_ - A batch file that was going to act as the installer for this program but will be changed into a PowerShell script
+- F _old_setup.bat_ - A batch file that was going to act as the installer for this program
 
 ### Folder: /devenv/data/test-data
 
