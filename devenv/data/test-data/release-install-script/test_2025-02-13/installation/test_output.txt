@@ -1,0 +1,88 @@
+Current Working Directory:
+C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart
+
+Script:
+install.ps1
+
+Code Run:
+function Install-CSFiles {
+    Write-Host "`nStarting installation of CompStart..."
+    Start-Sleep $Script:SleepTime
+
+    # Get a list of all the files to install
+    $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
+    $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
+
+    # Set the initial destination path
+    $DestPath = $Script:CSFullPath
+
+    # Copy the files to the CompStart folder
+    foreach ($Item in $InstallerFilesList) {
+        $Item.Name >> test.txt
+        $Item.PSIsContainer >> test.txt
+        $Item.PSParentPath >> test.txt
+
+        $ItemFullPath = $Item.PSParentPath.Split("\")
+        $ItemParentFolder = $ItemFullPath[$ItemFullPath.Length - 1]
+        $ItemParentFolder >> test.txt
+        "" >> test.txt
+    }
+    Write-Host "`...successfully installed all files to $DestPath"
+}
+
+Output:
+CompStart
+True
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files
+installer-files
+
+instructions.txt
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files
+installer-files
+
+config
+True
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart
+CompStart
+
+CompStart.bat
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart
+CompStart
+
+CompStart.exe
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart
+CompStart
+
+CompStart.ps1
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart
+CompStart
+
+schema
+True
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart\config
+config
+
+default_startup.json
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart\config
+config
+
+startup_data.json
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart\config
+config
+
+startup_data.schema.json
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart\config\schema
+schema
+
+startup_item.schema.json
+False
+Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-13\extraction\CompStart\installer-files\CompStart\config\schema
+schema
+

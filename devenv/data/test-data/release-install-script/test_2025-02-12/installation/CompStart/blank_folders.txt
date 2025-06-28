@@ -1,0 +1,7 @@
+These are blank folders that were created by the PowerShell installer file when run. Blank folder don't get committed to git, so creating this text file instead to remember the folders:
+
+CompStart
+config
+schema
+
+None of the 3 folders had any files or subfolders in them.
