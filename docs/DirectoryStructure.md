@@ -2,7 +2,7 @@
 
 The following is an outline of the project structure using this legend:
 
-- L<#> = Folder level or the number of subdirectories down from the project root which is level 1
+- L<#> = Folder level or the number of subdirectories down from the project root, which is level 1
 - D = Directory (Folder)
 - F = File
 
@@ -12,9 +12,9 @@ The following is an outline of the project structure using this legend:
 
 - D _devenv_ - A folder containing all development related files
 - D _prodenv_ A folder containing all production related files
-- F _.gitignore_ - The gitignore file for this project
-- F _README.md_ - This README file
-- F _CHANGELOG.md_ - The changelog file for this project
+- F _.gitignore_ - The project gitignore file
+- F _README.md_ - The main project README file
+- F _CHANGELOG.md_ - The project changelog file
 
 ## L2
 
@@ -32,9 +32,9 @@ The following is an outline of the project structure using this legend:
 ### Folder: /prodenv
 
 - D _assets_ - A folder containing all release-related assets
-- D _packages_ - A folder containing all package files, or artifacts, for each release, as either ZIP or MSI files
+- D _packages_ - A folder containing all package files, or artifacts, as either ZIP or MSI files, organized by release
 - D _releases_ - A folder containing all files related to each official release; this will NOT be the package file but all content that needs to go into a package artifact
-- D _scripts_ - A folder containing scripts pertaining to production, such as creating a release
+- D _scripts_ - A folder containing the release deployment script
 
 ## L3
 
@@ -47,7 +47,7 @@ The following is an outline of the project structure using this legend:
 ### Folder: /devenv/data
 
 - D _data/misc-data_ - A folder containing any non-code related files such as text files with planning information, etc.
-- D _data/old-data_ - A folder containing any old or original code files to keep for posterity or just in case
+- D _data/old-data_ - A folder containing any old or original code files to keep for posterity
 - D _data/test-data_ - A folder containing any data generated during testing
 
 ### Folder: /devenv/dependencies
@@ -103,6 +103,6 @@ The following is an outline of the project structure using this legend:
 ### Folder: /devenv/data/test-data
 
 - D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
-- D _deploy-release-script_ - A folder containing some output files and the results of running the finished script to deploy a release for test purposes
+- D _deploy-release-script_ - A folder containing some output files and the results of running the release deployment script for test purposes
 
-_Last Updated: 2025-04-27_
+_Last Updated: 2025-06-27_
