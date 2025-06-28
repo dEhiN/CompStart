@@ -17,9 +17,9 @@ _devenv/experimental-content/README.md_
 
 _devenv/features/README.md_
 
-_docs/DirectoryStructure.md_
+_docs/DIRECTORY_STRUCTURE.md_
 
-_docs/TechnicalDetails.md_
+_docs/TECHNICAL_DETAILSmd_
 
 _prodenv/assets/README.md_
 
