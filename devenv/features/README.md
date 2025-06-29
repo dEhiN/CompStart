@@ -10,6 +10,8 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
+There are currently no feature branches being worked on.
+
 ## Past Branches (newest > oldest)
 
 ### 15. features/cs-installer
