@@ -1,16 +1,14 @@
 # CompStart/prodenv/assets
 
-Contains all assets related to, or for use in, releases. This could be scripts, instruction files, etc. See blow for more information.
+Contains all assets related to, or for use in, releases. This includes scripts, instruction files, etc.
 
 ## Directories
 
-- _cs-installer_ - The currently used PowerShell installer script that will be added to each release
-- _release-assets_
-  <br>
-  <br>
+- _cs-installer_ - Contains the PowerShell installer script _install.ps1_.
+- _release-assets_ - Contains the master copies of the _instructions.txt_ and _release_notes.md_ files.
 
-# The following needs to be updated merged into this README, and is old information as of 2025-01-30
+## Instructions
 
-The _templates_ directory has a master copy of the _instructions.txt_ file and the _release_notes.md_ file. These are meant to be copied over to each release folder. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of the two files.
+All three files are to be included in each release. The two files in the _release-assets_ folder are considered master copies. When these master copies are updated, previous release folders should keep the copies that were created at the time of release. Only future releases should use the updated versions of these two files.
 
-_Last Updated: 2025-04-27_
+_Last Updated: 2025-06-29_
