@@ -1,11 +1,9 @@
 # CompStart/prodenv/scripts
 
-Contains scripts that either need to be or can be run to assist with producing a release.
-<br>
-<br>
+This directory contains the script _DeployRelease.ps1_ to automate the process of creating a new release.
 
-# The following needs to be updated merged into this README, and is old information as of 2025-01-30
+This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool.
 
-The _scripts_ directory contains scripts that can be run to automate the process of creating a new release. This includes creating the folder structure for a new release, copying over all relevant files, and generating the Python executable for the CLI tool. For instructions on how to automatically create a release, see the section [_Creating a Release_](#create-release).
+To create a new release, run the script and follow the prompts.
 
-_Last Updated: 2025-04-27_
+_Last Updated: 2025-06-29_
