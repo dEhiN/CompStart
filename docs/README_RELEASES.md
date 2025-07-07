@@ -2,14 +2,7 @@
 
 Parent folder to store all release data. Each release will be set up using the structure outlined below.
 
-## Directories
-
-- _versions_: A directory containing all the specific folders and files for a release version
-- _README.md_: This README file
-
-The _versions_ directory is where the subdirectories related to each release version is located. See the next section for details.
-
-## Directory Structure for Releases
+## Directory Structure
 
 ### Major Versions
 
@@ -25,54 +18,32 @@ There is no third level of versioning, but tags might be added to a release, suc
 
 ### Subdirectories
 
-Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `/releases/v1/m1/1.1-alpha`.
+Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `releases/v1/m1/1.1-alpha`.
 <br>
 <br>
 
-# The following needs to be updated and is old information as of 2025-01-30
-
-## Directory Structure for Releases
+## Release Contents
 
 ### Artifacts
 
-Each release folder will generally contain the following artifacts:
+Each release folder will generally contain the following artifacts
 
 - `CompStart`: A directory holding the scripts, config files, executables, etc. that make up the _CompStart_ tool
 - `release-notes`: A directory holding any information related to the release
-- `py-tool`: A directory holding all scripts and files pertaining to the Python CLI tool
-- `instructions.txt`: A text file containing any relevant instructions
+- `instructions.txt`: A text file containing instructions on how to install _CompStart_.
 
-## Release Contents and Packaging
+### Artifact Details
 
-The `CompStart` folder will have the directory structure that's necessary for the tool to work. For example, the files `CompStart.bat`, `CompStart.ps1`, and `CompStart.exe` should all be inside this folder at what would be considered the root level. There should be a `config` folder also at this root level, and that folder should house the `startup_data.json` file, as well as any other config related data. This makes it so that, in order to make the tool work, the user only needs to copy the `CompStart` folder to a path of their choosing and then follow the `instructions.txt` file.
+The `CompStart` folder will have the directory structure that's necessary for the tool to work. For example, the files `CompStart.bat`, `CompStart.ps1`, and `CompStart.exe` should all be inside this folder at what would be considered the root level. There should be a `config` folder also at this root level, and that folder should house the `startup_data.json` file, as well as any other config related data.
 
-The `release-notes` directory will contain a Markdown file with release information, including a link to the download page for the associated release package. This may seem redundant, but this file will be posted to GitHub as the release notes.
+The `release-notes` directory will contain a Markdown file, called `release-notes.md`, with release information, including a link to the download page for the associated release package. This may seem redundant, but this file will be posted to GitHub as the release notes.
 
-The `py-tool` directory will be where the Python module _PyInstaller_ is run to generate the single executable for the CLI tool. This executable will need to be placed in the `CompStart` directory. In general, the `py-tool` directory will store a copy of `CompStart.py`, the `dependencies` folder with all the dependent Python scripts, and any files and folders that _PyInstaller_ creates.
+The `instructions.txt` file currently contains information on the installation steps for _CompStart_.
+<br>
+<br>
 
-The `instructions.txt` file currently (as of 2024-12-14) contains information on how to manually copy the `CompStart` folder to a location of the user's choosing, how to create a Windows symlink or shortcut to the _Batch_ file, how to then move that shortcut to the Windows Start Menu Run folder, and how to modify the startup data.
+## Creating a Release
 
-A release package should only contain the following artifacts:
+To automate the process for creating a release, run the `DeployRelease.ps1` PowerShell script found in the `/prodenv/scripts` folder. The script is interactive and the README Markdown file `README_PROD_SCRIPTS.md`, found in the `/docs` folder, contains more detailed information on the script contents as well as how to use the script.
 
-1. _CompStart_
-2. _instructions.txt_
-
-## <a name="create-release"></a>Creating a Release
-
-To automate the process for creating a release, as mentioned above, there is a subfolder called `scripts` that contains 3 _PowerShell_ scripts, a _PowerShell_ module, and a _Batch_ script (as of 2024-12-23). They are:
-
-- _new-release.bat_
-- _CreateReleaseFolder.ps1_
-- _GeneratePythonTool.ps1_
-- _CopyReleaseContent.ps1_
-- _SetStartDirectory.psm1_
-
-To create a new release folder from scratch, run the _Batch_ script. This will call the 3 _PowerShell_ scripts in the order listed above. The _PowerShell_ module contains a function that all 3 scripts use to set the project root directory correctly. This ensures that you can run the _Batch_ script from anywhere as long it's a subdirectory under the project root folder.
-
-The automation process was broken into 3 main scripts so that each script could be run separately as needed. For example, if a release folder has already been created, and all that's needed it to generate (or re-generate) the _Python_ tool, then one can just run `GeneratePythonTool.ps1`.
-
-Note that the second script, `GeneratePythonTool.ps1`, just generates the `CompStart.exe` file within the `py-tools` folder. It's the third script, `CopyReleaseContent.ps1` that copies over everything necessary for creating a release package, including the _Python_ executable.
-
-Finally, if one is using VS Code as their editor, the _Batch_ script will need to be run manually from the integrated terminal (or another terminal shell) as the editor Run button uses the Output tab which doesn't allow for user input. However, the _PowerShell_ scripts can usually be run from the editor window by first clicking on 3 horizontal ellipsis and then selecting _Run_ as the Run button initially will also use the Output tab. Once the _Run_ command is selected from the ellipsis menu, then the Run button will work as the script is then started from the integrated terminal.
-
-_Last Updated: 2025-04-27_
+_Last Updated: 2025-07-06_
