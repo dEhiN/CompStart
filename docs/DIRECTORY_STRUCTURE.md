@@ -11,7 +11,8 @@ The following is an outline of the project structure using this legend:
 ### Folder: root (/)
 
 - D _devenv_ - A folder containing all development related files
-- D _prodenv_ A folder containing all production related files
+- D _docs_ - A folder containing all documentation related files
+- D _prodenv_ - A folder containing all production related files
 - F _.gitignore_ - The project gitignore file
 - F _README.md_ - The main project README file
 - F _CHANGELOG.md_ - The project changelog file
@@ -22,27 +23,31 @@ The following is an outline of the project structure using this legend:
 
 - D _config_ - The main configuration folder for the JSON files
 - D _data_ - A data folder for either old or miscellaneous data
-- D _dependencies_ The Python module folder to hold all the Python scripts that _CompStart.py_ depends on
-- D _experimental-content_ - A parent folder that will contain all subfolders folders related to any code, library, or tool experimentation for possible future use (see the _README_ inside that folder for more information)
-- D _features_ - A parent folder that will contain a subfolder for each feature branch being actively worked on (see the _README_ inside that folder for more information)
-- F _CompStart.ps1_ - The main PowerShell script that runs all the startup programs
-- F _CompStart.bat_ - A Batch script that is run on Windows startup and calls _CompStart.ps1_
-- F _CompStart.py_ - A Python script that's the starting point for the Python command-line tool that allows a user to modify the JSON startup data
+- D _dependencies_ - The Python module folder to hold all the dependencies for _CompStart.py_, see the _/docs/TECHNICAL_DETAILS.md_ file for further details
+- D _experimental-content_ - See the _/docs/devenv-docs/EXPERIMENTAL-CONTENT.md_ file for further details
+- D _features_ - See the _/docs/devenv-docs/FEATURES.md_ file for further details
+- See the _/docs/TECHNICAL_DETAILS.md_ file for details on the _CompStart_ Batch, PowerShell, and Python scripts
+
+### Folder: /docs
+
+- D _devenv-docs_ - All README files for the _devenv_ folder
+- D _prodenv-docs_ - All README files for the _prodenv_ folder
+- F _DIRECTORY_STRUCTURE.md_ - This file
+- F _TECHNICAL_DETAILS.md_ - A Markdown file explaining the technical details of _CompStart_ in terms of how it works and the components involved
 
 ### Folder: /prodenv
 
-- D _assets_ - A folder containing all release-related assets
-- D _packages_ - A folder containing all package files, or artifacts, as either ZIP or MSI files, organized by release
-- D _releases_ - A folder containing all files related to each official release; this will NOT be the package file but all content that needs to go into a package artifact
-- D _scripts_ - A folder containing the release deployment script
+- D _assets_ - See the _/docs/prodenv-docs/ASSETS.md_ file for further details
+- D _packages_ - See the _/docs/prodenv-docs/PACKAGES.md_ file for further details
+- D _releases_ - See the _/docs/prodenv-docs/RELEASES.md_ file for further details
+- D _scripts_ - See the _/docs/prodenv-docs/SCRIPTS.md_ file for further details
 
 ## L3
 
 ### Folder: /devenv/config
 
 - D _schema_ - A folder containing the JSON schema files
-- F _default_startup.json_ The JSON data file that holds the default startup data used when first created a startup data file
-- F _startup_data.json_ The main JSON data file that holds all the up-to-date startup data used by the _CompStart_ PowerShell script
+- See the _/docs/TECHNICAL_DETAILS.md_ file for details on the JSON config files
 
 ### Folder: /devenv/data
 
@@ -50,40 +55,11 @@ The following is an outline of the project structure using this legend:
 - D _data/old-data_ - A folder containing any old or original code files to keep for posterity
 - D _data/test-data_ - A folder containing any data generated during testing
 
-### Folder: /devenv/dependencies
-
-- See each specific Python script in this folder for further details
-
-### Folder: /devenv/experimental_content
-
-- See the _README_ in this folder for further details
-
-### Folder: /devenv/features
-
-- See the _README_ in this folder for further details
-
-### Folder: /prodenv/assets
-
-- See the _README_ in this folder for further details
-
-### Folder: /prodenv/packages
-
-- See the _README_ in this folder for further details
-
-### Folder: /prodenv/releases
-
-- See the _README_ in this folder for further details
-
-### Folder: /prodenv/scripts
-
-- See the _README_ in this folder for further details
-
 ## L4
 
 ### Folder: /devenv/config/schema
 
-- F _startup_data.schema.json_ The schema file for the _startup_data_ JSON file that's used for validation
-- F _startup_item.schema.json_ The schema file for a specific startup item that's used for validation
+- See the _/docs/TECHNICAL_DETAILS.md_ file for details on the JSON schema files
 
 ### Folder: /devenv/data/misc_data
 
@@ -103,6 +79,6 @@ The following is an outline of the project structure using this legend:
 ### Folder: /devenv/data/test-data
 
 - D _python-tool-testing_ - A folder containing various Python scripts and JSON files all related to various testing done during the creation of the _CompStart_ Python CLI tool
-- D _deploy-release-script_ - A folder containing some output files and the results of running the release deployment script for test purposes
+- D _release-install-script_ - A folder containing some output files and the results of running the release deployment script for test purposes
 
-_Last Updated: 2025-06-27_
+_Last Updated: 2025-07-19_
