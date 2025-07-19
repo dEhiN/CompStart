@@ -4,7 +4,7 @@ Parent folder to store all released packages. A release package should be just a
 
 ## <a name="packaging"></a>Packaging
 
-For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `README` file in `/prodenv/releases` for more information.
+For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `RELEASES.md` file in `/docs/prodenv-docs/` for more information.
 
 ## Directory Structure
 
@@ -36,4 +36,4 @@ For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _rele
 
 - Currently there are no recalled packages
 
-_Last Updated: 2025-04-27_
+_Last Updated: 2025-07-19_
