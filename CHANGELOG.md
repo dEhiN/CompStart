@@ -1,9 +1,20 @@
 # CompStart Changelog
 
-As of 2024-11-19, there is now a Python command-line tool that can be used to update the JSON file. The Python tool is converted into an executable using the Python module _PyInstaller_. The default startup data is now Windows Calculator, Windows Notepad, and Google Chrome open to just the Google homepage.
+## CompStart-1.1-beta
 
-As of 2023-10-27, the Powershell script and Batch file both work and I use them on my work laptop. However, the JSON file has to be manually created or updated. There is a JSON Schema file that can be used to know how the JSON file data should be structured. Additionally, as of 2024-03-10, the JSON file being used comes with some default data, namely to open up Windows Calculator, Windows Notepad, and Google Chrome with 3 tabs - Google, Facebook, and X (formerly Twitter).
+- Release date: 2024-11-21
+- Added a Python command-line tool to assist with editing the JSON config files
+- Updated the instructions to include how to use the Python tool
+- For the full list of release commits: <a href=https://github.com/dEhiN/CompStart/compare/CompStart-1.1-alpha...CompStart-1.1-beta>CompStart-1.1-beta</a>
 
-Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with using the command line, editing the Windows startup folder, and changing JSON configuration files manually. See the [releases](https://github.com/dEhiN/CompStart/releases) section to find the files to download. There will be setup instructions included. Follow them and you can start using CompStart for yourself!
+## CompStart-1.1-alpha
 
-_Last Updated: 2025-04-27_
+- Release date: 2024-03-11
+- First release of _CompStart_
+- Includes the PowerShell and Batch script files that are used
+- Includes the JSON config and JSON schema files that are relied upon
+- Includes instructions for manual installation as there is no automated installer
+- Includes instructions for manual editing of the JSON config files as there is no tool to assist
+- For the full list of release commits: <a href=https://github.com/dEhiN/CompStart/commits/CompStart-1.1-alpha>CompStart-1.1-alpha</a>
+
+_Last Updated: 2025-07-19_
