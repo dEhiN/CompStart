@@ -18,11 +18,31 @@ See the [Packaging](#packaging) section for more information.
 
 The naming pattern for a release artifact is as follows: `CompStart-<release-version>`
 
-For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _release version 1.1-alpha_.
+For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to release version _1.1-alpha_.
 
 ## <a name="packaging"></a>Packaging
 
-For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `RELEASES.md` file in `/docs/prodenv-docs/` for more information.
+### Artifact Contents
+
+Currently, a ZIP archive is created for each package file, or artifact. The ZIP archive will contain the PowerShell installer script, the installation instructions text file, and a folder that holds the rest of the files needed for the program to run.
+
+The basic directory structure of the ZIP archive will be:
+
+```
+CompStart \
+|
+| - install.ps1
+| - instructions.txt
+| - installer-files \
+| - |
+| - | - CompStart \
+```
+
+The second or inner _CompStart_ folder holds all the files the program uses to function. See the `/docs/prodenv-docs/RELEASES.md` for more information on those files.
+
+### Creating an Artifact
+
+To automate the process for creating a package, run the `/prodenv/scripts/DeployRelease.ps1` PowerShell script. This script is interactive and can used both to create a release and a package for a release. See `/docs/prodenv-docs/SCRIPTS.md` for more detailed information on how to use it.
 
 ## Released Packages
 
