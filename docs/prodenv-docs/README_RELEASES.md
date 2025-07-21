@@ -6,19 +6,19 @@ Parent folder to store all release data. Each release will be set up using the s
 
 ### Major Versions
 
-Major versions will have a directory that starts with `v` followed by the version number. For example, `v1` would be for all content related to _release version 1_.
+Major versions will have a directory that starts with `v` followed by the version number. For example, `v1` would be for all content related to release version _1_.
 
 ### Minor Versions
 
-Minor versions will have a directory that starts with `m` followed by the version number, and will be a subdirectory to the major version. For example, `v1/m1` would be for all content related to _release version 1.1_.
+Minor versions will have a directory that starts with `m` followed by the version number, and will be a subdirectory to the major version. For example, `v1/m1` would be for all content related to release version _1.1_.
 
 ### Tags
 
-There is no third level of versioning, but tags might be added to a release, such as `alpha`. Tags should be added to the end of the release version number and preceded by a hyphen. For example, the very first release of `CompStart` was _release version 1.1-alpha_.
+There is no third level of versioning, but tags might be added to a release, such as `alpha`. Tags should be added to the end of the release version number and preceded by a hyphen. For example, the very first release of `CompStart` was release version _1.1-alpha_.
 
 ### Subdirectories
 
-Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, `version 1.1-alpha` is located at `releases/v1/m1/1.1-alpha`.
+Within each major-minor directory tree structure, a subdirectory will be created for each release version. This will be considered the release folder. The subdirectory will be named the same as the release version, including the tag, if there is one. For example, release version _1.1-alpha_ is located at `releases/v1/m1/1.1-alpha`.
 <br>
 <br>
 
@@ -44,6 +44,6 @@ The `instructions.txt` file currently contains information on the installation s
 
 ## Creating a Release
 
-To automate the process for creating a release, run the `DeployRelease.ps1` PowerShell script found in the `/prodenv/scripts` folder. The script is interactive and the README Markdown file `README_PROD_SCRIPTS.md`, found in the `/docs` folder, contains more detailed information on the script contents as well as how to use the script.
+To automate the process for creating a release, run the `/prodenv/scripts/DeployRelease.ps1` PowerShell script. This script is interactive and can used both to create a release and a package for a release. See `/docs/prodenv-docs/SCRIPTS.md` for more detailed information on how to use it.
 
-_Last Updated: 2025-07-06_
+_Last Updated: 2025-07-20_
