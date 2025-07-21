@@ -2,10 +2,6 @@
 
 Parent folder to store all released packages. A release package should be just a single file, for example, either a _zip_ or _msi_ file. This is what will be distributed to GitHub.
 
-## <a name="packaging"></a>Packaging
-
-For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `RELEASES.md` file in `/docs/prodenv-docs/` for more information.
-
 ## Directory Structure
 
 ### Major Versions
@@ -24,6 +20,10 @@ The naming pattern for a release artifact is as follows: `CompStart-<release-ver
 
 For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _release version 1.1-alpha_.
 
+## <a name="packaging"></a>Packaging
+
+For now, a ZIP archive will be created for each package file, or artifact. Since there is a _PowerShell_ installer script, the ZIP archive will contain the installer script as well as a folder that holds the rest of the files related to the release package. See the `RELEASES.md` file in `/docs/prodenv-docs/` for more information.
+
 ## Released Packages
 
 - _CompStart-1.1-beta.zip_
@@ -36,4 +36,4 @@ For example, `CompStart-1.1-alpha.zip` would be the artifact pertaining to _rele
 
 - Currently there are no recalled packages
 
-_Last Updated: 2025-07-19_
+_Last Updated: 2025-07-20_
