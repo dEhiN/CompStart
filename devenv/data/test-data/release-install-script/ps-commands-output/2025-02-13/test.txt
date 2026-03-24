@@ -1,0 +1,290 @@
+Current Working Directory: 
+CompStart
+
+Commands:
+for ($i = 0; $i -lt $FilesList.Count; $i++) {
+	$DirInfo = $FilesList[$i]
+	if (Select-String -InputObject $DirInfo.PSPath -Pattern "config" -CaseSensitive -SimpleMatch -Quiet) {
+		"Entry: " + $i >> test.txt
+		"Child Name: " + $DirInfo.PSChildName >> test.txt
+		"Path: " + $DirInfo.PSPath >> test.txt
+		"Parent Path: " + $DirInfo.PSParentPath >> test.txt	
+		"Length: " + $DirInfo.Length >> test.txt
+		"Has Extension: " + $($DirInfo.Extension -ne "") >> test.txt
+		"Extension: " + $DirInfo.Extension >> test.txt
+		"Is Container: " + $DirInfo.PSIsContainer >> test.txt
+		"" >> test.txt
+	}
+}
+
+Output:
+Entry: 0
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 8
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 9
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+Length: 1033
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 10
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+Length: 614
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 11
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+Length: 5093
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 12
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+Length: 3284
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 73
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 77
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 78
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config
+Length: 1033
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 79
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config
+Length: 614
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 80
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\schema
+Length: 5093
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 81
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\extraction\CompStart\installer-files\CompStart\config\schema
+Length: 3284
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 106
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 110
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 111
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config
+Length: 1033
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 112
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config
+Length: 614
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 113
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\schema
+Length: 5093
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 114
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-01-30\releases\v2\m1\2.1-alpha\CompStart\installer-files\CompStart\config\schema
+Length: 3284
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 159
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 163
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 164
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Length: 1033
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 165
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config
+Length: 614
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 166
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Length: 5093
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 167
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\extraction\CompStart\installer-files\CompStart\config\schema
+Length: 3284
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 191
+Child Name: config
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 195
+Child Name: schema
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\schema
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config
+Length: 1
+Has Extension: False
+Extension: 
+Is Container: True
+
+Entry: 196
+Child Name: default_startup.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\default_startup.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config
+Length: 1033
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 197
+Child Name: startup_data.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\startup_data.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config
+Length: 614
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 198
+Child Name: startup_data.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\schema\startup_data.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\schema
+Length: 5093
+Has Extension: True
+Extension: .json
+Is Container: False
+
+Entry: 199
+Child Name: startup_item.schema.json
+Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\schema\startup_item.schema.json
+Parent Path: Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\release-install-script\test_2025-02-12\releases\v2\m1\2.1\CompStart\installer-files\CompStart\config\schema
+Length: 3284
+Has Extension: True
+Extension: .json
+Is Container: False
+

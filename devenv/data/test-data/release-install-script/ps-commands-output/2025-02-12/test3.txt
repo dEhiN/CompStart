@@ -1,0 +1,663 @@
+Current Working Directory: 
+CompStart
+
+Commands:
+$FilesList = Get-ChildItem -Recurse .\devenv
+for ($i = 0; $i -lt $FilesList.Length; $i++) {
+	$DirInfo = $FilesList[$i] | Get-Member -MemberType Properties
+	if (Select-String -InputObject $DirInfo -Pattern "config" -CaseSensitive -SimpleMatch -Quiet) {
+		$Header = "Entry $i"
+		$Header >> test.txt        
+		$DirInfo >> test.txt
+	}
+}
+
+Output:
+Entry 0
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=config
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 8
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=schema
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 9
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=default_startup.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\default_startup.json
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 10
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\startup_data.json
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 11
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_data.schema.…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 12
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_item.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\config\schema\startup_item.schema.…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 49
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=config
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 53
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=schema
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 54
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=default_startup.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 55
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 56
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 57
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_item.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 82
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=config
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 86
+
+   TypeName: System.IO.DirectoryInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=schema
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=True
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+Parent              Property       System.IO.DirectoryInfo Parent {get;}
+Root                Property       System.IO.DirectoryInfo Root {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=$this.Name;}
+
+Entry 87
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=default_startup.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 88
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 89
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_data.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+
+Entry 90
+
+   TypeName: System.IO.FileInfo
+
+Name                MemberType     Definition
+----                ----------     ----------
+Target              AliasProperty  Target = LinkTarget
+LinkType            CodeProperty   System.String LinkType{get=GetLinkType;}
+Mode                CodeProperty   System.String Mode{get=Mode;}
+ModeWithoutHardLink CodeProperty   System.String ModeWithoutHardLink{get=ModeWithoutHardLink;}
+ResolvedTarget      CodeProperty   System.String ResolvedTarget{get=ResolvedTarget;}
+PSChildName         NoteProperty   string PSChildName=startup_item.schema.json
+PSDrive             NoteProperty   PSDriveInfo PSDrive=C
+PSIsContainer       NoteProperty   bool PSIsContainer=False
+PSParentPath        NoteProperty   string PSParentPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-releas…
+PSPath              NoteProperty   string PSPath=Microsoft.PowerShell.Core\FileSystem::C:\Users\David\DevProj\repositories\github\CompStart\devenv\data\test-data\deploy-release-scri…
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\FileSystem
+Attributes          Property       System.IO.FileAttributes Attributes {get;set;}
+CreationTime        Property       datetime CreationTime {get;set;}
+CreationTimeUtc     Property       datetime CreationTimeUtc {get;set;}
+Directory           Property       System.IO.DirectoryInfo Directory {get;}
+DirectoryName       Property       string DirectoryName {get;}
+Exists              Property       bool Exists {get;}
+Extension           Property       string Extension {get;}
+FullName            Property       string FullName {get;}
+IsReadOnly          Property       bool IsReadOnly {get;set;}
+LastAccessTime      Property       datetime LastAccessTime {get;set;}
+LastAccessTimeUtc   Property       datetime LastAccessTimeUtc {get;set;}
+LastWriteTime       Property       datetime LastWriteTime {get;set;}
+LastWriteTimeUtc    Property       datetime LastWriteTimeUtc {get;set;}
+Length              Property       long Length {get;}
+LinkTarget          Property       string LinkTarget {get;}
+Name                Property       string Name {get;}
+UnixFileMode        Property       System.IO.UnixFileMode UnixFileMode {get;set;}
+BaseName            ScriptProperty System.Object BaseName {get=if ($this.Extension.Length -gt 0){$this.Name.Remove($this.Name.Length - $this.Extension.Length)}else{$this.Name};}
+VersionInfo         ScriptProperty System.Object VersionInfo {get=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($this.FullName);}
+

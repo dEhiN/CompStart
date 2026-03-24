@@ -10,8 +10,6 @@ Due to that, the branch name will be listed with what the parent folder was call
 
 ## Current Branches
 
-There are currently no active feature branches
-
 ## Past Branches (oldest > newest)
 
 ### 1. update/add_json_file
@@ -44,12 +42,33 @@ Continued working on the _startup_data.json_ schema file, _startup_data.schema.j
 
 ### 8. features/python_tkinter_test
 
-Branch created to play around with the Python GUI library Tkinter. The plan is to decide if this is the library to use when creating the Python tool that will allow the creation and updating of _startup_data.json_. This branch got merged into the two current features branches because for now, the focus is to create a command-line Python tool for creating and updated _startup_data.json_.
+Meant for playing around with the Python GUI library Tkinter. The plan was to decide if this is the library to use when creating the Python tool that will allow the creation and updating of _startup_data.json_. This branch got merged into the two current features branches because for now, the focus is to create a command-line Python tool for creating and updating _startup_data.json_.
 
 ### 9. feature_addons/powershell_installer
 
-Branch created for the PowerShell installer. As written in **features/bat_installer**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
+Meant for continuation of the PowerShell installer. As written in **features/bat_installer**, after working on a batch script to act as this program's installer and having a lot of difficulty, decided to switch gears and create a PowerShell script instead.
 
 ### 10. feature_addons/startup_data_modifier_tool
 
-Branch created to work on a user tool to create and modify the _startup_data.json_. While the plan is eventually to create a GUI-based tool, to start with, a command line tool will be created in Python.
+Developed fully the command-line Python tool for a user to use to create and modify the _startup_data.json_. While the plan is eventually to create a GUI-based tool, to start with, this command line tool was created.
+
+### 11. features/generate_python_executable
+
+Created a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a `py-tools` folder within the _release_ folder, and copies over `CompStart.py` along with the whole `dependencies` folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check to see if the `py-tools` folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
+
+### 12. features/create_new_release
+
+Created a script to automate the creation of a _release_ folder. Note, this feature branch changed scope partway during development. See issue [#64](https://github.com/dEhiN/CompStart/issues/64) for more details. This script asks the user for the _release_ details and then creates the major, minor, and release folder if it doesn't exist. Note also that the PowerShell script created for **features/generate_python_executable** was modified. It doesn't create the _release_ folder anymore. Rather, it checks for the existence of a _release_ folder by still asking the user for the _release_ details. If the folder doesn't exist, the script tells the user to run this new script.
+
+### 13. features/copy_release_content
+
+Created the third PowerShell script to automate the process of creating a release. This third script creates the directory structure necessary for a release as well as copies over the relevant content. This includes the `CompStart.exe` file in the `py-tools` folder. Because of this, the release automation scripts need to be run in the following order:
+
+_CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_
+
+### 14. features/create_release_package
+Created a PowerShell script to automate the process of creating a package. This script checks to see if the entered release folder exists and if so, it creates a ZIP file from the `CompStart` folder and the `instructions.txt` file within the release folder.
+
+### 15. features/cs-installer
+
+Created a PowerShell script to automate the installation of _CompStart_. This script creates the `CompStart` folder and then copies over all files within the subdirectory `installer-files`.

@@ -1,0 +1,204 @@
+Listing full contents of py-tools...
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-r--          2025-01-14    01:25                build
+d-r--          2025-01-14    01:25                dependencies
+d-r--          2025-01-14    01:26                dist
+-a---          2024-12-23    17:16           4835 CompStart.py
+-a---          2025-01-14    01:25            704 CompStart.spec
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-r--          2025-01-14    01:26                CompStart
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-r--          2025-01-14    01:26                localpycs
+-a---          2025-01-14    01:26         258441 Analysis-00.toc
+-a---          2025-01-14    01:26        1394456 base_library.zip
+-a---          2025-01-14    01:26       15302294 CompStart.pkg
+-a---          2025-01-14    01:26         171953 EXE-00.toc
+-a---          2025-01-14    01:26         170119 PKG-00.toc
+-a---          2025-01-14    01:26        4799776 PYZ-00.pyz
+-a---          2025-01-14    01:26          89485 PYZ-00.toc
+-a---          2025-01-14    01:26           8094 warn-CompStart.txt
+-a---          2025-01-14    01:26         958836 xref-CompStart.html
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          2025-01-14    01:26           4813 pyimod01_archive.pyc
+-a---          2025-01-14    01:26          29983 pyimod02_importers.pyc
+-a---          2025-01-14    01:26           6469 pyimod03_ctypes.pyc
+-a---          2025-01-14    01:26           1694 pyimod04_pywin32.pyc
+-a---          2025-01-14    01:26            305 struct.pyc
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-r--          2025-01-14    01:25                __pycache__
+-a---          2024-11-19    18:05            139 __init__.py
+-a---          2024-12-10    14:23           4974 cs_chooser.py
+-a---          2024-12-10    14:23          20900 cs_data_generate.py
+-a---          2024-12-10    14:23           4220 cs_desc.py
+-a---          2024-11-19    18:05           2002 cs_enum.py
+-a---          2024-12-23    17:16          11264 cs_helper.py
+-a---          2024-12-10    14:23          21626 cs_jsonfn.py
+-a---          2024-11-19    18:05           4812 cs_pretty.py
+-a---          2024-12-10    14:23          12918 cs_startup_add.py
+-a---          2024-12-10    14:23          13852 cs_startup_edit.py
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          2024-11-21    10:41            181 __init__.cpython-313.pyc
+-a---          2024-12-12    22:57           4520 cs_chooser.cpython-313.pyc
+-a---          2024-12-12    22:57          16470 cs_data_generate.cpython-313.pyc
+-a---          2024-12-12    22:57           4242 cs_desc.cpython-313.pyc
+-a---          2024-11-21    10:41           2521 cs_enum.cpython-313.pyc
+-a---          2024-12-12    22:57          11041 cs_helper.cpython-313.pyc
+-a---          2024-12-12    22:57          16701 cs_jsonfn.cpython-313.pyc
+-a---          2024-11-21    10:41           4570 cs_pretty.cpython-313.pyc
+-a---          2024-12-12    22:57          12331 cs_startup_add.cpython-313.pyc
+-a---          2024-12-12    22:57          11991 cs_startup_edit.cpython-313.pyc
+
+    Directory: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dist
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          2025-01-14    01:26       15632534 CompStart.exe
+
+End listing full contents of py-tools...
+
+Specific Item #1: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build
+
+Specific Item #2: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies
+
+Specific Item #3: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dist
+
+Specific Item #4: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\CompStart.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\CompStart.py
+
+Specific Item #5: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\CompStart.spec
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\CompStart.spec
+
+Specific Item #6: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart
+
+Specific Item #7: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs
+
+Specific Item #8: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\Analysis-00.toc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\Analysis-00.toc
+
+Specific Item #9: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\base_library.zip
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\base_library.zip
+
+Specific Item #10: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\CompStart.pkg
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\CompStart.pkg
+
+Specific Item #11: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\EXE-00.toc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\EXE-00.toc
+
+Specific Item #12: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PKG-00.toc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PKG-00.toc
+
+Specific Item #13: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PYZ-00.pyz
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PYZ-00.pyz
+
+Specific Item #14: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PYZ-00.toc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\PYZ-00.toc
+
+Specific Item #15: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\warn-CompStart.txt
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\warn-CompStart.txt
+
+Specific Item #16: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\xref-CompStart.html
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\xref-CompStart.html
+
+Specific Item #17: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod01_archive.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod01_archive.pyc
+
+Specific Item #18: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod02_importers.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod02_importers.pyc
+
+Specific Item #19: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod03_ctypes.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod03_ctypes.pyc
+
+Specific Item #20: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod04_pywin32.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\pyimod04_pywin32.pyc
+
+Specific Item #21: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\struct.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\build\CompStart\localpycs\struct.pyc
+
+Specific Item #22: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__
+
+Specific Item #23: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__init__.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__init__.py
+
+Specific Item #24: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_chooser.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_chooser.py
+
+Specific Item #25: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_data_generate.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_data_generate.py
+
+Specific Item #26: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_desc.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_desc.py
+
+Specific Item #27: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_enum.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_enum.py
+
+Specific Item #28: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_helper.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_helper.py
+
+Specific Item #29: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_jsonfn.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_jsonfn.py
+
+Specific Item #30: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_pretty.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_pretty.py
+
+Specific Item #31: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_startup_add.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_startup_add.py
+
+Specific Item #32: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_startup_edit.py
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\cs_startup_edit.py
+
+Specific Item #33: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\__init__.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\__init__.cpython-313.pyc
+
+Specific Item #34: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_chooser.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_chooser.cpython-313.pyc
+
+Specific Item #35: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_data_generate.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_data_generate.cpython-313.pyc
+
+Specific Item #36: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_desc.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_desc.cpython-313.pyc
+
+Specific Item #37: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_enum.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_enum.cpython-313.pyc
+
+Specific Item #38: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_helper.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_helper.cpython-313.pyc
+
+Specific Item #39: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_jsonfn.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_jsonfn.cpython-313.pyc
+
+Specific Item #40: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_pretty.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_pretty.cpython-313.pyc
+
+Specific Item #41: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_startup_add.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_startup_add.cpython-313.pyc
+
+Specific Item #42: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_startup_edit.cpython-313.pyc
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dependencies\__pycache__\cs_startup_edit.cpython-313.pyc
+
+Specific Item #43: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dist\CompStart.exe
+Remove File: C:\Users\David\DevProj\repositories\github\CompStart\prodenv\releases\v1\m1\1.1-beta\py-tool\dist\CompStart.exe
