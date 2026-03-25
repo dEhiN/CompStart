@@ -1,14 +1,14 @@
 ## Release Title
 
-First Official Release: **CompStart-1.1-alpha**
+First Unofficial Release: **CompStart-0.1-alpha**
 
 ## Release Version
 
-1.1.-alpha
+0.1.-alpha
 
 ## Description
 
-This is the first official release of **CompStart**! There are some features that are still in development. As a result, this version will be an alpha release.
+This is the first (unofficial) release of **CompStart**! There are some features that are still in development. As a result, this version will be an alpha release.
 
 Note: Currently, **CompStart** will need to be manually installed.
 
