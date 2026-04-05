@@ -1,5 +1,7 @@
 # CompStart Directory Structure
 
+<hr>
+
 The following is an outline of the project structure using this legend:
 
 - L = Folder level or the number of subdirectories down from the project root, which is level 1
