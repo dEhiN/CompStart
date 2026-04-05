@@ -1,6 +1,12 @@
+_**Instructions:** Copy-paste the following format to use as a release's release notes on GitHub. All text in italics are instructions for what to fill out._
+
+<hr>
+
 ## Release Title
 
 _Title of Release_
+
+_Note: This will generally be **CompStart** followed by a hyphen and then the release version._
 
 ## Release Version
 
@@ -10,7 +16,7 @@ _Full version number for Release_
 
 _Description of release_
 
-_Note: If unsure of what to write, copy the release description from the previous release and modify as needed_
+_Note: If unsure of what to write, copy the release description from the previous release and modify as needed._
 
 ## Installation Notes
 
@@ -23,7 +29,15 @@ The following steps are suggested for downloading and installing this release:
 
 ## What's Changed
 
-- **Commit count: _Number of commits since last release_**
-- _Either manually or automatically generate a summary list of changes from last release_
+_Write out all major changes to the tool since the last release in the form of a list._
 
-For the **Full Changelog**, click here: https://github.com/dEhiN/CompStart/compare/_\<previous-release-version\>_.._\<current-release-version\>\_
+_Note: If unsure of what to write, see the previous release for an example._
+
+
+## Detailed Pull Request History
+
+_Use GitHub to automatically generate a summary of changes since the last release; this will be generated as a list of pull requests._
+
+**Commit count:** _Number of commits since last release_
+
+**Full Changelog:** [_Title of Release_] (https://github.com/dEhiN/CompStart/compare/_\<previous-release-version\>_.._\<current-release-version\>_)
