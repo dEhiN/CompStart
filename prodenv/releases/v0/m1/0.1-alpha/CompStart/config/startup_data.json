@@ -1,0 +1,37 @@
+{
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "Calculator",
+            "FilePath": "calc",
+            "Description": "A simple calculator",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "Chrome",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "Some websites for demonstration - Google, Facebook, and Twitter",
+            "Browser": true,
+            "ArgumentCount": 4,
+            "ArgumentList": [
+                "--new-window",
+                "https://www.google.com/",
+                "https://www.facebook.com",
+                "https://www.twitter.com/"
+            ]
+        },
+        {
+            "ItemNumber": 3,
+            "Name": "Notepad",
+            "FilePath": "C:\\Windows\\system32\\notepad.exe",
+            "Description": "The built-in Windows text editor",
+            "Browser": false,
+            "ArgumentCount": 0,
+            "ArgumentList": []
+        }
+    ]
+}
