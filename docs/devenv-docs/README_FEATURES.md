@@ -1,32 +1,51 @@
 # CompStart/devenv/features
 
-Parent folder to store all feature branches while being worked on. The folder itself is called _feature_addons_.
+<hr>
 
-## Directory Structure
+## Purpose
+Parent folder to hold all feature branches while being worked on.
 
-Each feature branch currently active will have its own subfolder within this parent folder. In the case of past branches, depending on when the branch was worked on, this parent folder may have had a different name.
+## Structure
 
-Due to that, the branch name will be listed with what the parent folder was called at the time. Additionally, to keep consistency, the current branches will also include the parent folder.
+Each active feature branch should have its own subfolder. Additionally, the full branch name should include the parent folder. For example:
+
+* _features/feature-one_
+
+In the case of past feature branches, depending on when the branch was worked on, the parent folder had a different name:
+
+* _feature_addons/_
+* _update/_
+
+When listing the branch name below, the full branch name should be used.
+
+<hr>
 
 ## Current Branches
 
-There are currently no feature branches being worked on.
+There are currently no active feature branches.
+
+<hr>
 
 ## Past Branches (newest > oldest)
 
 ### 15. features/cs-installer
 
-Created a PowerShell script to automate the installation of _CompStart_. This script creates the `CompStart` folder and then copies over all files within the subdirectory `installer-files`.
+Created a PowerShell script to automate the installation of _CompStart_. This script creates the _CompStart_ folder and then copies over all files within the subdirectory _installer-files_.
 
 ### 14. features/create_release_package
 
-Created a PowerShell script to automate the process of creating a package. This script checks to see if the entered release folder exists and if so, it creates a ZIP file from the `CompStart` folder and the `instructions.txt` file within the release folder.
+Created a PowerShell script to automate the process of creating a package. This script first checks to see if a package folder for the associated release exists and, if not, creates the folder. The script then creates a ZIP file from the _CompStart_ folder and the _instructions.txt_ file within the release folder.
+
+**(Note: While working on issue #80, the functionality of this script was merged into the new _DeployRelease.ps1_ script. However, since the issue was a bug fix, no new feature branch was created.)**
+
 
 ### 13. features/copy_release_content
 
-Created the third PowerShell script to automate the process of creating a release. This third script creates the directory structure necessary for a release as well as copies over the relevant content. This includes the `CompStart.exe` file in the `py-tools` folder. Because of this, the release automation scripts need to be run in the following order:
+Created the third PowerShell script to automate the process of creating a release. This third script creates the directory structure necessary for a release as well as copies over the relevant content. This includes the _CompStart.exe_ file in the _py-tools_ folder. Because of this, the release automation scripts need to be run in the following order:
 
 _CreateReleaseFolder.ps1_ > _GeneratePythonTool.ps1_ > _CopyReleaseContent.ps1_
+
+**(Note: While working on issue #80, the functionality of these 3 scripts was merged into the new _DeployRelease.ps1_ script. However, since the issue was a bug fix, no new feature branch was created.)**
 
 ### 12. features/create_new_release
 
@@ -34,7 +53,7 @@ Created a script to automate the creation of a _release_ folder. Note, this feat
 
 ### 11. features/generate_python_executable
 
-Created a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a `py-tools` folder within the _release_ folder, and copies over `CompStart.py` along with the whole `dependencies` folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check to see if the `py-tools` folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
+Created a script to automate the generation of an executable for the Python command-line tool. Previously, this process was all done manually. The script creates a _release_ folder by asking the user for the _release_ details. It then creates a _py-tools_ folder within the _release_ folder, and copies over _CompStart.py_ along with the whole _dependencies_ folder. Finally, the script calls the Python module _PyInstaller_ to generate the executable from within the _release_ folder. The script firsts check to see if the _py-tools_ folder already has content. If so, it deletes all the files, then performs the copy and calling of _PyInstaller_.
 
 ### 10. feature_addons/startup_data_modifier_tool
 
@@ -54,11 +73,11 @@ Continued working on the _startup_data.json_ schema file, _startup_data.schema.j
 
 ### 6. features/revert-commit_d2514b3dedfcda44c7a259377a0087d25696a8f21
 
-Tried to amend some commit messages but wasn't able to, so decided to detach HEAD at a previous commit. Commit d2514b3 is the commit just before branch **features/bat_installer** is merged into **main**. The commit log and reflog of main will look really crazy, particularly the reflog as attempted multiple times to rebase, but every time there were issues. Created this branch to push through the commit messages that show when **features/bat_installer** is merged into **main**.
+Tried to amend some commit messages but wasn't able to, so decided to detach HEAD at a previous commit. Commit d2514b3 is the commit just before branch **features/bat_installer** is merged into **main**. The commit log and reflog of main will look really crazy, particularly the reflog as multiple attempts were made to rebase, but every time there were issues. Created this branch to push through the commit messages that show when **features/bat_installer** is merged into **main**.
 
 ### 5. features/bat_installer
 
-Continued working on the batch installer _setup.bat_. Refactored the code to set up the various file names and relative and absolute paths necessary to create _startup.bat_ and copy all the program files to a folder in the user's local app data folder. Created logic to change the locations of everything and to use the name _test.bat_ while in the testing environment. Realized that using batch or CMD commands to accomplish the task of installing **CompStart** will be extremely difficult and is probably unnecessary. Decided to utilize a PowerShell script for greater flexibility.
+Continued working on the batch installer _setup.bat_. Refactored the code to set up the various file names and relative and absolute paths necessary to create _startup.bat_ and copy all the program files to a folder in the user's local app data folder. Created logic to change the locations of everything and to use the name _test.bat_ while in the testing environment. Realized that using batch or CMD commands to accomplish the task of installing _CompStart_ will be extremely difficult and is probably unnecessary. Decided to utilize a PowerShell script for greater flexibility.
 
 ### 4. features/json_schema
 
@@ -66,7 +85,7 @@ Created JSON Schema file _startup_data.schema.json_ to describe the data structu
 
 ### 3. features/setup_startup
 
-Created file _setup.bat_ to act as the "installer" for **CompStart**. Added ability to switch between testing and production environments while working on _setup.bat_. Added ability in _setup.bat_ to programmatically create _startup.bat_ based on current user's local HOMEPATH, etc. While in testing, used the name _test.bat_ instead of _startup.bat_ to not mix things up with the existing setup for the work laptop.
+Created file _setup.bat_ to act as the "installer" for _CompStart_. Added ability to switch between testing and production environments while working on _setup.bat_. Added ability in _setup.bat_ to programmatically create _startup.bat_ based on current user's local HOMEPATH, etc. While in testing, used the name _test.bat_ instead of _startup.bat_ to not mix things up with the existing setup for the work laptop.
 
 ### 2. features/json_file
 
@@ -74,6 +93,6 @@ Started using the root _features/_ for naming branches. Refactored _startup.ps1_
 
 ### 1. update/add_json_file
 
-Created the JSON file _startup_data.json_ to store all the data for the programs to open, such as file path, argument lists, etc. Populated the file with current usage needs for work and decided on JSON data structure. Made changes to which programs and browser tabs opened in _startup.ps1_ based on updated needs at work. Renamed the program from **démarrage_ordinateur** to **CompStart**. At this time, the root _update/_ was used for naming branches.
+Created the JSON file _startup_data.json_ to store all the data for the programs to open, such as file path, argument lists, etc. Populated the file with current usage needs for work and decided on JSON data structure. Made changes to which programs and browser tabs opened in _startup.ps1_ based on updated needs at work. Renamed the program from _démarrage_ordinateur_ to _CompStart_.
 
-_Last Updated: 2025-04-27_
+_Last Updated: 2026-04-06_
