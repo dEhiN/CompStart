@@ -1,3 +1,10 @@
-# Adding this line to exclude the `/xref-CompStart.html` file that the `PyInstaller` Python tool creates during the build phase
-*.html linguist-detectable=false
-*.toc linguist-detectable=false
+# Adding the following to force GitHub Linguist to ignore all auto-generated and duplicated content in _/devenv_. This includes files that are copied over from _devenv_ for a release and files created by third party tools, like _PyInstaller_.
+
+# 1. Release and Package folders
+prodenv/releases/** linguist-generated=true
+prodenv/packages/** linguist-generated=true
+
+# 2. Specifically for PyInstaller artifacts (just in case they appear elsewhere)
+py-tool/build/** linguist-generated=true
+py-tool/dist/** linguist-generated=true
+py-tool/*.spec linguist-generated=true
