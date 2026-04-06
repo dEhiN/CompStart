@@ -8,3 +8,7 @@ prodenv/packages/** linguist-generated=true
 py-tool/build/** linguist-generated=true
 py-tool/dist/** linguist-generated=true
 py-tool/*.spec linguist-generated=true
+
+# 3. Adding the MD documentation for visibility
+docs/** linguist-documentation=true
+README.md linguist-documentation=true
