@@ -1,2 +1,2 @@
 # Adding this line to exclude the `/xref-CompStart.html` file that the `PyInstaller` Python tool creates during the build phase
-*.html linguist-dectectable=false
+*.html linguist-detectable=false
