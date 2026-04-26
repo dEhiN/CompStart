@@ -19,6 +19,7 @@
 <#
 > - <release-folder>
         | - CompStart (folder)
+            | - install.bat (file)
             | - install.ps1 (file)
             | - installer-files (folder)
                 | - instructions.txt (file)
@@ -73,6 +74,7 @@ $Script:FileNames = [ordered]@{
     ReleaseNotesMarkdown      = "release-notes.md"
 
     InstallerPowerShellScript = "install.ps1"
+    InstallerBatchScript      = "install.bat"
 }
 $Script:FolderNames = [ordered]@{
     DevEnv                = "devenv"
@@ -114,6 +116,7 @@ $Script:AllPaths = [ordered]@{
     AssetsInstallerFolder           = ""
 
     AssetInstallerPowerShellScript  = ""
+    AssetInstallerBatchScript       = ""
     AssetReleaseNotesMarkdown       = ""
     AssetInstructionsText           = ""
 
@@ -345,6 +348,7 @@ function Update-AllPaths {
     $CSReleaseNotesPath = $Script:AllPaths.AssetsReleaseFolder
     $Script:AllPaths.AssetReleaseNotesMarkdown = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
     $Script:AllPaths.AssetInstructionsText = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
+    $Script:AllPaths.AssetInstallerBatchScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerBatchScript)"
     $Script:AllPaths.AssetInstallerPowerShellScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
 
     # Package related folder paths
@@ -1038,8 +1042,9 @@ function Copy-ReleaseContents {
     Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInnerCSFolder  -Recurse -Force
 
     # Copy the CS installer content
-    Write-Host "`nCopying over the installer script for release $ReleaseFullVersion..."
+    Write-Host "`nCopying over the installer scripts for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
     Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
 
     # Copy the release notes content and instructions file
