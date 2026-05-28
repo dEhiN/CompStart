@@ -1,15 +1,15 @@
 # CompStart Changelog
 
-## CompStart-1.1-beta
+## CompStart-0.1-beta
 
-- Release date: 2024-11-21
+- Release date: 2026-04-02 _(originally released on 2024-11-21 under the name `CompStart-1.1-beta`)_
 - Added a Python command-line tool to assist with editing the JSON config files
 - Updated the instructions to include how to use the Python tool
 - For the full list of release commits: <a href=https://github.com/dEhiN/CompStart/compare/CompStart-1.1-alpha...CompStart-1.1-beta>CompStart-1.1-beta</a>
 
-## CompStart-1.1-alpha
+## CompStart-0.1-alpha
 
-- Release date: 2024-03-11
+- Release date: 2026-03-31 _(originally released on 2024-03-11 under the name `CompStart-1.1-alpha`)_
 - First release of _CompStart_
 - Includes the PowerShell and Batch script files that are used
 - Includes the JSON config and JSON schema files that are relied upon
