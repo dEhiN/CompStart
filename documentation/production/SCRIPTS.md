@@ -1,4 +1,4 @@
-# CompStart/prodenv/scripts
+# CompStart/production/scripts
 
 This directory contains the script _DeployRelease.ps1_ to automate the process of creating a new release.
 

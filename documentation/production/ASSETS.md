@@ -1,4 +1,4 @@
-# CompStart/prodenv/assets
+# CompStart/production/assets
 
 Contains all assets related to, or for use in, releases. This includes scripts, instruction files, etc.
 

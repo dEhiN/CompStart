@@ -1,4 +1,4 @@
-# CompStart/devenv/experimental-content
+# CompStart/development/experimental-content
 
 <hr>
 

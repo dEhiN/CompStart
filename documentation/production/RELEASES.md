@@ -1,4 +1,4 @@
-# CompStart/prodenv/releases
+# CompStart/production/releases
 
 Parent folder to store all release data. Each release will be set up using the structure outlined below.
 

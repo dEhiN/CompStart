@@ -1,4 +1,4 @@
-# CompStart/prodenv/packages
+# CompStart/production/packages
 
 Parent folder to store all released packages. A release package should be just a single file, for example, either a _zip_ or _msi_ file. This is what will be distributed to GitHub.
 

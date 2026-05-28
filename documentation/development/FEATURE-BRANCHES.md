@@ -1,20 +1,21 @@
-# CompStart/devenv/features
+# CompStart/development/features
 
 <hr>
 
 ## Purpose
+
 Parent folder to hold all feature branches while being worked on.
 
 ## Structure
 
 Each active feature branch should have its own subfolder. Additionally, the full branch name should include the parent folder. For example:
 
-* _features/feature-one_
+- _features/feature-one_
 
 In the case of past feature branches, depending on when the branch was worked on, the parent folder had a different name:
 
-* _feature_addons/_
-* _update/_
+- _feature_addons/_
+- _update/_
 
 When listing the branch name below, the full branch name should be used.
 
@@ -37,7 +38,6 @@ Created a PowerShell script to automate the installation of _CompStart_. This sc
 Created a PowerShell script to automate the process of creating a package. This script first checks to see if a package folder for the associated release exists and, if not, creates the folder. The script then creates a ZIP file from the _CompStart_ folder and the _instructions.txt_ file within the release folder.
 
 **(Note: While working on issue #80, the functionality of this script was merged into the new _DeployRelease.ps1_ script. However, since the issue was a bug fix, no new feature branch was created.)**
-
 
 ### 13. features/copy_release_content
 
