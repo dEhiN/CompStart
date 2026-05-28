@@ -20,4 +20,4 @@ Each subfolder should represent experimentation with a specific thing and branch
 
 Folder containing examples demonstrating the usage of the Python library _Tkinter_.
 
-_Last Updated: 2026-04-05_
+_Last Updated: 2026-05-28_

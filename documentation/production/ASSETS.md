@@ -13,4 +13,4 @@ All four files are to be included in each release. The two files in the _release
 
 For installation instructions, please refer to the _instructions.txt_ master file.
 
-_Last Updated: 2026-04-23_
+_Last Updated: 2026-05-28_

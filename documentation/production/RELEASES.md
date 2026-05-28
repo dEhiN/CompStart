@@ -46,4 +46,4 @@ The `instructions.txt` file currently contains information on the installation s
 
 To automate the process for creating a release, run the `/prodenv/scripts/DeployRelease.ps1` PowerShell script. This script is interactive and can used both to create a release and a package for a release. See `/docs/prodenv-docs/SCRIPTS.md` for more detailed information on how to use it.
 
-_Last Updated: 2025-07-20_
+_Last Updated: 2026-05-28_

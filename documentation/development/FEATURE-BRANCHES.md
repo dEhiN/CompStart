@@ -95,4 +95,4 @@ Started using the root _features/_ for naming branches. Refactored _startup.ps1_
 
 Created the JSON file _startup_data.json_ to store all the data for the programs to open, such as file path, argument lists, etc. Populated the file with current usage needs for work and decided on JSON data structure. Made changes to which programs and browser tabs opened in _startup.ps1_ based on updated needs at work. Renamed the program from _démarrage_ordinateur_ to _CompStart_.
 
-_Last Updated: 2026-04-06_
+_Last Updated: 2026-05-28_
