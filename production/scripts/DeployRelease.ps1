@@ -1,4 +1,6 @@
 # PowerShell script to automate the production release process.
+# Last Updated: 2026-05-31
+
 <#
     .SYNOPSIS
     This script will be used to create a new release and package it for deployment.
@@ -18,39 +20,43 @@
 # Section: New release folder structure:
 <#
 > - <release-folder>
-        | - CompStart (folder)
-            | - install.bat (file)
-            | - install.ps1 (file)
-            | - installer-files (folder)
-                | - instructions.txt (file)
-                | - CompStart (folder)
-                    | - CompStart.ps1 (file)
-                    | - CompStart.bat (file)
-                    | - config (folder)
-                        | - default_startup.json (file)
-                        | - startup_data.json (file)
-                        | - schema (folder)
-                            | - startup_data.schema.json (file)
-                            | - startup_item.schema.json (file)
-        | - py-tool (folder)
-            | - CompStart.py (file)
-            | - CompStart.spec (file)
-            | - build (folder) [PyInstaller specific build files]
-            | - dist (folder)
-                | - CompStart.exe (file)
-            | - dependencies (folder)
-                | - __init__.py (file)
-                | - cs_chooser.py
-                | - cs_data_generate.py
-                | - cs_desc.py
-                | - cs_enum.py
-                | - cs_helper.py
-                | - cs_jsonfn.py
-                | - cs_pretty.py
-                | - cs_startup_add.py
-                | - cs_startup_edit.py
-        | - release-notes (folder)
-            | - release-notes.md (file)
+    | - CompStart (folder)
+        | - install.bat (file)
+        | - install.ps1 (file)
+        | - installer-files (folder)
+            | - instructions.txt (file)
+            | - CompStart (folder)
+                | - CompStart.ps1 (file)
+                | - CompStart.bat (file)
+                | - config (folder)
+                    | - default_startup.json (file)
+                    | - startup_data.json (file)
+                    | - schema (folder)
+                        | - startup_data.schema.json (file)
+                        | - startup_item.schema.json (file)
+    | - release-notes (folder)
+        | - release-notes.md (file)
+#>
+# As part of the process, the PyInstaller tool generates a folder full of artifacts called py-tool. These artifacts will be deleted after the release process is complete. They were kept initially in the generated release folder, but they are not needed. For posterity, this is the structure of the generated artifacts folder:
+<#
+> - <release-folder>
+    | - py-tool (folder)
+        | - CompStart.py (file)
+        | - CompStart.spec (file)
+        | - build (folder) [PyInstaller specific build files]
+        | - dist (folder)
+            | - CompStart.exe (file)
+        | - dependencies (folder)
+            | - __init__.py (file)
+            | - cs_chooser.py
+            | - cs_data_generate.py
+            | - cs_desc.py
+            | - cs_enum.py
+            | - cs_helper.py
+            | - cs_jsonfn.py
+            | - cs_pretty.py
+            | - cs_startup_add.py
+            | - cs_startup_edit.py
 #>
 
 # Section: Script Variables
