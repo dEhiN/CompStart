@@ -515,7 +515,7 @@ function Copy-ReleaseContents {
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+        Write-Host "`nUnable to find a py-tool folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
         Exit
     }
     Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
