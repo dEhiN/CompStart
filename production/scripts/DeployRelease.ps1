@@ -1,6 +1,8 @@
 # PowerShell script to automate the production release process.
 # Last Updated: 2026-05-31
 
+
+# SECTION: SCRIPT OVERVIEW
 <#
     .SYNOPSIS
     This script will be used to create a new release and package it for deployment.
@@ -17,7 +19,8 @@
     The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
 #>
 
-# Section: New release folder structure:
+
+# SECTION: RELEASE FOLDER STRUCTURE
 <#
 > - <release-folder>
     | - CompStart (folder)
@@ -59,7 +62,8 @@
             | - cs_startup_edit.py
 #>
 
-# Section: Script Variables
+
+# SECTION SCRIPT VARIABLES
 $Script:SleepTimer = 2
 $Script:DefaultReturnVal = $false
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
@@ -146,107 +150,418 @@ $Script:AllPaths = [ordered]@{
     ReleaseCSExecutable             = ""
 }
 
-# Section: Script Functions
-function Start-ReleaseProcess {
+
+# SECTION: SCRIPT FUNCTIONS
+# The following script functions are listed in alphabetical order (from A-Z) based on first the cmdlet verb and then the cmdlet noun.
+
+# Add Cmdlets
+function Add-CompStartFolder {
     <#
     .SYNOPSIS
-        Starts the release process.
+        Creates the CompStart folder directory structure for the release.
 
     .DESCRIPTION
-        The `Start-ReleaseProcess` function initiates the release process by going through the 4 major tasks involved:
+        The `Add-CompStartFolder` function creates the CompStart folder and its subfolders for the release.
 
-        1. Set (up) the release folder structure for both the releases and packages directories
-        2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
-        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
-        4. New release package - creates a new release package
-
-        The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
-
-        The function loops through the menu until the user specifically quits. This allows the user to perform, for example, work on tasks 2 and 4, or 3 and 4, without having to go through the full release process each time.
+        The CompStart directory structure will be the following (with the release version folder as the parent directory):
+        > - <release-folder>
+        | - CompStart (folder)
+            | - install.ps1 (script)
+            | - installer-files (folder)
+                | - instructions.txt (text file)
+                | - CompStart (folder)
+                    | - CompStart.ps1 (script)
+                    | - CompStart.bat (script)
+                    | - config (folder)
+                        | - default_startup.json (config file)
+                        | - startup_data.json (config file)
+                        | - schema (folder)
+                            | - startup_data.schema.json (schema file)
+                            | - startup_item.schema.json (schema file)
+        
+        This directory structure will allow the installer script to correctly set up the CompStart folder and its contents during installation.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Start-ReleaseProcess
-        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
+        Add-CompStartFolder
+        Adds the CompStart folder and subfolders to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable. See Description for more details.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+        Updated: 2025-01-16
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
+    $ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder 
+    $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
+    $ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
+
+    # Create the outer CompStart folder
+    if (-Not (Test-Path $ReleasesOuterCSPath)) {
+        Write-Host "`nCreating the outer CompStart folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
+    }
+    else {
+        Write-Host "`nThere already exists an outer CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+
+    # Create the installer-files folder
+    if (-Not (Test-Path $ReleaseInstallerPath)) {
+        Write-Host "`nCreating the installer-files folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleasesOuterCSPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists an installer-files folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+
+    # Create the inner CompStart folder
+    if (-Not (Test-Path $ReleaseInnerCSPath)) {
+        Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+function Add-FullVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a release version.
+
+    .DESCRIPTION
+        The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-FullVersionFolder
+        Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
     #>
 
-    # Function variables
-    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
-    $UserOptions = @("1", "2", "3", "4", "5", "Q")
-    $ChoiceFullRelease = 1
-    $ChoiceSetReleaseFolder = 2
-    $ChoiceInvokePythonTool = 3
-    $ChoiceCopyReleaseContents = 4
-    $ChoiceNewReleasePackage = 5
-    $ChoiceChangeReleaseDetails = 6
-    $ChoiceQuit = "Q"
-
-    # Loop until the user specifically quits
-    do {
-        $UserPrompt = ""
-
-        # Loop until user answers prompt
-        $InnerLoopTrue = $True
-        do {
-            # Show the user the menu options
-            Write-Host $UserMenu -NoNewline
-            $UserPrompt = $Host.UI.ReadLine()
-
-            # Check the user entered a valid choice
-            if ($UserPrompt -in $UserOptions) {
-                # Check if the user wants to quit
-                if ($UserPrompt -eq $ChoiceQuit) {
-                    Write-Host "`nExiting the script...`n"
-                    Exit
-                }
-
-                $UserChoice = [int]$UserPrompt
-
-                # Tell loop to quit
-                $InnerLoopTrue = $False
-            }
-            else {
-                Write-Host "Please make a valid choice!"
-            }
-        } while ($InnerLoopTrue -eq $True)
-
-        # Set the release details if they are not already set or if the user chooses to change them
-        if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
-            Get-ReleaseDetails
-            Update-AllPaths
-        }
-
-        # Task 1
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
-            Set-ReleaseFolderStructure
-            Set-ProjectRoot > $null
-        }
-
-        # Task 2
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
-            Invoke-PythonTool
-            Set-ProjectRoot > $null
-        }
-
-        # Task 3
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
-            Copy-ReleaseContents
-            Set-ProjectRoot > $null
-        }
-
-        # Task 4
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
-            New-ReleasePackage
-            Set-ProjectRoot > $null
-        }
-    } while ($UserPrompt -ne $ChoiceQuit)
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
+        
+    Write-Host "Creating a release folder for release version $ReleaseFullVersion..."
+    Write-Host "...at $ReleaseFullPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $ReleaseFullPath -ItemType Directory > $null
 }
+function Add-MajorVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a major release version.
+
+    .DESCRIPTION
+        The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+    .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+    .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $true
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
+
+    .EXAMPLE
+        Add-MajorVersionFolder -IsPackage $false
+        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MajorPath = $Script:AllPaths.PackageMajorFolder 
+        $DirType = "package"
+    }
+    else {
+        $MajorPath = $Script:AllPaths.ReleaseMajorFolder 
+        $DirType = "release"
+    }
+    
+    Write-Host "Creating a $DirType directory for major version $($Script:ReleaseDetails.MajorVersion)..."
+    Write-Host "...at $MajorPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $MajorPath -ItemType Directory > $null
+}
+function Add-MinorVersionFolder {
+    <#
+    .SYNOPSIS
+        Creates a directory for a minor release version.
+
+    .DESCRIPTION
+        The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+
+    .PARAMETER IsPackage
+        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+
+    .EXAMPLE
+        Add-MinorVersionFolder -IsPackage $true
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
+
+    .EXAMPLE
+        Add-MinorVersionFolder -IsPackage $false
+        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [System.Boolean]
+        $IsPackage
+    )    
+
+    if ($IsPackage) {
+        $MinorPath = $Script:AllPaths.PackageMinorFolder 
+        $DirType = "package"
+    }
+    else {
+        $MinorPath = $Script:AllPaths.ReleaseMinorFolder 
+        $DirType = "release"
+    }
+    
+    Write-Host "Creating a $DirType directory for minor version $($Script:ReleaseDetails.MinorVersion)..."
+    Write-Host "...at $MinorPath"
+    Start-Sleep -Seconds $Script:SleepTimer
+    New-Item $MinorPath -ItemType Directory > $null
+}
+function Add-PyToolContents {
+    <#
+    .SYNOPSIS
+        Copies the necessary files to the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-PyToolContents
+        Copies the necessary files to the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+        Created: 2024-01-14
+    #>
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $Script:AllPaths.ReleasePyToolFolder 
+
+    # Copy over the files and folder necessary to generate the Python executable
+    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
+    Start-Sleep -Seconds $Script:SleepTimer
+
+    Copy-Item -Path $Script:AllPaths.DevCSPythonScript  -Destination $Script:AllPaths.ReleasePyToolFolder 
+    Copy-Item -Path $Script:AllPaths.DevPythonDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
+    
+    $AllPythonDependencies = "$($Script:AllPaths.DevPythonDependenciesFolder)$($Script:OSSeparatorChar)*.py"
+    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePythonDependenciesFolder
+}
+function Add-PyToolFolder {
+    <#
+    .SYNOPSIS
+        Creates the py-tool folder for the release.
+
+    .DESCRIPTION
+        The `Add-PyToolFolder` function creates the py-tool folder for the release, if it doesn't exist. If the folder exists but is not empty, it deletes the existing contents.
+    
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-PyToolFolder
+        Adds the py-tool folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+
+    # Set up local variables for easier access
+    $PyToolFolder = $Script:FolderNames.PyTool
+    $PyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
+    
+    # Confirm if the py-tool folder path exists and if not, try to create it
+    if (-Not (Test-Path $PyToolFolderPath)) {
+        Write-Host "`nCannot find a $PyToolFolder folder in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
+        Write-Host "Creating the $PyToolFolder folder..."
+        Write-Host "...at $($Script:AllPaths.ReleaseFullFolder)"
+        Start-Sleep -Seconds $Script:SleepTimer
+        New-Item $PyToolFolderPath -ItemType Directory > $null
+    }
+
+    # Before proceeding, make sure we are in the correct directory
+    Set-Location $PyToolFolderPath
+
+    # Check to see if there's anything already in the py-tool folder and if so, delete it
+    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
+    if ($PyToolFolderLen -gt 0) {
+        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
+        Start-Sleep -Seconds $Script:SleepTimer
+        Remove-Item * -Recurse -Force
+        Write-Host "The folder is now empty."
+    }
+}
+function Add-ReleaseNotesFolder {
+    <#
+    .SYNOPSIS
+        Creates the release-notes folder for the release.
+
+    .DESCRIPTION
+        The `Add-ReleaseNotesFolder` function creates the release-notes folder for the release, if it doesn't already exist.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Add-ReleaseNotesFolder
+        Adds the release-notes folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $ReleaseNotesFolderPath = $Script:AllPaths.ReleaseNotesFolder
+    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder 
+
+    if (-Not (Test-Path $ReleaseNotesFolderPath)) {
+        Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        New-Item -ItemType Directory -Name $Script:FolderNames.ReleaseNotes -Path $ReleaseFullPath > $null
+    }
+    else {
+        Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
+        Start-Sleep $Script:SleepTimer
+    }
+}
+
+# Copy Cmdlets
+function Copy-ReleaseContents {
+    <#
+    .SYNOPSIS
+        Copies the necessary content for a release to the release folder.
+    .DESCRIPTION
+        The `Copy-ReleaseContents` function copies the necessary content for a release to the release folder. This includes the CompStart content, the release notes content, and the Python tool executable. The function first checks to ensure the release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function copies the CompStart content, the release notes content, and the Python tool executable to the release folder.
+    .PARAMETER None
+        This function does not take any parameters.
+    .EXAMPLE
+        Copy-ReleaseContents
+        Copies the necessary content for a release to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+
+    # Before proceeding, set the location to the release folder and add the necessary subfolders
+    Set-ReleaseFolderLocation
+    Add-CompStartFolder
+    Add-ReleaseNotesFolder
+
+    # Copy the CompStart content
+    Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInnerCSFolder 
+    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInnerCSFolder 
+    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInnerCSFolder  -Recurse -Force
+
+    # Copy the CS installer content
+    Write-Host "`nCopying over the installer scripts for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
+
+    # Copy the release notes content and instructions file
+    Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
+    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseInstallerFolder
+
+    # Deal with the Python executable
+    if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
+        Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+        Exit
+    }
+    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInnerCSFolder
+
+    Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
+}
+
+# Get Cmdlets
+function Get-ReleaseDetails {
+    <#
+    .SYNOPSIS
+        Gets the release details from the user.
+
+    .DESCRIPTION
+        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
+
+    .PARAMETER None
+        This function does not take any parameters.
+
+    .EXAMPLE
+        Get-ReleaseDetails
+        Prompts the user for the release details.
+
+    .NOTES
+        Author: David H. Watson (with help from VS Code Copilot)
+        GitHub: @dEhiN
+    #>
+    Write-Host "`nWhat is the release major version number? " -NoNewline
+    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
+
+    Write-Host "What is the release minor version number? " -NoNewline
+    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
+
+    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
+
+    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
+    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
+
+    if ($Script:ReleaseDetails.Tag) {
+        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
+    }    
+}
+
+# Invoke Cmdlets
 function Invoke-PythonTool {
     <#
     .SYNOPSIS
@@ -301,133 +616,60 @@ function Invoke-PythonTool {
     Start-Process -FilePath $Script:PyInstallerCmd -ArgumentList $PyIArgumentArray -NoNewWindow -Wait
     Write-Host "`nPython executable successfully created"
 }
-function Update-AllPaths {
+
+# New Cmdlets
+function New-ReleasePackage {
     <#
     .SYNOPSIS
-        Updates the project environment path variables to be used by this script.
-
+        Creates a release package by compressing the necessary folders and files into a zip archive.
     .DESCRIPTION
-        The `Update-AllPaths` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:AllPaths` dictionary.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Update-AllPaths
-        Updates all the path variables based on the current project root path and folder names.
-
+        The `New-ReleasePackage` function checks for the existence of required folders and files and then compresses the release folder into a zip archive. The function first sets the location to the release folder, checks if the release folder has the necessary folders and files, and then checks if the packages folder exists. If all checks pass, it creates a zip archive of the release folder.
+   .EXAMPLE
+        New-ReleasePackage
+        Creates a zip archive of the release folder for the current release version.
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
     #>
 
-    # Set the project root path for easy reference
-    $ProjectRootPath = $Script:AllPaths.ProjectRootFolder 
+    # Set up local variables for easier access
+    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $PackageFullPath = $Script:AllPaths.PackageFullFolder
+    $ReleaseCSFolderPath = $Script:AllPaths.ReleaseOuterCSFolder
 
-    # First level folder paths
-    $Script:AllPaths.DevFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.DevEnv)"
-    $Script:AllPaths.ProdFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.ProdEnv)"
+    # Before proceeding, set the location to the release folder
+    Set-ReleaseFolderLocation
 
-    # Dev related folder paths
-    $DevPath = $Script:AllPaths.DevFolder 
-    $Script:AllPaths.DevConfigFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
-    $Script:AllPaths.DevPythonDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    # Check if the release folder has the necessary folders and files
+    if (-Not (Test-Path $ReleaseCSFolderPath)) {
+        Write-Host "`nThe release folder $($Script:AllPaths.ReleaseFullFolder) is missing necessary folders and files...`nPlease choose options 3 (if necessary) and 4 from the main menu first..."
+        Exit
+    }
 
-    # Dev related file paths
-    $Script:AllPaths.DevCSPythonScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
-    $Script:AllPaths.DevCSBatchScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
-    $Script:AllPaths.DevCSPowerShellScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
+    # Also check if the packages folder exists
+    if (-Not (Test-Path $PackageFullPath)) {
+        Write-Host "`nThe package folder $PackageFullPath does not exist...`nPlease choose option 2 from the main menu first..."
+        return
+    }
 
-    # Prod related folder paths
-    $ProdPath = $Script:AllPaths.ProdFolder 
-    $Script:AllPaths.AssetsFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Assets)"
-    $Script:AllPaths.PackagesFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Packages)"
-    $Script:AllPaths.ReleasesFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Releases)"
+    Set-Location $PackageFullPath
 
-    # Asset related folder paths
-    $AssetsPath = $Script:AllPaths.AssetsFolder 
-    $Script:AllPaths.AssetsReleaseFolder = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
-    $Script:AllPaths.AssetsInstallerFolder = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
+    # Get the release package name
+    $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
 
-    # Asset related file paths
-    $CSInstallerPath = $Script:AllPaths.AssetsInstallerFolder
-    $CSReleaseNotesPath = $Script:AllPaths.AssetsReleaseFolder
-    $Script:AllPaths.AssetReleaseNotesMarkdown = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
-    $Script:AllPaths.AssetInstructionsText = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
-    $Script:AllPaths.AssetInstallerBatchScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerBatchScript)"
-    $Script:AllPaths.AssetInstallerPowerShellScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
+    # Create the hash table object to pass to the Compress-Archive cmdlet
+    $PackageContents = @{
+        Path             = $ReleaseCSFolderPath
+        DestinationPath  = $ReleasePackageName
+        CompressionLevel = "Optimal"
+    }
 
-    # Package related folder paths
-    $PackagesPath = $Script:AllPaths.PackagesFolder 
-    $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
-    $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
-    $Script:AllPaths.PackageMinorFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-    $PackageMinorPath = $Script:AllPaths.PackageMinorFolder
-    $Script:AllPaths.PackageFullFolder = "$PackageMinorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
-
-    # Release related parent folder paths
-    $ReleasesPath = $Script:AllPaths.ReleasesFolder
-    $Script:AllPaths.ReleaseMajorFolder = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
-    $ReleaseMajorPath = $Script:AllPaths.ReleaseMajorFolder 
-    $Script:AllPaths.ReleaseMinorFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-    $ReleaseMinorPath = $Script:AllPaths.ReleaseMinorFolder 
-    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
-
-    # Release specific child folder paths: CompStart
-    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $Script:AllPaths.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-    $ReleaseOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
-    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
-    $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-
-    # Release specific child folder paths: py-tool
-    $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
-    $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
-    $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
-    $Script:AllPaths.ReleasePyIDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyIDist)"
-
-    # Release specific child file paths
-    $ReleasePyIDistPath = $Script:AllPaths.ReleasePyIDistFolder
-    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyIDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
-
-    # Release specific child folder paths: release-notes
-    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
+    Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Compress-Archive @PackageContents > $null
 }
-function Get-ReleaseDetails {
-    <#
-    .SYNOPSIS
-        Gets the release details from the user.
 
-    .DESCRIPTION
-        The `Get-ReleaseDetails` function prompts the user for the release details, including the major version, minor version, and release tag. Those details are then stored in the script variable ReleaseDetails dictionary.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Get-ReleaseDetails
-        Prompts the user for the release details.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-    Write-Host "`nWhat is the release major version number? " -NoNewline
-    $Script:ReleaseDetails.MajorVersion = $Host.UI.ReadLine()
-
-    Write-Host "What is the release minor version number? " -NoNewline
-    $Script:ReleaseDetails.MinorVersion = $Host.UI.ReadLine()
-
-    $Script:ReleaseDetails.FullVersion = "$($Script:ReleaseDetails.MajorVersion).$($Script:ReleaseDetails.MinorVersion)"
-
-    Write-Host "What is the release tag for version $($Script:ReleaseDetails.FullVersion) (or leave blank if there is none)? " -NoNewline
-    $Script:ReleaseDetails.Tag = $Host.UI.ReadLine()
-
-    if ($Script:ReleaseDetails.Tag) {
-        $Script:ReleaseDetails.FullVersion += "-$($Script:ReleaseDetails.Tag)"
-    }    
-}
+# Set Cmdlets
 function Set-ProjectRoot {
     # This function was created using GitHub Copilot. It was taken from the function "set_start_dir" function in the Python module "cs_helper.py". It has been modified to work in PowerShell and to be more idiomatic to the language.
     
@@ -703,425 +945,206 @@ function Set-FullVersionPath {
         Start-Sleep $Script:SleepTimer
     }
 }
-function Add-MajorVersionFolder {
+
+# Start Cmdlets
+function Start-ReleaseProcess {
     <#
     .SYNOPSIS
-        Creates a directory for a major release version.
+        Starts the release process.
 
     .DESCRIPTION
-        The `Add-MajorVersionFolder` function creates a directory for a major release version, based on the value found in the MajorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
+        The `Start-ReleaseProcess` function initiates the release process by going through the 4 major tasks involved:
 
-    .PARAMETER IsPackage
-        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
+        1. Set (up) the release folder structure for both the releases and packages directories
+        2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
+        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
+        4. New release package - creates a new release package
 
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $true
-        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the packages folder.
+        The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
 
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $false
-        Creates a directory for the major release version found in the $Script:ReleaseDetails.MajorVersion property in the releases folder.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [System.Boolean]
-        $IsPackage
-    )    
-
-    if ($IsPackage) {
-        $MajorPath = $Script:AllPaths.PackageMajorFolder 
-        $DirType = "package"
-    }
-    else {
-        $MajorPath = $Script:AllPaths.ReleaseMajorFolder 
-        $DirType = "release"
-    }
-    
-    Write-Host "Creating a $DirType directory for major version $($Script:ReleaseDetails.MajorVersion)..."
-    Write-Host "...at $MajorPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $MajorPath -ItemType Directory > $null
-}
-function Add-MinorVersionFolder {
-    <#
-    .SYNOPSIS
-        Creates a directory for a minor release version.
-
-    .DESCRIPTION
-        The `Add-MinorVersionFolder` function creates a directory for a minor release version, based on the value found in the MinorVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in either the packages or releases folder based on the value of the IsPackage parameter.
-
-    .PARAMETER IsPackage
-        A boolean specifying if the directory is to be created in the packages folder or the releases folder.
-
-    .EXAMPLE
-        Add-MinorVersionFolder -IsPackage $true
-        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the packages folder.
-
-    .EXAMPLE
-        Add-MajorVersionFolder -IsPackage $false
-        Creates a directory for the minor release version found in the $Script:ReleaseDetails.MinorVersion property in the releases folder.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [System.Boolean]
-        $IsPackage
-    )    
-
-    if ($IsPackage) {
-        $MinorPath = $Script:AllPaths.PackageMinorFolder 
-        $DirType = "package"
-    }
-    else {
-        $MinorPath = $Script:AllPaths.ReleaseMinorFolder 
-        $DirType = "release"
-    }
-    
-    Write-Host "Creating a $DirType directory for minor version $($Script:ReleaseDetails.MinorVersion)..."
-    Write-Host "...at $MinorPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $MinorPath -ItemType Directory > $null
-}
-function Add-FullVersionFolder {
-    <#
-    .SYNOPSIS
-        Creates a directory for a release version.
-
-    .DESCRIPTION
-        The `Add-FullVersionFolder` function creates a directory for a release version based on the value found in the FullVersion property of the `$Script:ReleaseDetails` dictionary. The function will create the directory in the releases folder.
+        The function loops through the menu until the user specifically quits. This allows the user to perform, for example, work on tasks 2 and 4, or 3 and 4, without having to go through the full release process each time.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Add-FullVersionFolder
-        Creates a directory for the release version found in the $Script:ReleaseDetails.FullVersion property in the releases folder.
+        Start-ReleaseProcess
+        Initiates the release process for whatever release details are stored in the $Script:ReleaseFullVersion variable.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
     #>
 
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-        
-    Write-Host "Creating a release folder for release version $ReleaseFullVersion..."
-    Write-Host "...at $ReleaseFullPath"
-    Start-Sleep -Seconds $Script:SleepTimer
-    New-Item $ReleaseFullPath -ItemType Directory > $null
+    # Function variables
+    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
+    $UserOptions = @("1", "2", "3", "4", "5", "Q")
+    $ChoiceFullRelease = 1
+    $ChoiceSetReleaseFolder = 2
+    $ChoiceInvokePythonTool = 3
+    $ChoiceCopyReleaseContents = 4
+    $ChoiceNewReleasePackage = 5
+    $ChoiceChangeReleaseDetails = 6
+    $ChoiceQuit = "Q"
+
+    # Loop until the user specifically quits
+    do {
+        $UserPrompt = ""
+
+        # Loop until user answers prompt
+        $InnerLoopTrue = $True
+        do {
+            # Show the user the menu options
+            Write-Host $UserMenu -NoNewline
+            $UserPrompt = $Host.UI.ReadLine()
+
+            # Check the user entered a valid choice
+            if ($UserPrompt -in $UserOptions) {
+                # Check if the user wants to quit
+                if ($UserPrompt -eq $ChoiceQuit) {
+                    Write-Host "`nExiting the script...`n"
+                    Exit
+                }
+
+                $UserChoice = [int]$UserPrompt
+
+                # Tell loop to quit
+                $InnerLoopTrue = $False
+            }
+            else {
+                Write-Host "Please make a valid choice!"
+            }
+        } while ($InnerLoopTrue -eq $True)
+
+        # Set the release details if they are not already set or if the user chooses to change them
+        if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
+            Get-ReleaseDetails
+            Update-AllPaths
+        }
+
+        # Task 1
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
+            Set-ReleaseFolderStructure
+            Set-ProjectRoot > $null
+        }
+
+        # Task 2
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
+            Invoke-PythonTool
+            Set-ProjectRoot > $null
+        }
+
+        # Task 3
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
+            Copy-ReleaseContents
+            Set-ProjectRoot > $null
+        }
+
+        # Task 4
+        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
+            New-ReleasePackage
+            Set-ProjectRoot > $null
+        }
+    } while ($UserPrompt -ne $ChoiceQuit)
 }
-function Add-CompStartFolder {
+
+# Update Cmdlets
+function Update-AllPaths {
     <#
     .SYNOPSIS
-        Creates the CompStart folder directory structure for the release.
+        Updates the project environment path variables to be used by this script.
 
     .DESCRIPTION
-        The `Add-CompStartFolder` function creates the CompStart folder and its subfolders for the release.
-
-        The CompStart directory structure will be the following (with the release version folder as the parent directory):
-        > - <release-folder>
-        | - CompStart (folder)
-            | - install.ps1 (script)
-            | - installer-files (folder)
-                | - instructions.txt (text file)
-                | - CompStart (folder)
-                    | - CompStart.ps1 (script)
-                    | - CompStart.bat (script)
-                    | - config (folder)
-                        | - default_startup.json (config file)
-                        | - startup_data.json (config file)
-                        | - schema (folder)
-                            | - startup_data.schema.json (schema file)
-                            | - startup_item.schema.json (schema file)
-        
-        This directory structure will allow the installer script to correctly set up the CompStart folder and its contents during installation.
+        The `Update-AllPaths` function sets and updates various path variables used throughout the project. It organizes paths for development, production, assets, packages, and releases based on the project root path and folder names. Specifically, it updates all the properties in the `$Script:AllPaths` dictionary.
 
     .PARAMETER None
         This function does not take any parameters.
 
     .EXAMPLE
-        Add-CompStartFolder
-        Adds the CompStart folder and subfolders to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable. See Description for more details.
+        Update-AllPaths
+        Updates all the path variables based on the current project root path and folder names.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
         GitHub: @dEhiN
-        Created: 2024-01-14
-        Updated: 2025-01-16
     #>
 
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    # Set the project root path for easy reference
+    $ProjectRootPath = $Script:AllPaths.ProjectRootFolder 
+
+    # First level folder paths
+    $Script:AllPaths.DevFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.DevEnv)"
+    $Script:AllPaths.ProdFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.ProdEnv)"
+
+    # Dev related folder paths
+    $DevPath = $Script:AllPaths.DevFolder 
+    $Script:AllPaths.DevConfigFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
+    $Script:AllPaths.DevPythonDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+
+    # Dev related file paths
+    $Script:AllPaths.DevCSPythonScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
+    $Script:AllPaths.DevCSBatchScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSBatchScript)"
+    $Script:AllPaths.DevCSPowerShellScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPowerShellScript)"
+
+    # Prod related folder paths
+    $ProdPath = $Script:AllPaths.ProdFolder 
+    $Script:AllPaths.AssetsFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Assets)"
+    $Script:AllPaths.PackagesFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Packages)"
+    $Script:AllPaths.ReleasesFolder = "$ProdPath$($Script:OSSeparatorChar)$($Script:FolderNames.Releases)"
+
+    # Asset related folder paths
+    $AssetsPath = $Script:AllPaths.AssetsFolder 
+    $Script:AllPaths.AssetsReleaseFolder = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseAssets)"
+    $Script:AllPaths.AssetsInstallerFolder = "$AssetsPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerAssets)"
+
+    # Asset related file paths
+    $CSInstallerPath = $Script:AllPaths.AssetsInstallerFolder
+    $CSReleaseNotesPath = $Script:AllPaths.AssetsReleaseFolder
+    $Script:AllPaths.AssetReleaseNotesMarkdown = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
+    $Script:AllPaths.AssetInstructionsText = "$($CSReleaseNotesPath)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseInstructionsText)"
+    $Script:AllPaths.AssetInstallerBatchScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerBatchScript)"
+    $Script:AllPaths.AssetInstallerPowerShellScript = "$($CSInstallerPath)$($Script:OSSeparatorChar)$($Script:FileNames.InstallerPowerShellScript)"
+
+    # Package related folder paths
+    $PackagesPath = $Script:AllPaths.PackagesFolder 
+    $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
+    $Script:AllPaths.PackageMinorFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $PackageMinorPath = $Script:AllPaths.PackageMinorFolder
+    $Script:AllPaths.PackageFullFolder = "$PackageMinorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
+
+    # Release related parent folder paths
+    $ReleasesPath = $Script:AllPaths.ReleasesFolder
+    $Script:AllPaths.ReleaseMajorFolder = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $ReleaseMajorPath = $Script:AllPaths.ReleaseMajorFolder 
+    $Script:AllPaths.ReleaseMinorFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $ReleaseMinorPath = $Script:AllPaths.ReleaseMinorFolder 
+    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
+
+    # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder 
+    $Script:AllPaths.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $ReleaseOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
+    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
     $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
+    $Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
 
-    # Create the outer CompStart folder
-    if (-Not (Test-Path $ReleasesOuterCSPath)) {
-        Write-Host "`nCreating the outer CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
-    }
-    else {
-        Write-Host "`nThere already exists an outer CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
+    # Release specific child folder paths: py-tool
+    $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
+    $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
+    $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:AllPaths.ReleasePyIDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyIDist)"
 
-    # Create the installer-files folder
-    if (-Not (Test-Path $ReleaseInstallerPath)) {
-        Write-Host "`nCreating the installer-files folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleasesOuterCSPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists an installer-files folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
+    # Release specific child file paths
+    $ReleasePyIDistPath = $Script:AllPaths.ReleasePyIDistFolder
+    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyIDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
 
-    # Create the inner CompStart folder
-    if (-Not (Test-Path $ReleaseInnerCSPath)) {
-        Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Add-PyToolFolder {
-    <#
-    .SYNOPSIS
-        Creates the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Add-PyToolFolder` function creates the py-tool folder for the release, if it doesn't exist. If the folder exists but is not empty, it deletes the existing contents.
-    
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-PyToolFolder
-        Adds the py-tool folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-
-    # Set up local variables for easier access
-    $PyToolFolder = $Script:FolderNames.PyTool
-    $PyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
-    
-    # Confirm if the py-tool folder path exists and if not, try to create it
-    if (-Not (Test-Path $PyToolFolderPath)) {
-        Write-Host "`nCannot find a $PyToolFolder folder in the release folder for release version $($Script:ReleaseDetails.FullVersion)."
-        Write-Host "Creating the $PyToolFolder folder..."
-        Write-Host "...at $($Script:AllPaths.ReleaseFullFolder)"
-        Start-Sleep -Seconds $Script:SleepTimer
-        New-Item $PyToolFolderPath -ItemType Directory > $null
-    }
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $PyToolFolderPath
-
-    # Check to see if there's anything already in the py-tool folder and if so, delete it
-    $PyToolFolderLen = (Get-ChildItem $PyToolFolderPath -Recurse).Length
-    if ($PyToolFolderLen -gt 0) {
-        Write-Host "`nFound items in the $PyToolFolder folder. Deleting all items..."
-        Start-Sleep -Seconds $Script:SleepTimer
-        Remove-Item * -Recurse -Force
-        Write-Host "The folder is now empty."
-    }
-}
-function Add-ReleaseNotesFolder {
-    <#
-    .SYNOPSIS
-        Creates the release-notes folder for the release.
-
-    .DESCRIPTION
-        The `Add-ReleaseNotesFolder` function creates the release-notes folder for the release, if it doesn't already exist.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-ReleaseNotesFolder
-        Adds the release-notes folder to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $ReleaseNotesFolderPath = $Script:AllPaths.ReleaseNotesFolder
-    $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder 
-
-    if (-Not (Test-Path $ReleaseNotesFolderPath)) {
-        Write-Host "`nCreating the release-notes folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.ReleaseNotes -Path $ReleaseFullPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists a release-notes folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-}
-function Add-PyToolContents {
-    <#
-    .SYNOPSIS
-        Copies the necessary files to the py-tool folder for the release.
-
-    .DESCRIPTION
-        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
-
-    .PARAMETER None
-        This function does not take any parameters.
-
-    .EXAMPLE
-        Add-PyToolContents
-        Copies the necessary files to the py-tool folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-        Created: 2024-01-14
-    #>
-
-    # Before proceeding, make sure we are in the correct directory
-    Set-Location $Script:AllPaths.ReleasePyToolFolder 
-
-    # Copy over the files and folder necessary to generate the Python executable
-    Write-Host "`nCopying over the Python CLI tool and its dependencies to the $($Script:FolderNames.PyTool) folder..."
-    Start-Sleep -Seconds $Script:SleepTimer
-
-    Copy-Item -Path $Script:AllPaths.DevCSPythonScript  -Destination $Script:AllPaths.ReleasePyToolFolder 
-    Copy-Item -Path $Script:AllPaths.DevPythonDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
-    
-    $AllPythonDependencies = "$($Script:AllPaths.DevPythonDependenciesFolder)$($Script:OSSeparatorChar)*.py"
-    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePythonDependenciesFolder
-}
-function Copy-ReleaseContents {
-    <#
-    .SYNOPSIS
-        Copies the necessary content for a release to the release folder.
-    .DESCRIPTION
-        The `Copy-ReleaseContents` function copies the necessary content for a release to the release folder. This includes the CompStart content, the release notes content, and the Python tool executable. The function first checks to ensure the release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function copies the CompStart content, the release notes content, and the Python tool executable to the release folder.
-    .PARAMETER None
-        This function does not take any parameters.
-    .EXAMPLE
-        Copy-ReleaseContents
-        Copies the necessary content for a release to the release folder for the release version stored in the $Script:ReleaseDetails.FullVersion variable.
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-
-    # Before proceeding, set the location to the release folder and add the necessary subfolders
-    Set-ReleaseFolderLocation
-    Add-CompStartFolder
-    Add-ReleaseNotesFolder
-
-    # Copy the CompStart content
-    Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInnerCSFolder  -Recurse -Force
-
-    # Copy the CS installer content
-    Write-Host "`nCopying over the installer scripts for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
-    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
-
-    # Copy the release notes content and instructions file
-    Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
-    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseInstallerFolder
-
-    # Deal with the Python executable
-    if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tools folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
-        Exit
-    }
-    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInnerCSFolder
-
-    Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
-}
-function New-ReleasePackage {
-    <#
-    .SYNOPSIS
-        Creates a release package by compressing the necessary folders and files into a zip archive.
-    .DESCRIPTION
-        The `New-ReleasePackage` function checks for the existence of required folders and files and then compresses the release folder into a zip archive. The function first sets the location to the release folder, checks if the release folder has the necessary folders and files, and then checks if the packages folder exists. If all checks pass, it creates a zip archive of the release folder.
-   .EXAMPLE
-        New-ReleasePackage
-        Creates a zip archive of the release folder for the current release version.
-    .NOTES
-        Author: David H. Watson (with help from VS Code Copilot)
-        GitHub: @dEhiN
-    #>
-
-    # Set up local variables for easier access
-    $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $PackageFullPath = $Script:AllPaths.PackageFullFolder
-    $ReleaseCSFolderPath = $Script:AllPaths.ReleaseOuterCSFolder
-
-    # Before proceeding, set the location to the release folder
-    Set-ReleaseFolderLocation
-
-    # Check if the release folder has the necessary folders and files
-    if (-Not (Test-Path $ReleaseCSFolderPath)) {
-        Write-Host "`nThe release folder $($Script:AllPaths.ReleaseFullFolder) is missing necessary folders and files...`nPlease choose options 3 (if necessary) and 4 from the main menu first..."
-        Exit
-    }
-
-    # Also check if the packages folder exists
-    if (-Not (Test-Path $PackageFullPath)) {
-        Write-Host "`nThe package folder $PackageFullPath does not exist...`nPlease choose option 2 from the main menu first..."
-        return
-    }
-
-    Set-Location $PackageFullPath
-
-    # Get the release package name
-    $ReleasePackageName = "CompStart-$ReleaseFullVersion.zip"
-
-    # Create the hash table object to pass to the Compress-Archive cmdlet
-    $PackageContents = @{
-        Path             = $ReleaseCSFolderPath
-        DestinationPath  = $ReleasePackageName
-        CompressionLevel = "Optimal"
-    }
-
-    Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Compress-Archive @PackageContents > $null
+    # Release specific child folder paths: release-notes
+    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
 }
 
-# Section: Main Script
+
+# SECTION: MAIN SCRIPT
 # Set the starting directory to the project root
 $SetCSSuccess = Set-ProjectRoot
 
