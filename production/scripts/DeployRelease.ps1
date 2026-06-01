@@ -87,11 +87,11 @@ $Script:FileNames = [ordered]@{
     InstallerBatchScript      = "install.bat"
 }
 $Script:FolderNames = [ordered]@{
-    DevEnv                = "devenv"
+    Development                = "development"
     Config                = "config"
     PythonDependencies    = "dependencies"
 
-    ProdEnv               = "prodenv"
+    Production               = "production"
     Assets                = "assets"
     ReleaseAssets         = "release-assets"
     InstallerAssets       = "cs-installer"
@@ -360,7 +360,7 @@ function Add-PyToolContents {
         Copies the necessary files to the py-tool folder for the release.
 
     .DESCRIPTION
-        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the devenv folder.
+        The `Add-PyToolContents` function copies the necessary files to the py-tool folder for the release. This includes the CompStart.py script and all the Python script dependencies from the Development folder.
 
     .PARAMETER None
         This function does not take any parameters.
@@ -570,7 +570,7 @@ function Invoke-PythonTool {
     .DESCRIPTION
         The function `Invoke-PythonTool` generates an executable file from the CompStart.py script by using the PyInstaller Python module. This is done by calling the `pyinstaller` command with the `--onefile` parameter to create a standalone executable file. As part of the process, the function checks that the necessary paths and files needed by PyInstaller exist.
         
-        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the devenv folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
+        The function first checks to ensure a release folder exists. If there is no release folder, the user is alerted and the script is exited. Next, the function calls `Set-PyToolFolder` to make sure the py-tool folder is correctly set up. It then copies over the CompStart.py script and all the Python script dependencies from the Development folder to the py-tool folder. Finally, it generates the executable CompStart.exe.
 
     .PARAMETER None
         This function does not take any parameters.
@@ -834,7 +834,7 @@ function Set-MajorVersionPaths {
 
     .EXAMPLE
         Set-MajorVersionPaths
-        Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
+        Checks to see if there's a folder for the major version found in the $Script:ReleaseDetails.MajorVersion property at the following locations: /production/releases and /production/packages, and creates it if it doesn't exist.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -879,7 +879,7 @@ function Set-MinorVersionPaths {
 
     .EXAMPLE
         Set-MinorVersionPaths
-        Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /prodenv/releases and /prodenv/packages, and creates it if it doesn't exist.
+        Checks to see if there's a folder for the minor version found in the $Script:ReleaseDetails.MinorVersion property at the following locations: /production/releases and /production/packages, and creates it if it doesn't exist.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -924,7 +924,7 @@ function Set-FullVersionPath {
 
     .EXAMPLE
         Set-FullVersionPath
-        Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /prodenv/releases, and creates it if it doesn't exist.
+        Checks to see if there's a folder for the full release version found in the $Script:ReleaseDetails.FullVersion property at /production/releases, and creates it if it doesn't exist.
 
     .NOTES
         Author: David H. Watson (with help from VS Code Copilot)
@@ -957,7 +957,7 @@ function Start-ReleaseProcess {
 
         1. Set (up) the release folder structure for both the releases and packages directories
         2. Invoke the Python module `pyinstaller` to generate an executable from the CompStart Python script
-        3. Copy the release-specific content from the devenv and the prodenv>assets folders to the release folder
+        3. Copy the release-specific content from the development and the production > assets folders to the release folder
         4. New release package - creates a new release package
 
         The function first gives the user a menu with a choice. The user can start the full release process as described in the 4 tasks, or perform each task separately. This will allow the user to skip tasks that may not be needed.
@@ -1073,8 +1073,8 @@ function Update-AllPaths {
     $ProjectRootPath = $Script:AllPaths.ProjectRootFolder 
 
     # First level folder paths
-    $Script:AllPaths.DevFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.DevEnv)"
-    $Script:AllPaths.ProdFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.ProdEnv)"
+    $Script:AllPaths.DevFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.Development)"
+    $Script:AllPaths.ProdFolder = "$ProjectRootPath$($Script:OSSeparatorChar)$($Script:FolderNames.Production)"
 
     # Dev related folder paths
     $DevPath = $Script:AllPaths.DevFolder 
