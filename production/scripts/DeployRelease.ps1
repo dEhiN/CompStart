@@ -87,11 +87,11 @@ $Script:FileNames = [ordered]@{
     InstallerBatchScript      = "install.bat"
 }
 $Script:FolderNames = [ordered]@{
-    Development                = "development"
+    Development           = "development"
     Config                = "config"
     PythonDependencies    = "dependencies"
 
-    Production               = "production"
+    Production            = "production"
     Assets                = "assets"
     ReleaseAssets         = "release-assets"
     InstallerAssets       = "cs-installer"
@@ -523,6 +523,10 @@ function Copy-ReleaseContents {
     Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInnerCSFolder
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
+
+    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable by deleting the py-tool folder..."
+    Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
+    Write-Host "Cleanup successful!"
 }
 
 # Get Cmdlets
