@@ -1,5 +1,5 @@
 # PowerShell script to automate the production release process.
-# Last Updated: 2026-05-31
+# Last Updated: 2026-06-02
 
 
 # SECTION: SCRIPT OVERVIEW
@@ -21,6 +21,27 @@
 
 
 # SECTION: RELEASE FOLDER STRUCTURE
+# This is the new release folder structure that will be implemented through issue #100.
+<#
+> - <release-folder>
+    | - instructions.txt (file)
+    | - CompStart (folder)
+        | - install.bat (file)
+        | - install.ps1 (file)
+        | - installer-files (folder)
+            | - CompStart.bat (file)
+            | - CompStart.ps1 (file)
+            | - CompStart.exe (file)
+            | - config (folder)
+                | - default_startup.json (file)
+                | - startup_data.json (file)
+                | - schema (folder)
+                    | - startup_data.schema.json (file)
+                    | - startup_item.schema.json (file)
+    | - release-notes (folder)
+        | - release-notes.md (file)
+#>
+# This is the current release folder structure (as of 2026-06-02) at the start of working on issue #100.
 <#
 > - <release-folder>
     | - CompStart (folder)
