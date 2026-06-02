@@ -524,9 +524,13 @@ function Copy-ReleaseContents {
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
-    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable..."
+    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable in..."
+    for ($counter = 5; $counter -gt 0; $counter--) {
+        Write-Host "$counter..."
+        Start-Sleep -Seconds 1
+    }
     Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-    Write-Host "Cleanup successful!"
+    Write-Host "`nAll unnecessary artifacts have now been removed..."
 }
 
 # Get Cmdlets
