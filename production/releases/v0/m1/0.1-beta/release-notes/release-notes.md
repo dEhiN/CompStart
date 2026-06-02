@@ -70,3 +70,5 @@ ___
 ## Historical Versioning Note:
 
 This release was originally developed under the versioning pattern _1.1_ (labeled as _CompStart-1.1-beta_). Consequently, commit messages within this range reference version _1.1_. In March 2026, the project's versioning schema was retroactively adjusted to _0.1_ for all pre-releases to ensure a clean transition to the official _1.0_ launch.
+
+_Original Release Date:_ November 21, 2024
