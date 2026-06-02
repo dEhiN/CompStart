@@ -524,7 +524,7 @@ function Copy-ReleaseContents {
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
-    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable by deleting the py-tool folder..."
+    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable..."
     Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
     Write-Host "Cleanup successful!"
 }
