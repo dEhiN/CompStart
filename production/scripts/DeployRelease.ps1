@@ -530,7 +530,7 @@ function Copy-ReleaseContents {
         Start-Sleep -Seconds 1
     }
     Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-    Write-Host "`nAll unnecessary artifacts have now been removed..."
+    Write-Host "`nAll unnecessary artifacts have been removed..."
 }
 
 # Get Cmdlets
