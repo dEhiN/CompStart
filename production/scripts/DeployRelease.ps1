@@ -862,7 +862,7 @@ function Set-MajorVersionPaths {
         Add-MajorVersionFolder -IsPackage $false
     }
     else {
-        Write-Host "`nThere already exists a release directory major version $ReleaseMajorVersion...skipping this step..."
+        Write-Host "`nThere already exists a release directory for major version $ReleaseMajorVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
 }
