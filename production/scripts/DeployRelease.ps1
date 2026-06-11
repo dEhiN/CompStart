@@ -20,26 +20,27 @@
 #>
 
 
-# SECTION: RELEASE FOLDER STRUCTURE
-# This is the new release folder structure that will be implemented through issue # 100.
+# SECTION: RELEASE FOLDER (DIRECTORY) STRUCTURE
+# This is the new release folder (directory) structure.
+# Legend: D = Directory / F = File
 <#
 > - <release-folder>
-    | - instructions.txt (file)
-    | - CompStart (folder)
-        | - install.bat (file)
-        | - install.ps1 (file)
-        | - installer-files (folder)
-            | - CompStart.bat (file)
-            | - CompStart.ps1 (file)
-            | - CompStart.exe (file)
-            | - config (folder)
-                | - default_startup.json (file)
-                | - startup_data.json (file)
-                | - schema (folder)
-                    | - startup_data.schema.json (file)
-                    | - startup_item.schema.json (file)
-    | - release-notes (folder)
-        | - release-notes.md (file)
+    | - instructions.txt (F)
+    | - release-notes (D)
+        | - release-notes.md (F)
+    | - CompStart (D)
+        | - install.bat (F)
+        | - install.ps1 (F)
+        | - installer-files (D)
+            | - CompStart.bat (F)
+            | - CompStart.ps1 (F)
+            | - CompStart.exe (F)
+            | - config (D)
+                | - default_startup.json (F)
+                | - startup_data.json (F)
+                | - schema (D)
+                    | - startup_data.schema.json (F)
+                    | - startup_item.schema.json (F)
 #>
 
 
