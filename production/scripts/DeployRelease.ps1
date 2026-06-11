@@ -178,13 +178,11 @@ function Add-CompStartFolder {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    #$ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
     $ReleaseCSPath = $Script:AllPaths.ReleaseCSFolder
     $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    #$ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
 
     # Create the CompStart folder
-    if (-Not (Test-Path $ReleasesCSPath)) {
+    if (-Not (Test-Path $ReleaseCSPath)) {
         Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
         New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
@@ -198,23 +196,12 @@ function Add-CompStartFolder {
     if (-Not (Test-Path $ReleaseInstallerPath)) {
         Write-Host "`nCreating the installer-files folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleasesOuterCSPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleaseCSPath > $null
     }
     else {
         Write-Host "`nThere already exists an installer-files folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
-
-    # Create the inner CompStart folder
-    # if (-Not (Test-Path $ReleaseInnerCSPath)) {
-    #     Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
-    #     Start-Sleep $Script:SleepTimer
-    #     New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
-    # }
-    # else {
-    #     Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-    #     Start-Sleep $Script:SleepTimer
-    # }
 }
 function Add-FullVersionFolder {
     <#
