@@ -122,7 +122,7 @@ $Script:AllPaths = [ordered]@{
 
     ReleaseNotesFolder              = ""
     ReleaseOuterCSFolder            = ""
-    ReleaseInnerCSFolder            = ""
+    #ReleaseInnerCSFolder            = ""
     ReleasePyToolFolder             = ""
     ReleasePyIDistFolder            = ""
     ReleasePythonDependenciesFolder = ""
@@ -698,7 +698,7 @@ function Set-ProjectRoot {
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
-    # Get the total number of folders matching the passed in directory name on the current working directory path
+    # Get the total number of folders matching the start directory name on the current working directory path
     $TotalStartDirectories = ($PathDirectoriesList | Where-Object { $_ -eq $StartDirectory }).Count
 
     # Check for each case
@@ -1114,8 +1114,8 @@ function Update-AllPaths {
     $Script:AllPaths.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
     $ReleaseOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
     $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
-    $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    #$ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
+    #Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
 
     # Release specific child folder paths: py-tool
     $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
