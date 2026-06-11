@@ -463,32 +463,34 @@ function Copy-ReleaseContents {
     Add-ReleaseNotesFolder
 
     # Copy the CompStart content
-    Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
+    Write-Host "`nPopulating the installer-files folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInnerCSFolder  -Recurse -Force
+    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInstallerFolder 
+    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInstallerFolder 
+    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInstallerFolder  -Recurse -Force
 
     # Copy the CS installer content
     Write-Host "`nCopying over the installer scripts for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
-    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseCSFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseCSFolder
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
     Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
-    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseInstallerFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseFullFolder
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tool folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
+        Write-Host "`nUnable to find a py-tool folder.`nPlease run this script again and choose the option to generate the Python executable..."
+        Start-Sleep $Script:SleepTimer
+        Write-Host"`n...Exiting this script...Goodbye!"
         Exit
     }
     Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInnerCSFolder
+    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
@@ -972,7 +974,8 @@ function Start-ReleaseProcess {
         do {
             # Show the user the menu options
             Write-Host $UserMenu -NoNewline
-            $UserPrompt = $Host.UI.ReadLine()
+            # $UserPrompt = $Host.UI.ReadLine()
+            $UserPrompt = "4"
 
             # Check the user entered a valid choice
             if ($UserPrompt -in $UserOptions) {
