@@ -84,7 +84,7 @@ $Script:FolderNames = [ordered]@{
     CompStart             = "CompStart"
     PyTool                = "py-tool"
     ReleaseNotes          = "release-notes"
-    PyIDist               = "dist"
+    PyToolDist            = "dist"
 
     ParentInstallLocation = "LocalApplicationData"
     InstallerFiles        = "installer-files"
@@ -122,10 +122,9 @@ $Script:AllPaths = [ordered]@{
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
-    ReleaseOuterCSFolder            = ""
-    #ReleaseInnerCSFolder            = ""
+    ReleaseCSFolder                 = ""
     ReleasePyToolFolder             = ""
-    ReleasePyIDistFolder            = ""
+    ReleasePyToolDistFolder         = ""
     ReleasePythonDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
     ReleaseCSExecutable             = ""
@@ -1112,21 +1111,19 @@ function Update-AllPaths {
 
     # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $Script:AllPaths.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-    $ReleaseOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
-    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
-    #$ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    #Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $Script:AllPaths.ReleaseCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $ReleaseCSPath = $Script:AllPaths.ReleaseCSFolder
+    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
 
     # Release specific child folder paths: py-tool
     $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
     $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
-    $Script:AllPaths.ReleasePyIDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyIDist)"
+    $Script:AllPaths.ReleasePyToolDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyToolDist)"
 
     # Release specific child file paths
-    $ReleasePyIDistPath = $Script:AllPaths.ReleasePyIDistFolder
-    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyIDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
+    $ReleasePyToolDistPath = $Script:AllPaths.ReleasePyToolDistFolder
+    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyToolDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
 
     # Release specific child folder paths: release-notes
     $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
