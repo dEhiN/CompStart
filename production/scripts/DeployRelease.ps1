@@ -178,18 +178,19 @@ function Add-CompStartFolder {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder 
+    #$ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
+    $ReleaseCSPath = $Script:AllPaths.ReleaseCSFolder
     $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
+    #$ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
 
-    # Create the outer CompStart folder
-    if (-Not (Test-Path $ReleasesOuterCSPath)) {
-        Write-Host "`nCreating the outer CompStart folder for release version $ReleaseFullVersion..."
+    # Create the CompStart folder
+    if (-Not (Test-Path $ReleasesCSPath)) {
+        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
         New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
     }
     else {
-        Write-Host "`nThere already exists an outer CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
 
@@ -205,15 +206,15 @@ function Add-CompStartFolder {
     }
 
     # Create the inner CompStart folder
-    if (-Not (Test-Path $ReleaseInnerCSPath)) {
-        Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
+    # if (-Not (Test-Path $ReleaseInnerCSPath)) {
+    #     Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
+    #     Start-Sleep $Script:SleepTimer
+    #     New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
+    # }
+    # else {
+    #     Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+    #     Start-Sleep $Script:SleepTimer
+    # }
 }
 function Add-FullVersionFolder {
     <#
