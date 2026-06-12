@@ -480,7 +480,7 @@ function Copy-ReleaseContents {
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
     Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
-    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseFullFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseCSFolder
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
