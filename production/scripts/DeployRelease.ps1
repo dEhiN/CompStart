@@ -621,9 +621,6 @@ function New-ReleasePackage {
     $PackageFullPath = $Script:AllPaths.PackageFullFolder
     $ReleaseCSFolderPath = $Script:AllPaths.ReleaseCSFolder
 
-    # Before proceeding, set the location to the release folder
-    Set-ReleaseFolderLocation
-
     # Check if the release folder has the necessary folders and files
     if (-Not (Test-Path $ReleaseCSFolderPath)) {
         Write-Host "`nThe release folder $($Script:AllPaths.ReleaseFullFolder) is missing necessary folders and files...`nPlease choose options 3 (if necessary) and 4 from the main menu first..."
@@ -650,7 +647,7 @@ function New-ReleasePackage {
 
     Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Compress-Archive @PackageContents > $null
+    Compress-Archive @PackageContents -Force > $null
 }
 
 # Set Cmdlets
