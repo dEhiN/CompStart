@@ -456,6 +456,7 @@ function Copy-ReleaseContents {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
+    $PyToolCleanup = $false
 
     # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
@@ -483,24 +484,29 @@ function Copy-ReleaseContents {
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tool folder.`nPlease run this script again and choose the option to generate the Python executable..."
+        Write-Host "`nUnable to find a py-tool folder.`nSkipping copying the Python executable..."
         Start-Sleep $Script:SleepTimer
-        Write-Host"`n...Exiting this script...Goodbye!"
-        Exit
     }
-    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
-    Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
+    else {
+        Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
+        $PyToolCleanup = $true
+    }
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
-    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable in..."
-    for ($counter = 5; $counter -gt 0; $counter--) {
-        Write-Host "$counter..."
-        Start-Sleep -Seconds 1
+    if ($PyToolCleanup) {
+        Write-Host "`nCleaning up the artifacts created from generating the Python tool executable in..."
+        for ($counter = 5; $counter -gt 0; $counter--) {
+            Write-Host "$counter..."
+            Start-Sleep -Seconds 1
+        }
+        Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
+        Write-Host "`nAll unnecessary artifacts have been removed..."
     }
-    Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-    Write-Host "`nAll unnecessary artifacts have been removed..."
+
+    Start-Sleep $Script:SleepTimer
 }
 
 # Get Cmdlets
@@ -974,8 +980,7 @@ function Start-ReleaseProcess {
         do {
             # Show the user the menu options
             Write-Host $UserMenu -NoNewline
-            # $UserPrompt = $Host.UI.ReadLine()
-            $UserPrompt = "4"
+            $UserPrompt = $Host.UI.ReadLine()
 
             # Check the user entered a valid choice
             if ($UserPrompt -in $UserOptions) {
