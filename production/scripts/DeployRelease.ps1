@@ -456,7 +456,6 @@ function Copy-ReleaseContents {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $PyToolCleanup = $false
 
     # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
@@ -484,27 +483,25 @@ function Copy-ReleaseContents {
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tool folder.`nSkipping the Python executable..."
+        # If the py-tool folder doesn't exist, assume the Python executable doesn't exist and create it before proceeding
+        Write-Host "`nUnable to find the py-tool folder...`nGenerating the Python executable before proceeding..."
         Start-Sleep $Script:SleepTimer
+        Invoke-PythonTool
     }
-    else {
-        Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
-        $PyToolCleanup = $true
-    }
+
+    Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
+    Start-Sleep $Script:SleepTimer
+    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
-    if ($PyToolCleanup) {
-        Write-Host "`nCleaning up the py-tool folder in ..."
-        for ($counter = 5; $counter -gt 0; $counter--) {
-            Write-Host "$counter..."
-            Start-Sleep -Seconds 1
-        }
-        Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-        Write-Host "`nThe py-tool folder and its contents been removed..."
+    Write-Host "`nCleaning up the py-tool folder in ..."
+    for ($counter = 5; $counter -gt 0; $counter--) {
+        Write-Host "$counter..."
+        Start-Sleep -Seconds 1
     }
+    Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
+    Write-Host "`nThe py-tool folder and its contents been removed..."
 
     Start-Sleep $Script:SleepTimer
 }
