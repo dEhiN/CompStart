@@ -20,67 +20,27 @@
 #>
 
 
-# SECTION: RELEASE FOLDER STRUCTURE
-# This is the new release folder structure that will be implemented through issue #100.
+# SECTION: RELEASE FOLDER (DIRECTORY) STRUCTURE
+# This is the new release folder (directory) structure.
+# Legend: D = Directory / F = File
 <#
 > - <release-folder>
-    | - instructions.txt (file)
-    | - CompStart (folder)
-        | - install.bat (file)
-        | - install.ps1 (file)
-        | - installer-files (folder)
-            | - CompStart.bat (file)
-            | - CompStart.ps1 (file)
-            | - CompStart.exe (file)
-            | - config (folder)
-                | - default_startup.json (file)
-                | - startup_data.json (file)
-                | - schema (folder)
-                    | - startup_data.schema.json (file)
-                    | - startup_item.schema.json (file)
-    | - release-notes (folder)
-        | - release-notes.md (file)
-#>
-# This is the current release folder structure (as of 2026-06-02) at the start of working on issue #100.
-<#
-> - <release-folder>
-    | - CompStart (folder)
-        | - install.bat (file)
-        | - install.ps1 (file)
-        | - installer-files (folder)
-            | - instructions.txt (file)
-            | - CompStart (folder)
-                | - CompStart.ps1 (file)
-                | - CompStart.bat (file)
-                | - config (folder)
-                    | - default_startup.json (file)
-                    | - startup_data.json (file)
-                    | - schema (folder)
-                        | - startup_data.schema.json (file)
-                        | - startup_item.schema.json (file)
-    | - release-notes (folder)
-        | - release-notes.md (file)
-#>
-# As part of the process, the PyInstaller tool generates a folder full of artifacts called py-tool. These artifacts will be deleted after the release process is complete. They were kept initially in the generated release folder, but they are not needed. For posterity, this is the structure of the generated artifacts folder:
-<#
-> - <release-folder>
-    | - py-tool (folder)
-        | - CompStart.py (file)
-        | - CompStart.spec (file)
-        | - build (folder) [PyInstaller specific build files]
-        | - dist (folder)
-            | - CompStart.exe (file)
-        | - dependencies (folder)
-            | - __init__.py (file)
-            | - cs_chooser.py
-            | - cs_data_generate.py
-            | - cs_desc.py
-            | - cs_enum.py
-            | - cs_helper.py
-            | - cs_jsonfn.py
-            | - cs_pretty.py
-            | - cs_startup_add.py
-            | - cs_startup_edit.py
+    | - release-notes (D)
+        | - release-notes.md (F)
+    | - CompStart (D)
+        | - instructions.txt (F)
+        | - install.bat (F)
+        | - install.ps1 (F)
+        | - installer-files (D)
+            | - CompStart.bat (F)
+            | - CompStart.ps1 (F)
+            | - CompStart.exe (F)
+            | - config (D)
+                | - default_startup.json (F)
+                | - startup_data.json (F)
+                | - schema (D)
+                    | - startup_data.schema.json (F)
+                    | - startup_item.schema.json (F)
 #>
 
 
@@ -124,7 +84,7 @@ $Script:FolderNames = [ordered]@{
     CompStart             = "CompStart"
     PyTool                = "py-tool"
     ReleaseNotes          = "release-notes"
-    PyIDist               = "dist"
+    PyToolDist            = "dist"
 
     ParentInstallLocation = "LocalApplicationData"
     InstallerFiles        = "installer-files"
@@ -162,10 +122,9 @@ $Script:AllPaths = [ordered]@{
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
-    ReleaseOuterCSFolder            = ""
-    ReleaseInnerCSFolder            = ""
+    ReleaseCSFolder                 = ""
     ReleasePyToolFolder             = ""
-    ReleasePyIDistFolder            = ""
+    ReleasePyToolDistFolder         = ""
     ReleasePythonDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
     ReleaseCSExecutable             = ""
@@ -219,18 +178,17 @@ function Add-CompStartFolder {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $ReleasesOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder 
+    $ReleaseCSPath = $Script:AllPaths.ReleaseCSFolder
     $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $ReleaseInnerCSPath = $Script:AllPaths.ReleaseInnerCSFolder
 
-    # Create the outer CompStart folder
-    if (-Not (Test-Path $ReleasesOuterCSPath)) {
-        Write-Host "`nCreating the outer CompStart folder for release version $ReleaseFullVersion..."
+    # Create the CompStart folder
+    if (-Not (Test-Path $ReleaseCSPath)) {
+        Write-Host "`nCreating the CompStart folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
         New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseFullPath  > $null
     }
     else {
-        Write-Host "`nThere already exists an outer CompStart folder for release version $ReleaseFullVersion...skipping this step..."
+        Write-Host "`nThere already exists a CompStart folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
 
@@ -238,21 +196,10 @@ function Add-CompStartFolder {
     if (-Not (Test-Path $ReleaseInstallerPath)) {
         Write-Host "`nCreating the installer-files folder for release version $ReleaseFullVersion..."
         Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleasesOuterCSPath > $null
+        New-Item -ItemType Directory -Name $Script:FolderNames.InstallerFiles -Path $ReleaseCSPath > $null
     }
     else {
         Write-Host "`nThere already exists an installer-files folder for release version $ReleaseFullVersion...skipping this step..."
-        Start-Sleep $Script:SleepTimer
-    }
-
-    # Create the inner CompStart folder
-    if (-Not (Test-Path $ReleaseInnerCSPath)) {
-        Write-Host "`nCreating the inner CompStart folder for release version $ReleaseFullVersion..."
-        Start-Sleep $Script:SleepTimer
-        New-Item -ItemType Directory -Name $Script:FolderNames.CompStart -Path $ReleaseInstallerPath > $null
-    }
-    else {
-        Write-Host "`nThere already exists an inner CompStart folder for release version $ReleaseFullVersion...skipping this step..."
         Start-Sleep $Script:SleepTimer
     }
 }
@@ -516,42 +463,49 @@ function Copy-ReleaseContents {
     Add-ReleaseNotesFolder
 
     # Copy the CompStart content
-    Write-Host "`nPopulating the inner CompStart folder for release $ReleaseFullVersion..."
+    Write-Host "`nPopulating the installer-files folder for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInnerCSFolder 
-    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInnerCSFolder  -Recurse -Force
+    Copy-Item -Path $Script:AllPaths.DevCSBatchScript  -Destination $Script:AllPaths.ReleaseInstallerFolder 
+    Copy-Item -Path $Script:AllPaths.DevCSPowerShellScript -Destination $Script:AllPaths.ReleaseInstallerFolder 
+    Copy-Item -Path $Script:AllPaths.DevConfigFolder -Destination $Script:AllPaths.ReleaseInstallerFolder  -Recurse -Force
 
     # Copy the CS installer content
     Write-Host "`nCopying over the installer scripts for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
-    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseOuterCSFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstallerBatchScript  -Destination $Script:AllPaths.ReleaseCSFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstallerPowerShellScript  -Destination $Script:AllPaths.ReleaseCSFolder
 
     # Copy the release notes content and instructions file
     Write-Host "`nCopying over the instructions and release notes README for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
     Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
-    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseInstallerFolder
+    Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseCSFolder
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tool folder.`nPlease run the PowerShell script `GeneratePythonTool.ps1` before running this script..."
-        Exit
+        # If the py-tool folder doesn't exist, assume the Python executable doesn't exist and create it before proceeding
+        Write-Host "`nUnable to find the py-tool folder..."
+        Start-Sleep $Script:SleepTimer
+        Write-Host "`nGenerating the Python executable before proceeding..."
+        Start-Sleep $Script:SleepTimer
+        Invoke-PythonTool
     }
+
     Write-Host "`nCopying over the Python tool executable for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInnerCSFolder
+    Copy-Item -Path $Script:AllPaths.ReleaseCSExecutable -Destination $Script:AllPaths.ReleaseInstallerFolder
 
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
-    Write-Host "`nCleaning up the artifacts created from generating the Python tool executable in..."
+    Write-Host "`nCleaning up the py-tool folder in ..."
     for ($counter = 5; $counter -gt 0; $counter--) {
         Write-Host "$counter..."
         Start-Sleep -Seconds 1
     }
     Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-    Write-Host "`nAll unnecessary artifacts have been removed..."
+    Write-Host "`nThe py-tool folder and its contents been removed..."
+
+    Start-Sleep $Script:SleepTimer
 }
 
 # Get Cmdlets
@@ -664,10 +618,7 @@ function New-ReleasePackage {
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
     $PackageFullPath = $Script:AllPaths.PackageFullFolder
-    $ReleaseCSFolderPath = $Script:AllPaths.ReleaseOuterCSFolder
-
-    # Before proceeding, set the location to the release folder
-    Set-ReleaseFolderLocation
+    $ReleaseCSFolderPath = $Script:AllPaths.ReleaseCSFolder
 
     # Check if the release folder has the necessary folders and files
     if (-Not (Test-Path $ReleaseCSFolderPath)) {
@@ -695,7 +646,7 @@ function New-ReleasePackage {
 
     Write-Host "`nCreating the package artifact for release $ReleaseFullVersion..."
     Start-Sleep $Script:SleepTimer
-    Compress-Archive @PackageContents > $null
+    Compress-Archive @PackageContents -Force > $null
 }
 
 # Set Cmdlets
@@ -739,7 +690,7 @@ function Set-ProjectRoot {
     $PathDirectoriesList = (Get-Location).Path -split $SplitChar
     $AdjustedLengthPDL = $PathDirectoriesList.Length - 1
 
-    # Get the total number of folders matching the passed in directory name on the current working directory path
+    # Get the total number of folders matching the start directory name on the current working directory path
     $TotalStartDirectories = ($PathDirectoriesList | Where-Object { $_ -eq $StartDirectory }).Count
 
     # Check for each case
@@ -841,8 +792,11 @@ function Set-ReleaseFolderLocation {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
 
     if (-Not (Test-Path $Script:AllPaths.ReleaseFullFolder)) {
-        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion)!`nPlease create it first...exiting the script..."
-        Exit
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        Write-Host "`nCreating it before proceeding..."
+        Start-Sleep $Script:SleepTimer
+        Set-ReleaseFolderStructure
     }
     else {
         Write-Host "`nFound the release folder for release version $ReleaseFullVersion...continuing with the release process..."
@@ -1152,21 +1106,19 @@ function Update-AllPaths {
 
     # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
-    $Script:AllPaths.ReleaseOuterCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
-    $ReleaseOuterCSPath = $Script:AllPaths.ReleaseOuterCSFolder
-    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseOuterCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
-    $ReleaseInstallerPath = $Script:AllPaths.ReleaseInstallerFolder
-    $Script:AllPaths.ReleaseInnerCSFolder = "$ReleaseInstallerPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $Script:AllPaths.ReleaseCSFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.CompStart)"
+    $ReleaseCSPath = $Script:AllPaths.ReleaseCSFolder
+    $Script:AllPaths.ReleaseInstallerFolder = "$ReleaseCSPath$($Script:OSSeparatorChar)$($Script:FolderNames.InstallerFiles)"
 
     # Release specific child folder paths: py-tool
     $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
     $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
-    $Script:AllPaths.ReleasePyIDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyIDist)"
+    $Script:AllPaths.ReleasePyToolDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyToolDist)"
 
     # Release specific child file paths
-    $ReleasePyIDistPath = $Script:AllPaths.ReleasePyIDistFolder
-    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyIDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
+    $ReleasePyToolDistPath = $Script:AllPaths.ReleasePyToolDistFolder
+    $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyToolDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
 
     # Release specific child folder paths: release-notes
     $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
