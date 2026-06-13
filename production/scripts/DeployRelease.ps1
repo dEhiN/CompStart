@@ -497,13 +497,13 @@ function Copy-ReleaseContents {
     Write-Host "`nAll release content has been copied over successfully for release $ReleaseFullVersion ..."
 
     if ($PyToolCleanup) {
-        Write-Host "`nCleaning up the artifacts created from generating the Python tool executable in..."
+        Write-Host "`nCleaning up the py-tool folder in ..."
         for ($counter = 5; $counter -gt 0; $counter--) {
             Write-Host "$counter..."
             Start-Sleep -Seconds 1
         }
         Remove-Item -Path $Script:AllPaths.ReleasePyToolFolder -Recurse -Force
-        Write-Host "`nAll unnecessary artifacts have been removed..."
+        Write-Host "`nThe py-tool folder and its contents been removed..."
     }
 
     Start-Sleep $Script:SleepTimer
