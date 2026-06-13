@@ -484,7 +484,7 @@ function Copy-ReleaseContents {
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
-        Write-Host "`nUnable to find a py-tool folder.`nSkipping copying the Python executable..."
+        Write-Host "`nUnable to find a py-tool folder.`nSkipping the Python executable..."
         Start-Sleep $Script:SleepTimer
     }
     else {
