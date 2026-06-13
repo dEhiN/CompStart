@@ -1,16 +1,23 @@
 Congratulations on downloading and unzipping the latest release of CompStart! You should see the following files and folders in the location you unzipped to:
 
--> instructions.txt *THIS FILE*
--> CompStart *FOLDER*
--> CompStart\config *FOLDER*
--> CompStart\config\schema *FOLDER*
--> CompStart\CompStart.bat
--> CompStart\CompStart.exe
--> CompStart\CompStart.ps1
--> CompStart\config\default_startup.json
--> CompStart\config\startup_data.json
--> CompStart\config\schema\startup_data.schema.json
--> CompStart\config\schema\startup_item.schema.json
+-> CompStart *PARENT FOLDER*
+-> CompStart\install.bat
+-> CompStart\install.ps1
+-> CompStart\instructions.txt *THIS FILE*
+
+-> CompStart\installer-files *INSTALLATION FOLDER*
+-> CompStart\installer-files\CompStart.bat
+-> CompStart\installer-files\CompStart.exe
+-> CompStart\installer-files\CompStart.ps1
+
+-> CompStart\installer-files\config *CONFIGURATION FOLDER*
+-> CompStart\installer-files\config\default_startup.json
+-> CompStart\installer-files\config\startup_data.json
+
+-> CompStart\installer-files\config\schema *SECOND CONFIGURATION FOLDER*
+-> CompStart\installer-files\schema\startup_data.schema.json
+-> CompStart\installer-files\schema\startup_item.schema.json
+
 
 Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
 
