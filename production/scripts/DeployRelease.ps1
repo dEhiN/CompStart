@@ -484,7 +484,9 @@ function Copy-ReleaseContents {
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
         # If the py-tool folder doesn't exist, assume the Python executable doesn't exist and create it before proceeding
-        Write-Host "`nUnable to find the py-tool folder...`nGenerating the Python executable before proceeding..."
+        Write-Host "`nUnable to find the py-tool folder..."
+        Start-Sleep $Script:SleepTimer
+        Write-Host "`nGenerating the Python executable before proceeding..."
         Start-Sleep $Script:SleepTimer
         Invoke-PythonTool
     }
@@ -790,7 +792,9 @@ function Set-ReleaseFolderLocation {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
 
     if (-Not (Test-Path $Script:AllPaths.ReleaseFullFolder)) {
-        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion)...`nCreating it before proceeding..."
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion..."
+        Start-Sleep $Script:SleepTimer
+        Write-Host "`nCreating it before proceeding..."
         Start-Sleep $Script:SleepTimer
         Set-ReleaseFolderStructure
     }
