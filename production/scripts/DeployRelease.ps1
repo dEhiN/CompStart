@@ -793,8 +793,9 @@ function Set-ReleaseFolderLocation {
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
 
     if (-Not (Test-Path $Script:AllPaths.ReleaseFullFolder)) {
-        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion)!`nPlease create it first...exiting the script..."
-        Exit
+        Write-Host "`nCannot find a release folder for release version $ReleaseFullVersion)...`nCreating it before proceeding..."
+        Start-Sleep $Script:SleepTimer
+        Set-ReleaseFolderStructure
     }
     else {
         Write-Host "`nFound the release folder for release version $ReleaseFullVersion...continuing with the release process..."
