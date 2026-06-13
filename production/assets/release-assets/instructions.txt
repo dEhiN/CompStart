@@ -1,3 +1,5 @@
+Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
+
 Congratulations on downloading and unzipping the latest release of CompStart! You should see the following files and folders in the location you unzipped to:
 
 -> CompStart *PARENT FOLDER*
@@ -19,10 +21,15 @@ Congratulations on downloading and unzipping the latest release of CompStart! Yo
 -> CompStart\installer-files\schema\startup_item.schema.json
 
 
-Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
+
+Note: This release includes two installer scripts - install.bat and install.ps1. To install CompStart, you need to double click on and run install.bat. However, as I'm sure you have already noted, this release is version 0.2-alpha. The reason is that the installer doesn't fully work. Therefore, please follow the instructions below.
 
 
 How to install CompStart:
+
+1. As mentioned above, run the install.bat file. You should see a text-based window appear that will print to the screen the installation directions. The installer installs CompStart to the location C:\Users\<your username>\AppData\Local. For example, if your Windows profile or username is JohnDoe, then you will find the installation at C:\Users\JohnDoe\AppData\Local\CompStart.
+
+2. 
 
 1. Move the CompStart folder and all its contents to a location of your choosing. You could move it to C:\Program Files, but unless you're an administrator on this device, you may not be able to do that. You could also place it in your Documents folder. However, since it's a program, if you prefer to keep it in a location with other programs and you can't use C:\Program Files, you could try C:\Users\<your username>\AppData\Local.
 
