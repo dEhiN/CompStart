@@ -55,11 +55,11 @@ function New-CSFolder {
     $Script:CSFullPath = $Script:CSParentPath + $Script:OSSeparatorChar + $Script:CSFolder
 
     # Create the folder if need be
-    if (-Not (Test-Path $CSFullPath)) {
+    if (-Not (Test-Path $Script:CSFullPath)) {
         Write-Host "`nCreating CompStart folder..." -NoNewline
         Start-Sleep $Script:SleepTime
-        New-Item -Path $CSFullPath -ItemType "Directory" > $null
-        Write-Host "...folder successfully created at $CSFullPath"
+        New-Item -Path $Script:CSFullPath -ItemType "Directory" > $null
+        Write-Host "...folder successfully created at $Script:CSFullPath"
         $Script:FuncRetValue = $true
     }
     else {
@@ -101,7 +101,7 @@ function Install-CSFiles {
 
     # Set the initial destination path
     $DestPath = $Script:CSFullPath
- 
+
     # Create the directory structure for the CompStart folder
     Write-Host "`nCreating the folder directory structure..."
     Start-Sleep $Script:SleepTime
