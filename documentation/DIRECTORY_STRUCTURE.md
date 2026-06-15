@@ -2,10 +2,12 @@
 
 <hr>
 
-The following is an outline of the project structure using this legend:
+The following is an outline of the project structure. Specifically, it is an outline of the physical directory structure from the project root level, which should be a folder called _CompStart_.
+
+The outline is based on this legend:
 
 - L = Folder level or the number of subdirectories down from the project root, which is level 1
-- (DF)F = Directory Folder
+- (DF) = Directory Folder
 - (F) = File
 
 ## L1
