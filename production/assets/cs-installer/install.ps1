@@ -96,8 +96,29 @@ function Install-CSFiles {
     Start-Sleep $Script:SleepTime
 
     # Get a list of all the files to install
+    Write-Host "`nGenerating list of files and folders to install..."
+    Start-Sleep $Script:SleepTime
     $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
+
+    # Before proceeding, confirm that there are files to install - in other words, that $InstallerFilesList isn't blank. If there aren't any files to install, remove the created "CompStart" folder if necessary, and exit the script.
+    if (-Not $InstallerFilesList) {
+        Write-Host "There is nothing to install..."
+        Start-Sleep $Script:SleepTime
+        Write-Host "Cleaning up any changes made by this script..."
+        Start-Sleep $Script:SleepTime
+        if (Test-Path $Script:CSFullPath) {
+            Remove-Item -Path $Script:CSFullPath
+            Write-Host "Cleanup complete..."
+        }
+        else {
+            Write-Host "No changes were made..."
+        }
+        Start-Sleep $Script:SleepTime
+        Write-Host "Exiting the script..."
+        Start-Sleep $Script:SleepTime
+        Exit
+    }
 
     # Set the initial destination path
     $DestPath = $Script:CSFullPath
@@ -129,7 +150,7 @@ function Install-CSFiles {
     Write-Host "`nCopying over the CompStart files..." -NoNewline
     Start-Sleep $Script:SleepTime    
     foreach ($Item in $InstallerFilesList) {
-        if (-not $Item.PSIsContainer) {
+        if (-Not $Item.PSIsContainer) {
             # Get the parent folder of the current item
             $ItemPathArray = $Item.PSParentPath.Split("\")
             $ItemParentFolder = $ItemPathArray[$ItemPathArray.Length - 1]
