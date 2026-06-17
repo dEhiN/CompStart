@@ -7,7 +7,6 @@ $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData
 $Script:CSFolder = "CompStart"
 $Script:CSFullPath = ""
 $Script:InstallerFolder = "installer-files"
-$Script:FuncRetValue = $false
 
 function New-CSFolder {
     <#
@@ -41,6 +40,9 @@ function New-CSFolder {
         [string] $SuppliedPath
     )
 
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
     # Test the passed in parameter and use it if it's a valid path
     if ($SuppliedPath) {
         if (-Not (Test-Path -Path $SuppliedPath)) {
@@ -60,15 +62,16 @@ function New-CSFolder {
         Start-Sleep $Script:SleepTime
         New-Item -Path $Script:CSFullPath -ItemType "Directory" > $null
         Write-Host "...folder successfully created at $Script:CSFullPath"
-        $Script:FuncRetValue = $true
+        $FuncRetValue = $true
     }
     else {
         Write-Host "`nExisting CompStart folder found at $CSFullPath..." -NoNewline
         Start-Sleep $Script:SleepTime
         Write-Host "...skipping this step"
+        $FuncRetValue = $true
     }
 
-    return $Script:FuncRetValue
+    return $FuncRetValue
 }
 
 function Install-CSFiles {
@@ -92,6 +95,10 @@ function Install-CSFiles {
             Date: 2024-12-28
     #>
 
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
+
     Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
 
@@ -108,7 +115,7 @@ function Install-CSFiles {
         Write-Host "Cleaning up any changes made by this script..."
         Start-Sleep $Script:SleepTime
         if (Test-Path $Script:CSFullPath) {
-            Remove-Item -Path $Script:CSFullPath
+            Remove-Item -Recurse -Path $Script:CSFullPath
             Write-Host "Cleanup complete..."
         }
         else {
@@ -117,71 +124,19 @@ function Install-CSFiles {
         Start-Sleep $Script:SleepTime
         Write-Host "Exiting the script..."
         Start-Sleep $Script:SleepTime
-        Exit
+    }
+    else {
+        # Set the initial destination path
+        $DestPath = $Script:CSFullPath
+
+        # Copy everything over in one go
+        Write-Host "`nSetting up files and folders..."
+        Start-Sleep $Script:SleepTime
+        Copy-Item -Recurse -Path "$InstallerFullPath\*" -Destination $DestPath -Force
+        $FuncRetValue = $true
     }
 
-    # Set the initial destination path
-    $DestPath = $Script:CSFullPath
-
-    # Create the directory structure for the CompStart folder
-    Write-Host "`nCreating the folder directory structure..."
-    Start-Sleep $Script:SleepTime
-    foreach ($Item in $InstallerFilesList) {
-        if ($Item.PSIsContainer) {
-            $DestPath = $DestPath + $Script:OSSeparatorChar + $Item.Name
-            if (-Not (Test-Path $DestPath)) {
-                Write-Host "Creating $($Item.Name) folder..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                New-Item -Path $DestPath -ItemType "Directory" > $null
-                Write-Host "...folder successfully created at $DestPath"
-            }
-            else {
-                Write-Host "Existing $($Item.Name) folder found at $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Write-Host "...skipping this step"
-            }
-        }
-    }
-
-    # Reset the destination path
-    $DestPath = $Script:CSFullPath
-
-    # Copy over all the files to the CompStart folder
-    Write-Host "`nCopying over the CompStart files..." -NoNewline
-    Start-Sleep $Script:SleepTime    
-    foreach ($Item in $InstallerFilesList) {
-        if (-Not $Item.PSIsContainer) {
-            # Get the parent folder of the current item
-            $ItemPathArray = $Item.PSParentPath.Split("\")
-            $ItemParentFolder = $ItemPathArray[$ItemPathArray.Length - 1]
-
-            # Get the current (working) folder in the destination path
-            $DestPathArray = $DestPath.Split("\")
-            $DestCurrentFolder = $DestPathArray[$DestPathArray.Length - 1]
-
-            # Determine which situation is present to make sure the file is copied to the correct location
-            if ($ItemParentFolder -eq $Script:InstallerFolder) {
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-                $DestPath = $DestPath + $Script:OSSeparatorChar + $DestCurrentFolder
-            } 
-            elseif ($ItemParentFolder -eq $DestCurrentFolder) {
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-            }
-            else {
-                $DestPath = $DestPath + $Script:OSSeparatorChar + $ItemParentFolder
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-            }
-        }
-    }
+    return $FuncRetValue
 }
 
 # Main script logic
@@ -195,7 +150,20 @@ if ($IsProdEnv) {
 }
 
 # Create the CompStart folder if required
-New-CSFolder > $null
+$CSFolderSuccess = New-CSFolder
 
 # Install the required files
-Install-CSFiles  > $null
+$CSFilesSuccess = Install-CSFiles
+
+# Let the user know the results of the installation
+if ($CSFolderSuccess -and $CSFilesSuccess) {
+    Write-Host "`n...CompStart has been fully installed!"
+}
+else {
+    Write-Host "`n...The installation failed!`nPlease contact the developer team at https://github.com/dEhiN/CompStart/ and let them know of any errors that occurred."
+}
+
+# Wait for the user to quit the script
+Start-Sleep $Script:SleepTime
+Write-Host "Please press any key to exit this script..." -NoNewline
+$Host.UI.ReadLine()
