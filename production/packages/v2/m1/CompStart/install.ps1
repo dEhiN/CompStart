@@ -139,6 +139,49 @@ function Install-CSFiles {
     return $FuncRetValue
 }
 
+function New-CSShortcut {
+    <#
+        .SYNOPSIS
+            Creates a new shortcut or symlink for CompStart.ps1 in the OS's startup programs area.
+
+        .DESCRIPTION
+            The New-CSShortcut function creates a new shortcut for CompStart.p1 and places it in the operating system's area for programs that start when the user logs in. The function takes an optional parameter that specifies which operating system is being worked with. If the parameter isn't provided, the function defaults to Windows. The function will create the correct shortcut equivalent for each operating system type.
+
+        .PARAMETER OperatingSystem
+            Optional string parameter specifying the operating system to work with. If the parameter is not present, the default operating system of Windows is used. Note: Currently, only Windows works as the OS.
+
+        .RETURNS
+            [bool] Returns $true if the shortcut was created, otherwise $false.
+
+        .EXAMPLE
+            PS> New-CSShortcut
+            Assumes the operating system is Windows and creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .EXAMPLE
+            PS> New-CSShortcut -OperatingSystem "Windows"
+            Creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .NOTES
+            Author: David H. Watson
+            GitHub: @dEhiN
+            Date: 2026-06-20
+    #>
+    [CmdletBinding()]
+    param (
+        [string] $OperatingSystem
+    )
+
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
+    Write-Host "`nCreating the Windows startup shortcut link..."
+    Start-Sleep $Script:SleepTime
+
+
+    return $FuncRetValue
+}
+
+
 # Main script logic
 
 # Check if the current environment is production or not
@@ -155,8 +198,11 @@ $CSFolderSuccess = New-CSFolder
 # Install the required files
 $CSFilesSuccess = Install-CSFiles
 
+# Create the CompStart.ps1 shortcut link
+$CSShortcutSuccess = New-CSShortcut
+
 # Let the user know the results of the installation
-if ($CSFolderSuccess -and $CSFilesSuccess) {
+if ($CSFolderSuccess -and $CSFilesSuccess -and $CSShortcutSuccess) {
     Write-Host "`n...CompStart has been fully installed!"
 }
 else {
