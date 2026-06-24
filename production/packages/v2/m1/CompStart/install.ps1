@@ -174,9 +174,15 @@ function New-CSShortcut {
     # Set up the return flag variable
     $FuncRetValue = $false
 
-    Write-Host "`nCreating the Windows startup shortcut link..."
-    Start-Sleep $Script:SleepTime
+    # Specify which type of OS to work with:
+    # Windows = 1
+    $OSType = 1
 
+    if ($OSType -eq 1) {
+        Write-Host "`nCreating the Windows startup shortcut link..."
+        Start-Sleep $Script:SleepTime
+        $FuncRetValue = New-WindowsStartShortcut
+    }
 
     return $FuncRetValue
 }
