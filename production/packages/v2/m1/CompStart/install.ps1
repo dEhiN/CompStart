@@ -145,7 +145,7 @@ function New-CSShortcut {
             Creates a new shortcut or symlink for CompStart.ps1 in the OS's startup programs area.
 
         .DESCRIPTION
-            The New-CSShortcut function creates a new shortcut for CompStart.p1 and places it in the operating system's area for programs that start when the user logs in. The function takes an optional parameter that specifies which operating system is being worked with. If the parameter isn't provided, the function defaults to Windows. The function will create the correct shortcut equivalent for each operating system type.
+            The New-CSShortcut function creates a shortcut for CompStart.p1 and places it in the operating system's area for programs that start when the user logs in. The function takes an optional parameter that specifies which operating system is being worked with. If the parameter isn't provided, the function defaults to Windows. Helper functions are used to create the OS specific startup shortcuts.
 
         .PARAMETER OperatingSystem
             Optional string parameter specifying the operating system to work with. If the parameter is not present, the default operating system of Windows is used. Note: Currently, only Windows works as the OS.
