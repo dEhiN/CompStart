@@ -187,6 +187,38 @@ function New-CSShortcut {
     return $FuncRetValue
 }
 
+function New-WindowsStartShortcut {
+    <#
+        .SYNOPSIS
+            Creates a new Windows shortcut for CompStart.ps1 in the user's startup folder.
+
+        .DESCRIPTION
+            The New-WindowsStartShortcut function creates a Windows shortcut for CompStart.ps1 and stores it in the user's startup folder. Specifically, it is stored in the location that the Windows Run command "shell:startup" returns, which is usually the Startup folder for the user Start Menu.
+
+        .RETURNS
+            [bool] Returns $true if the shortcut was created, otherwise $false.
+
+        .EXAMPLE
+            PS> New-WindowsStartShortcut
+            Creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .NOTES
+            Author: David H. Watson
+            GitHub: @dEhiN
+            Date: 2026-06-24
+    #>
+
+    $StartupFolderPath = [System.Environment]::GetFolderPath('Startup')
+    if (-Not $StartupFolderPath) {
+        Write-Host "`nCannot determine the location of the Start folder..."
+        return $false
+    }
+    else {
+        
+    }
+
+}
+
 
 # Main script logic
 
