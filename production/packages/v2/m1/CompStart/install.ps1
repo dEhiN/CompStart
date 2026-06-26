@@ -4,9 +4,11 @@
 $Script:SleepTime = 2
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+$Script:WinStartupFolderPath = [System.Environment]::GetFolderPath('Startup')
 $Script:CSFolder = "CompStart"
 $Script:CSFullPath = ""
 $Script:CSShortcutName = "CompStart.lnk"
+$Script:CSShortcutTarget = "CompStart.bat"
 $Script:InstallerFolder = "installer-files"
 
 function New-CSFolder {
@@ -209,9 +211,8 @@ function New-WindowsStartShortcut {
             Date: 2026-06-24
     #>
 
-    # Get the user Windows startup folder
-    $StartupFolderPath = [System.Environment]::GetFolderPath('Startup')
-    if (-Not $StartupFolderPath) {
+    # Confirm the Windows Startup folder location exists
+    if (-Not $Script:WinStartupFolderPath) {
         # A startup folder doesn't exist, so not creating the shortcut
         Write-Host "`nCannot determine the location of the Start folder..."
         return $false
@@ -221,9 +222,15 @@ function New-WindowsStartShortcut {
     $WshShell = New-Object -ComObject WScript.Shell
 
     # Use the built-in method to create a shortcut
-    $CSWindowsShortcut = $WshShell.CreateShortcut($StartupFolderPath + $Script:OSSeparatorChar + $Script:CSShortcutName)
+    $CSWindowsShortcut = $WshShell.CreateShortcut($Script:WinStartupFolderPath + $Script:OSSeparatorChar + $Script:CSShortcutName)
 
-    Write-Host $CSWindowsShortcut
+    # Set the target path to CompStart.bat
+    $CSWindowsShortcut.TargetPath = $Script:CSFullPath + $Script:OSSeparatorChar + $Script:CSShortcutTarget
+
+    # Save or create the shortcut
+    $CSWindowsShortcut.Save()
+
+    return $true
 }
 
 
