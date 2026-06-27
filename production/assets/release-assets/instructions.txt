@@ -1,6 +1,5 @@
 Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
 
-
 Congratulations on downloading and unzipping the latest release of CompStart! You should see the following files and folders in the location you unzipped to:
 
 -> CompStart *PARENT FOLDER*
@@ -22,7 +21,7 @@ Congratulations on downloading and unzipping the latest release of CompStart! Yo
 -> CompStart\installer-files\schema\startup_item.schema.json
 
 
-Note: Because CompStart is primarily meant as an automation tool, everything is done using scripts and is text-based. This means all interactions with the tool rely only on text and simple menu prompts with set choices.
+NOTE: Because CompStart is primarily an automation tool, everything is done using scripts and is text-based. This means all interactions with the tool rely only on text and simple menu prompts with set choices.
 
 
 How to install CompStart:
@@ -31,18 +30,20 @@ There are two installer scripts - install.bat and install.ps1. To install CompSt
 
 CompStart is installed to the location C:\Users\<your username>\AppData\Local. For example, if your Windows profile or username is JohnDoe, then you will find the installation at C:\Users\JohnDoe\AppData\Local\CompStart. A shortcut to the CompStart.bat file is also created and placed in the Startup folder of your Start Menu.
 
-This ensures that when you first log in, CompStart is run. The shortcut that's created will run CompStart.bat from the installed CompStart folder. This, in turn, will run CompStart.ps1, the main script that does all the magic!
+This ensures that when you first log in, CompStart is run. The shortcut that is created will run CompStart.bat from the installed CompStart folder. This, in turn, will run CompStart.ps1, the main script that does all the magic!
 
 
-How to add, remove, or change the programs that run on startup via CompStart:
 
-Starting with release 0.1-beta, the tool CompStart.exe was added to assist with modifying the programs that the main CompStart script runs on login. The main script uses a configuration file that stores information about these programs. This information is referred to by the tool as startup data - the data that CompStart uses to know which programs to start up.
+How to add, remove, or change the programs that CompStart runs:
 
-When you run CompStart.exe, a text-based window will appear with a main menu of choices. The main menu leads to different sub menus that appear based on what choices you make. The main menu and the sub menus allow you to view the current startup data
+Starting with release 0.1-beta, the tool CompStart.exe was added to assist with modifying the programs that the main CompStart script runs on login. The main script uses a configuration file that stores information about these programs. This information is referred to by the tool as the startup data. Each specific program and its associated information is referred to by the tool as a startup item and consists of things like the name of the program, any arguments to give it on startup, etc.
+
+When you run CompStart.exe, a text-based window will appear with a main menu of choices. The main menu leads to different sub menus that appear based on what choices you make. The main menu and the sub menus allow you to view and change the startup data. This means you can add new programs, adjust any arguments the program is given, and delete programs.
+
+When the full CompStart tool is installed, it comes with some default startup data. The default startup data contains 3 startup items: Windows Calculator, Google Chrome set to open http://www.google.ca, and Windows Notepad. If you would like to test the main script, you can log out and in again, or you can run CompStart.bat from the installation location.
 
 
-Note: The default startup data that comes pre-added opens Windows Calculator, Chrome, and Windows Notepad. For Chrome, the sites Google, Facebook, and X (formerly known as Twitter) are opened in a new window. This can all be changed using the instructions for "How to modify the startup data file".
 
-If you have any difficulty with all of this, get in touch with me and I can assist you.
+NOTE: If you experience any difficulty, have any bugs to report, or have any suggestions for improvements, please go to https://github.com/dEhiN/CompStart/issues and create a new issue.
 
-dEhiN
+- The CompStart Team
