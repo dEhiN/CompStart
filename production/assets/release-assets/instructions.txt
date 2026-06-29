@@ -1,7 +1,9 @@
+Congratulations on downloading and unzipping the latest release of CompStart!
 Please make sure you downloaded this release from https://github.com/dEhiN/CompStart.
 
-Congratulations on downloading and unzipping the latest release of CompStart! You should see the following files and folders in the location you unzipped to:
+NOTE: Because CompStart is primarily an automation tool, everything is done using scripts and is text-based. This means all interactions with the tool rely only on text and simple menu prompts with set choices.
 
+You should see the following files and folders in the location you unzipped to:
 -> CompStart *PARENT FOLDER*
 -> CompStart\install.bat
 -> CompStart\install.ps1
@@ -21,12 +23,10 @@ Congratulations on downloading and unzipping the latest release of CompStart! Yo
 -> CompStart\installer-files\schema\startup_item.schema.json
 
 
-NOTE: Because CompStart is primarily an automation tool, everything is done using scripts and is text-based. This means all interactions with the tool rely only on text and simple menu prompts with set choices.
-
 
 How to install CompStart:
 
-There are two installer scripts - install.bat and install.ps1. To install CompStart, double click on and run install.bat. That will run install.ps1. You should then see a text-based window appear. The installer will set up CompStart and will print to the window what it is doing so you can follow along.
+There are two installer scripts - install.bat and install.ps1. To install CompStart, double click on and run install.bat. That will run install.ps1. You should then see a text-based window appear. The installer will set up CompStart and will display on the window what it is doing so you can follow along.
 
 CompStart is installed to the location C:\Users\<your username>\AppData\Local. For example, if your Windows profile or username is JohnDoe, then you will find the installation at C:\Users\JohnDoe\AppData\Local\CompStart. A shortcut to the CompStart.bat file is also created and placed in the Startup folder of your Start Menu.
 
@@ -36,9 +36,9 @@ This ensures that when you first log in, CompStart is run. The shortcut that is 
 
 How to add, remove, or change the programs that CompStart runs:
 
-Starting with release 0.1-beta, the tool CompStart.exe was added to assist with modifying the programs that the main CompStart script runs on login. The main script uses a configuration file that stores information about these programs. This information is referred to by the tool as the startup data. Each specific program and its associated information is referred to by the tool as a startup item and consists of things like the name of the program, any arguments to give it on startup, etc.
+Starting with release 0.1-beta, a supplementary tool CompStart.exe was added. Its purpose is to assist with modifying the programs that the main CompStart script runs after login. The main script uses a configuration file that stores information about these programs. This information is referred to by the tool as startup data. Each specific program and its associated information is referred to by the tool as a startup item and consists of things like the name of the program, any arguments to give it on startup, etc.
 
-When you run CompStart.exe, a text-based window will appear with a main menu of choices. The main menu leads to different sub menus that appear based on what choices you make. The main menu and the sub menus allow you to view and change the startup data. This means you can add new programs, adjust any arguments the program is given, and delete programs.
+When you run CompStart.exe, a text-based window will appear with a main menu of choices. The main menu leads to different sub menus that appear based on what choices you make. The main menu and the sub menus allow you to view and change the startup data. This means you can add new startup items, adjust the arguments passed to startup items, as well as delete startup items.
 
 When the full CompStart tool is installed, it comes with some default startup data. The default startup data contains 3 startup items: Windows Calculator, Google Chrome set to open http://www.google.ca, and Windows Notepad. If you would like to test the main script, you can log out and in again, or you can run CompStart.bat from the installation location.
 
