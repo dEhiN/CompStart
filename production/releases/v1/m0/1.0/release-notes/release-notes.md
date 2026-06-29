@@ -26,11 +26,12 @@ The following steps are suggested for downloading and installing this release:
     * Creation of a PowerShell installer script that installs **CompStart** to the user's local app data folder and creates a shortcut to `CompStart.bat` in the user's Start Menu startup folder.
 * Creation of a PowerShell script to deploy a release:
     * Gathering the full release number as input
-    * Creation of folders for the major and minor release numbers in both the `releases` and `packages` directories but only when needed.
-    * Creation of a full release folder in the `releases` directory when necessary.
+    * Creation of folders for the major and minor release numbers in both the `releases` and `packages` directories as needed.
+    * Creation of a full release folder in the `releases` directory if needed.
     * Copying of all the appropriate content from `development` to the full release folder.
-    * Copying of the appropriate content from `productions/assets` to the full release folder.
-    * Calling of the `PyInstaller` module to generate `CompStart.exe` and then removal of the build artifacts created during generation.
+    * Copying of the necessary content from `productions/assets` to the full release folder.
+    * Calling of the `PyInstaller` module to generate `CompStart.exe`.
+    * Removal of the build artifacts created during the generation of `CompStart.exe`.
     * Packaging up of the release content into a zip archive file and placing that file in the `production` directory release folder.
 * Restructuring of the **CompStart** folder and its contents that constitute a release package so that the installer scripts are separated from the content to be installed
 * Rewording of the content in the `instructions.txt` file to reflect the current state of **CompStart**.
@@ -69,7 +70,6 @@ The following steps are suggested for downloading and installing this release:
 * Merging branch::dEhiN/issue102 to branch::dEhiN/issue104 by @dEhiN in https://github.com/dEhiN/CompStart/pull/106
 * Merging branch::dEhiN/issue104 to branch:releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/107
 * Merging branch::dEhiN/issue101 to branch:qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/109
-
 
 **Release Commit Count:** 616
 
