@@ -4,10 +4,12 @@
 $Script:SleepTime = 2
 $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
+$Script:WinStartupFolderPath = [System.Environment]::GetFolderPath('Startup')
 $Script:CSFolder = "CompStart"
 $Script:CSFullPath = ""
+$Script:CSShortcutName = "CompStart.lnk"
+$Script:CSShortcutTarget = "CompStart.bat"
 $Script:InstallerFolder = "installer-files"
-$Script:FuncRetValue = $false
 
 function New-CSFolder {
     <#
@@ -41,6 +43,9 @@ function New-CSFolder {
         [string] $SuppliedPath
     )
 
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
     # Test the passed in parameter and use it if it's a valid path
     if ($SuppliedPath) {
         if (-Not (Test-Path -Path $SuppliedPath)) {
@@ -55,20 +60,21 @@ function New-CSFolder {
     $Script:CSFullPath = $Script:CSParentPath + $Script:OSSeparatorChar + $Script:CSFolder
 
     # Create the folder if need be
-    if (-Not (Test-Path $CSFullPath)) {
+    if (-Not (Test-Path $Script:CSFullPath)) {
         Write-Host "`nCreating CompStart folder..." -NoNewline
         Start-Sleep $Script:SleepTime
-        New-Item -Path $CSFullPath -ItemType "Directory" > $null
-        Write-Host "...folder successfully created at $CSFullPath"
-        $Script:FuncRetValue = $true
+        New-Item -Path $Script:CSFullPath -ItemType "Directory" > $null
+        Write-Host "...folder successfully created at $Script:CSFullPath"
+        $FuncRetValue = $true
     }
     else {
         Write-Host "`nExisting CompStart folder found at $CSFullPath..." -NoNewline
         Start-Sleep $Script:SleepTime
         Write-Host "...skipping this step"
+        $FuncRetValue = $true
     }
 
-    return $Script:FuncRetValue
+    return $FuncRetValue
 }
 
 function Install-CSFiles {
@@ -92,76 +98,141 @@ function Install-CSFiles {
             Date: 2024-12-28
     #>
 
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
+
     Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
 
     # Get a list of all the files to install
+    Write-Host "`nGenerating list of files and folders to install..."
+    Start-Sleep $Script:SleepTime
     $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
-    # Set the initial destination path
-    $DestPath = $Script:CSFullPath
- 
-    # Create the directory structure for the CompStart folder
-    Write-Host "`nCreating the folder directory structure..."
-    Start-Sleep $Script:SleepTime
-    foreach ($Item in $InstallerFilesList) {
-        if ($Item.PSIsContainer) {
-            $DestPath = $DestPath + $Script:OSSeparatorChar + $Item.Name
-            if (-Not (Test-Path $DestPath)) {
-                Write-Host "Creating $($Item.Name) folder..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                New-Item -Path $DestPath -ItemType "Directory" > $null
-                Write-Host "...folder successfully created at $DestPath"
-            }
-            else {
-                Write-Host "Existing $($Item.Name) folder found at $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Write-Host "...skipping this step"
-            }
+    # Before proceeding, confirm that there are files to install - in other words, that $InstallerFilesList isn't blank. If there aren't any files to install, remove the created "CompStart" folder if necessary, and exit the script.
+    if (-Not $InstallerFilesList) {
+        Write-Host "There is nothing to install..."
+        Start-Sleep $Script:SleepTime
+        Write-Host "Cleaning up any changes made by this script..."
+        Start-Sleep $Script:SleepTime
+        if (Test-Path $Script:CSFullPath) {
+            Remove-Item -Recurse -Path $Script:CSFullPath
+            Write-Host "Cleanup complete..."
         }
+        else {
+            Write-Host "No changes were made..."
+        }
+        Start-Sleep $Script:SleepTime
+        Write-Host "Exiting the script..."
+        Start-Sleep $Script:SleepTime
+    }
+    else {
+        # Set the initial destination path
+        $DestPath = $Script:CSFullPath
+
+        # Copy everything over in one go
+        Write-Host "`nSetting up files and folders..."
+        Start-Sleep $Script:SleepTime
+        Copy-Item -Recurse -Path "$InstallerFullPath\*" -Destination $DestPath -Force
+        $FuncRetValue = $true
     }
 
-    # Reset the destination path
-    $DestPath = $Script:CSFullPath
-
-    # Copy over all the files to the CompStart folder
-    Write-Host "`nCopying over the CompStart files..." -NoNewline
-    Start-Sleep $Script:SleepTime    
-    foreach ($Item in $InstallerFilesList) {
-        if (-not $Item.PSIsContainer) {
-            # Get the parent folder of the current item
-            $ItemPathArray = $Item.PSParentPath.Split("\")
-            $ItemParentFolder = $ItemPathArray[$ItemPathArray.Length - 1]
-
-            # Get the current (working) folder in the destination path
-            $DestPathArray = $DestPath.Split("\")
-            $DestCurrentFolder = $DestPathArray[$DestPathArray.Length - 1]
-
-            # Determine which situation is present to make sure the file is copied to the correct location
-            if ($ItemParentFolder -eq $Script:InstallerFolder) {
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-                $DestPath = $DestPath + $Script:OSSeparatorChar + $DestCurrentFolder
-            } 
-            elseif ($ItemParentFolder -eq $DestCurrentFolder) {
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-            }
-            else {
-                $DestPath = $DestPath + $Script:OSSeparatorChar + $ItemParentFolder
-                Write-Host "`nInstalling $($Item.Name) to $DestPath..." -NoNewline
-                Start-Sleep $Script:SleepTime
-                Copy-Item -Path $Item.FullName -Destination $DestPath -Force
-                Write-Host "...successfully installed $($Item.Name) to $DestPath"
-            }
-        }
-    }
+    return $FuncRetValue
 }
+
+function New-CSShortcut {
+    <#
+        .SYNOPSIS
+            Creates a new shortcut or symlink for CompStart.ps1 in the OS's startup programs area.
+
+        .DESCRIPTION
+            The New-CSShortcut function creates a shortcut for CompStart.p1 and places it in the operating system's area for programs that start when the user logs in. The function takes an optional parameter that specifies which operating system is being worked with. If the parameter isn't provided, the function defaults to Windows. Helper functions are used to create the OS specific startup shortcuts.
+
+        .PARAMETER OperatingSystem
+            Optional string parameter specifying the operating system to work with. If the parameter is not present, the default operating system of Windows is used. Note: Currently, only Windows works as the OS.
+
+        .RETURNS
+            [bool] Returns $true if the shortcut was created, otherwise $false.
+
+        .EXAMPLE
+            PS> New-CSShortcut
+            Assumes the operating system is Windows and creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .EXAMPLE
+            PS> New-CSShortcut -OperatingSystem "Windows"
+            Creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .NOTES
+            Author: David H. Watson
+            GitHub: @dEhiN
+            Date: 2026-06-20
+    #>
+    [CmdletBinding()]
+    param (
+        [string] $OperatingSystem
+    )
+
+    # Set up the return flag variable
+    $FuncRetValue = $false
+
+    # Specify which type of OS to work with:
+    # Windows = 1
+    $OSType = 1
+
+    if ($OSType -eq 1) {
+        Write-Host "`nCreating the Windows startup shortcut link..."
+        Start-Sleep $Script:SleepTime
+        $FuncRetValue = New-WindowsStartShortcut
+    }
+
+    return $FuncRetValue
+}
+
+function New-WindowsStartShortcut {
+    <#
+        .SYNOPSIS
+            Creates a new Windows shortcut for CompStart.ps1 in the user's startup folder.
+
+        .DESCRIPTION
+            The New-WindowsStartShortcut function creates a Windows shortcut for CompStart.ps1 and stores it in the user's startup folder. Specifically, it is stored in the location that the Windows Run command "shell:startup" returns, which is usually the Startup folder for the user Start Menu.
+
+        .RETURNS
+            [bool] Returns $true if the shortcut was created, otherwise $false.
+
+        .EXAMPLE
+            PS> New-WindowsStartShortcut
+            Creates a link to CompStart.ps1 in C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+        .NOTES
+            Author: David H. Watson
+            GitHub: @dEhiN
+            Date: 2026-06-24
+    #>
+
+    # Confirm the Windows Startup folder location exists
+    if (-Not $Script:WinStartupFolderPath) {
+        # A startup folder doesn't exist, so not creating the shortcut
+        Write-Host "`nCannot determine the location of the Start folder..."
+        return $false
+    }
+
+    # Create the COM Object to use for generating the shortcut
+    $WshShell = New-Object -ComObject WScript.Shell
+
+    # Use the built-in method to create a shortcut
+    $CSWindowsShortcut = $WshShell.CreateShortcut($Script:WinStartupFolderPath + $Script:OSSeparatorChar + $Script:CSShortcutName)
+
+    # Set the target path to CompStart.bat
+    $CSWindowsShortcut.TargetPath = $Script:CSFullPath + $Script:OSSeparatorChar + $Script:CSShortcutTarget
+
+    # Save or create the shortcut
+    $CSWindowsShortcut.Save()
+
+    return $true
+}
+
 
 # Main script logic
 
@@ -174,7 +245,23 @@ if ($IsProdEnv) {
 }
 
 # Create the CompStart folder if required
-New-CSFolder > $null
+$CSFolderSuccess = New-CSFolder
 
 # Install the required files
-Install-CSFiles  > $null
+$CSFilesSuccess = Install-CSFiles
+
+# Create the CompStart.ps1 shortcut link
+$CSShortcutSuccess = New-CSShortcut
+
+# Let the user know the results of the installation
+if ($CSFolderSuccess -and $CSFilesSuccess -and $CSShortcutSuccess) {
+    Write-Host "`n...CompStart has been fully installed!"
+}
+else {
+    Write-Host "`n...The installation failed!`nPlease contact the developer team at https://github.com/dEhiN/CompStart/ and let them know of any errors that occurred."
+}
+
+# Wait for the user to quit the script
+Start-Sleep $Script:SleepTime
+Write-Host "Please press any key to exit this script..." -NoNewline
+$Host.UI.ReadLine()
