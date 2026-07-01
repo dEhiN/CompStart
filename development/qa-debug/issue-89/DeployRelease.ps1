@@ -961,7 +961,7 @@ function Start-ReleaseProcess {
 
     # Function variables
     $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
-    $UserOptions = @("1", "2", "3", "4", "5", "Q")
+    $UserOptions = @("1", "2", "3", "4", "5", "6", "Q")
     $ChoiceFullRelease = 1
     $ChoiceSetReleaseFolder = 2
     $ChoiceInvokePythonTool = 3
@@ -999,31 +999,31 @@ function Start-ReleaseProcess {
             }
         } while ($InnerLoopTrue -eq $True)
 
-        # Set the release details if they are not already set or if the user chooses to change them
+        # Set the release details if they are not already set or if the user chooses to change them - menu option 6
         if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
             Get-ReleaseDetails
             Update-AllPaths
         }
 
-        # Task 1
+        # Menu Options 1 or 2
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
             Set-ReleaseFolderStructure
             Set-ProjectRoot > $null
         }
 
-        # Task 2
+        # Menu Options 1 or 3
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
             Invoke-PythonTool
             Set-ProjectRoot > $null
         }
 
-        # Task 3
+        # Menu Options 1 or 4
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
             Copy-ReleaseContents
             Set-ProjectRoot > $null
         }
 
-        # Task 4
+        # Menu Options 1 or 5
         if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
             New-ReleasePackage
             Set-ProjectRoot > $null
