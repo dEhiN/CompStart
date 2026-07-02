@@ -1004,7 +1004,7 @@ function Start-ReleaseProcess {
 
         # Determine which menu option the user chose and call the necessary function(s)
         switch ($UserChoice) {
-            # Set the release details if they are not already set or the user chose menu option 6
+            # The user chose menu option 6 or the release details have not been set
             { $_ -eq $ChoiceChangeReleaseDetails -or (-Not $Script:ReleaseDetails.FullVersion) } {
                 Get-ReleaseDetails
                 Update-AllPaths
