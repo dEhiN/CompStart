@@ -999,34 +999,40 @@ function Start-ReleaseProcess {
             }
         } while ($InnerLoopTrue -eq $True)
 
-        # Set the release details if they are not already set or if the user chooses to change them - menu option 6
-        if ((-Not $Script:ReleaseDetails.FullVersion) -or ($UserChoice -eq $ChoiceChangeReleaseDetails)) {
-            Get-ReleaseDetails
-            Update-AllPaths
-        }
+        # Boolean variable to handle menu option 1 by allowing the switch conditions to "fall-through"
+        $FallThrough = $false
 
-        # Menu Options 1 or 2
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceSetReleaseFolder)) {
-            Set-ReleaseFolderStructure
-            Set-ProjectRoot > $null
-        }
-
-        # Menu Options 1 or 3
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceInvokePythonTool)) {
-            Invoke-PythonTool
-            Set-ProjectRoot > $null
-        }
-
-        # Menu Options 1 or 4
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceCopyReleaseContents)) {
-            Copy-ReleaseContents
-            Set-ProjectRoot > $null
-        }
-
-        # Menu Options 1 or 5
-        if (($UserChoice -eq $ChoiceFullRelease) -or ($UserChoice -eq $ChoiceNewReleasePackage)) {
-            New-ReleasePackage
-            Set-ProjectRoot > $null
+        # Determine which menu option the user chose and call the necessary function(s)
+        switch ($UserChoice) {
+            # Set the release details if they are not already set or the user chose menu option 6
+            { $_ -eq $ChoiceChangeReleaseDetails -or (-Not $Script:ReleaseDetails.FullVersion) } {
+                Get-ReleaseDetails
+                Update-AllPaths
+            }
+            # The user chose menu option 1
+            $ChoiceFullRelease { 
+                $FallThrough = $true
+            }
+            # The user chose either menu option 2 or 1
+            { $_ -eq $ChoiceSetReleaseFolder -or $FallThrough } {
+                Set-ReleaseFolderStructure
+                Set-ProjectRoot > $null
+            }
+            # The user chose either menu option 3 or 1
+            { $_ -eq $ChoiceInvokePythonTool -or $FallThrough } {
+                Invoke-PythonTool
+                Set-ProjectRoot > $null
+            }
+            # The user chose either menu option 4 or 1
+            { $_ -eq $ChoiceCopyReleaseContents -or $FallThrough } {
+                Copy-ReleaseContents
+                Set-ProjectRoot > $null
+            }
+            # The user chose either menu option 5 or 1
+            { $_ -eq $ChoiceNewReleasePackage -or $FallThrough } {
+                New-ReleasePackage
+                Set-ProjectRoot > $null
+            }
         }
     } while ($UserPrompt -ne $ChoiceQuit)
 }
