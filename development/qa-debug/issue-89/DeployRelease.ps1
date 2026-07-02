@@ -623,10 +623,10 @@ function New-ReleasePackage {
     # Check if the release folder has the necessary folders and files
     if (-Not (Test-Path $ReleaseCSFolderPath)) {
         Write-Host "`nThe release folder $($Script:AllPaths.ReleaseFullFolder) is missing necessary folders and files...`nPlease choose options 3 (if necessary) and 4 from the main menu first..."
-        Exit
+        return
     }
 
-    # Also check if the packages folder exists
+    # Also check if the package folder exists
     if (-Not (Test-Path $PackageFullPath)) {
         Write-Host "`nThe package folder $PackageFullPath does not exist...`nPlease choose option 2 from the main menu first..."
         return
@@ -960,7 +960,7 @@ function Start-ReleaseProcess {
     #>
 
     # Function variables
-    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Copy the contents needed for a release over to the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
+    $UserMenu = "`nPlease choose one of the following:`n[1] Start the full release process`n[2] Set up the release folder structure`n[3] Generate the Python executable`n[4] Populate the release folder`n[5] Create a release package`n[6] Change the release details`n[Q] Quit`n`nWhat would you like to do? "
     $UserOptions = @("1", "2", "3", "4", "5", "6", "Q")
     $ChoiceFullRelease = 1
     $ChoiceSetReleaseFolder = 2
