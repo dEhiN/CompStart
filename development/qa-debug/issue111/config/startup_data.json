@@ -3,12 +3,14 @@
   "Items": [
     {
       "ItemNumber": 1,
-      "Name": "Calculator",
-      "FilePath": "calc",
-      "Description": "A simple calculator",
+      "Name": "VS Code",
+      "FilePath": "C:\\Users\\David\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+      "Description": "Launch VS Code with the CompStart workspace",
       "Browser": false,
-      "ArgumentCount": 0,
-      "ArgumentList": []
+      "ArgumentCount": 1,
+      "ArgumentList": [
+        "D:\\DevProj_paa\\vscode\\workspaces\\CBCDiploma--FSWAD.code-workspace"
+      ]
     }
   ]
 }
