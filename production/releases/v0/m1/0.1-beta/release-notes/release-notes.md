@@ -1,8 +1,10 @@
-## Release Title
+# Release Details
+
+## Title
 
 **CompStart-0.1-beta** _(Second Unofficial Release)_
 
-## Release Version
+## Version
 
 **0.1-beta**
 
@@ -22,6 +24,31 @@ The following steps are suggested for downloading and installing this release:
 4. After unzipping the archive package, read the _instructions.txt_ file for manual installation instructions.
 
 Note: A recommended folder to extract the package to is _AppData\\Local_ within the local Windows profile. For example, if the Windows profile is named _Example_, the full path would be _C:\\Users\\Example\\AppData\\Local_.
+<hr>
+
+# Release Changes
+
+**Release Commit Count**: 638
+
+**Full Changelog**: [CompStart-0.1-beta](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-alpha...CompStart-0.1-beta)
+
+## Issues Addressed
+
+* #4
+* #5
+* #13
+* #14
+* #20
+* #21
+* #22
+* #25
+* #26
+* #31
+* #33
+* #36
+* #38
+* #42
+* #43
 
 ## What's Changed
 
@@ -59,14 +86,9 @@ Note: A recommended folder to extract the package to is _AppData\\Local_ within 
 * Merging branch::features/startup_data_modifier_tool to branch:main by @dEhiN in https://github.com/dEhiN/CompStart/pull/41
 * Merging branch::dEhiN/issue43 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/48
 * Update branch::releases for release::CompStart-1.1-beta by @dEhiN in https://github.com/dEhiN/CompStart/pull/49
+<hr>
 
-**Release Commit Count**: 638
-
-**Full Changelog**: [CompStart-0.1-beta](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-alpha...CompStart-0.1-beta)
-
-___
-
-## Historical Versioning Note:
+# Historical Versioning Note:
 
 This release was originally developed under the versioning pattern _1.1_ (labeled as _CompStart-1.1-beta_). Consequently, commit messages within this range reference version _1.1_. In March 2026, the project's versioning schema was retroactively adjusted to _0.1_ for all pre-releases to ensure a clean transition to the official _1.0_ launch.
 

@@ -1,8 +1,10 @@
-## Release Title
+# Release Details
+
+## Title
 
 **CompStart-0.1-alpha** _(First Unofficial Release)_
 
-## Release Version
+## Version
 
 **0.1-alpha**
 
@@ -22,14 +24,13 @@ The following steps are suggested for downloading and installing this release:
 4. After unzipping the archive package, read the _instructions.txt_ file for manual installation instructions.
 
 Note: A recommended folder to extract the package to is _AppData\\Local_ within the local Windows profile. For example, if the Windows profile is named _Example_, the full path would be _C:\\Users\\Example\\AppData\\Local_.
+<hr>
 
-## What's Changed
+# Release Changes
 
-* Initial creation of _CompStart_ by @dEhiN in [ebf6152](https://github.com/dEhiN/CompStart/commit/ebf615262a6ff46e48cb539e626c68b5677de018).
-* Refactoring of initial startup `PowerShell` script from hardcoded data to variable data.
-* Creation of a `JSON` configuration schema to store user startup data.
-* Creation of a `JSON` data file based on the schema with default values.
-* Updating of startup `PowerShell` script to utilise the JSON config file.
+**Release Commit Count**: 210
+
+**Full Changelog**: [CompStart-0.1-alpha](https://github.com/dEhiN/CompStart/commits/CompStart-0.1-alpha)
 
 ## Issues Addressed
 
@@ -44,11 +45,14 @@ Note: A recommended folder to extract the package to is _AppData\\Local_ within 
 * #17
 * #19
 
-**Release Commit Count**: 210
+## What's Changed
 
-**Full Changelog**: [CompStart-0.1-alpha](https://github.com/dEhiN/CompStart/commits/CompStart-0.1-alpha)
-
-___
+* Initial creation of _CompStart_ by @dEhiN in [ebf6152](https://github.com/dEhiN/CompStart/commit/ebf615262a6ff46e48cb539e626c68b5677de018).
+* Refactoring of initial startup `PowerShell` script from hardcoded data to variable data.
+* Creation of a `JSON` configuration schema to store user startup data.
+* Creation of a `JSON` data file based on the schema with default values.
+* Updating of startup `PowerShell` script to utilise the JSON config file.
+<hr>
 
 ## Historical Versioning Note:
 

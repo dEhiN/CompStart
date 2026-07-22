@@ -1,8 +1,10 @@
-## Release Title
+# Release Details 
+
+## Title
 
 **CompStart-1.0**
 
-## Release Version
+## Version
 
 **1.0**
 
@@ -18,6 +20,44 @@ The following steps are suggested for downloading and installing this release:
 2. Next, download the release package by clicking on the **Release Tag** link above
 3. Unzip the release package to a folder of your choice
 4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions
+<hr>
+
+# Release Changes
+
+**Release Commit Count:** 616
+
+**Full Changelog:** [CompStart-1.0](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
+
+## Issues Addressed
+
+* #2
+* #10
+* #11
+* #18
+* #24
+* #28
+* #45
+* #46
+* #47
+* #50
+* #52
+* #53
+* #56
+* #64
+* #65
+* #66
+* #70
+* #75
+* #78
+* #80
+* #82
+* #84
+* #93
+* #97
+* #98
+* #100
+* #101
+* #102
 
 ## What's Changed
 
@@ -69,7 +109,3 @@ The following steps are suggested for downloading and installing this release:
 * Merging branch::dEhiN/issue102 to branch::dEhiN/issue104 by @dEhiN in https://github.com/dEhiN/CompStart/pull/106
 * Merging branch::dEhiN/issue104 to branch:releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/107
 * Merging branch::dEhiN/issue101 to branch:qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/109
-
-**Release Commit Count:** 616
-
-**Full Changelog:** [CompStart-1.0](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
