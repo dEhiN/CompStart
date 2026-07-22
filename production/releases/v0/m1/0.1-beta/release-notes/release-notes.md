@@ -44,7 +44,6 @@ Note: A recommended folder to extract the package to is _AppData\\Local_ within 
    * Use of the Python module `TKinter` to develop a GUI replacement for the CLI tool.
 * Creation of a new `JSON` configuration schema for the purpose of validating the `JSON` data files.
 * Standardization of the file naming convention for the startup scripts and the CLI tool to reflect proper branding.
-* Finalization of the _0.1-beta_ release at commit [e9cbf10](https://github.com/dEhiN/CompStart/commit/e9cbf10beb1a573696d647f6212fedc8229845e5).
 
 ## Detailed Pull Request History
 

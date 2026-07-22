@@ -30,7 +30,6 @@ Note: A recommended folder to extract the package to is _AppData\\Local_ within 
 * Creation of a `JSON` configuration schema to store user startup data.
 * Creation of a `JSON` data file based on the schema with default values.
 * Updating of startup `PowerShell` script to utilise the JSON config file.
-* Finalization of the _0.1-alpha_ release at commit [2eb913c](https://github.com/dEhiN/CompStart/commit/2eb913c7c9bd763e31743eac1973e233b2e2b7da).
 
 **Release Commit Count**: 210
 

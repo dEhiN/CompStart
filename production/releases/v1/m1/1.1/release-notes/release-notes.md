@@ -21,10 +21,10 @@ The following steps are suggested for downloading and installing this release:
 
 ## What's Changed
 
-* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues
-* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file
-* Resolution of bug issues #56, #89, and #111
-* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111)
+* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues.
+* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file.
+* Resolution of bug issues #56, #89, and #111.
+* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111).
 
 ## Detailed Pull Request History
 
