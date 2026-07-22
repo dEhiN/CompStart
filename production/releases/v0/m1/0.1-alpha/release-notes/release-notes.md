@@ -31,6 +31,19 @@ Note: A recommended folder to extract the package to is _AppData\\Local_ within 
 * Creation of a `JSON` data file based on the schema with default values.
 * Updating of startup `PowerShell` script to utilise the JSON config file.
 
+## Issues Addressed
+
+* #3
+* #6
+* #7
+* #8
+* #9
+* #12
+* #15
+* #16
+* #17
+* #19
+
 **Release Commit Count**: 210
 
 **Full Changelog**: [CompStart-0.1-alpha](https://github.com/dEhiN/CompStart/commits/CompStart-0.1-alpha)
