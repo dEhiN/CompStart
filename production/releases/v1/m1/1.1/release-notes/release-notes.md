@@ -1,22 +1,14 @@
-_**Instructions:** Copy-paste the following format to use as a release's release notes on GitHub. All text in italics are instructions for what to fill out._
-
-<hr>
-
 ## Release Title
 
-_Title of Release_
-
-_Note: This will generally be **CompStart** followed by a hyphen and then the release version._
+CompStart-1.1
 
 ## Release Version
 
-_Full version number for Release_
+1.1
 
 ## Description
 
-_Description of release_
-
-_Note: If unsure of what to write, copy the release description from the previous release and modify as needed._
+Minor fix to the `CompStart.ps1` script (see below).
 
 ## Installation Notes
 
@@ -29,15 +21,17 @@ The following steps are suggested for downloading and installing this release:
 
 ## What's Changed
 
-_Write out all major changes to the tool since the last release in the form of a list._
-
-_Note: If unsure of what to write, see the previous release for an example._
-
+* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues
+* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file
+* Resolution of bug issues #56, #89, and #111
+* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111)
 
 ## Detailed Pull Request History
 
-_Use GitHub to automatically generate a summary of changes since the last release; this will be generated as a list of pull requests._
+* Merging branch::dEhiN/issue90 to branch:main by @dEhiN in https://github.com/dEhiN/CompStart/pull/110
+* Merging branch::debug/issue111 to branch:qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/115
+* Merging branch::release/issue116 to branch:releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/117
 
-**Commit count:** _Number of commits since last release_
+**Commit count:** 49
 
-**Full Changelog:** [_Title of Release_] (https://github.com/dEhiN/CompStart/compare/_\<previous-release-version\>_.._\<current-release-version\>_)
+**Full Changelog**: [CompStart-1.1](https://github.com/dEhiN/CompStart/compare/CompStart-1.0...CompStart-1.1)

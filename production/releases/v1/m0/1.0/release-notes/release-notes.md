@@ -38,7 +38,6 @@ The following steps are suggested for downloading and installing this release:
 
 ## Detailed Pull Request History
 
-## What's Changed
 * Merging branch::dEhiN/issue50 to branch::releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/51
 * Merging branch::dEhiN/issue2 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/54
 * Merging branch::dEhiN/issue45 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/55
@@ -73,4 +72,4 @@ The following steps are suggested for downloading and installing this release:
 
 **Release Commit Count:** 616
 
-**Full Changelog:** [CompStart-1.0] (https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
+**Full Changelog:** [CompStart-1.0](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
