@@ -1,5 +1,12 @@
 # CompStart Changelog
 
+## CompStart-1.1
+
+- Release date: 2026-07-22
+- Fixed bug issues #56, #89, and #111
+- Fixed the `CompStart.ps1` script to properly open programs like _Visual Studio Code_
+- For the full list of release commits: <a href=https://github.com/dEhiN/CompStart/compare/CompStart-1.0...CompStart-1.1>CompStart-1.1</a>
+
 ## CompStart-1.0
 
 - Release date: 2026-06-29
