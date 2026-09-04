@@ -1,16 +1,24 @@
-# Release Details 
+# Release Details
 
 ## Title
 
-**CompStart-1.0**
+**CompStart-1.0** _(First Official Release)_
 
 ## Version
 
 **1.0**
 
+## Production Date
+
+June 29, 2026
+
 ## Description
 
 This is the first official release of **CompStart**. It includes a PowerShell installer script.
+<hr>
+<hr>
+
+# Release Notes
 
 ## Installation Notes
 
@@ -19,14 +27,34 @@ The following steps are suggested for downloading and installing this release:
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart)
 2. Next, download the release package by clicking on the **Release Tag** link above
 3. Unzip the release package to a folder of your choice
-4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions
+4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
+<hr>
 <hr>
 
 # Release Changes
 
+## Commit Details
+
 **Release Commit Count:** 616
 
 **Full Changelog:** [CompStart-1.0](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
+
+##  Changes Summary
+
+* Formalizing the following experimental functionality into proper features:
+    * Use of the Python module `PyInstaller` to generate an executable file for the Python CLI tool `CompStart.py`.
+    * Creation of a PowerShell installer script that installs **CompStart** to the user's local app data folder and creates a shortcut to `CompStart.bat` in the user's Start Menu startup folder.
+* Creation of a PowerShell script to deploy a release:
+    * Gathering the full release number as input.
+    * Creation of folders for the major and minor release numbers in both the `releases` and `packages` directories as needed.
+    * Creation of a full release folder in the `releases` directory if needed.
+    * Copying of all the appropriate content from `development` to the full release folder.
+    * Copying of the necessary content from `productions/assets` to the full release folder.
+    * Calling of the `PyInstaller` module to generate `CompStart.exe`.
+    * Removal of the build artifacts created during the generation of `CompStart.exe`.
+    * Packaging up of the release content into a zip archive file and placing that file in the `production` directory release folder.
+* Restructuring of the **CompStart** folder and its contents that constitute a release package so that the installer scripts are separated from the content to be installed.
+* Rewording of the content in the `instructions.txt` file to reflect the current state of **CompStart**.
 
 ## Issues Addressed
 
@@ -58,23 +86,6 @@ The following steps are suggested for downloading and installing this release:
 * #100
 * #101
 * #102
-
-## What's Changed
-
-* Formalizing the following experimental functionality into proper features:
-    * Use of the Python module `PyInstaller` to generate an executable file for the Python CLI tool `CompStart.py`.
-    * Creation of a PowerShell installer script that installs **CompStart** to the user's local app data folder and creates a shortcut to `CompStart.bat` in the user's Start Menu startup folder.
-* Creation of a PowerShell script to deploy a release:
-    * Gathering the full release number as input.
-    * Creation of folders for the major and minor release numbers in both the `releases` and `packages` directories as needed.
-    * Creation of a full release folder in the `releases` directory if needed.
-    * Copying of all the appropriate content from `development` to the full release folder.
-    * Copying of the necessary content from `productions/assets` to the full release folder.
-    * Calling of the `PyInstaller` module to generate `CompStart.exe`.
-    * Removal of the build artifacts created during the generation of `CompStart.exe`.
-    * Packaging up of the release content into a zip archive file and placing that file in the `production` directory release folder.
-* Restructuring of the **CompStart** folder and its contents that constitute a release package so that the installer scripts are separated from the content to be installed.
-* Rewording of the content in the `instructions.txt` file to reflect the current state of **CompStart**.
 
 ## Detailed Pull Request History
 
