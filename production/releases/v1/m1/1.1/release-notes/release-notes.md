@@ -2,15 +2,23 @@
 
 ## Title
 
-CompStart-1.1
+**CompStart-1.1**
 
 ## Version
 
-1.1
+**1.1**
+
+## Production Date
+
+July 22, 2026
 
 ## Description
 
 Minor fix to the `CompStart.ps1` script (see below).
+<hr>
+<hr>
+
+# Release Notes
 
 ## Installation Notes
 
@@ -19,14 +27,24 @@ The following steps are suggested for downloading and installing this release:
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart)
 2. Next, download the release package by clicking on the **Release Tag** link above
 3. Unzip the release package to a folder of your choice
-4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions
+4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
+<hr>
 <hr>
 
 # Release Changes
 
-**Commit count:** 49
+## Commit Details
+
+**Release Commit Count:** 49
 
 **Full Changelog**: [CompStart-1.1](https://github.com/dEhiN/CompStart/compare/CompStart-1.0...CompStart-1.1)
+
+##  Changes Summary
+
+* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues.
+* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file.
+* Resolution of bug issues #56, #89, and #111.
+* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111).
 
 ## Issues Addressed
 
@@ -35,13 +53,6 @@ The following steps are suggested for downloading and installing this release:
 * #90
 * #104
 * #111
-
-## What's Changed
-
-* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues.
-* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file.
-* Resolution of bug issues #56, #89, and #111.
-* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111).
 
 ## Detailed Pull Request History
 
