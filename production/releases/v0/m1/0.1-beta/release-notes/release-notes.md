@@ -45,7 +45,7 @@ This release was originally developed under the versioning pattern _1.1_ (labele
 
 ## Commit Details
 
-**Release Commit Count**: 638
+**Commit Count**: 638
 
 **Full Changelog**: [CompStart-0.1-beta](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-alpha...CompStart-0.1-beta)
 

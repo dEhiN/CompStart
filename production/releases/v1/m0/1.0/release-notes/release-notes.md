@@ -35,7 +35,7 @@ The following steps are suggested for downloading and installing this release:
 
 ## Commit Details
 
-**Release Commit Count:** 616
+**Commit Count:** 616
 
 **Full Changelog:** [CompStart-1.0](https://github.com/dEhiN/CompStart/compare/CompStart-0.1-beta...CompStart-1.0)
 
