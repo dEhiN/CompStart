@@ -20,7 +20,7 @@ _Note: If the release is modified and then re-released, add the original date as
 
 ## Description
 
-_Description of release_
+_Description of Release_
 
 _Note: If unsure of what to write, copy the release description from the previous release and modify as needed._
 <hr>
