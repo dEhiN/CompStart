@@ -40,11 +40,12 @@ function Start-StartupItem {
         [string]$ArgumentsList = $null
     )
 
-    if (-Not ($ArgumentsList)) {
-        $ArgumentsList = ""
+    if ($ArgumentsList) {
+        Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
     }
-
-    Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
+    else {
+        Start-Process -FilePath $ProgramPath > $null
+    }
 }
 
 function Get-StartupItem {
@@ -134,6 +135,9 @@ do {
         foreach ($StartupItem in $StartupData) {
             Get-StartupItem $StartupItem
         }
+        
+        #Write-Host "Please press any key to exit this script..." -NoNewline
+        #$Host.UI.ReadLine()
     }
     elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 

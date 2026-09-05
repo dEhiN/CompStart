@@ -34,10 +34,10 @@ _Note: These are the current standard installation notes. They can be modified a
 
 The following steps are suggested for downloading and installing this release:
 
-1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart)
-2. Next, download the release package by clicking on the **Release Tag** link above
-3. Unzip the release package to a folder of your choice
-4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions
+1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
+2. Next, download the release package _\<release package artifact name\>_ from the Assets section below.
+3. Unzip the release package to a folder of your choice.
+4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
 
 ## Other Notes
 

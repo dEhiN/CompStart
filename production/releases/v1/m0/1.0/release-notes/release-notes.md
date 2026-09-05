@@ -24,9 +24,9 @@ This is the first official release of **CompStart**. It includes a PowerShell in
 
 The following steps are suggested for downloading and installing this release:
 
-1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart)
-2. Next, download the release package by clicking on the **Release Tag** link above
-3. Unzip the release package to a folder of your choice
+1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
+2. Next, download the release package _CompStart-1.0.zip_ from the Assets section below.
+3. Unzip the release package to a folder of your choice.
 4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
 <hr>
 <hr>
