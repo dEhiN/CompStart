@@ -26,8 +26,8 @@
         {
             "ItemNumber": 3,
             "Name": "Notepad",
-            "FilePath": "notepad",
-            "Description": "A text editor",
+            "FilePath": "C:\\Windows\\system32\\notepad.exe",
+            "Description": "The built-in Windows text editor",
             "Browser": false,
             "ArgumentCount": 0,
             "ArgumentList": []
