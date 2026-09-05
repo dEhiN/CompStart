@@ -40,11 +40,12 @@ function Start-StartupItem {
         [string]$ArgumentsList = $null
     )
 
-    if (-Not ($ArgumentsList)) {
-        $ArgumentsList = ""
+    if ($ArgumentsList) {
+        Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
     }
-
-    Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
+    else {
+        Start-Process -FilePath $ProgramPath > $null
+    }
 }
 
 function Get-StartupItem {
