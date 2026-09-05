@@ -29,7 +29,7 @@ _Note: Currently, **CompStart** will need to be manually installed._
 The following steps are suggested for downloading and installing this release:
 
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
-2. Next, download the release package by clicking on the **Release Tag** link above.
+2. Next, download the release package _CompStart-0.1-beta.zip_ from the Assets section below.
 3. Unzip the release package to a folder of your choice.
 4. After unzipping the archive package, read the _instructions.txt_ file for manual installation instructions.
 
