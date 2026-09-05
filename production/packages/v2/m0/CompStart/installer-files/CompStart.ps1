@@ -134,6 +134,9 @@ do {
         foreach ($StartupItem in $StartupData) {
             Get-StartupItem $StartupItem
         }
+
+        Write-Host "Please press any key to exit this script..." -NoNewline
+        $Host.UI.ReadLine()
     }
     elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
