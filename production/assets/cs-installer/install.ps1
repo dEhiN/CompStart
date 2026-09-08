@@ -141,7 +141,9 @@ function Install-CSFiles {
         Write-Host "`nSetting up files and folders..."
         Start-Sleep $Script:SleepTime
 
-        if (Test-Path $DestPath) {
+        $ExistingFilesList = Get-ChildItem -Recurse $DestPath
+
+        if (Test-Path $ExistingFilesList) {
             Write-Host "`nFound an existing installation..."
             Start-Sleep $Script:SleepTime
             Write-Host "`nOverwriting existing files..."
@@ -154,7 +156,7 @@ function Install-CSFiles {
 
         Copy-Item -Recurse -Path "$InstallerFullPath\*" -Destination $DestPath -Force
 
-        if (Test-Path $DestPath) {
+        if (Test-Path $ExistingFilesList) {
             $ExistingStartupFile = $Script:CurrLocation + $Script:OSSeparatorChar + $Script:CSStartupFile
             $DestPath = $DestPath + $Script:OSSeparatorChar + $Script:CSConfigFolder
             Copy-Item -Path $ExistingStartupFile -Destination $DestPath
