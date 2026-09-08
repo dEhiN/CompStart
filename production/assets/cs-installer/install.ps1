@@ -149,6 +149,7 @@ function Install-CSFiles {
             Write-Host "`nOverwriting existing files..."
             Start-Sleep $Script:SleepTime
             Write-Host "`nKeeping the existing startup data file..."
+            Start-Sleep $Script:SleepTime
 
             $ExistingStartupFile = $DestPath + $Script:OSSeparatorChar + $Script:CSConfigFolder + $Script:OSSeparatorChar + $Script:CSStartupFile
             Copy-Item -Path $ExistingStartupFile -Destination $Script:CurrLocation
