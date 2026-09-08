@@ -6,10 +6,13 @@ $Script:OSSeparatorChar = [System.IO.Path]::DirectorySeparatorChar
 $Script:CSParentPath = [System.Environment]::GetFolderPath('LocalApplicationData')
 $Script:WinStartupFolderPath = [System.Environment]::GetFolderPath('Startup')
 $Script:CSFolder = "CompStart"
+$Script:CSConfigFolder = "config"
+$Script:CSStartupFile = "startup_data.json"
 $Script:CSFullPath = ""
 $Script:CSShortcutName = "CompStart.lnk"
 $Script:CSShortcutTarget = "CompStart.bat"
 $Script:InstallerFolder = "installer-files"
+$Script:CurrLocation = $PSScriptRoot
 
 function New-CSFolder {
     <#
@@ -83,7 +86,7 @@ function Install-CSFiles {
             Installs the files required for CompStart.
 
         .DESCRIPTION
-            The Install-CSFiles function installs the files required for CompStart. The files are copied from the installer-files folder to the CompStart folder. If the files already exist in the CompStart folder, they will be overwritten.
+            The Install-CSFiles function installs the files required for CompStart. The files are copied from the installer-files folder to the CompStart folder. If the files already exist in the CompStart folder, everything but the "startup_data.json" file is overwritten. This ensures that any user changes to the startup data is preserved.
 
         .RETURNS
             [bool] Returns $true if the files were successfully installed, otherwise $false.
@@ -101,6 +104,8 @@ function Install-CSFiles {
     # Set up the return flag variable
     $FuncRetValue = $false
 
+    # Set the initial destination path
+    $DestPath = $Script:CSFullPath
 
     Write-Host "`nStarting installation of CompStart..."
     Start-Sleep $Script:SleepTime
@@ -108,35 +113,52 @@ function Install-CSFiles {
     # Get a list of all the files to install
     Write-Host "`nGenerating list of files and folders to install..."
     Start-Sleep $Script:SleepTime
-    $InstallerFullPath = $PSScriptRoot + $Script:OSSeparatorChar + $Script:InstallerFolder
+    $InstallerFullPath = $Script:CurrLocation + $Script:OSSeparatorChar + $Script:InstallerFolder
     $InstallerFilesList = Get-ChildItem -Recurse $InstallerFullPath
 
-    # Before proceeding, confirm that there are files to install - in other words, that $InstallerFilesList isn't blank. If there aren't any files to install, remove the created "CompStart" folder if necessary, and exit the script.
+    # Before proceeding, confirm that there are files to install - in other words, that $InstallerFilesList isn't blank. If there aren't any files to install, remove the created "CompStart" folder if necessary, and exit the script. If there are, copy over everything from the "installer-files" folder except for "startup_data.json".
     if (-Not $InstallerFilesList) {
         Write-Host "There is nothing to install..."
         Start-Sleep $Script:SleepTime
         Write-Host "Cleaning up any changes made by this script..."
         Start-Sleep $Script:SleepTime
-        if (Test-Path $Script:CSFullPath) {
-            Remove-Item -Recurse -Path $Script:CSFullPath
+
+        if (Test-Path $DestPath) {
+            Remove-Item -Recurse -Path $DestPath
             Write-Host "Cleanup complete..."
         }
         else {
             Write-Host "No changes were made..."
         }
+
         Start-Sleep $Script:SleepTime
         Write-Host "Exiting the script..."
         Start-Sleep $Script:SleepTime
     }
     else {
-        # Set the initial destination path
-        $DestPath = $Script:CSFullPath
+        $FuncRetValue = $true
 
-        # Copy everything over in one go
         Write-Host "`nSetting up files and folders..."
         Start-Sleep $Script:SleepTime
+
+        if (Test-Path $DestPath) {
+            Write-Host "`nFound an existing installation..."
+            Start-Sleep $Script:SleepTime
+            Write-Host "`nOverwriting existing files..."
+            Start-Sleep $Script:SleepTime
+            Write-Host "`nKeeping the existing startup data file..."
+
+            $ExistingStartupFile = $DestPath + $Script:OSSeparatorChar + $Script:CSConfigFolder + $Script:OSSeparatorChar + $Script:CSStartupFile
+            Copy-Item -Path $ExistingStartupFile -Destination $Script:CurrLocation
+        }
+
         Copy-Item -Recurse -Path "$InstallerFullPath\*" -Destination $DestPath -Force
-        $FuncRetValue = $true
+
+        if (Test-Path $DestPath) {
+            $ExistingStartupFile = $Script:CurrLocation + $Script:OSSeparatorChar + $Script:CSStartupFile
+            $DestPath = $DestPath + $Script:OSSeparatorChar + $Script:CSConfigFolder
+            Copy-Item -Path $ExistingStartupFile -Destination
+        }
     }
 
     return $FuncRetValue
