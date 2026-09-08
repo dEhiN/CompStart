@@ -158,6 +158,7 @@ function Install-CSFiles {
             $ExistingStartupFile = $Script:CurrLocation + $Script:OSSeparatorChar + $Script:CSStartupFile
             $DestPath = $DestPath + $Script:OSSeparatorChar + $Script:CSConfigFolder
             Copy-Item -Path $ExistingStartupFile -Destination $DestPath
+            Remove-Item -Path $ExistingStartupFile
         }
     }
 
