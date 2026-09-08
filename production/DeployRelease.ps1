@@ -607,7 +607,7 @@ function New-ReleasePackage {
         Creates a release package by compressing the necessary folders and files into a zip archive.
     .DESCRIPTION
         The `New-ReleasePackage` function checks for the existence of required folders and files and then compresses the release folder into a zip archive. The function first sets the location to the release folder, checks if the release folder has the necessary folders and files, and then checks if the packages folder exists. If all checks pass, it creates a zip archive of the release folder.
-   .EXAMPLE
+    .EXAMPLE
         New-ReleasePackage
         Creates a zip archive of the release folder for the current release version.
     .NOTES
