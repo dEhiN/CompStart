@@ -14,9 +14,7 @@ CompStart will also allow you to quickly and easily change the programs and site
 
 #### For non-developers
 
-Currently, the installation process is manual. If you want to use this tool for yourself, you will need to be comfortable with copying files and folders in Explorer as well as creating shortcuts for the installation process.
-
-You will also need to be comfortable with using the command-line as there is only a command-line (or text-only) tool to make configuration changes to the actual startup data.
+CompStart comes with an installer that will set everything up for you. If you have an existing version and are upgrading, the installer will preserve your startup data.
 
 See the [releases](https://github.com/dEhiN/CompStart/releases) section to find the files to download. There will be setup instructions included. Follow them and you can start using CompStart for yourself!
 
@@ -38,8 +36,8 @@ Next, read the following Markdown files:
 2. **DirectoryStructure** in the _docs_ folder
 3. **CHANGELOG** in the _docs_ folder
 
-Finally, check out the project board at https://github.com/users/dEhiN/projects/4, and familiarize yourself with the open issues and work.
+Finally, check out the project board [here](https://github.com/users/dEhiN/projects/4), and familiarize yourself with the open issues and work.
 
 All work I've contributed is well documented and my commits are pretty detailed. However, if there's something you're not sure about, you can always connect with me.
 
-_Last Updated: 2026-04-25_
+_Last Updated: 2026-09-09_
