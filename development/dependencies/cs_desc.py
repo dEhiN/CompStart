@@ -19,7 +19,7 @@ There is no limit to how many programs, sites, and files you can have automatica
 --
 How does it work?
 
-CompStart uses a file to store the programs, sites, and files to automatically open. This file is referred to throughout as the startup file. Each item or entry is referred to as a startup item. Startup items can have arguments. The contents of the startup file is sometimes called the startup data.
+CompStart uses a file to store data about the programs, sites, and files to automatically open. This file is referred to throughout as the startup file. Each item or entry is referred to as a startup item. Startup items can have arguments. The contents of the startup file is sometimes called the startup data.
 
 This text-based tool will let you modify that startup file. For example, if you want to have Microsoft Word open to a document that you are currently working on, you could use this tool to add a new startup item. You would have the new item open Microsoft Word and pass in the document you want to open as an argument. As another example, if you want your favourite browser to open and show a specific site that you visit often, or are using for work, you would add a new startup item. This time, the startup item would be set to open your favourite browser, and the argument given would be the site you want opened.
 --
@@ -31,7 +31,7 @@ How do I use this tool?
 
 As you saw when you first started this tool, a menu was displayed asking you to make a choice. The first option brought you here to this description. Since the tool is text-based, it uses menus and prompts throughout, just like that first or main menu. From that main menu, you can create a new startup file, view the existing one, or edit the existing one. Some of the options have further menus.
 
-This tool comes with a default startup file to get you started. It opens up Windows Calculator, Google Chrome (if installed) to the Google Homepage, and Windows Notepad. The edit option in the main menu will let you delete all those defaults and add ones of your own. The create a new file option has a choice where you can create a new startup file with all of your own choices, but that functionality hasn't been added yet. You can currently only create a new default startup file.
+This tool comes with a default startup file to get you started. It opens up Windows Calculator, Google Chrome (if installed) to the Google Homepage, and Windows Notepad. The edit option in the main menu will let you delete all those defaults and add ones of your own. The create a new file option has a choice where you can create a new startup file with all of your own choices.
 --
 What if I need help with this tool?
 
@@ -43,5 +43,5 @@ If you encounter an error, please create a new issue using the same steps above.
 --
 Do I need to install anything?
 
-CompStart works by using special Windows scripts that read the startup file and open each startup item. While an installer is planned, for now, a shortcut to those scripts needs to be created and placed where Windows will see and run the shortcut after you log in. There are step by step directions in the instructions text file, which might be one folder up from where you are now. 
+If you are seeing this message, then you are running CompStart.exe, which means you have already downloaded and installed CompStart. So, there is nothing you need to do! 
 """
