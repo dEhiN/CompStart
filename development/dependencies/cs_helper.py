@@ -216,7 +216,7 @@ def get_prod_path():
     # Check if we're in a production or testing/development environment
     if not is_production():
         # Add the subdirectories under the CompStart project folder needed to get to the correct config location
-        prod_path = ["devenv", "config"]
+        prod_path = ["development", "config"]
 
     return prod_path
 
