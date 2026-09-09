@@ -43,5 +43,5 @@ If you encounter an error, please create a new issue using the same steps above.
 --
 Do I need to install anything?
 
-If you are seeing this message, then presumably you have run CompStart.exe, which means you have already downloaded and installed CompStart. So, there is nothing you need to do! 
+If you are seeing this message, then you are running CompStart.exe, which means you have already downloaded and installed CompStart. So, there is nothing you need to do! 
 """
