@@ -8,7 +8,7 @@ import dependencies.cs_pretty as deps_pretty
 # Global Variables
 
 # Specifies whether the tool is in production or testing
-is_prod = False
+is_prod = True
 
 # Specifies the name of the project root or the start directory
 start_dir = "CompStart"
