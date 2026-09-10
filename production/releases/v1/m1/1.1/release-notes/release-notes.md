@@ -2,15 +2,15 @@
 
 ## Title
 
-**CompStart-1.1**
+**CompStart-1.2**
 
 ## Version
 
-**1.1**
+**1.2**
 
 ## Production Date
 
-July 22, 2026
+September 9, 2026
 
 ## Description
 
