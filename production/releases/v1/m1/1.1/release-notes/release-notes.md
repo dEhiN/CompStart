@@ -37,7 +37,7 @@ The following steps are suggested for downloading and installing this release:
 
 **Commit Count:** 49
 
-**Full Changelog**: [CompStart-1.1](https://github.com/dEhiN/CompStart/compare/CompStart-1.0...CompStart-1.1)
+**Full Changelog**: [CompStart-1.2](https://github.com/dEhiN/CompStart/compare/CompStart-1.1...CompStart-1.2)
 
 ##  Changes Summary
 
@@ -58,6 +58,7 @@ The following steps are suggested for downloading and installing this release:
 
 ## Detailed Pull Request History
 
-* Merging branch::dEhiN/issue90 to branch:main by @dEhiN in https://github.com/dEhiN/CompStart/pull/110
-* Merging branch::debug/issue111 to branch:qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/115
-* Merging branch::release/issue116 to branch:releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/117
+* Merging branch::debug/issue120 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/121
+* Merging branch::debug/issue118 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/122
+* Merging branch::debug/issue113 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/125
+* Merging branch::dEhiN/issue124 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/126
