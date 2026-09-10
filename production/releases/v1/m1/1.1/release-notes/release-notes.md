@@ -2,19 +2,19 @@
 
 ## Title
 
-**CompStart-1.1**
+**CompStart-1.2**
 
 ## Version
 
-**1.1**
+**1.2**
 
 ## Production Date
 
-July 22, 2026
+September 10, 2026
 
 ## Description
 
-Minor fix to the `CompStart.ps1` script (see below).
+Several fixes were made and both the program description for the Python CLI tool as well as the installation instructions in the main repository `README` were updated to be current.
 <hr>
 <hr>
 
@@ -25,7 +25,7 @@ Minor fix to the `CompStart.ps1` script (see below).
 The following steps are suggested for downloading and installing this release:
 
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
-2. Next, download the release package _CompStart-1.1.zip_ from the Assets section below.
+2. Next, download the release package _CompStart-1.2.zip_ from the Assets section below.
 3. Unzip the release package to a folder of your choice.
 4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
 <hr>
@@ -35,27 +35,29 @@ The following steps are suggested for downloading and installing this release:
 
 ## Commit Details
 
-**Commit Count:** 49
+**Commit Count:** 75
 
-**Full Changelog**: [CompStart-1.1](https://github.com/dEhiN/CompStart/compare/CompStart-1.0...CompStart-1.1)
+**Full Changelog**: [CompStart-1.2](https://github.com/dEhiN/CompStart/compare/CompStart-1.1...CompStart-1.2)
 
 ##  Changes Summary
 
-* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues.
-* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file.
-* Resolution of bug issues #56, #89, and #111.
-* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111).
+* Fixed the installer script to not overwrite existing startup data.
+* Fixed `CompStart.ps1` for release version _1.1_ to be able to open up programs without any arguments.
+* Fixed the default startup data file for release versions _0.1-beta_, _1.0_, and _1.1_ to contain the correct program path for the startup item _Notepad_.
+* Repackaged and reuploaded release versions _0.1-beta_, _1.0_, and _1.1_ with the fixes.
+* Updated the program description shown for the Python CLI tool when choosing option 1 from the main menu - the previous description was based on the state of **CompStart** before release version _1.0_.
+* Updated the main repository `README` file to contain the current installation instructions.
 
 ## Issues Addressed
 
-* #56
-* #89
-* #90
-* #104
-* #111
+* #113
+* #118
+* #120
+* #124
 
 ## Detailed Pull Request History
 
-* Merging branch::dEhiN/issue90 to branch:main by @dEhiN in https://github.com/dEhiN/CompStart/pull/110
-* Merging branch::debug/issue111 to branch:qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/115
-* Merging branch::release/issue116 to branch:releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/117
+* Merging branch::debug/issue120 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/121
+* Merging branch::debug/issue118 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/122
+* Merging branch::debug/issue113 to branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/125
+* Merging branch::dEhiN/issue124 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/126
