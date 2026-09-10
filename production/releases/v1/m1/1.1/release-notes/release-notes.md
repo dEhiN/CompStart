@@ -41,10 +41,12 @@ The following steps are suggested for downloading and installing this release:
 
 ##  Changes Summary
 
-* Creation of a `qa-debug` folder in `/development` to more easily track debugging or QA issues.
-* Creation of a `QA-DEBUG-BRANCHES.md` file fashioned after the `FEATURE-BRANCHES.md` file.
-* Resolution of bug issues #56, #89, and #111.
-* Fixing the `CompStart.ps1` script to properly start programs like _Visual Studio Code_ that previously caused the startup script window to stay open (see issue #111).
+* Fixed the installer script to not overwrite existing startup data.
+* Fixed `CompStart.ps1` for release version _1.1_ to be able to open up programs without any arguments.
+* Fixed the default startup data files for release versions _0.1-beta_, _1.0_, and _1.1_ to contain the correct program path for the startup item _Notepad_.
+* Repackaged and reuploaded release versions _0.1-beta_, _1.0_, and _1.1_ with the fixes.
+* Updated the program description shown for the Python CLI tool when choosing option 1 from the main menu - the description was old and based on the state of things before release version _1.0.
+* Updated the main repository `README` file to contain the current installation instructions.
 
 ## Issues Addressed
 
