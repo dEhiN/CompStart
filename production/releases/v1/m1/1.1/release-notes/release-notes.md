@@ -14,7 +14,7 @@ September 9, 2026
 
 ## Description
 
-Minor fix to the `CompStart.ps1` script (see below).
+Several fixes were made and both the program description for the Python CLI tool as well as the installation instructions in the main repository `README` were updated to be current.
 <hr>
 <hr>
 
@@ -25,7 +25,7 @@ Minor fix to the `CompStart.ps1` script (see below).
 The following steps are suggested for downloading and installing this release:
 
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
-2. Next, download the release package _CompStart-1.1.zip_ from the Assets section below.
+2. Next, download the release package _CompStart-1.2.zip_ from the Assets section below.
 3. Unzip the release package to a folder of your choice.
 4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
 <hr>
