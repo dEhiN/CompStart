@@ -50,11 +50,10 @@ The following steps are suggested for downloading and installing this release:
 
 ## Issues Addressed
 
-* #56
-* #89
-* #90
-* #104
-* #111
+* #113
+* #118
+* #120
+* #124
 
 ## Detailed Pull Request History
 
