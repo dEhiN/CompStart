@@ -35,7 +35,7 @@ The following steps are suggested for downloading and installing this release:
 
 ## Commit Details
 
-**Commit Count:** 49
+**Commit Count:** ??
 
 **Full Changelog**: [CompStart-1.2](https://github.com/dEhiN/CompStart/compare/CompStart-1.1...CompStart-1.2)
 
@@ -43,9 +43,9 @@ The following steps are suggested for downloading and installing this release:
 
 * Fixed the installer script to not overwrite existing startup data.
 * Fixed `CompStart.ps1` for release version _1.1_ to be able to open up programs without any arguments.
-* Fixed the default startup data files for release versions _0.1-beta_, _1.0_, and _1.1_ to contain the correct program path for the startup item _Notepad_.
+* Fixed the default startup data file for release versions _0.1-beta_, _1.0_, and _1.1_ to contain the correct program path for the startup item _Notepad_.
 * Repackaged and reuploaded release versions _0.1-beta_, _1.0_, and _1.1_ with the fixes.
-* Updated the program description shown for the Python CLI tool when choosing option 1 from the main menu - the description was old and based on the state of things before release version _1.0.
+* Updated the program description shown for the Python CLI tool when choosing option 1 from the main menu - the previous description was based on the state of **CompStart** before release version _1.0_.
 * Updated the main repository `README` file to contain the current installation instructions.
 
 ## Issues Addressed
