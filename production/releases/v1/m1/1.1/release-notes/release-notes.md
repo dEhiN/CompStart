@@ -10,7 +10,7 @@
 
 ## Production Date
 
-September 9, 2026
+September 10, 2026
 
 ## Description
 
@@ -35,7 +35,7 @@ The following steps are suggested for downloading and installing this release:
 
 ## Commit Details
 
-**Commit Count:** ??
+**Commit Count:** 75
 
 **Full Changelog**: [CompStart-1.2](https://github.com/dEhiN/CompStart/compare/CompStart-1.1...CompStart-1.2)
 
