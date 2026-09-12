@@ -51,11 +51,11 @@ This release was originally developed under the versioning pattern _1.1_ (labele
 
 ##  Changes Summary
 
-* Initial creation of _CompStart_ by @dEhiN in [ebf6152](https://github.com/dEhiN/CompStart/commit/ebf615262a6ff46e48cb539e626c68b5677de018).
-* Refactoring of initial startup `PowerShell` script from hardcoded data to variable data.
-* Creation of a `JSON` configuration schema to store user startup data.
-* Creation of a `JSON` data file based on the schema with default values.
-* Updating of startup `PowerShell` script to utilise the JSON config file.
+* Created the project _CompStart_ by @dEhiN in [ebf6152](https://github.com/dEhiN/CompStart/commit/ebf615262a6ff46e48cb539e626c68b5677de018).
+* Refactored initial startup `PowerShell` script from hardcoded data to variable data.
+* Created a `JSON` configuration schema to store user startup data.
+* Created a `JSON` data file based on the schema with default values.
+* Updated the startup `PowerShell` script to utilise the JSON config file.
 
 ## Issues Addressed
 
