@@ -79,7 +79,6 @@ $Script:FolderNames = [ordered]@{
     Packages              = "packages"
     Releases              = "releases"
     ReleaseMajorPrefix    = "v"
-    ReleaseMinorPrefix    = "m"
 
     CompStart             = "CompStart"
     PyTool                = "py-tool"
