@@ -10,7 +10,7 @@
     .DESCRIPTION
     The `DeployRelease` script will perform the following steps:
     
-    1. Create new release and package folders, including major and minor version directories
+    1. Create new release and package folders
     2. Create any release artifacts that need to be generated
     3. Copy all release artifacts to the appropriate locations
     4. Generate a package artifact for the release
