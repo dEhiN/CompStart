@@ -112,12 +112,10 @@ $Script:AllPaths = [ordered]@{
 
     PackagesFolder                  = ""
     PackageMajorFolder              = ""
-    PackageMinorFolder              = ""
     PackageFullFolder               = ""
 
     ReleasesFolder                  = ""
     ReleaseMajorFolder              = ""
-    ReleaseMinorFolder              = ""
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
