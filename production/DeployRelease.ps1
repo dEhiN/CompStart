@@ -613,7 +613,7 @@ function New-ReleasePackage {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $PackageFullPath = $Script:AllPaths.PackageFullFolder
+    $PackageFullPath = $Script:AllPaths.PackageMajorFolder
     $ReleaseCSFolderPath = $Script:AllPaths.ReleaseCSFolder
 
     # Check if the release folder has the necessary folders and files
