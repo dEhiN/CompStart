@@ -112,7 +112,6 @@ $Script:AllPaths = [ordered]@{
 
     PackagesFolder                  = ""
     PackageMajorFolder              = ""
-    PackageFullFolder               = ""
 
     ReleasesFolder                  = ""
     ReleaseMajorFolder              = ""
@@ -1094,8 +1093,6 @@ function Update-AllPaths {
     # Package related folder paths
     $PackagesPath = $Script:AllPaths.PackagesFolder 
     $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
-    $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
-    $Script:AllPaths.PackageFullFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
     # Release related parent folder paths
     $ReleasesPath = $Script:AllPaths.ReleasesFolder
