@@ -456,7 +456,7 @@ function Copy-ReleaseContents {
     # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
     Add-CompStartFolder
-    Add-ReleaseNotesFolder
+    # Add-ReleaseNotesFolder
 
     # Copy the CompStart content
     Write-Host "`nPopulating the installer-files folder for release $ReleaseFullVersion..."
