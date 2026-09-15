@@ -759,7 +759,7 @@ function Set-ReleaseFolderStructure {
     Set-MajorVersionPaths
 
     # Deal with the minor release version
-    Set-MinorVersionPaths
+    # Set-MinorVersionPaths
 
     # Deal with the release folder
     Set-FullVersionPath
