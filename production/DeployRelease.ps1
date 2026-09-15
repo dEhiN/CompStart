@@ -1095,7 +1095,7 @@ function Update-AllPaths {
     $PackagesPath = $Script:AllPaths.PackagesFolder 
     $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
-    $Script:AllPaths.PackageFullFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
+    $Script:AllPaths.PackageFullFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
     # Release related parent folder paths
     $ReleasesPath = $Script:AllPaths.ReleasesFolder
