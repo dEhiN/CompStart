@@ -51,25 +51,25 @@ This release was originally developed under the versioning pattern _1.1_ (labele
 
 ##  Changes Summary
 
-* Creation of the _0.1-beta_ release directory structure and files.
-* Creation of a `Python` CLI tool to facilitate easy manipulation of the startup data:
+* Created the _0.1-beta_ release directory structure and files.
+* Created a `Python` CLI tool to facilitate easy manipulation of the startup data:
     * Creation of an initial `Python` script to act as the CLI entry point to the tool.
     * Creation of modularized helper `Python` scripts to segregate aspects of the tool functionality.
     * Structuring of the CLI tool to use the helper scripts as dependencies.
-* Restructuring of the `JSON` startup data to use two data files instead of one: 
+* Restructured the `JSON` startup data to use two data files instead of one: 
     * One that contains default values.
     * One that contains user specific data.
-* Restructuring of the project directory structure:
+* Restructured the project directory structure:
     * Creation of a _config_ folder to store all `JSON` content.
     * Creation of an _experimental_content_ folder to store work that's not officially being introduced as a feature.
     * Renaming of the parent folder for all feature branch work.
     * Naming convention change to the parent folder for each specific release.
-* Research on three different experimental content functionalities:
+* Researched three different experimental content functionalities:
     * A PowerShell installer for **CompStart**.
     * Use of the Python module `PyInstaller` to bundle all the CLI tool scripts into one _exe_ file.
     * Use of the Python module `TKinter` to develop a GUI replacement for the CLI tool.
-* Creation of a new `JSON` configuration schema for the purpose of validating the `JSON` data files.
-* Standardization of the file naming convention for the startup scripts and the CLI tool to reflect proper branding.
+* Created a new `JSON` configuration schema for the purpose of validating the `JSON` data files.
+* Standardized the file naming convention for the startup scripts and the CLI tool to reflect proper branding.
 
 ## Issues Addressed
 
