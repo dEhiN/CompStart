@@ -96,7 +96,7 @@ $Script:AllPaths = [ordered]@{
     ProdFolder                      = ""
 
     DevConfigFolder                 = ""
-    DevPythonDependenciesFolder     = ""
+    DevPyToolDependenciesFolder     = ""
     DevCSPythonScript               = ""
     DevCSBatchScript                = ""
     DevCSPowerShellScript           = ""
@@ -121,7 +121,7 @@ $Script:AllPaths = [ordered]@{
     ReleaseCSFolder                 = ""
     ReleasePyToolFolder             = ""
     ReleasePyToolDistFolder         = ""
-    ReleasePythonDependenciesFolder = ""
+    ReleasePyToolDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
     ReleaseCSExecutable             = ""
 }
@@ -347,10 +347,10 @@ function Add-PyToolContents {
     Start-Sleep -Seconds $Script:SleepTimer
 
     Copy-Item -Path $Script:AllPaths.DevCSPythonScript  -Destination $Script:AllPaths.ReleasePyToolFolder 
-    Copy-Item -Path $Script:AllPaths.DevPythonDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
+    Copy-Item -Path $Script:AllPaths.DevPyToolDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
     
-    $AllPythonDependencies = "$($Script:AllPaths.DevPythonDependenciesFolder)$($Script:OSSeparatorChar)*.py"
-    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePythonDependenciesFolder
+    $AllPythonDependencies = "$($Script:AllPaths.DevPyToolDependenciesFolder)$($Script:OSSeparatorChar)*.py"
+    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePyToolDependenciesFolder
 }
 function Add-PyToolFolder {
     <#
@@ -1064,7 +1064,7 @@ function Update-AllPaths {
     # Dev related folder paths
     $DevPath = $Script:AllPaths.DevFolder 
     $Script:AllPaths.DevConfigFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
-    $Script:AllPaths.DevPythonDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:AllPaths.DevPyToolDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
 
     # Dev related file paths
     $Script:AllPaths.DevCSPythonScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
@@ -1109,7 +1109,7 @@ function Update-AllPaths {
     # Release specific child folder paths: py-tool
     $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
-    $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:AllPaths.ReleasePyToolDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
     $Script:AllPaths.ReleasePyToolDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyToolDist)"
 
     # Release specific child file paths
