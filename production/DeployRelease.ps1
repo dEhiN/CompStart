@@ -1117,7 +1117,7 @@ function Update-AllPaths {
     $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyToolDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
 
     # Release specific child folder paths: release-notes
-    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
+    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath"
 }
 
 
