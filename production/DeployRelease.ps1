@@ -1095,17 +1095,13 @@ function Update-AllPaths {
     $PackagesPath = $Script:AllPaths.PackagesFolder 
     $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
-    $Script:AllPaths.PackageMinorFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-    $PackageMinorPath = $Script:AllPaths.PackageMinorFolder
-    $Script:AllPaths.PackageFullFolder = "$PackageMinorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
+    $Script:AllPaths.PackageFullFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseFullFolder)"
 
     # Release related parent folder paths
     $ReleasesPath = $Script:AllPaths.ReleasesFolder
     $Script:AllPaths.ReleaseMajorFolder = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $ReleaseMajorPath = $Script:AllPaths.ReleaseMajorFolder 
-    $Script:AllPaths.ReleaseMinorFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
-    $ReleaseMinorPath = $Script:AllPaths.ReleaseMinorFolder 
-    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
+    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
     # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
