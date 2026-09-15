@@ -10,7 +10,7 @@
     .DESCRIPTION
     The `DeployRelease` script will perform the following steps:
     
-    1. Create new release and package folders
+    1. Create new release and package folders, including major and minor version directories
     2. Create any release artifacts that need to be generated
     3. Copy all release artifacts to the appropriate locations
     4. Generate a package artifact for the release
@@ -79,6 +79,7 @@ $Script:FolderNames = [ordered]@{
     Packages              = "packages"
     Releases              = "releases"
     ReleaseMajorPrefix    = "v"
+    ReleaseMinorPrefix    = "m"
 
     CompStart             = "CompStart"
     PyTool                = "py-tool"
@@ -96,7 +97,7 @@ $Script:AllPaths = [ordered]@{
     ProdFolder                      = ""
 
     DevConfigFolder                 = ""
-    DevPyToolDependenciesFolder     = ""
+    DevPythonDependenciesFolder     = ""
     DevCSPythonScript               = ""
     DevCSBatchScript                = ""
     DevCSPowerShellScript           = ""
@@ -112,16 +113,19 @@ $Script:AllPaths = [ordered]@{
 
     PackagesFolder                  = ""
     PackageMajorFolder              = ""
+    PackageMinorFolder              = ""
+    PackageFullFolder               = ""
 
     ReleasesFolder                  = ""
     ReleaseMajorFolder              = ""
+    ReleaseMinorFolder              = ""
     ReleaseFullFolder               = ""
 
     ReleaseNotesFolder              = ""
     ReleaseCSFolder                 = ""
     ReleasePyToolFolder             = ""
     ReleasePyToolDistFolder         = ""
-    ReleasePyToolDependenciesFolder = ""
+    ReleasePythonDependenciesFolder = ""
     ReleaseInstallerFolder          = ""
     ReleaseCSExecutable             = ""
 }
@@ -347,10 +351,10 @@ function Add-PyToolContents {
     Start-Sleep -Seconds $Script:SleepTimer
 
     Copy-Item -Path $Script:AllPaths.DevCSPythonScript  -Destination $Script:AllPaths.ReleasePyToolFolder 
-    Copy-Item -Path $Script:AllPaths.DevPyToolDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
+    Copy-Item -Path $Script:AllPaths.DevPythonDependenciesFolder -Destination $Script:AllPaths.ReleasePyToolFolder 
     
-    $AllPythonDependencies = "$($Script:AllPaths.DevPyToolDependenciesFolder)$($Script:OSSeparatorChar)*.py"
-    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePyToolDependenciesFolder
+    $AllPythonDependencies = "$($Script:AllPaths.DevPythonDependenciesFolder)$($Script:OSSeparatorChar)*.py"
+    Copy-Item -Path $AllPythonDependencies -Destination $Script:AllPaths.ReleasePythonDependenciesFolder
 }
 function Add-PyToolFolder {
     <#
@@ -456,7 +460,7 @@ function Copy-ReleaseContents {
     # Before proceeding, set the location to the release folder and add the necessary subfolders
     Set-ReleaseFolderLocation
     Add-CompStartFolder
-    # Add-ReleaseNotesFolder
+    Add-ReleaseNotesFolder
 
     # Copy the CompStart content
     Write-Host "`nPopulating the installer-files folder for release $ReleaseFullVersion..."
@@ -613,7 +617,7 @@ function New-ReleasePackage {
 
     # Set up local variables for easier access
     $ReleaseFullVersion = $Script:ReleaseDetails.FullVersion
-    $PackageFullPath = $Script:AllPaths.PackageMajorFolder
+    $PackageFullPath = $Script:AllPaths.PackageFullFolder
     $ReleaseCSFolderPath = $Script:AllPaths.ReleaseCSFolder
 
     # Check if the release folder has the necessary folders and files
@@ -759,7 +763,7 @@ function Set-ReleaseFolderStructure {
     Set-MajorVersionPaths
 
     # Deal with the minor release version
-    # Set-MinorVersionPaths
+    Set-MinorVersionPaths
 
     # Deal with the release folder
     Set-FullVersionPath
@@ -1064,7 +1068,7 @@ function Update-AllPaths {
     # Dev related folder paths
     $DevPath = $Script:AllPaths.DevFolder 
     $Script:AllPaths.DevConfigFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.Config)"
-    $Script:AllPaths.DevPyToolDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:AllPaths.DevPythonDependenciesFolder = "$DevPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
 
     # Dev related file paths
     $Script:AllPaths.DevCSPythonScript = "$DevPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonScript)"
@@ -1093,12 +1097,18 @@ function Update-AllPaths {
     # Package related folder paths
     $PackagesPath = $Script:AllPaths.PackagesFolder 
     $Script:AllPaths.PackageMajorFolder = "$PackagesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
+    $PackageMajorPath = $Script:AllPaths.PackageMajorFolder 
+    $Script:AllPaths.PackageMinorFolder = "$PackageMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $PackageMinorPath = $Script:AllPaths.PackageMinorFolder
+    $Script:AllPaths.PackageFullFolder = "$PackageMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
     # Release related parent folder paths
     $ReleasesPath = $Script:AllPaths.ReleasesFolder
     $Script:AllPaths.ReleaseMajorFolder = "$ReleasesPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMajorPrefix)$($Script:ReleaseDetails.MajorVersion)"
     $ReleaseMajorPath = $Script:AllPaths.ReleaseMajorFolder 
-    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
+    $Script:AllPaths.ReleaseMinorFolder = "$ReleaseMajorPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseMinorPrefix)$($Script:ReleaseDetails.MinorVersion)"
+    $ReleaseMinorPath = $Script:AllPaths.ReleaseMinorFolder 
+    $Script:AllPaths.ReleaseFullFolder = "$ReleaseMinorPath$($Script:OSSeparatorChar)$($Script:ReleaseDetails.FullVersion)"
 
     # Release specific child folder paths: CompStart
     $ReleaseFullPath = $Script:AllPaths.ReleaseFullFolder
@@ -1109,7 +1119,7 @@ function Update-AllPaths {
     # Release specific child folder paths: py-tool
     $Script:AllPaths.ReleasePyToolFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyTool)"
     $ReleasePyToolFolderPath = $Script:AllPaths.ReleasePyToolFolder 
-    $Script:AllPaths.ReleasePyToolDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
+    $Script:AllPaths.ReleasePythonDependenciesFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PythonDependencies)"
     $Script:AllPaths.ReleasePyToolDistFolder = "$ReleasePyToolFolderPath$($Script:OSSeparatorChar)$($Script:FolderNames.PyToolDist)"
 
     # Release specific child file paths
@@ -1117,7 +1127,7 @@ function Update-AllPaths {
     $Script:AllPaths.ReleaseCSExecutable = "$ReleasePyToolDistPath$($Script:OSSeparatorChar)$($Script:FileNames.CSPythonExe)"
 
     # Release specific child folder paths: release-notes
-    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath"
+    $Script:AllPaths.ReleaseNotesFolder = "$ReleaseFullPath$($Script:OSSeparatorChar)$($Script:FolderNames.ReleaseNotes)"
 }
 
 
