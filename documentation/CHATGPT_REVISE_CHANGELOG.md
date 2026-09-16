@@ -46,7 +46,7 @@ Release date: 2026-06-29
 
 Release date: 2026-04-02
 
-*Originally developed under version tag `1.1-beta` before retroactive versioning adjustments were made in March 2026.*
+*Originally released on 2024-11-21 as `CompStart-1.1-beta`. The version was retroactively changed to `0.1-beta` in March 2026.*
 
 ### Added
 
@@ -64,7 +64,7 @@ Release date: 2026-04-02
 
 Release date: 2026-03-31
 
-*Originally developed under version tag `1.1-alpha`; the release was retroactively re-tagged in March 2026.*
+*Originally released on 2024-03-11 as `CompStart-1.1-alpha`. The version was retroactively changed to `0.1-alpha` in March 2026.*
 
 ### Added
 
