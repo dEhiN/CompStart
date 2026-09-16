@@ -1,4 +1,4 @@
-# CHANGELOG.md
+# CompStart Changelog
 
 All notable changes to the CompStart project are documented in this file.
 
