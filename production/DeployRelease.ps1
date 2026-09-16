@@ -25,8 +25,7 @@
 # Legend: D = Directory / F = File
 <#
 > - <release-folder>
-    | - release-notes (D)
-        | - release-notes.md (F)
+    | - release-notes.md (F)
     | - CompStart (D)
         | - instructions.txt (F)
         | - install.bat (F)
