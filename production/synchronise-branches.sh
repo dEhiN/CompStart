@@ -31,10 +31,10 @@ fi
 # Perform the sync operations
 for master in "${master_branches[@]}"; do
     if [ "$master" != "$sync_branch" ]; then
-        echo "Merging ${sync_branch} into ${master}..."
+        echo -e "Merging the changes from master branch '${sync_branch}' into master branch '${master}'...\n"
         git checkout $master
         git merge $sync_branch
         git push
-        echo -e "...merge complete!\n"
+        echo -e "\n...merge complete! Branches '${master}' and '${sync_branch}' are now synchronised!\n"
     fi
 done
