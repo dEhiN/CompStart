@@ -118,7 +118,7 @@ The default configuration gives you a simple example to start with, and the incl
 
 **Under the hood:** CompStart currently uses PowerShell and Batch for startup and installation, Python for the configuration CLI, and JSON/JSON Schema for configuration and validation.
 
-For a deeper look at the architecture and implementation, see [`TECHNICAL_DETAILS.md`](documentation/TECHNICAL_DETAILS.md).
+For a deeper look at the architecture and implementation, see [`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md).
 
 ## Configuration
 
