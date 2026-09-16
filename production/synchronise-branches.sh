@@ -38,3 +38,7 @@ for master in "${master_branches[@]}"; do
         echo -e "\n...merge complete! Branches '${master}' and '${sync_branch}' are now synchronised!\n"
     fi
 done
+
+
+# Change back to the initial branch
+git checkout $sync_branch
