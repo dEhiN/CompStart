@@ -478,7 +478,7 @@ function Copy-ReleaseContents {
 
     # Rename the release notes file
     $ReleaseNotesFile = "$($Script:AllPaths.ReleaseNotesFolder)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
-    $ReleaseNotesNewName = "$($Script:FileNames.ReleaseNotesMarkdown)_$($Script:ReleaseDetails.FullVersion).md"
+    $ReleaseNotesNewName = "$($Script:FileNames.ReleaseNotesMarkdown)_$($ReleaseFullVersion).md"
     Rename-Item -Path $ReleaseNotesFile -NewName $ReleaseNotesNewName
 
     # Deal with the Python executable
