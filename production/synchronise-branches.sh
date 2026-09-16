@@ -9,7 +9,7 @@ qa_branch="qa-testing-debug"
 sync_branch=$1
 
 # Do some validation on the argument
-if [ -z $sync_branch ]; then
+if [ -z "$sync_branch" ]; then
     echo "Missing branch name argument..."
     exit
 fi
