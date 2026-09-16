@@ -29,3 +29,12 @@ fi
 
 
 # Perform the sync operations
+for master in "${master_branches[@]}"; do
+    if [ "$master" != "$sync_branch" ]; then
+        echo "Merging ${sync_branch} into ${master}..."
+        git checkout $master
+        git merge $sync_branch
+        git push
+        echo "...merge complete!\n"
+    fi
+done
