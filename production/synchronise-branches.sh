@@ -35,6 +35,6 @@ for master in "${master_branches[@]}"; do
         git checkout $master
         git merge $sync_branch
         git push
-        echo "...merge complete!\n"
+        echo -e "...merge complete!\n"
     fi
 done
