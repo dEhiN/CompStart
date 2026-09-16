@@ -476,6 +476,11 @@ function Copy-ReleaseContents {
     Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
     Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseCSFolder
 
+    # Rename the release notes file
+    $ReleaseNotesFile = "$($Script:AllPaths.ReleaseNotesFolder)$($Script:OSSeparatorChar)$($Script:FileNames.ReleaseNotesMarkdown)"
+    $ReleaseNotesNewName = "$($Script:FileNames.ReleaseNotesMarkdown)_$($Script:ReleaseDetails.FullVersion).md"
+    Rename-Item -Path $ReleaseNotesFile -NewName $ReleaseNotesNewName
+
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
         # If the py-tool folder doesn't exist, assume the Python executable doesn't exist and create it before proceeding
