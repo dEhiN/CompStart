@@ -9,7 +9,7 @@ sync_branch=$1
 # Do some validation on the argument
 if [ -z "$sync_branch" ]; then
     echo "Missing branch name argument..."
-    exit
+    exit 1
 fi
 
 if [ $sync_branch != $main_branch ] && [ $sync_branch != $release_branch ] && [ $sync_branch != $qa_branch ]; then
