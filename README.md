@@ -171,7 +171,4 @@ Your "work" environment might be very different from your "personal" environment
 There's still a lot to explore, and that's part of what makes the project fun to work on.
 
 ---
-
-*Built from a PowerShell script born in IT support.*
-
 _Last Updated: 2026-09-16_
