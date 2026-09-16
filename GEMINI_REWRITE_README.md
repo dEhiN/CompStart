@@ -2,7 +2,7 @@
 
 > A Declarative Workspace Bootstrapper for Windows & Power Users
 
-CompStart is a lightweight automation tool designed to restore complete digital working context at system login[cite: 1]. Rather than simply launching bare executables, CompStart deterministically rebuilds multi-monitor workspace environments—opening target web applications, specific browser window layouts, PWAs, and local documents.
+CompStart is a lightweight automation tool designed to restore complete digital working context at system login. Rather than simply launching bare executables, CompStart deterministically rebuilds multi-monitor workspace environments—opening target web applications, specific browser window layouts, PWAs, and local documents.
 
 It is built specifically for IT support specialists, MSP technicians, software developers, and power users who need to automate complex daily startup routines without the performance penalty of keeping a computer in sleep or hibernate mode.
 
