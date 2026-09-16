@@ -12,7 +12,14 @@ if [ -z "$sync_branch" ]; then
     exit 1
 fi
 
-if [ $sync_branch != $main_branch ] && [ $sync_branch != $release_branch ] && [ $sync_branch != $qa_branch ]; then
+is_valid=false
+for branch in "${master_branches[@]}"; do
+    if [ "$sync_branch" == "$branch" ]; then
+        is_valid=true
+        break
+    fi
+done
+if [ "$is_valid" == "false" ]; then
     echo "Invalid branch name argument..."
-    exit
+    exit 1
 fi
