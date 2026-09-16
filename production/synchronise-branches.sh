@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Define the 3 master branch names
 main_branch="main"
