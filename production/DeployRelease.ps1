@@ -16,7 +16,7 @@
     4. Generate a package artifact for the release
     5. Copy the package artifact to the appropriate location
     
-    The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
+    The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process. Currently (as of 2026-09-15), the script does not update the release notes but only copies the template version to the release folder. The script also doesn't notify anyone!
 #>
 
 
