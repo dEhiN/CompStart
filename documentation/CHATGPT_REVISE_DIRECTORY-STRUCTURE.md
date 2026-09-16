@@ -36,6 +36,7 @@ CompStart/
 ├── .gitignore
 └── README.md
 ```
+<hr>
 
 ## Root Directory
 
@@ -61,13 +62,13 @@ The primary CompStart scripts are located here:
 
 See [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md) for information about how these components work together.
 
-There are several folders of note: 
+The following folders are found here: 
 
 ### `config/`
 
 Contains the JSON configuration files and their associated schemas.
 
-The `schema/` subdirectory contains the JSON Schema definitions used by the CompStart CLI to validate CompStart configuration data.
+The `schema/` subdirectory contains the JSON Schema definitions used by the CompStart CLI to validate startup configuration data.
 
 ### `data/`
 
@@ -108,7 +109,7 @@ The directory also contains the following project-level documentation files:
 
 Production and release related content is split into four folders.
 
-See the production documentation for more detailed information about release processes.
+The production documentation contains detailed information about the release process.
 
 ### `assets/`
 
@@ -124,7 +125,7 @@ Contains release content.
 
 ### `scripts/`
 
-Contains scripts used for production and release processes.
+Contains scripts used to create a release.
 
 ---
 
