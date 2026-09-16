@@ -16,7 +16,7 @@
     4. Generate a package artifact for the release
     5. Copy the package artifact to the appropriate location
     
-    The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process.
+    The script will also update the release notes and notify the team of the new release. The script will be run by the release manager as part of the production release process. Currently (as of 2026-09-15), the script does not update the release notes but only copies the template version to the release folder. The script also doesn't notify anyone!
 #>
 
 
@@ -25,8 +25,7 @@
 # Legend: D = Directory / F = File
 <#
 > - <release-folder>
-    | - release-notes (D)
-        | - release-notes.md (F)
+    | - release-notes.md (F)
     | - CompStart (D)
         | - instructions.txt (F)
         | - install.bat (F)
@@ -476,6 +475,12 @@ function Copy-ReleaseContents {
     Start-Sleep $Script:SleepTimer
     Copy-Item -Path $Script:AllPaths.AssetReleaseNotesMarkdown  -Destination $Script:AllPaths.ReleaseNotesFolder 
     Copy-Item -Path $Script:AllPaths.AssetInstructionsText  -Destination $Script:AllPaths.ReleaseCSFolder
+
+    # Rename the release notes file
+    $ReleaseNotesOldName = "$($Script:FileNames.ReleaseNotesMarkdown)"
+    $ReleaseNotesFilePath = "$($Script:AllPaths.ReleaseNotesFolder)$($Script:OSSeparatorChar)$($ReleaseNotesOldName)"
+    $ReleaseNotesNewName = "$($ReleaseNotesOldName.Substring(0, $ReleaseNotesOldName.Length - 3))_v$($ReleaseFullVersion).md"
+    Rename-Item -Path $ReleaseNotesFilePath -NewName $ReleaseNotesNewName
 
     # Deal with the Python executable
     if (-Not (Test-Path $Script:AllPaths.ReleasePyToolFolder)) {
