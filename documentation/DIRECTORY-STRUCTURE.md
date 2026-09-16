@@ -1,64 +1,132 @@
 # CompStart Directory Structure
 
+This document provides an overview of the CompStart repository structure and where to find the different parts of the project.
+
+For information about how CompStart works and how its components interact, see [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md).
+
+## Repository Structure
+
+```text
+CompStart/
+├── development/
+│   ├── config/
+│   │   └── schema/
+│   ├── data/
+│   ├── dependencies/
+│   ├── experimental-content/
+│   ├── features/
+│   ├── CompStart.bat
+│   ├── CompStart.ps1
+│   └── CompStart.py
+│
+├── documentation/
+│   ├── development/
+│   ├── production/
+│   ├── CHANGELOG.md
+│   ├── DIRECTORY-STRUCTURE.md
+│   └── TECHNICAL-DETAILS.md
+│
+├── production/
+│   ├── assets/
+│   ├── packages/
+│   ├── releases/
+│   └── scripts/
+│
+├── .gitattributes
+├── .gitignore
+└── README.md
+```
 <hr>
 
-The following is an outline of the project structure. Specifically, it is an outline of the physical directory structure from the project root level, which should be a folder called _CompStart_.
+## Root Directory
 
-The outline is based on this legend:
+The project root is divided into three primary areas:
 
-- L = Folder level or the number of subdirectories down from the project root, which is level 1
-- (DF) = Directory Folder
-- (F) = File
+* **`development/`** — Contains the source code, configuration, development resources, and testing data used to build and test CompStart.
+* **`documentation/`** — Contains documentation for the project, including development and production documentation.
+* **`production/`** — Contains the resources and scripts used to prepare, package, and manage CompStart releases.
 
-## L1
+The root directory also contains the primary repository-level files:
 
-### Folder: root (/)
+* **`.gitattributes`** — GitHub configuration attributes.
+* **`.gitignore`** — Files and directories excluded from Git.
+* **`README.md`** — Main project documentation.
 
-- (DF) _development_: Development files.
-- (DF) _documentation_: Specific Markdown files.
-- (DF) _production_: Production files.
-- (F) _.gitattributes_: GitHub attributes.
-- (F) _.gitignore_: Project gitignore.
-- (F) _README.md_: Project README.
+## Development
 
-## L2
+The primary CompStart scripts are located here:
 
-### Folder: /development
+* **`CompStart.bat`** — Batch entry point for the CompStart startup process.
+* **`CompStart.ps1`** — PowerShell startup process.
+* **`CompStart.py`** — Python CLI used to manage CompStart startup configuration; also referred to as the CompStart CLI.
 
-- (DF) _config_: Configuration folder for the startup JSON files.
-- (DF) _data_: Testing and other data.
-- (DF) _dependencies_: Python module folder that holds all the dependencies for _CompStart.py_ - see **/documentation/TECHNICAL_DETAILS.md**.
-- (DF) _experimental-content_: See **/documentation/development/EXPERIMENTAL-CONTENT.md**.
-- (DF) _features_: See **/documentation/development/FEATURES.md**.
-- (F) _CompStart.bat_: See **/documentation/TECHNICAL_DETAILS.md**.
-- (F) _CompStart.ps1_: See **/documentation/TECHNICAL_DETAILS.md**.
-- (F) _CompStart.py_: See **/documentation/TECHNICAL_DETAILS.md**.
+See [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md) for information about how these components work together.
 
-### Folder: /documentation
+The following folders are found here: 
 
-- (DF) _development_: Markdown documentation related to development.
-- (DF) _production_: Markdown documentation related to production.
-- (F) _CHANGELOG.md_: Project changelog.
-- (F) _DIRECTORY_STRUCTURE.md_: Description of the project directory structure.
-- (F) _TECHNICAL_DETAILS.md_: Full technical details of _CompStart_ (how it works and the components involved).
+### `config/`
 
-### Folder: /production
+Contains the JSON configuration files and their associated schemas.
 
-- (DF) _assets_: See **/documentation/production/ASSETS.md**.
-- (DF) _packages_: See **/documentation/production/PACKAGES.md**.
-- (DF) _releases_: See **/documentation/production/RELEASES.md**.
-- (DF) _scripts_: See **/documentation/production/SCRIPTS.md**.
+The `schema/` subdirectory contains the JSON Schema definitions used by the CompStart CLI to validate startup configuration data.
 
-## L3
+### `data/`
 
-### Folder: /development/config
+Contains archive files representing data that's being kept for posterity, such as testing data from a feature branch.
 
-- (DF) _schema_: Contains the JSON schema files - see **/documentation/TECHNICAL_DETAILS.md**.
+### `dependencies/`
 
-### Folder: /development/data
+Contains the Python modules and dependencies used by the CompStart CLI.
 
-- (DF) _test-data_: Contains data generated during testing.
-- (F) _misc-data.tar.gz_: Gzipped tar file that contains non-code related files such as text files with planning information, etc.
-- (F) _old-data.tar.gz_: Gzipped tar file that contains old or original code files designated to keep for posterity.
+See [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md) for additional information about the Python components.
 
-_Last Updated: 2026-05-28_
+### `experimental-content/`
+
+Contains content that is not currently part of the primary CompStart implementation but is being looked at for viability of inclusion. 
+
+See the development documentation for additional information.
+
+### `features/`
+
+Contains feature-related development information and planning.
+
+See the development documentation for additional information.
+
+## Documentation
+
+This folder is divided into two primary areas:
+
+* **`development/`** — Documentation related to development, including experimental work, features, and other development processes.
+* **`production/`** — Documentation related to production, packaging, and release processes.
+
+The directory also contains the following project-level documentation files:
+
+* **`CHANGELOG.md`** — High-level history of significant CompStart changes.
+* **`DIRECTORY-STRUCTURE.md`** — Overview of the repository structure.
+* **`TECHNICAL-DETAILS.md`** — Detailed information about the architecture and implementation of CompStart.
+
+## Production
+
+Production and release related content is split into four folders.
+
+The production documentation contains detailed information about the release process.
+
+### `assets/`
+
+Contains production-related assets.
+
+### `packages/`
+
+Contains release packages.
+
+### `releases/`
+
+Contains release content.
+
+### `scripts/`
+
+Contains scripts used to create a release.
+
+---
+
+*Last updated: 2026-09-16*
