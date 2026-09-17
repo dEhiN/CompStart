@@ -1,6 +1,6 @@
 # CompStart Technical Details
 
-This document provides an overview of the main components of CompStart and how they work.
+This document provides an overview of the main components of CompStart and their roles.
 
 For a general overview of the project, see the [README](../README.md).
 
