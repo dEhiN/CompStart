@@ -143,8 +143,8 @@ CompStart is open source, and I'd love to have other developers take a look at i
 
 If you're interested in contributing, start by reading:
 
-1. **[`TECHNICAL_DETAILS.md`](documentation/TECHNICAL_DETAILS.md)** — an overview of how the project works
-2. **[`DIRECTORY_STRUCTURE.md`](documentation/DIRECTORY_STRUCTURE.md)** — how the repository is organized
+1. **[`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md)** — an overview of how the project works
+2. **[`DIRECTORY-STRUCTURE.md`](documentation/DIRECTORY-STRUCTURE.md)** — how the repository is organized
 3. The project board and open issues — what's currently being worked on
 
 A lot of the project is documented, and I try to keep the commits themselves reasonably detailed as well.
@@ -171,4 +171,4 @@ Your "work" environment might be very different from your "personal" environment
 There's still a lot to explore, and that's part of what makes the project fun to work on.
 
 ---
-_Last Updated: 2026-09-16_
+_Last Updated: 2026-09-17_
