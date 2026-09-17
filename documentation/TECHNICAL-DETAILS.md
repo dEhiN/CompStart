@@ -33,6 +33,19 @@ If they continue, the script reads `startup_data.json` and processes each startu
 
 Applications are launched using the PowerShell `Start-Process` cmdlet.
 
+## Installer
+
+CompStart uses a PowerShell installer with a Batch file as its entry point.
+
+The installer:
+
+- Installs CompStart to `%LocalAppData%\CompStart`.
+- Creates a shortcut for `CompStart.bat`.
+- Places the shortcut in the Windows Startup folder.
+- Preserves existing `startup_data.json` when upgrading an installation.
+
+The installer is intended to handle the setup required for CompStart to run automatically when the user logs into Windows.
+
 ## Configuration
 
 CompStart uses JSON to define the startup items to be restored.
