@@ -6,7 +6,7 @@ For information about how CompStart works and how its components interact, see [
 
 ## Repository Structure
 
-```text
+```
 CompStart/
 ├── development/
 │   ├── config/
