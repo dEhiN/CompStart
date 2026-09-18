@@ -1,0 +1,67 @@
+Congratulations on downloading the latest release of CompStart!
+
+Please make sure you downloaded this release from:
+
+https://github.com/dEhiN/CompStart
+
+CompStart currently uses text-based prompts rather than a graphical user interface during installation and startup.
+
+## Install CompStart
+
+After unzipping the release package, you should see the following files:
+
+```text
+CompStart/
+├── install.bat
+├── install.ps1
+└── instructions.txt
+```
+
+The remaining files and folders in the `CompStart` folder are used by the installer.
+
+To install CompStart:
+
+1. Double-click **`install.bat`**.
+2. The installer will open a text-based window and display information about what it is doing.
+3. Follow any prompts provided by the installer.
+4. When the installation is complete, CompStart will be installed to:
+
+```text
+%LocalAppData%\CompStart
+```
+
+A shortcut to the CompStart startup process will also be placed in the Windows Startup folder.
+
+This allows CompStart to run automatically when you log in to Windows.
+
+When CompStart starts, it will ask whether you want to restore your configured workspace. If you choose not to run it, the startup process will exit without opening anything.
+
+## Configure CompStart
+
+CompStart includes a command-line tool called **`CompStart.exe`** that allows you to manage the programs and other startup items that CompStart opens.
+
+The tool provides a text-based menu that allows you to:
+
+* View your current startup items
+* Add new startup items
+* Modify existing startup items
+* Remove startup items
+* Change the arguments associated with a startup item
+
+A startup item can contain more than just the name of a program. Arguments can be used to provide additional information, such as opening a document with a particular application or opening a browser with specific tabs or URLs.
+
+When CompStart is first installed, it includes default startup data containing:
+
+* Windows Calculator
+* Windows Notepad
+* Google Chrome, configured to open a new window using the default profile and navigate to the Google homepage
+
+You can use the default configuration to test CompStart or replace it with your own startup items.
+
+After making changes with `CompStart.exe`, you can test your configuration by running `CompStart.bat` from the installed CompStart directory or by logging out and logging back in to Windows.
+
+## Need Help?
+
+If you experience a problem, find a bug, or have a suggestion for improving CompStart, please create an issue on GitHub:
+
+https://github.com/dEhiN/CompStart/issues
