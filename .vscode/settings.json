@@ -1,15 +1,14 @@
 {
     "cSpell.words": [
+        "CompStart",
+        "COMPSTART",
         "ARGUMENTCOUNT",
         "ARGUMENTLIST",
         "ITEMNUMBER",
         "jsonfn",
-        "TOTALITEMS"
-        "devenv",
+        "TOTALITEMS",
         "pyinstaller",
         "onefile",
-        "reflog",
         "tkinter",
-        "prodenv"
     ]
 }
