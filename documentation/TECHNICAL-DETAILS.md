@@ -44,7 +44,7 @@ The installer:
 - Places the shortcut in the Windows Startup folder.
 - Preserves existing `startup_data.json` when upgrading an installation.
 
-The installer is intended to handle the setup required for CompStart to run automatically when the user logs into Windows.
+The _instructions.txt_ file included with every release details the steps to run the installer.
 
 ## Configuration
 
