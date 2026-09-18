@@ -26,8 +26,8 @@ To install CompStart:
 3. Follow any prompts provided by the installer.
 4. When the installation is complete, CompStart will be installed to:
 
-```text
-%LocalAppData%\CompStart
+```
+C:\Users\<Windows Profile Name>\AppData\Local\CompStart
 ```
 
 A shortcut to the CompStart startup process will also be placed in the Windows Startup folder.
