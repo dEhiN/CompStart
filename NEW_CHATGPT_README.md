@@ -18,7 +18,7 @@ CompStart is a Windows automation tool that helps restore the working environmen
 
 CompStart is a workspace startup automation tool for Windows.
 
-The idea is simple: define the things you want available when you start working, and let CompStart open them for you.
+The idea is simple: define the things you want available when you first log in to Window, and let CompStart open them for you.
 
 That can include things such as:
 
@@ -27,14 +27,12 @@ That can include things such as:
 * websites
 * browser windows and tabs
 * web applications and PWAs
-* other programs you regularly use as part of your workflow
 
 For example, I might want my computer to automatically:
 
 * Open a specific document
 * Start a Chrome window with several particular tabs
 * Launch a web application
-* Open the other tools I use throughout the day
 
 The goal isn't simply to start a collection of programs. The goal is to recreate a **working context**.
 
@@ -46,15 +44,15 @@ I had a collection of applications and websites that I needed to open every day 
 
 I didn't just want my programs to start.
 
-I wanted my **workspace** to be ready.
+I wanted my **workspace** to be automatically ready once I logged in.
 
 So I wrote a script to do it.
 
 Later, when I moved into client support at a SaaS company, I found myself dealing with many of the same problems again. That made me think beyond the original script and start turning the idea into something more flexible and reusable.
 
-At that point, CompStart became more than just a solution to my own automation problem. It also became an opportunity to build something, experiment with different technologies, improve my programming skills, and see where the idea could go.
+At that point, CompStart became more than just a solution to my own automation problem. It also became an opportunity to build something, improve my programming skills, and see where the idea could go.
 
-I've kept developing it because I enjoy working on it—and because I think other people with similar workflows may find it useful too.
+I've kept developing it because I enjoy working on it—and because I think other people may find it useful too.
 
 ## Why is this different from Windows startup?
 
