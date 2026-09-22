@@ -1,174 +1,232 @@
 # CompStart
 
 > **Automate the setup of your Windows workspace.**
+<br>
 
-Have you ever logged into your computer in the morning and thought:
+Have you ever sat down at your computer after turning it on and thought:
 
-*"Okay... now I need to open Chrome, load these tabs, open this document, start this application, and put everything where I need it."*
+*"Okay... now I need to open my browser, load these sites, open this document, and start this application just to get everything set up."*
 
-That's the problem CompStart was built to solve.
+That was the problem that led me to create CompStart.
 
-CompStart restores your working environment when you log in, so you can spend less time setting up your computer and more time actually using it.
+CompStart is a Windows automation tool that helps restore your working environment automatically after you turn on your computer. Instead of manually opening the same collection of applications, documents, and websites every time you start working, you can have CompStart do it for you.
 
-[**Ready to try it? Jump to Installation →**](#installation)
+[**Ready to try it?** Jump to Installation](#installation)
 
-[**Want to see how it works? Jump to How It Works →**](#how-it-works)
+[**Want to know how it works?** Jump to How It Works](#how-it-works)
+
+## Table of Contents
+
+#### Background
+- [What is CompStart?](#what-is-compstart)
+- [How is this different from Windows startup?](#how-is-this-different-from-windows-startup)
+- [Who might find CompStart useful?](#who-might-find-compstart-useful)
+- [Why did I build it?](#why-did-i-build-it)
+
+#### Setup & Technical Details
+- [Installation](#installation)
+- [How it Works](#how-it-works)
+- [Workspace Configuration](#workspace-configuration)
+- [The CompStart CLI: A Configuration Tool](#the-compstart-cli-a-configuration-tool)
+
+#### Project Information
+- [Development](#project-development)
+- [Documentation](#project-documentation)
+
+#### Future Plans
+- [What's Next](#whats-next)
 
 ## What is CompStart?
 
-CompStart is a Windows automation tool that restores your working environment when you log in.
+CompStart is a workspace startup automation tool for Windows.
 
-It's not just about launching programs. CompStart can open the **specific things you actually need to get back to work**: applications, documents, websites, browser windows, tabs, and PWAs.
+The idea is simple: define the things you want available when you first log in to Windows and let CompStart open them for you.
 
-For example, you might want your computer to automatically:
+That can include things such as:
 
-* Open a specific Word document
-* Start a Chrome window with three particular tabs
-* Launch a web application as a PWA
-* Open the other tools you use every day
+* applications
+* documents
+* websites
+* browser windows and tabs
+* web applications and PWAs
 
-And the next day, you want all of that back without having to set it all up again.
+For example, I might want my computer to automatically:
 
-That's what CompStart does.
+1. Load several sites in a Chrome window
+2. Open a PDF file with Adobe Acrobat
+3. Launch a web application
 
-## Why did I build it?
+The goal isn't simply to start a collection of programs. The goal is to recreate a **working environment**.
 
-CompStart started as a PowerShell script I wrote while working helpdesk at an MSP.
+[Jump back to Table of Contents](#table-of-contents)
 
-The problem was simple: every time I sat down to work, I had a collection of applications and websites that I needed to open before I could actually start doing anything useful.
+## How is this different from Windows startup?
 
-Windows startup could launch the applications, but it couldn't really recreate my **working context**.
-
-So I wrote a script to do it.
-
-Later, when I moved into client support at a SaaS company, I found myself solving many of the same problems again. At that point I took the original script and started turning it into something more extensible and reusable.
-
-CompStart is the result.
-
-## Why is this different from Windows startup?
-
-Windows already has startup folders, Task Manager startup entries, and other ways of launching applications automatically.
-
-Those are useful, but they generally answer this question:
+Windows already has several ways to launch applications automatically when you log in. There are also programs that have an option in their settings to run on startup. Those tools are useful, but they generally answer the following question:
 
 > **"What programs should I start?"**
 
-CompStart is interested in a slightly different question:
+CompStart is trying to answer a slightly different question:
 
 > **"What should my working environment look like when I sit down at my computer?"**
 
-That distinction is important.
+The distinction is small, but it is the reason CompStart exists:
 
-Instead of simply starting Chrome, for example, CompStart can start Chrome with the particular windows and URLs you want. It can also launch documents, applications, and other tools as part of the same startup routine.
+**_It's about restoring context, not just starting applications._**
 
-The goal is to restore your **context**, not just your applications.
+[Jump back to Table of Contents](#table-of-contents)
+
+## Who might find CompStart useful?
+
+CompStart isn't intended to be something everyone needs.
+
+It's most likely to be useful if you regularly return to a fairly complex Windows workspace and find yourself repeating the same setup process.
+
+That might include:
+
+* IT support and helpdesk technicians
+* system administrators
+* software developers
+* other power users
+* anyone with a repetitive Windows workflow involving several applications or resources
+
+CompStart can also be useful if you use a desktop computer that is always on but _suffers_ from restarts due to scheduled Windows updates.
+
+You don't need to work in IT or be a power user to benefit from CompStart. The important thing is simply that you have a workspace you want to recreate.
+
+[Jump back to Table of Contents](#table-of-contents)
+
+## Why did I build it?
+
+CompStart started as a PowerShell script I wrote for myself while working helpdesk at an MSP.
+
+I had a collection of applications and websites that I needed to open every day before I could actually start working. Windows already provided ways to start applications automatically, but as mentioned earlier, those tools couldn't help to solve my issue.
+
+I didn't just want my programs to start. I wanted my **workspace** to be automatically ready once I logged in.
+
+So I wrote a script to do it.
+
+Later, when I moved into client support at a SaaS company, I found myself dealing with the same issue again. So, I updated my script.
+
+However, both the MSP script and the SaaS script had the sites and applications hardcoded, or, written into the script.
+
+That made me think beyond what I had created to how I could turn the idea into something more flexible and reusable. 
+
+This gave birth to CompStart.
+
+[Jump back to Table of Contents](#table-of-contents)
 
 ## Installation
 
-### For users
-
-CompStart includes an installer that handles the setup for you.
+CompStart currently includes an installer for Windows.
 
 The installer places CompStart in:
 
-```text
+```
 %LocalAppData%\CompStart
 ```
 
-and creates a shortcut to the startup routine in the Windows Startup folder.
+For example, if your Windows profile name is _JohnDoe_, you will find CompStart at _C:\Users\JohnDoe\AppData\Local\CompStart_.
 
-On each login, CompStart gives you the option to run the startup routine or skip it. This means you can still start your computer normally when you don't need your usual workspace restored.
+The installer also creates a shortcut to run CompStart on login and places that in the Windows Startup folder.
 
-If you're upgrading an existing installation, the installer is designed to preserve your existing startup data.
+The installer is also designed to preserve your existing startup data when upgrading versions.
 
-Go to the [Releases](https://github.com/dEhiN/CompStart/releases) page to download the latest version and follow the included setup instructions.
+To install CompStart, download a release from the [Releases](https://github.com/dEhiN/CompStart/releases) page and follow the `instructions.txt` file included with the release package.
 
-### For developers
-
-You can clone or fork the repository if you'd like to experiment with CompStart or contribute to the project.
-
-Before making changes, I'd recommend looking through the project documentation and getting familiar with the existing structure.
-
-## Who is CompStart for?
-
-CompStart is probably not something everyone needs.
-
-It's aimed more at people who have a lot of tools to open and a specific workflow they repeat every day.
-
-That includes:
-
-* IT support and helpdesk technicians
-* MSP technicians
-* System administrators
-* Software developers
-* Power users
-* Anyone with a complicated daily Windows workflow
-
-If opening your computer in the morning means opening ten different things before you're ready to work, CompStart may be useful to you.
+[Jump back to Table of Contents](#table-of-contents)
 
 ## How It Works
 
-CompStart uses a JSON configuration to describe the workspace you want to restore when you log in.
+CompStart uses a JSON configuration file to describe the workspace that should be restored.
 
-When Windows starts, CompStart reads that configuration and launches the applications, websites, documents, and browser configurations you've specified.
+When Windows runs CompStart, the startup process:
 
-You also get a choice at startup: run the configured workspace or skip it entirely. This makes it possible to start your computer normally when you don't need your usual environment.
+1. Prompts you to decide whether to run the configured startup routine.
+2. Reads your startup configuration.
+3. Processes each startup item.
+4. Starts the configured programs with any specified arguments.
 
-The default configuration gives you a simple example to start with, and the included CLI lets you manage your startup items without having to edit the configuration by hand.
+CompStart was created using the following programming languages and technologies:
 
-**Under the hood:** CompStart currently uses PowerShell and Batch for startup and installation, Python for the configuration CLI, and JSON/JSON Schema for configuration and validation.
+* **Batch** for Windows entry points
+* **PowerShell** for the startup and installation processes
+* **JSON** for startup configuration
+* **JSON Schema** for configuration structure and validation
+* **Python** for the configuration management CLI
+* **PyInstaller** to package the Python CLI as a Windows executable for releases
 
-For a deeper look at the architecture and implementation, see [`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md).
+For more information about the implementation, see [`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md).
 
-## Configuration
+[Jump back to Table of Contents](#table-of-contents)
 
-CompStart stores your workspace definition in JSON.
+## Workspace Configuration
 
-The `config` directory contains:
+CompStart stores the definition of your workspace in JSON. There is a configuration directory containing two JSON files:
 
 * `startup_data.json` — your current startup configuration
-* `default_startup.json` — a default configuration template
+* `default_startup.json` — the default configuration used as a starting point
 
-The default configuration provides a simple example by opening Notepad, Calculator, and Google Chrome to the Google homepage. You can use it as a starting point and modify it to suit your own workflow.
+When CompStart is first installed, if there is no existing `startup_data.json` file, one is provided with the default configuration.
 
-A `schema` directory contains JSON Schema definitions for validating the overall startup data and individual startup items.
+The default configuration currently opens Windows Calculator, Windows Notepad, and Google Chrome. Chrome is opened to the Google homepage in a new window using the default profile.
 
-The CLI validates changes before writing them to the configuration, helping prevent invalid or malformed data from being introduced through the tool.
+CompStart uses JSON Schema files to define the structure of the startup data. These ensure the JSON data always remains correctly formed and valid.
 
-For details about the configuration format and supported startup item types, see the project documentation.
+There is also a command-line tool, called `CompStart.exe`, that allows you to manage your startup configuration safely rather than editing the JSON by hand.
 
-## Contributing
+[Jump back to Table of Contents](#table-of-contents)
 
-CompStart is open source, and I'd love to have other developers take a look at it.
+## The CompStart CLI: A Configuration Tool
 
-If you're interested in contributing, start by reading:
+CompStart includes a command-line configuration tool called `CompStart.exe`.
 
-1. **[`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md)** — an overview of how the project works
-2. **[`DIRECTORY-STRUCTURE.md`](documentation/DIRECTORY-STRUCTURE.md)** — how the repository is organized
-3. The project board and open issues — what's currently being worked on
+The CLI provides a text-based menu for managing the startup configuration. Among other things, it can be used to create a startup file, view the current startup configuration, and edit existing startup data.
 
-A lot of the project is documented, and I try to keep the commits themselves reasonably detailed as well.
+The CLI tool is written in Python. It is packaged into the executable `CompStart.exe` for releases. This avoids the need to install Python just to run the CLI tool.
 
-If you find something that isn't clear, feel free to get in touch through my [GitHub profile](https://github.com/dEhiN).
+[Jump back to Table of Contents](#table-of-contents)
+
+## Project Development
+
+CompStart is primarily a personal project, but the repository is public because I want to share this tool I've created so others can benefit from it.
+
+The repository contains the development source code, documentation, release tooling, and release artifacts for all existing releases.
+
+For information about the development workflow or release tooling, see the project documentation.
+
+I welcome contributors, so if you are interested in helping me, see below.
+
+[Jump back to Table of Contents](#table-of-contents)
+
+## Project Documentation
+
+The repository documentation is divided into the following Markdown files:
+
+- [`CHANGELOG.md`](documentation/CHANGELOG.md) provides a high-level history of significant CompStart changes.
+
+- [`DIRECTORY-STRUCTURE.md`](documentation/DIRECTORY-STRUCTURE.md) explains how the repository is organized.
+
+- [`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md) provides more technical information on how CompStart works.
+
+Additional release-specific information can be found with the individual releases in the `production/releases` directory or on the [Releases](https://github.com/dEhiN/CompStart/releases) page.
+
+[Jump back to Table of Contents](#table-of-contents)
+
 
 ## What's Next?
 
-CompStart is still evolving.
+CompStart is still evolving. 
 
-What started as a PowerShell script for solving a very practical problem has grown into a more extensible tool, and I have ideas for taking it quite a bit further.
+I have several ideas I'd like to explore, including:
 
-Some of the things I'm considering include:
+* making CompStart cross-platform, potentially using **PowerShell Core**
+* reworking the CLI into a more polished command-line experience
+* supporting Windows virtual desktops so startup items can optionally be opened on specific desktops
+* adding profiles or workspace configurations for different kinds of work
 
-* Making CompStart cross-platform, potentially using **PowerShell Core**
-* Reworking the CLI into a more polished command-line experience, potentially using something like **Typer**
-* Supporting Windows virtual desktops so a startup item can optionally be opened on a specific desktop
-* Adding **profiles or workspace configurations**, so you could have different contexts for different kinds of work
-
-That last idea is particularly interesting to me.
-
-Your "work" environment might be very different from your "personal" environment, or from the workspace you use when you're troubleshooting a client issue. Instead of maintaining one giant startup list, CompStart could eventually let you define the context you want and load that context when you need it.
-
-There's still a lot to explore, and that's part of what makes the project fun to work on.
+There is still plenty to experiment with, so if you want to help with this project, reach out to me via [LinkedIn](https://www.linkedin.com/in/david-h-watson/) or create a new [project issue](https://github.com/dEhiN/CompStart/issues) and let me know!
 
 ---
-_Last Updated: 2026-09-17_
+
+*Last Updated: 2026-09-22*
