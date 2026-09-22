@@ -62,7 +62,7 @@ The goal isn't simply to start a collection of programs. The goal is to recreate
 
 ## How is this different from Windows startup?
 
-Windows already has several ways to launch applications automatically when you log in. Those tools are useful, but they generally answer the question:
+Windows already has several ways to launch applications automatically when you log in. There are also programs that have an option in their settings to run on startup. Those tools are useful, but they generally answer the following question:
 
 > **"What programs should I start?"**
 
@@ -90,9 +90,9 @@ That might include:
 * other power users
 * anyone with a repetitive Windows workflow involving several applications or resources
 
-CompStart can also be useful if you use a desktop computer that is always on but suffers from scheduled Windows Update restarts.
+CompStart can also be useful if you use a desktop computer that is always on but _suffers_ from restarts due to scheduled Windows updates.
 
-However, you don't need to work in IT or development to use CompStart. The important thing is simply that you have a workspace you want to recreate.
+You don't need to work in IT or be a power user to benefit from CompStart. The important thing is simply that you have a workspace you want to recreate.
 
 [Jump back to Table of Contents](#table-of-contents)
 
@@ -108,9 +108,11 @@ So I wrote a script to do it.
 
 Later, when I moved into client support at a SaaS company, I found myself dealing with the same issue again. So, I updated my script.
 
-That made me think beyond the original script and start turning the idea into something more flexible and reusable.
+However, both the MSP script and the SaaS script had the sites and applications hardcoded, or, written into the script.
 
-At that point, CompStart became more than just a solution to my own automation problem. It also became an opportunity to build something, improve my programming skills, and see where the idea could go.
+That made me think beyond what I had created to how I could turn the idea into something more flexible and reusable. 
+
+This gave birth to CompStart.
 
 [Jump back to Table of Contents](#table-of-contents)
 
@@ -124,9 +126,9 @@ The installer places CompStart in:
 %LocalAppData%\CompStart
 ```
 
-For example, if your Windows profile name is _JohnDoe_, you will find CompStart at _C:\Users\JohnDoe\AppData\Local\CompStart_. A shortcut to start CompStart on login is then placed in the Windows Startup folder.
+For example, if your Windows profile name is _JohnDoe_, you will find CompStart at _C:\Users\JohnDoe\AppData\Local\CompStart_.
 
-When you log in to Windows, CompStart starts and asks whether you want to restore your configured workspace. You can choose to run the startup process or skip it.
+The installer also creates a shortcut to run CompStart on login and places that in the Windows Startup folder.
 
 The installer is also designed to preserve your existing startup data when upgrading versions.
 
@@ -138,7 +140,7 @@ To install CompStart, download a release from the [Releases](https://github.com/
 
 CompStart uses a JSON configuration file to describe the workspace that should be restored.
 
-When Windows starts CompStart, the startup process:
+When Windows runs CompStart, the startup process:
 
 1. Prompts you to decide whether to run the configured startup routine.
 2. Reads your startup configuration.
@@ -165,13 +167,13 @@ CompStart stores the definition of your workspace in JSON. There is a configurat
 * `startup_data.json` — your current startup configuration
 * `default_startup.json` — the default configuration used as a starting point
 
-When CompStart is first installed, if there is no existing `startup_data.json` file, one is supplied with the default configuration.
+When CompStart is first installed, if there is no existing `startup_data.json` file, one is provided with the default configuration.
 
 The default configuration currently opens Windows Calculator, Windows Notepad, and Google Chrome. Chrome is opened to the Google homepage in a new window using the default profile.
 
-CompStart also includes JSON Schema files that define the structure of the startup data. These are used to ensure the JSON data always remains correctly formed and valid.
+CompStart uses JSON Schema files to define the structure of the startup data. These ensure the JSON data always remains correctly formed and valid.
 
-For normal use, you can manage your startup configuration through the included `CompStart.exe` command-line tool rather than editing the JSON by hand.
+There is also a command-line tool, called `CompStart.exe`, that allows you to manage your startup configuration safely rather than editing the JSON by hand.
 
 [Jump back to Table of Contents](#table-of-contents)
 
@@ -181,19 +183,19 @@ CompStart includes a command-line configuration tool called `CompStart.exe`.
 
 The CLI provides a text-based menu for managing the startup configuration. Among other things, it can be used to create a startup file, view the current startup configuration, and edit existing startup data.
 
-The CLI tool is written in Python. Because of this, it is packaged into the executable `CompStart.exe` for releases. This way, users do not need to deal with the Python source code.
+The CLI tool is written in Python. It is packaged into the executable `CompStart.exe` for releases. This avoids the need to install Python just to run the CLI tool.
 
 [Jump back to Table of Contents](#table-of-contents)
 
 ## Project Development
 
-CompStart is primarily a personal project, but the repository is public because I want to share what this tool I've created so others can benefit from it.
+CompStart is primarily a personal project, but the repository is public because I want to share this tool I've created so others can benefit from it.
 
-The repository contains the development source code as well as the supporting configuration, experimental work, testing data, and release tooling.
+The repository contains the development source code, documentation, release tooling, and release artifacts for all existing releases.
 
-I also welcome people who want to look through the project, experiment with it, or contribute improvements.
+For information about the development workflow or release tooling, see the project documentation.
 
-For information about the development structure and workflow, see the project documentation.
+I welcome contributors, so if you are interested in helping me, see below.
 
 [Jump back to Table of Contents](#table-of-contents)
 
@@ -227,4 +229,4 @@ There is still plenty to experiment with, so if you want to help with this proje
 
 ---
 
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-22*
