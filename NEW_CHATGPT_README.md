@@ -170,9 +170,9 @@ Additional release-specific information can be found with the individual release
 
 CompStart is primarily a personal project, but the repository is public because I'm happy to share what I'm building and how I'm building it.
 
-I also welcome people who want to look through the project, experiment with it, or contribute improvements.
-
 The repository contains the development source code as well as the supporting configuration, experimental work, testing data, and release tooling.
+
+I also welcome people who want to look through the project, experiment with it, or contribute improvements.
 
 For information about the development structure and workflow, see the project documentation.
 
