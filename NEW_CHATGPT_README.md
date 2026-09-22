@@ -18,9 +18,9 @@ CompStart is a Windows automation tool that helps restore your working environme
 
 #### Background
 - [What is CompStart?](#what-is-compstart)
-- [Why did I build it?](#why-did-i-build-it)
 - [How is this different from Windows startup?](#how-is-this-different-from-windows-startup)
 - [Who might find CompStart useful?](#who-might-find-compstart-useful)
+- [Why did I build it?](#why-did-i-build-it)
 
 #### Setup & Technical Details
 - [Installation](#installation)
