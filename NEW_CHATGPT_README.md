@@ -2,13 +2,13 @@
 
 > **Automate the setup of your Windows workspace.**
 
-Have you ever sat down at your computer to start working and thought:
+Have you ever sat down at your computer after turning it on and thought:
 
-*"Okay... now I need to open Chrome, load these tabs, open this document, start this application, and get everything set up."*
+*"Okay... now I need to open my browser, load these sites, open this document, and start this application just to get everything set up."*
 
 That was the problem that led me to create CompStart.
 
-CompStart is a Windows automation tool that helps restore the working environment I use when I sit down at my computer. Instead of manually opening the same collection of applications, documents, websites, and browser windows every time I start working, I can have CompStart do it for me.
+CompStart is a Windows automation tool that helps restore your working environment automatically after you turn on your computer. Instead of manually opening the same collection of applications, documents, and websites every time you start working, you can have CompStart do it for you.
 
 [**Ready to try it?** Jump to Installation](#installation)
 
