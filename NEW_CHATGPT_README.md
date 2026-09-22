@@ -1,6 +1,7 @@
 # CompStart
 
 > **Automate the setup of your Windows workspace.**
+<br>
 
 Have you ever sat down at your computer after turning it on and thought:
 
