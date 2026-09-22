@@ -21,17 +21,17 @@ CompStart currently uses:
 
 ### `CompStart.bat`
 
-A shortcut to `CompStart.bat` is placed in the Windows Startup folder during installation. The Batch file launches the PowerShell startup script.
+The Batch file launches the PowerShell startup script. A shortcut to `CompStart.bat` is placed in the Windows Startup folder during installation.
 
 ### `CompStart.ps1`
 
-`CompStart.ps1` is responsible for restoring the configured startup items.
+`CompStart.ps1` is the main program script and is responsible for restoring the configured startup items.
 
 When it runs, the user is prompted to decide whether the startup process should continue. If they decline, the script exits without launching anything.
 
-If they continue, the script reads `startup_data.json` and processes each startup item. Startup items may include arguments, allowing CompStart to perform actions such as opening a browser with specific tabs or opening a document with a particular application.
+If they continue, the script reads `startup_data.json` and processes each startup item, including if the item has startup arguments or not.
 
-Applications are launched using the PowerShell `Start-Process` cmdlet.
+The script uses the PowerShell `Start-Process` cmdlet to launch each startup item, passing in the startup arguments when applicable.
 
 ## Installer
 
