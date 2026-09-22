@@ -59,26 +59,6 @@ The goal isn't simply to start a collection of programs. The goal is to recreate
 
 [Jump back to Table of Contents](#table-of-contents)
 
-## Why did I build it?
-
-CompStart started as a PowerShell script I wrote for myself while working helpdesk at an MSP.
-
-I had a collection of applications and websites that I needed to open every day before I could actually start doing useful work. Windows already provided ways to start applications automatically, but those tools didn't really solve the problem I was trying to solve.
-
-I didn't just want my programs to start.
-
-I wanted my **workspace** to be automatically ready once I logged in.
-
-So I wrote a script to do it.
-
-Later, when I moved into client support at a SaaS company, I found myself dealing with many of the same problems again. That made me think beyond the original script and start turning the idea into something more flexible and reusable.
-
-At that point, CompStart became more than just a solution to my own automation problem. It also became an opportunity to build something, improve my programming skills, and see where the idea could go.
-
-I've kept developing it because I enjoy working on it—and because I think other people may find it useful too.
-
-[Jump back to Table of Contents](#table-of-contents)
-
 ## How is this different from Windows startup?
 
 Windows already has several ways to launch applications automatically when you log in.
@@ -117,6 +97,26 @@ That might include:
 * anyone with a repetitive Windows workflow involving several applications or resources
 
 You don't need to work in IT or development to use CompStart. The important thing is simply that you have a workspace you regularly want to recreate.
+
+[Jump back to Table of Contents](#table-of-contents)
+
+## Why did I build it?
+
+CompStart started as a PowerShell script I wrote for myself while working helpdesk at an MSP.
+
+I had a collection of applications and websites that I needed to open every day before I could actually start doing useful work. Windows already provided ways to start applications automatically, but those tools didn't really solve the problem I was trying to solve.
+
+I didn't just want my programs to start.
+
+I wanted my **workspace** to be automatically ready once I logged in.
+
+So I wrote a script to do it.
+
+Later, when I moved into client support at a SaaS company, I found myself dealing with many of the same problems again. That made me think beyond the original script and start turning the idea into something more flexible and reusable.
+
+At that point, CompStart became more than just a solution to my own automation problem. It also became an opportunity to build something, improve my programming skills, and see where the idea could go.
+
+I've kept developing it because I enjoy working on it—and because I think other people may find it useful too.
 
 [Jump back to Table of Contents](#table-of-contents)
 
