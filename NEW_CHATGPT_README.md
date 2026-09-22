@@ -84,7 +84,6 @@ It's most likely to be useful if you regularly return to a fairly complex Window
 That might include:
 
 * IT support and helpdesk technicians
-* MSP technicians
 * system administrators
 * software developers
 * other power users
