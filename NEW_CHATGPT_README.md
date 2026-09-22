@@ -53,7 +53,7 @@ For example, I might want my computer to automatically:
 * Start a Chrome window with several particular tabs
 * Launch a web application
 
-The goal isn't simply to start a collection of programs. The goal is to recreate a **working context**.
+The goal isn't simply to start a collection of programs. The goal is to recreate a **working environmentt**.
 
 [Jump back to Table of Contents](#table-of-contents)
 
