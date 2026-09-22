@@ -35,14 +35,24 @@ The script uses the PowerShell `Start-Process` cmdlet to launch each startup ite
 
 ## Installer
 
-CompStart uses a PowerShell installer with a Batch file as its entry point.
+### `install.bat`
 
-The installer:
+The Batch file that users need to double click to run the PowerShell installer script.
+
+### `install.ps1`
+
+The PowerShell installer script and it does the following:
 
 - Installs CompStart to `%LocalAppData%\CompStart`.
 - Creates a shortcut for `CompStart.bat`.
 - Places the shortcut in the Windows Startup folder.
 - Preserves existing `startup_data.json` when upgrading an installation.
+
+The actual installation process first checks to confirm if the target folder exists, and if not, creates it.
+
+In every release, there is an `installer-files` folder which contains all the program files laid out in the correct directory structure. The installation process continues by copying those files in the same folder structure to the target folder.
+
+During the copying process, if there are existing files, the installer script deletes the existing files. However, as mentioned, it preserves the existing `startup_data.json` file. This ensures that if a user has modified their `startup_data.json` file, it doesn't get overwritten with the standard one shipped with each release.
 
 The _instructions.txt_ file included with every release details the steps to run the installer.
 
