@@ -100,7 +100,7 @@ However, you don't need to work in IT or development to use CompStart. The impor
 
 CompStart started as a PowerShell script I wrote for myself while working helpdesk at an MSP.
 
-I had a collection of applications and websites that I needed to open every day before I could actually start doing useful work. Windows already provided ways to start applications automatically, but as mentioned earlier, those tools couldn't help to solve my issue.
+I had a collection of applications and websites that I needed to open every day before I could actually start working. Windows already provided ways to start applications automatically, but as mentioned earlier, those tools couldn't help to solve my issue.
 
 I didn't just want my programs to start. I wanted my **workspace** to be automatically ready once I logged in.
 
