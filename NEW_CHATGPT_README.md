@@ -10,9 +10,28 @@ That was the problem that led me to create CompStart.
 
 CompStart is a Windows automation tool that helps restore the working environment I use when I sit down at my computer. Instead of manually opening the same collection of applications, documents, websites, and browser windows every time I start working, I can have CompStart do it for me.
 
-[**Ready to try it? Jump to Installation →**](#installation)
+[**Ready to try it?** Jump to Installation](#installation)
 
-[**Want to know how it works? Jump to How It Works →**](#how-it-works)
+[**Want to know how it works?** Jump to How It Works](#how-it-works)
+
+## Table of Contents
+
+#### Background
+- [What is CompStart?](#what-is-compstart)
+- [Why did I build it?](#why-did-i-build-it)
+- [How is this different from Windows startup?](#how-is-this-different-from-windows-startup)
+- [Who might find CompStart useful?](#who-might-find-compstart-useful)
+
+#### Setup & Technical Details
+- [Installation](#installation)
+- [How it Works](#how-it-works)
+- [Workspace Configuration](#workspace-configuration)
+- [The CompStart CLI: A Configuration Tool](#the-compstart-cli-a-configuration-tool)
+- [Project Documentation](#project-documentation)
+- [Development](#development)
+
+#### Future Plans
+- [What's Next](#whats-next)
 
 ## What is CompStart?
 
@@ -36,6 +55,8 @@ For example, I might want my computer to automatically:
 
 The goal isn't simply to start a collection of programs. The goal is to recreate a **working context**.
 
+[Jump back to Table of Contents](#table-of-contents)
+
 ## Why did I build it?
 
 CompStart started as a PowerShell script I wrote for myself while working helpdesk at an MSP.
@@ -54,7 +75,9 @@ At that point, CompStart became more than just a solution to my own automation p
 
 I've kept developing it because I enjoy working on it—and because I think other people may find it useful too.
 
-## Why is this different from Windows startup?
+[Jump back to Table of Contents](#table-of-contents)
+
+## How is this different from Windows startup?
 
 Windows already has several ways to launch applications automatically when you log in.
 
@@ -74,6 +97,8 @@ The distinction is small, but it is the reason CompStart exists:
 
 **It's about restoring context, not just starting applications.**
 
+[Jump back to Table of Contents](#table-of-contents)
+
 ## Who might find CompStart useful?
 
 CompStart isn't intended to be something everyone needs.
@@ -90,6 +115,8 @@ That might include:
 * anyone with a repetitive Windows workflow involving several applications or resources
 
 You don't need to work in IT or development to use CompStart. The important thing is simply that you have a workspace you regularly want to recreate.
+
+[Jump back to Table of Contents](#table-of-contents)
 
 ## Installation
 
@@ -108,6 +135,8 @@ When you log in to Windows, CompStart starts and asks whether you want to restor
 The installer is also designed to preserve your existing startup data when upgrading an installation.
 
 To install CompStart, download a release from the [Releases](https://github.com/dEhiN/CompStart/releases) page and follow the `instructions.txt` file included with the release package.
+
+[Jump back to Table of Contents](#table-of-contents)
 
 ## How It Works
 
@@ -131,7 +160,9 @@ The current implementation uses:
 
 For more information about the implementation, see [`TECHNICAL-DETAILS.md`](documentation/TECHNICAL-DETAILS.md).
 
-## Configuration
+[Jump back to Table of Contents](#table-of-contents)
+
+## Workspace Configuration
 
 CompStart stores the definition of your workspace in JSON.
 
@@ -146,13 +177,17 @@ CompStart also includes JSON Schema files that define the structure of the start
 
 For normal use, you can manage your startup configuration through the included `CompStart.exe` command-line tool rather than editing the JSON file by hand.
 
-## The CompStart CLI
+[Jump back to Table of Contents](#table-of-contents)
+
+## The CompStart CLI: A Configuration Tool
 
 CompStart includes a command-line configuration tool called `CompStart.exe`.
 
 The CLI provides a text-based menu for managing the startup configuration. Among other things, it can be used to create a startup file, view the current startup configuration, and edit existing startup data.
 
 The CLI is packaged into `CompStart.exe` for releases so that users do not need to install Python or work directly with the Python source code.
+
+[Jump back to Table of Contents](#table-of-contents)
 
 ## Project Documentation
 
@@ -166,6 +201,8 @@ The documentation in this repository is divided by purpose.
 
 Additional release-specific information can be found with the individual releases in the `production/releases` directory.
 
+[Jump back to Table of Contents](#table-of-contents)
+
 ## Development
 
 CompStart is primarily a personal project, but the repository is public because I'm happy to share what I'm building and how I'm building it.
@@ -175,6 +212,8 @@ The repository contains the development source code as well as the supporting co
 I also welcome people who want to look through the project, experiment with it, or contribute improvements.
 
 For information about the development structure and workflow, see the project documentation.
+
+[Jump back to Table of Contents](#table-of-contents)
 
 ## What's Next?
 
