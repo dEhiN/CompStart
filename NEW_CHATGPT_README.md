@@ -18,7 +18,7 @@ CompStart is a Windows automation tool that helps restore the working environmen
 
 CompStart is a workspace startup automation tool for Windows.
 
-The idea is simple: define the things you want available when you first log in to Window, and let CompStart open them for you.
+The idea is simple: define the things you want available when you first log in to Windows and let CompStart open them for you.
 
 That can include things such as:
 
