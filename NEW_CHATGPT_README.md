@@ -27,8 +27,10 @@ CompStart is a Windows automation tool that helps restore your working environme
 - [How it Works](#how-it-works)
 - [Workspace Configuration](#workspace-configuration)
 - [The CompStart CLI: A Configuration Tool](#the-compstart-cli-a-configuration-tool)
-- [Project Documentation](#project-documentation)
-- [Development](#development)
+
+#### Project Information
+- [Documentation](#project-documentation)
+- [Development](#project-development)
 
 #### Future Plans
 - [What's Next](#whats-next)
@@ -203,7 +205,7 @@ Additional release-specific information can be found with the individual release
 
 [Jump back to Table of Contents](#table-of-contents)
 
-## Development
+## Project Development
 
 CompStart is primarily a personal project, but the repository is public because I'm happy to share what I'm building and how I'm building it.
 
