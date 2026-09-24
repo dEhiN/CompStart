@@ -13,7 +13,7 @@ CompStart currently uses the following programming languages and technologies:
 - **Batch** — provides Windows entry points.
 - **PowerShell** — handles the startup process, the installation, and the release deployment.
 - **JSON** — stores startup configuration.
-- **JSON Schema** — defines and validates the configuration structure.
+- **JSON Schema** — defines the configuration structure and is used to validate startup data.
 - **Python** — provides the configuration management CLI.
 - **PyInstaller** — packages the Python CLI as a Windows executable.
 - **Bash Shell** — automates certain Git tasks.
@@ -26,7 +26,7 @@ Launches the PowerShell startup script. A shortcut to `CompStart.bat` is placed 
 
 #### `CompStart.ps1`
 
-The main program script and is responsible for restoring the configured startup items. The script reads the `startup_data.json` file, processes each startup item, and uses the PowerShell cmdlet `Start-Process` to launch each item.
+The main program script that is responsible for restoring the configured startup items. The script reads the `startup_data.json` file, processes each startup item, and uses the PowerShell cmdlet `Start-Process` to launch each item.
 
 ## Installer
 
@@ -43,16 +43,16 @@ The main installer script which does the following:
 - Places the shortcut in the Windows Startup folder.
 - Preserves existing `startup_data.json` when upgrading an installation.
 
-The installation process first checks to confirm if the target folder exists, and if not, creates it. The process continues by then copying the files from the `installer-files` folder - found in the release package - to the target folder. During the copy process, if there are existing files, they are deleted except for the `startup_data.json` file. This ensures that if a user has modified their `startup_data.json` file, it doesn't get overwritten with the standard one shipped with each release.
+The installation process first checks to confirm if the target folder exists, and if not, creates it. The process continues with copying the files from the `installer-files` folder - found in the release package - to the target folder. During the copy process, if there are existing files, they are deleted except for the `startup_data.json` file. This ensures that if a user has modified their `startup_data.json` file, it doesn't get overwritten with the standard one shipped with each release.
 
 ## Configuration
 
 Throughout the implementation of CompStart, there are two terms used for the configuration:
 
 - _startup data_ - refers to the full user workspace configuration.
-- _startup item_ - refers to a single application defined in the configuration.
+- _startup item_ - refers to a single item defined in the configuration.
 
-The configuration is defined by two JSON Schema files that are used by the Python CLI to keep the JSON correctly formed and validated.
+The configuration is defined by two JSON Schema files that are used by the Python CLI to validate the startup data.
 
 ### JSON
 
@@ -84,7 +84,7 @@ Defines the structure of an individual startup item.
 
 #### `CompStart.py`
 
-The source for the CompStart configuration management CLI. The full program is split across multiple Python modules with `CompStart.py` containing the main code that is initially run. This keeps the source code manageable. The Python code is written in a functional programming style.
+The source for the CompStart configuration management CLI. The Python code is organized into multiple modules with `CompStart.py` serving as the main entry point and the supporting modules providing the various functions used by the CLI. This keeps the source code manageable.
 
 #### `CompStart.exe`
 
@@ -106,7 +106,7 @@ A template to use for creating the release notes to use on GitHub for every rele
 
 A release deployment script created to automate the release process. The script is split into the following workflow:
 
-1. Get the release details - version number
+1. Get the release details — including the version number
 2. Create the necessary release-specific folders
 3. Copy over the necessary development files
 4. Copy over the template files
@@ -116,7 +116,7 @@ A release deployment script created to automate the release process. The script 
 
 #### `synchronise-branches.sh`
 
-A simple Bash script to ???
+Synchronizes the three master branches by taking the branch specified as the source and merging its changes into the other two branches.
 
 ---
 
