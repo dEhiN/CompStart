@@ -34,7 +34,7 @@ Release date: 2026-06-29
 ### Added
 
 * Added an automated PowerShell-based installer.
-* Added automated release packaging using PyInstaller.
+* Added automated packaging of the Python CLI using PyInstaller.
 * Added a PowerShell release deployment script for building and packaging releases.
 
 ### Changed

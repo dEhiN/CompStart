@@ -171,7 +171,7 @@ When CompStart is first installed, if there is no existing `startup_data.json` f
 
 The default configuration currently opens Windows Calculator, Windows Notepad, and Google Chrome. Chrome is opened to the Google homepage in a new window using the default profile.
 
-CompStart uses JSON Schema files to define the structure of the startup data. These ensure the JSON data always remains correctly formed and valid.
+The configuration uses JSON Schema files to define the structure of the startup data. The CompStart CLI uses these schemas to validate the JSON data.
 
 There is also a command-line tool, called `CompStart.exe`, that allows you to manage your startup configuration safely rather than editing the JSON by hand.
 
@@ -193,9 +193,9 @@ CompStart is primarily a personal project, but the repository is public because 
 
 The repository contains the development source code, documentation, release tooling, and release artifacts for all existing releases.
 
-For information about the development workflow or release tooling, see the project documentation.
+For information about the release tooling, see the project documentation.
 
-I welcome contributors, so if you are interested in helping me, see below.
+I welcome contributors, so if you are interested in helping me, see the [What's Next](#whats-next) section below.
 
 [Jump back to Table of Contents](#table-of-contents)
 

@@ -32,7 +32,7 @@ The main program script that is responsible for restoring the configured startup
 
 #### `install.bat`
 
-The Batch file that users need to double click to run the PowerShell installer script.
+The Batch file that users need to double-click to run the PowerShell installer script.
 
 #### `install.ps1`
 
@@ -98,7 +98,7 @@ Instructions for the user that are included with every release. They include ins
 
 #### `release-notes.md`
 
-A template to use for creating the release notes to use on GitHub for every release. There is a master copy from which a copy is also created for every release. The copy is then completed with the release specific details. This ensures release specific notes are kept as part of the project repository.
+A template to use for creating the release notes to use on GitHub for every release. There is a master copy from which a copy is also created for every release. The copy is then completed with the release-specific details. This ensures release-specific notes are kept as part of the project repository.
 
 ## Release Deployment
 
