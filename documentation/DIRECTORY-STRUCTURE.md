@@ -8,6 +8,10 @@ For information about how CompStart works and how its components interact, see [
 
 ```
 CompStart/
+├── .vscode/
+│   ├── launch.json
+│   └── settings.json
+│
 ├── development/
 │   ├── config/
 │   │   └── schema/
@@ -15,13 +19,12 @@ CompStart/
 │   ├── dependencies/
 │   ├── experimental-content/
 │   ├── features/
+│   ├── qa-debug/
 │   ├── CompStart.bat
 │   ├── CompStart.ps1
 │   └── CompStart.py
 │
 ├── documentation/
-│   ├── development/
-│   ├── production/
 │   ├── CHANGELOG.md
 │   ├── DIRECTORY-STRUCTURE.md
 │   └── TECHNICAL-DETAILS.md
@@ -36,19 +39,19 @@ CompStart/
 ├── .gitignore
 └── README.md
 ```
-<hr>
 
 ## Root Directory
 
-The project root is divided into three primary areas:
+The project root contains three primary project areas:
 
 * **`development/`** — Contains the source code, configuration, development resources, and testing data used to build and test CompStart.
-* **`documentation/`** — Contains documentation for the project, including development and production documentation.
+* **`documentation/`** — Contains documentation for the project.
 * **`production/`** — Contains the resources and scripts used to prepare, package, and manage CompStart releases.
 
-The root directory also contains the primary repository-level files:
+The repository root also contains the following files and directories:
 
-* **`.gitattributes`** — GitHub configuration attributes.
+* **`.vscode/`** — Contains Visual Studio Code workspace settings and launch configuration files.
+* **`.gitattributes`** — Git attributes configuration.
 * **`.gitignore`** — Files and directories excluded from Git.
 * **`README.md`** — Main project documentation.
 
@@ -58,48 +61,41 @@ The primary CompStart scripts are located here:
 
 * **`CompStart.bat`** — Batch entry point for the CompStart startup process.
 * **`CompStart.ps1`** — PowerShell startup process.
-* **`CompStart.py`** — Python CLI used to manage CompStart startup configuration; also referred to as the CompStart CLI.
+* **`CompStart.py`** — Python CLI used to manage CompStart startup configuration.
 
 See [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md) for information about how these components work together.
 
-The following folders are found here: 
+The following folders are also found here:
 
 ### `config/`
 
-Contains the JSON configuration files and their associated schemas.
+Contains the JSON configuration files used by CompStart.
 
 The `schema/` subdirectory contains the JSON Schema definitions used by the CompStart CLI to validate startup configuration data.
 
 ### `data/`
 
-Contains archive files representing data that's being kept for posterity, such as testing data from a feature branch.
+Contains data used for development, testing, and archival purposes.
 
 ### `dependencies/`
 
-Contains the Python modules and dependencies used by the CompStart CLI.
-
-See [`TECHNICAL-DETAILS.md`](TECHNICAL-DETAILS.md) for additional information about the Python components.
+Contains the supporting Python modules used by the CompStart CLI.
 
 ### `experimental-content/`
 
-Contains content that is not currently part of the primary CompStart implementation but is being looked at for viability of inclusion. 
-
-See the development documentation for additional information.
+Directory to store experimental content that is being explored for possible future use in CompStart.
 
 ### `features/`
 
-Contains feature-related development information and planning.
+Directory to store temporary development content associated with feature work when needed.
 
-See the development documentation for additional information.
+### `qa-debug/`
+
+Directory to store temporary development content associated with QA testing or debugging when needed.
 
 ## Documentation
 
-This folder is divided into two primary areas:
-
-* **`development/`** — Documentation related to development, including experimental work, features, and other development processes.
-* **`production/`** — Documentation related to production, packaging, and release processes.
-
-The directory also contains the following project-level documentation files:
+The `documentation/` directory contains the project's primary documentation.
 
 * **`CHANGELOG.md`** — High-level history of significant CompStart changes.
 * **`DIRECTORY-STRUCTURE.md`** — Overview of the repository structure.
@@ -107,26 +103,24 @@ The directory also contains the following project-level documentation files:
 
 ## Production
 
-Production and release related content is split into four folders.
-
-The production documentation contains detailed information about the release process.
+The `production/` directory contains the resources used to prepare and manage CompStart releases.
 
 ### `assets/`
 
-Contains production-related assets.
+Contains files used when preparing releases, including the installer scripts and master copies of release documentation templates.
 
 ### `packages/`
 
-Contains release packages.
+Contains the ZIP packages created for CompStart releases. Packages are organized by major version.
 
 ### `releases/`
 
-Contains release content.
+Contains the contents and release-specific files for each CompStart release. Releases are organized by major version and release version.
 
 ### `scripts/`
 
-Contains scripts used to create a release.
+Contains scripts used to automate release and repository management tasks, including `DeployRelease.ps1` and `synchronise-branches.sh`.
 
 ---
 
-*Last updated: 2026-09-16*
+*Last updated: 2026-10-02*
