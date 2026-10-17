@@ -1,101 +1,123 @@
 # CompStart Technical Details
 
-The main components of CompStart are:
+This document provides an overview of the main components of CompStart and their roles.
 
-- Batch script
-- PowerShell script
-- JSON config files
-- JSON schema files
-- Python command-line tool
+For a general overview of the project, see the [README](../README.md).
 
-## File Details
+For the repository structure, see [`DIRECTORY-STRUCTURE.md`](DIRECTORY-STRUCTURE.md).
 
-### Batch script
+## Main Components
 
-#### Name:
+CompStart currently uses the following programming languages and technologies:
 
-_CompStart.bat_
+- **Batch** — provides Windows entry points.
+- **PowerShell** — handles the startup process, the installation, and the release deployment.
+- **JSON** — stores startup configuration.
+- **JSON Schema** — defines the configuration structure and is used to validate startup data.
+- **Python** — provides the configuration management CLI.
+- **PyInstaller** — packages the Python CLI as a Windows executable.
+- **Bash Shell** — automates certain Git tasks.
 
-#### Description:
+## Startup Process
 
-This script starts off the whole process. A shortcut to _CompStart.bat_ is placed in the Windows Start Menu folder. The script itself starts _CompStart.ps1_.
+#### `CompStart.bat`
 
-### PowerShell script
+Launches the PowerShell startup script. A shortcut to `CompStart.bat` is placed in the Windows Startup folder during installation.
 
-#### Name:
+#### `CompStart.ps1`
 
-_CompStart.ps1_
+The main program script that is responsible for restoring the configured startup items. The script reads the `startup_data.json` file, processes each startup item, and uses the PowerShell cmdlet `Start-Process` to launch each item.
 
-#### Description:
+## Installer
 
-This script is the core of the tool. This is where the magic happens, where the actual programs are started. However, first the user is prompted whether they want to run _CompStart.ps1_. This allows a user to start their computer without having all their startup programs run.
+#### `install.bat`
 
-The script itself consists of a main loop and two functions. The main loop ensures that the user only enters valid responses to the prompt. If they decline the prompt, the script quits. Otherwise, after reading in _startup_data.json_, the first function is called for each startup item. This function checks to see if there are any arguments given for the specific startup item. The second function is then called to actually start the program by using the PowerShell cmdlet **Start-Process**.
+The Batch file that users need to double-click to run the PowerShell installer script.
 
-### JSON config files
+#### `install.ps1`
 
-#### Name:
+The main installer script which does the following:
 
-_startup_data.json_
+- Installs CompStart to `%LocalAppData%\CompStart`.
+- Creates a shortcut for `CompStart.bat`.
+- Places the shortcut in the Windows Startup folder.
+- Preserves existing `startup_data.json` when upgrading an installation.
 
-#### Description:
+The installation process first checks to confirm if the target folder exists, and if not, creates it. The process continues with copying the files from the `installer-files` folder - found in the release package - to the target folder. During the copy process, if there are existing files, they are deleted except for the `startup_data.json` file. This ensures that if a user has modified their `startup_data.json` file, it doesn't get overwritten with the standard one shipped with each release.
 
-This is the main JSON file where all the startup information is stored using the format described in the _startup_data.schema.json_ file. As already mentioned, _CompStart.ps1_ reads each startup item from this file and runs it. Part of the structure of the JSON data allows for arguments to be added for a startup item. This is what allows the user to open a browser window with 3 tabs, or open Microsoft Word with a specific file.
+## Configuration
 
-#### Name:
+Throughout the implementation of CompStart, there are two terms used for the configuration:
 
-_default_startup.json_
+- _startup data_ - refers to the full user workspace configuration.
+- _startup item_ - refers to a single item defined in the configuration.
 
-#### Description:
+The configuration is defined by two JSON Schema files that are used by the Python CLI to validate the startup data.
 
-This file contains example JSON startup data which acts as the default startup data. This default data is used upon install.
+### JSON
 
-There are 3 startup items in this file:
+#### `startup_data.json`
+
+Contains the user's startup data.
+
+#### `default_startup.json`
+
+Provides the default startup data that is used when CompStart is installed. The default data contains 3 startup items:
 
 - Windows Calculator
 - Google Chrome
 - Windows Notepad
 
-The second startup item has arguments to open Chrome using the default profile, to open a new window, and to go to the Google homepage.
+The Google Chrome entry opens a new window using the default profile and loads the Google homepage. This demonstrates the use of arguments, and in particular, the ability for CompStart to load specific sites.
 
-This file was created initially because the user had to manually edit _startup_data_.json* in the first release. While there were instructions on how to do that, \_default_startup.json* allowed users to see how the startup data was structured. This also ensured that when the user runs the tool upon installation, there are items to open.
+### JSON Schema
 
-### JSON schema files
+#### `startup_data.schema.json`
 
-#### Name:
+Defines the structure of the overall startup data.
 
-_startup_data.schema.json_
+#### `startup_item.schema.json`
 
-#### Description
+Defines the structure of an individual startup item.
 
-This JSON schema file describes the structure of the _startup_data.json_ file. It is found in the _/devenv/config_ folder.
+## Python CLI
 
-#### Name:
+#### `CompStart.py`
 
-_startup_item.schema.json_
+The source for the CompStart configuration management CLI. The Python code is organized into multiple modules with `CompStart.py` serving as the main entry point and the supporting modules providing the various functions used by the CLI. This keeps the source code manageable.
 
-#### Description:
+#### `CompStart.exe`
 
-This JSON schema file describes the structure of a single startup item in the _startup_data.json_ file. It is also found in the _/devenv/config/schema_ folder.
+For releases, the `CompStart.py` and its dependency modules are bundled into a runnable file using **PyInstaller**. **PyInstaller** is a Python package that creates Windows executables out of Python code. This allows users to run the CLI without needing to work directly with the Python source or install Python themselves. See https://pyinstaller.org/ for more details.
 
-### Python command-line tool
+## Templates
 
-#### Name:
+#### `instructions.txt`
 
-_CompStart.py_
+Instructions for the user that are included with every release. They include installation instructions among other useful information. There is a master copy from which a copy is created for every release.
 
-#### Description:
+#### `release-notes.md`
 
-This tool, or Python script, was created to allow a user to modify the _startup_data.json_ file. While the tool is command-line only, and therefore not as friendly as a graphical tool, it is a step up from manual modification.
+A template to use for creating the release notes to use on GitHub for every release. There is a master copy from which a copy is also created for every release. The copy is then completed with the release-specific details. This ensures release-specific notes are kept as part of the project repository.
 
-The starting point for the tool is _CompStart.py_. While that's the starting point, the tool uses 9 other Python files which are set up as modules in the _/devenv/dependencies_ folder. Although there are 10 files in total, during the release process, a single executable file is created. This allows for the user to double-click the executable and follow the command-line prompts.
+## Release Deployment
 
-### Name:
+#### `DeployRelease.ps1`
 
-_CompStart.exe_
+A release deployment script created to automate the release process. The script is split into the following workflow:
 
-### Description:
+1. Get the release details — including the version number
+2. Create the necessary release-specific folders
+3. Copy over the necessary development files
+4. Copy over the template files
+5. Invoke **PyInstaller** to create the CLI executable
+6. Create a production package to upload to GitHub
+7. Clean up
 
-As already mentioned, during the release process, _CompStart.py_ and all the modules it depends on are bundled into _CompStart.exe_. This is done using the Python module **PyInstaller**.
+#### `synchronise-branches.sh`
 
-_Last Updated: 2025-04-27_
+Synchronizes the three master branches by taking the branch specified as the source and merging its changes into the other two branches.
+
+---
+
+_Last updated: 2026-09-24_
