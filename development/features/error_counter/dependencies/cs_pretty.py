@@ -1,5 +1,8 @@
 # Dependency to store the helper functions that print out data structures, such as errors or JSON data, in a prettified way to the screen
 
+# Global error counter
+err_count = 0
+
 
 def prettify_json(json_data: dict):
     """Helper function to prettify the passed-in JSON data
@@ -83,7 +86,15 @@ def prettify_startup_item(startup_item: dict):
         for argument in arg_list:
             counter += 1
             startup_data += (
-                line + tab + tab + "Argument " + str(counter) + ": " + '"' + argument + '"'
+                line
+                + tab
+                + tab
+                + "Argument "
+                + str(counter)
+                + ": "
+                + '"'
+                + argument
+                + '"'
             )
     else:
         startup_data += "No"
@@ -129,7 +140,10 @@ def prettify_custom_error(msg: str, func_name: str):
 
         func_name (str): The name of the calling function
     """
+    global err_count
+    err_count += 1
     err_msg = "\n***ERROR***\nThe following error was encountered:\n"
+    err_msg += "\nError Number: " + str(err_count)
     err_msg += "\nFunction: " + func_name
     err_msg += "\nMessage: " + msg
     print(err_msg)
