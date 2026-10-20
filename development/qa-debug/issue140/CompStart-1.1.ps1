@@ -44,8 +44,7 @@ function Start-StartupItem {
         $ArgumentsList = ""
     }
 
-    #Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
-    Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList -RedirectStandardError .cs
+    Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
 }
 
 function Get-StartupItem {
