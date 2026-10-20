@@ -1,1 +1,16 @@
-{"TotalItems": 3, "Items": [{"ItemNumber": 1, "Name": "CompStart: VS Code", "FilePath": "C:\\Users\\David\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe", "Description": "Open the CompStart project in VS Code", "Browser": false, "ArgumentCount": 1, "ArgumentList": ["D:\\DevProj_paal\\vscode\\workspaces\\CompStart.code-workspace"]}, {"ItemNumber": 2, "Name": "CompStart: GitHub Project + Issues", "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "Description": "Open Google Chrome to the GitHub project page and the GitHub issues page for CompStart", "Browser": true, "ArgumentCount": 4, "ArgumentList": ["--new-window", "--profile-directory=Default", "https://github.com/users/dEhiN/projects/4/views/2", "https://github.com/dEhiN/CompStart"]}, {"ItemNumber": 3, "Name": "Google Maps Platform + API", "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "Description": "Open Google Chrome to Google for Developers and specifically, 3 tabs related to the Google Maps platform.", "Browser": true, "ArgumentCount": 3, "ArgumentList": ["https://developers.google.com/maps/get-started", "https://console.cloud.google.com/google/maps-hosted/build?project=tidal-horizon-510623-c1", "https://developers.google.com/maps/billing-and-pricing/pricing"]}]}
+{
+    "TotalItems": 3,
+    "Items": [
+        {
+            "ItemNumber": 1,
+            "Name": "CompStart: VS Code",
+            "FilePath": "C:\\Users\\David\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+            "Description": "Open the CompStart project in VS Code",
+            "Browser": false,
+            "ArgumentCount": 1,
+            "ArgumentList": [
+                "D:\\DevProj_paal\\vscode\\workspaces\\CompStart.code-workspace"
+            ]
+        }
+    ]
+}
