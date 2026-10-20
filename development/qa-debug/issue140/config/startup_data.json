@@ -11,6 +11,19 @@
             "ArgumentList": [
                 "D:\\DevProj_paal\\vscode\\workspaces\\CompStart.code-workspace"
             ]
+        },
+        {
+            "ItemNumber": 2,
+            "Name": "CompStart: GitHub Project + Issues",
+            "FilePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "Description": "Open Google Chrome to the GitHub project page and the GitHub issues page for CompStart",
+            "Browser": true,
+            "ArgumentCount": 4,
+            "ArgumentList": [
+                "--new-window",
+                "--profile-directory=Default",
+                "https://github.com/dEhiN/CompStart"
+            ]
         }
     ]
 }
