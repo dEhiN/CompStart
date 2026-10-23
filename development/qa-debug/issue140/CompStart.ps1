@@ -106,7 +106,8 @@ $LoopTrue = $True
 
 # Show welcome message
 Write-Host "Welcome to CompStart!`n"
-do {
+try {
+    do {
     # Confirm if user wants to run script
     Write-Host "Would you like to run this script (Y/N)? " -NoNewLine
     $UserPrompt = $Host.UI.ReadLine()
@@ -158,3 +159,14 @@ do {
         Write-Host "Please make a valid choice!`n"
     }
 } while ($LoopTrue -eq $True)
+}
+catch  {
+    Write-Host $_
+    Write-Host "Please press any key to exit this script..." -NoNewline
+    $Host.UI.ReadLine()
+}
+finally {
+    Write-Host "Finished the script..."
+    Write-Host "Please press any key to exit this script..." -NoNewline
+    $Host.UI.ReadLine()
+}
