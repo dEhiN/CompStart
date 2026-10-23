@@ -1,7 +1,7 @@
 # Main PowerShell script for CompStart
 
 # Specify if the script is being run in "development mode" ($DevMode=$true) or "production mode" ($DevMode=$false)
-$DevMode = $true
+$DevMode = $false
 
 function Start-StartupItem {
     <#
