@@ -7,10 +7,8 @@
             "FilePath": "C:\\Users\\David\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
             "Description": "Open the CompStart project in VS Code",
             "Browser": false,
-            "ArgumentCount": 1,
-            "ArgumentList": [
-                "D:\\DevProj_paal\\vscode\\workspaces\\CompStart.code-workspace"
-            ]
+            "ArgumentCount": 0,
+            "ArgumentList": []
         },
         {
             "ItemNumber": 2,
