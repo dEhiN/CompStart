@@ -44,10 +44,10 @@ function Start-StartupItem {
     )
 
     if ($ArgumentsList) {
-        Start-Job { Start-Process -FilePath $Using:ProgramPath -ArgumentList $Using:ArgumentsList }
+        Start-Job { Start-Process -FilePath $Using:ProgramPath -ArgumentList $Using:ArgumentsList } | Out-Null
     }
     else {
-        Start-Job { Start-Process -FilePath $Using:ProgramPath }
+        Start-Job { Start-Process -FilePath $Using:ProgramPath } | Out-Null
     }
 }
 
