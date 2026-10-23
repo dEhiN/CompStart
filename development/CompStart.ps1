@@ -1,5 +1,8 @@
 # Main PowerShell script for CompStart
 
+# Specify if the script is being run in "development mode" ($DevMode=$true) or "production mode" ($DevMode=$false)
+$DevMode = $true
+
 function Start-StartupItem {
     <#
         .SYNOPSIS
@@ -41,10 +44,10 @@ function Start-StartupItem {
     )
 
     if ($ArgumentsList) {
-        Start-Process -FilePath $ProgramPath -ArgumentList $ArgumentsList > $null
+        Start-Job { Start-Process -FilePath $Using:ProgramPath -ArgumentList $Using:ArgumentsList } | Out-Null
     }
     else {
-        Start-Process -FilePath $ProgramPath > $null
+        Start-Job { Start-Process -FilePath $Using:ProgramPath } | Out-Null
     }
 }
 
@@ -136,8 +139,11 @@ do {
             Get-StartupItem $StartupItem
         }
         
-        #Write-Host "Please press any key to exit this script..." -NoNewline
-        #$Host.UI.ReadLine()
+        # If the script is in "development mode", then a key will need to be pressed before the script finishes. This will allow for any errors to be viewed. If the script is in "production mode" ($DevMode=$false), then the script will finish automatically after processing each startup item.
+        if ($DevMode) {
+            Write-Host "Please press any key to exit this script..." -NoNewline
+            $Host.UI.ReadLine()
+        }
     }
     elseif (($UserPrompt -eq "N") -or ($UserPrompt -eq "n")) {
 
