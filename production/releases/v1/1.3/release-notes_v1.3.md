@@ -45,7 +45,12 @@ _Note: If unsure of what to write, see the previous release for an example._
 
 ## Issues Addressed
 
-_List out in point form the issue numbers that were addressed or resolved  since the last release. If there are a lot of issues, list only the major ones._
+* #123
+* #129
+* #132
+* #135
+* #137
+* #140
 
 ## Detailed Pull Request History
 
