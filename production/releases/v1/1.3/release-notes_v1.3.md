@@ -1,5 +1,3 @@
-_**Instructions:** Copy-paste the following format to use as a release's release notes on GitHub. All text in italics are instructions for what to fill out._
-
 # Release Details
 
 ## Title
@@ -16,9 +14,7 @@ October 30, 2026
 
 ## Description
 
-_Description of Release_
-
-_Note: If unsure of what to write, copy the release description from the previous release and modify as needed._
+The project documentation was completely rewritten with the help of ChatGPT. It is more accurate and also streamlined. The fix that was made to `CompStart.ps1` in _v1.1_ turned out to not be a proper fix, so the issue still existed. After more research, a new possible fix was implemented.
 <hr>
 <hr>
 
@@ -26,20 +22,12 @@ _Note: If unsure of what to write, copy the release description from the previou
 
 ## Installation Notes
 
-_Note: These are the current standard installation notes. They can be modified as needed and the template should be updated when necessary._
-
 The following steps are suggested for downloading and installing this release:
 
 1. Before getting started, please read the project [README](https://github.com/dEhiN/CompStart).
-2. Next, download the release package _\<release package artifact name\>_ from the Assets section below.
+2. Next, download the release package _CompStart-1.3.zip_ from the Assets section below.
 3. Unzip the release package to a folder of your choice.
 4. After unzipping the archive package, read the _instructions.txt_ file for the installation instructions.
-
-## Other Notes
-
-_Note: Any other release notes, such as a re-release explanation, should be added as separate subsections._
-<hr>
-<hr>
 
 # Release Changes
 
