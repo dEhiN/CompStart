@@ -4,19 +4,15 @@ _**Instructions:** Copy-paste the following format to use as a release's release
 
 ## Title
 
-_Title of Release_
-
-_Note: This will generally be **CompStart** followed by a hyphen and then the release version._
+CompStart-1.3
 
 ## Version
 
-_Full version number for Release_
+1.3
 
 ## Production Date
 
-_Date of Release_
-
-_Note: If the release is modified and then re-released, add the original date as well._
+October 30, 2026
 
 ## Description
 
