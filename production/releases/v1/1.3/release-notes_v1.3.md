@@ -35,7 +35,7 @@ The following steps are suggested for downloading and installing this release:
 
 **Commit count:** _Number of commits since last release_
 
-**Full Changelog:** [_Title of Release_] (https://github.com/dEhiN/CompStart/compare/_\<previous-release-version\>_.._\<current-release-version\>_)
+**Full Changelog:** [CompStart-1.3](https://github.com/dEhiN/CompStart/compare/CompStart-1.2...CompStart-1.3)
 
 ## Changes Summary
 
@@ -49,4 +49,9 @@ _List out in point form the issue numbers that were addressed or resolved  since
 
 ## Detailed Pull Request History
 
-_Use GitHub to automatically generate a summary of changes since the last release; this will be generated as a list of pull requests._
+* Merging branch::dEhiN/issue129 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/131
+* Merging branch::release/issue123 to branch::releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/133
+* Merging branch::release/issue132 to branch::releases by @dEhiN in https://github.com/dEhiN/CompStart/pull/134
+* Merging branch::dEhiN/issue135 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/136
+* Merging branch::documentation/issue137 to branch::main by @dEhiN in https://github.com/dEhiN/CompStart/pull/139
+* Merge branch::debug/issue140 into branch::qa-testing-debug by @dEhiN in https://github.com/dEhiN/CompStart/pull/141
