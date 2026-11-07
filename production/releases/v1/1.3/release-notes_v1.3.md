@@ -39,9 +39,12 @@ The following steps are suggested for downloading and installing this release:
 
 ## Changes Summary
 
-_Write out all major changes to the tool since the last release in the form of a list._
-
-_Note: If unsure of what to write, see the previous release for an example._
+* Simplified the on-disk directory structure for releases and packages.
+* Fixed the release notes for each release prior to _CompStart-1.2_.
+* Changed the naming convention for the release notes file to include the release version number.
+* Created a Bash shell script to automatically synchronise the three master branches: `main`, `releases`,  and `qa-testing-debug`.
+* Rewrote all the project documentation with the help of ChatGPT (see issue #137 for more details).
+* Implemented a new fix for the bug noted in issues #111 and #120 (see issue #140 for more details).
 
 ## Issues Addressed
 
