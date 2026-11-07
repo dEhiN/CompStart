@@ -33,7 +33,7 @@ The following steps are suggested for downloading and installing this release:
 
 ## Commit Details
 
-**Commit count:** _Number of commits since last release_
+**Commit count:** 166
 
 **Full Changelog:** [CompStart-1.3](https://github.com/dEhiN/CompStart/compare/CompStart-1.2...CompStart-1.3)
 
